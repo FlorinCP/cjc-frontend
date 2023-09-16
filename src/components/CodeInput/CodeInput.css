@@ -1,0 +1,39 @@
+.i-container {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.input {
+    margin: 0 5px;
+    width: 40px;
+    height: 50px;
+
+    border-radius: 10px;
+    text-align: center;
+    font-size: 20px;
+    cursor: not-allowed;
+    pointer-events: none;
+    padding: 5px;
+    box-sizing: border-box;
+}
+
+.inputs > .input {
+    border: 2px solid #344055;
+}
+
+.inputs-disabled > .input {
+    /*border: 2px solid rgb(128, 128, 128);*/
+    opacity: 0.5;
+}
+
+.input:focus {
+    border: 2px solid orange;
+    box-shadow: 0 0  1px 1px orange;
+    outline: none;
+}
+
+.input:nth-child(1) {
+    cursor: pointer;
+    pointer-events: all;
+}
