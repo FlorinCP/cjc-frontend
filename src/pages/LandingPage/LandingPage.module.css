@@ -1,0 +1,138 @@
+.wrapper{
+    width: 100%;
+    background-color: white;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.presentationLayer{
+    background-color: rgba(28, 121, 184, 0.15);
+    height: 50vh;
+    width: inherit;
+}
+
+.messagesInfo{
+    width: 75vw;
+    min-height:80vh;
+    display: grid;
+    grid-template-columns: 55vw 20vw;
+    gap: 50px;
+}
+.title{
+    font-size: 5rem;
+    color: #0f3f65;
+    font-weight: bolder;
+    font-stretch: expanded;
+    text-transform: uppercase;
+    margin-bottom: 50px;
+}
+.how{
+    width: 15vw;
+}
+
+.imageContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+}
+
+#messagesInfo2{
+    width: 75vw;
+    min-height:80vh;
+    display: grid;
+    grid-template-columns: 50vw 25vw;
+    gap: 50px;
+}
+
+#messagesInfo3{
+    margin-top: 50px;
+    width: 75vw;
+    min-height:60vh;
+    display: grid;
+    grid-template-columns: 35vw 40vw;
+    gap: 50px;
+    border-bottom: 1px solid #0f3f65;
+}
+
+
+#rightContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+}
+
+.inputContainer{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+}
+
+.enterQuestion{
+    width: 40vw;
+    word-wrap: break-word;
+    resize: none;
+    outline: none;
+    padding: 10px;
+}
+
+.info{
+    width: 40vw;
+    margin:20px;
+    color: #344055;
+}
+
+#calendar{
+    width: 40vw;
+    height: 45vh;
+}
+
+.info2{
+    color: #344055;
+    text-align: left;
+    margin-top: 50px;
+}
+
+
+#questions{
+    height: 60vh;
+    width: 70vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 50px;
+}
+
+#questionTitle{
+    width: 70vw;
+    display: flex;
+    justify-content: left;
+    align-items: center;
+    flex-direction: column;
+}
+
+#inputs{
+
+}
+
+.footer{
+    margin-top: 50px;
+    background-color: #18446d;
+    height: 200px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    font-size: 1.2rem;
+    width: 100vw;
+    color: white;
+}
+
+#logo-img{
+width: 10vw;
+}

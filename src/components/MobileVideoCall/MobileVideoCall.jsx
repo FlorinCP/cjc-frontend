@@ -4,6 +4,7 @@ import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
 import "./MobileVideoCall.css";
 import CodeInput from "../CodeInput/CodeInput";
+import DeviceOrientation, {Orientation} from 'react-screen-orientation'
 
 function MobileVideoCall(props) {
 
@@ -31,6 +32,7 @@ function MobileVideoCall(props) {
     const [remoteUserName, setRemoteUserName] = useState(null)
 
     const [ringtone, setRingtone] = useState(new Audio("./answer-phone.mp3"))
+
 
     const scrollToBottom = () => {
         // endDiv.current.scrollIntoView({behavior: "smooth"});
@@ -111,25 +113,54 @@ function MobileVideoCall(props) {
         localStream.getAudioTracks()[0].enabled = !(localStream.getAudioTracks()[0].enabled)
     }
 
+
     localPeer = new RTCPeerConnection({
         iceServers: [
             {
                 urls: ["stun:stun.l.google.com:19302"]
             },
+            {
+                urls: "turn:a.relay.metered.ca:80",
+                username: "a06088a8a7b46dae6fd04dc9",
+                credential: "AUAMk336Cz4kutPN",
+            },
             // {
-            //     urls : ["stun:stun1.l.google.com:19302"]
+            //     urls: "turn:a.relay.metered.ca:80?transport=tcp",
+            //     username: "a06088a8a7b46dae6fd04dc9",
+            //     credential: "AUAMk336Cz4kutPN",
             // },
             // {
-            //     urls : ["stun:stun2.l.google.com:19302"]
+            //     urls: "turn:a.relay.metered.ca:443",
+            //     username: "a06088a8a7b46dae6fd04dc9",
+            //     credential: "AUAMk336Cz4kutPN",
             // },
             // {
-            //     urls : ["stun:stun3.l.google.com:19302"]
+            //     urls: "turn:a.relay.metered.ca:443?transport=tcp",
+            //     username: "a06088a8a7b46dae6fd04dc9",
+            //     credential: "AUAMk336Cz4kutPN",
             // },
-            // {
-            //     urls : ["stun:stun4.l.google.com:19302"]
-            // }
-        ]
+        ],
     });
+
+    // localPeer = new RTCPeerConnection({
+    //     iceServers: [
+    //         {
+    //             urls: ["stun:stun.l.google.com:19302"]
+    //         },
+    //         // {
+    //         //     urls : ["stun:stun1.l.google.com:19302"]
+    //         // },
+    //         // {
+    //         //     urls : ["stun:stun2.l.google.com:19302"]
+    //         // },
+    //         // {
+    //         //     urls : ["stun:stun3.l.google.com:19302"]
+    //         // },
+    //         // {
+    //         //     urls : ["stun:stun4.l.google.com:19302"]
+    //         // }
+    //     ]
+    // });
 
     const constrains = {
         audio: true, video: {
@@ -201,15 +232,15 @@ function MobileVideoCall(props) {
 
 
     function openConnection() {
-        // let socket = new SockJS("https://spring-boot-server-web-rtc.lm.r.appspot.com/websocket", {
-        //     debug: false,
-        // });
+        let socket = new SockJS("https://spring-boot-server-web-rtc.lm.r.appspot.com/websocket", {
+            debug: false,
+        });
 
         setConnectAnimation(true)
 
-        let socket = new SockJS("http://localhost:8080/websocket", {
-            debug: false,
-        });
+        // let socket = new SockJS("http://localhost:8080/websocket", {
+        //     debug: false,
+        // });
 
         let client = Stomp.over(socket);
 
@@ -363,25 +394,27 @@ function MobileVideoCall(props) {
             persistentStompClient.subscribe("/user/" + localId.current.value + "/topic/answer", (answer) => {
 
                 setCallOn(true)
-                setIsReceiving(true)
-                setPlayRingtone(true)
+                let o = JSON.parse(answer.body)["answer"];
+                localPeer.setRemoteDescription(new RTCSessionDescription(o))
+                // setIsReceiving(true)
+                // setPlayRingtone(true)
 
-                async function answerToCall() {
-                    try {
-
-                        await waitToAnswer()
-                        let o = JSON.parse(answer.body)["answer"];
-                        await localPeer.setRemoteDescription(new RTCSessionDescription(o))
-
-                    } catch (err) {
-                        console.log(err)
-                    }
-                }
-
-                answerToCall().then(r => {
-                    setAcceptedCall(true)
-                    setPlayRingtone(false)
-                })
+                // async function answerToCall() {
+                //     try {
+                //
+                //         await waitToAnswer()
+                //         let o = JSON.parse(answer.body)["answer"];
+                //         await localPeer.setRemoteDescription(new RTCSessionDescription(o))
+                //
+                //     } catch (err) {
+                //         console.log(err)
+                //     }
+                // }
+                //
+                // answerToCall().then(r => {
+                //     // setAcceptedCall(true)
+                //     // setPlayRingtone(false)
+                // })
 
             });
 
@@ -474,6 +507,7 @@ function MobileVideoCall(props) {
     return (
         <div id="m-wrapper">
             <img src="/pigion.png" alt="check-email" id="check-email-img"/>
+            <p className="title">Videocall </p>
             <p className="info">
                 Enter the credentials received in the email
             </p>
@@ -482,7 +516,7 @@ function MobileVideoCall(props) {
                 <div className="m-controls-input">
                     <p className="info-p">Your ID</p>
                     <CodeInput sendDataToParent={handleOwnIdData}
-                               // sendMoreDataToParent={getUserName}
+                        // sendMoreDataToParent={getUserName}
                                isDisabled={false}/>
                     {
                         isConnected ? (
@@ -493,7 +527,7 @@ function MobileVideoCall(props) {
                             </button>
                         ) : (
                             <button className="actionBtn" onClick={openConnection}
-                                    // disabled={!localUserName}
+                                // disabled={!localUserName}
                                     ref={connectBtn}
                             >
                                 {
@@ -513,7 +547,7 @@ function MobileVideoCall(props) {
                         <div className="m-controls-input">
                             <p className="info-p">Partner ID</p>
                             <CodeInput sendDataToParent={handleRemoteIdData}
-                                       // sendMoreDataToParent={getRemoteId}
+                                // sendMoreDataToParent={getRemoteId}
                                        isDisabled={!isConnected}/>
 
                             {
@@ -597,53 +631,47 @@ function MobileVideoCall(props) {
                         </div>
 
                         <div className="m-video-controls">
-
-                            {
-                                callAccepted || wasCallAccepted ? (
-                                    <>
-                                        <div id="m-mic-control" onClick={toggleMic}>
-                                            {
-                                                muteMic ? (
-                                                    <button className="m-control-button">
-                                                        <span className="material-symbols-outlined">mic_off</span>
-                                                    </button>
-                                                ) : (
-                                                    <button className="m-control-button">
-                                                        <span className="material-symbols-outlined">mic</span>
-                                                    </button>
-                                                )
-                                            }
-                                        </div>
-                                        <div id="m-video-control" onClick={toggleCamera}>
-
-                                            {showCamera ? (
-
-                                                <button className="m-control-button">
-                                                    <span className="material-symbols-outlined">videocam</span>
-                                                </button>) : (
-
-                                                <button className="m-control-button">
-                                                    <span className="material-symbols-outlined">videocam_off</span>
-                                                </button>)}
-                                        </div>
-                                        <div id="m-sound-control" onClick={toggleSound}>
-                                            {isMuted ? (<button className="m-control-button">
-                                                <span className="material-symbols-outlined">no_sound</span>
-                                            </button>) : (
-
-                                                <button className="m-control-button">
-                                                    <span className="material-symbols-outlined">volume_up</span>
-                                                </button>)}
-                                        </div>
-                                        <div id="m-call-control" onClick={closeCall}>
-                                            <button className="m-control-button" id="m-close-call">
-                                                <span className="material-symbols-outlined">call_end</span>
+                            <>
+                                <div id="m-mic-control" onClick={toggleMic}>
+                                    {
+                                        muteMic ? (
+                                            <button className="m-control-button">
+                                                <span className="material-symbols-outlined">mic_off</span>
                                             </button>
-                                        </div>
-                                    </>
-                                ) : (<></>)
-                            }
+                                        ) : (
+                                            <button className="m-control-button">
+                                                <span className="material-symbols-outlined">mic</span>
+                                            </button>
+                                        )
+                                    }
+                                </div>
+                                <div id="m-video-control" onClick={toggleCamera}>
 
+                                    {showCamera ? (
+
+                                        <button className="m-control-button">
+                                            <span className="material-symbols-outlined">videocam</span>
+                                        </button>) : (
+
+                                        <button className="m-control-button">
+                                            <span className="material-symbols-outlined">videocam_off</span>
+                                        </button>)}
+                                </div>
+                                <div id="m-sound-control" onClick={toggleSound}>
+                                    {isMuted ? (<button className="m-control-button">
+                                        <span className="material-symbols-outlined">no_sound</span>
+                                    </button>) : (
+
+                                        <button className="m-control-button">
+                                            <span className="material-symbols-outlined">volume_up</span>
+                                        </button>)}
+                                </div>
+                                <div id="m-call-control" onClick={closeCall}>
+                                    <button className="m-control-button" id="m-close-call">
+                                        <span className="material-symbols-outlined">call_end</span>
+                                    </button>
+                                </div>
+                            </>
                         </div>
                     </div>
                 ) : (<></>)
@@ -652,6 +680,7 @@ function MobileVideoCall(props) {
                 ref={endDiv}
             ></div>
         </div>
+
     );
 }
 

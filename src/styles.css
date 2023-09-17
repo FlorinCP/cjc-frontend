@@ -3,20 +3,100 @@ html {
     padding: 0;
     overflow-x: hidden;
     scroll-behavior: smooth;
+    box-sizing: border-box;
 }
 
-/*iframe*/
-/*{*/
-/*    display: none;*/
+
+/*.home,*/
+/*.services,*/
+/*.products,*/
+/*.contact-us,*/
+/*.sign-up,*/
+/*.marketing,*/
+/*.consulting {*/
+/*    display: flex;*/
+/*    height: 90vh;*/
+/*    align-items: center;*/
+/*    justify-content: center;*/
+/*    font-size: 3rem;*/
 /*}*/
 
-/*
+/*.home {*/
+/*    background-image: url('./images/img-1.jpg');*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
 
-body {
-    background-color: white;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-}
-*/
+/*.services {*/
+/*    background-image: url('./images/img-2.jpg');*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+/*.products {*/
+/*    background-image: url('./images/img-3.jpg');*/
+/*    background-position: center;*/
+/*    background-size: fill;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+/*.contact-us {*/
+/*    background-image: url('./images/img-4.jpg');*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+/*.sign-up {*/
+/*    background-image: url('./images/img-7.jpg');*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+/*.marketing {*/
+/*    background-image: url('./images/img-6.jpg');*/
+/*    background-position: center;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+/*.consulting {*/
+/*    background-image: url('./images/img-5.jpg');*/
+/*    background-position: bottom;*/
+/*    background-size: cover;*/
+/*    background-repeat: no-repeat;*/
+/*    color: #fff;*/
+/*    font-size: 100px;*/
+/*}*/
+
+
+/*!*iframe*!*/
+/*!*{*!*/
+/*!*    display: none;*!*/
+/*!*}*!*/
+
+/*!**/
+
+/*body {*/
+/*    background-color: white;*/
+/*    display: flex;*/
+/*    justify-content: center;*/
+/*    align-items: center;*/
+/*    flex-direction: column;*/
+/*}*/
+/**!*/

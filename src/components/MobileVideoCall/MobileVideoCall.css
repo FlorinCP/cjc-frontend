@@ -6,12 +6,14 @@
     flex-direction: column;
     /*background-color: rgba(53, 154, 243, 0.04);*/
     background-color: white;
+    overflow-x: hidden;
 }
 
 /*  ---------------- Mobile Classes --------------*/
 
 #check-email-img{
     width: 50vw;
+    margin-bottom: -90px;
     /*height: 30vw;*/
 }
 
@@ -62,14 +64,27 @@
 
 
 .info{
-    color: #344055;
+    color: #18446d;
     font-weight: bold;
     text-transform: uppercase;
-    font-size: 120%;
+    font-size: 100%;
     box-sizing: border-box;
     text-align: center;
     margin-left: 10vw;
     margin-right: 10vw;
+    width: 60vw;
+}
+
+.title{
+    color: #18446d;
+    font-weight: bold;
+    text-transform: uppercase;
+    font-size: 300%;
+    box-sizing: border-box;
+    text-align: center;
+    font-stretch: condensed;
+    margin: 10vh 10vw 2vh;
+    letter-spacing: 9px;
 }
 
 .actionBtn{
@@ -102,10 +117,12 @@
     /*color: #b9b9b9;*/
     /*cursor: inherit;*/
     opacity: 0.7;
+    border: none;
 }
 
 .activeBtn:disabled{
     opacity: 0.7;
+    border: none;
 }
 
 /* *:focus{
@@ -139,7 +156,7 @@
     border-radius: 50%;
     transition: all .2s ease-in-out;
     background-color: green;
-    z-index: 20;
+    z-index: 10;
     display: flex;
     justify-content: center;
     align-items: center;
