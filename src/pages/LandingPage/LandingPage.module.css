@@ -72,13 +72,6 @@
     flex-direction: column;
 }
 
-.enterQuestion{
-    width: 40vw;
-    word-wrap: break-word;
-    resize: none;
-    outline: none;
-    padding: 10px;
-}
 
 .info{
     width: 40vw;
@@ -99,7 +92,8 @@
 
 
 #questions{
-    height: 60vh;
+    margin: 20px;
+    min-height: 60vh;
     width: 70vw;
     display: flex;
     justify-content: center;
@@ -117,7 +111,151 @@
 }
 
 #inputs{
+    display: flex;
+    justify-content: left;
+    flex-direction: column;
+    gap:40px;
+    width: 40vw;
+}
 
+.inputField{
+    color: #344055;
+    height: 40px;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid #0f3f65;
+    border-radius: 10px;
+    outline: none;
+}
+
+.inputField:focus{
+    border: 1px solid orange;
+    box-shadow: 0 0  1px 1px orange;
+}
+
+.enterQuestion{
+    width: 40vw;
+    word-wrap: break-word;
+    resize: none;
+    outline: none;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 2px solid #0f3f65;
+    font-size: 18px;
+    color: #344055;
+    border-radius: 10px;
+}
+
+.enterQuestion:focus{
+   border: 2px solid #1c79b8;
+}
+
+h2{
+    color: #0f3f65;
+}
+
+.formPage{
+    width: 45vw;
+    min-height: 40vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    padding: 20px 50px;
+    box-sizing: border-box;
+}
+
+.formPage > h2 {
+    align-self: flex-start;
+}
+
+.formPage > button {
+    align-self: flex-end;
+}
+
+ .material-symbols-outlined {
+     font-variation-settings:
+             'FILL' 0,
+             'wght' 700,
+             'GRAD' 200,
+             'opsz' 48
+ }
+
+
+.actionBtn{
+    margin: 10px 0;
+    width: 270px;
+    text-transform: none;
+    height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 120%;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(15, 63, 101);
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    justify-content: right;
+    align-items: center;
+    gap: 20px;
+}
+
+.actionBtn > span {
+    font-size: 30px;
+}
+
+.actionBtn:focus{
+    border: 2px solid orange;
+    box-shadow: 0 0  1px 1px orange;
+    outline: none;
+}
+
+.pageIndex{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 70px;
+    margin-bottom: 50px;
+    margin-top: 30px;
+    position: relative;
+}
+
+.holly{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+    gap: 20px;
+    font-weight: bolder;
+    color: #052c46;
+}
+
+#line{
+    width: 224px;
+    background-color:  #052c46;
+    height: 4px;
+    bottom: 65px;
+    position: absolute;
+}
+
+.indexButton{
+    height: 60px;
+    width: 60px;
+    border-radius: 50%;
+    display: flex;
+    border: 4px solid  #052c46;
+    justify-content: center;
+    align-items: center;
+    transform: scale(0.9);
+    font-size: 24px;
+    font-weight: bold;
 }
 
 .footer{
