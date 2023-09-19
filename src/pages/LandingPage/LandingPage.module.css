@@ -92,7 +92,7 @@
 
 
 #questions{
-    margin: 20px;
+    margin: 70px;
     min-height: 60vh;
     width: 70vw;
     display: flex;
@@ -114,25 +114,27 @@
     display: flex;
     justify-content: left;
     flex-direction: column;
-    gap:40px;
-    width: 40vw;
+    width: 20vw;
 }
 
 .inputField{
     color: #344055;
-    height: 40px;
+    height: 45px;
     font-size: 18px;
     box-sizing: border-box;
     padding: 10px;
-    border: 1px solid #0f3f65;
+    border: 2px solid #0f3f65;
     border-radius: 10px;
     outline: none;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    position: relative;
 }
 
 .inputField:focus{
-    border: 1px solid orange;
-    box-shadow: 0 0  1px 1px orange;
+    border: 2px solid #1c79b8;
 }
+
 
 .enterQuestion{
     width: 40vw;
@@ -144,6 +146,7 @@
     border: 2px solid #0f3f65;
     font-size: 18px;
     color: #344055;
+    margin-bottom: 50px;
     border-radius: 10px;
 }
 
@@ -151,7 +154,7 @@
    border: 2px solid #1c79b8;
 }
 
-h2{
+h2,h3{
     color: #0f3f65;
 }
 
@@ -216,11 +219,30 @@ h2{
     outline: none;
 }
 
+.actionBtn2{
+    margin: 10px 0;
+    width: 270px;
+    text-transform: none;
+    height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 120%;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(15, 63, 101);
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+}
+
 .pageIndex{
     display: flex;
     justify-content: center;
     align-items: center;
-    gap: 70px;
     margin-bottom: 50px;
     margin-top: 30px;
     position: relative;
@@ -237,9 +259,35 @@ h2{
     color: #052c46;
 }
 
+.hollyDisabled{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    width: 200px;
+    gap: 20px;
+    font-weight: bolder;
+    color: #cdd5da;
+}
+
+.hollyDisabled > .indexButton {
+    color: white;
+    border: 4px solid #cdd5da;
+    background-color:#cdd5da ;
+}
+
 #line{
-    width: 224px;
+    width: 160px;
     background-color:  #052c46;
+    height: 4px;
+    bottom: 65px;
+    position: absolute;
+}
+
+#lineDisabled {
+    width: 160px;
+    /*background-color: #8795a1;*/
+    background-image: linear-gradient(to right ,#052c46, #cdd5da);
     height: 4px;
     bottom: 65px;
     position: absolute;
@@ -250,12 +298,120 @@ h2{
     width: 60px;
     border-radius: 50%;
     display: flex;
-    border: 4px solid  #052c46;
+    /*border: 4px solid  #052c46;*/
+    border: none;
     justify-content: center;
+    background-color: #052c46;
+    color: white;
     align-items: center;
-    transform: scale(0.9);
+    transform: scale(0.7);
     font-size: 24px;
     font-weight: bold;
+}
+
+.fileUpload{
+    width: 40vw;
+    min-height: 10vh;
+}
+
+input[type="file"] {
+    display: none;
+}
+.customFileUpload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #052c46;
+    cursor: pointer;
+    border: 2px solid #052c46;
+    height: 40px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 120%;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+#fileHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+#uploadedFiles{
+    margin-top: 30px;
+    width: 40vw;
+    max-height: 27vh;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 10px;
+}
+
+#uploadedFewFiles{
+    margin-top: 30px;
+    width: 40vw;
+    height: 27vh;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 10px;
+}
+
+.fileRepresentation{
+    margin-top: 10px;
+    height: 220px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid rgba(5, 44, 70, 0.31) ;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.fileRepresentation > img {
+    width: 140px;
+    margin-bottom: 10px;
+}
+
+.fileRepresentation > p {
+    white-space: nowrap;
+    overflow: hidden;
+    inline-size: 150px;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.fileRepresentation > p {
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.buttons{
+    width: 30vw;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+}
+
+.buttons > button {
+    width: 20vw;
+}
+
+.buttons > button:first-child{
+    background-color: rgba(135, 149, 161, 0.63);
 }
 
 .footer{
@@ -273,4 +429,96 @@ h2{
 
 #logo-img{
 width: 10vw;
+}
+
+ .material-symbols-outlined {
+     font-variation-settings:
+             'FILL' 0,
+             'wght' 700,
+             'GRAD' 200,
+             'opsz' 48
+ }
+
+
+/* The switch - the box around the slider */
+.switch {
+    position: relative;
+    display: inline-block;
+    width: 60px;
+    height: 34px;
+}
+
+/* Hide default HTML checkbox */
+.switch input {
+    opacity: 0;
+    width: 0;
+    height: 0;
+}
+
+/* The slider */
+.slider {
+    position: absolute;
+    cursor: pointer;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    background-color: #1c79b8;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+.slider:before {
+    position: absolute;
+    content: "";
+    height: 26px;
+    width: 26px;
+    left: 4px;
+    bottom: 4px;
+    background-color: white;
+    -webkit-transition: .4s;
+    transition: .4s;
+}
+
+input:checked + .slider {
+    background-color: #1c79b8;
+}
+
+input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+}
+
+/* Rounded sliders */
+.slider.round {
+    border-radius: 34px;
+}
+
+.slider.round:before {
+    border-radius: 50%;
+}
+
+#swichDiv{
+    height: 60px;
+    margin-bottom: 60px;
+    width: 20vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap : 20px
+}
+
+.choiceP{
+    font-size: 27px;
+    font-weight: bolder;
+    color:#1c79b8;
+    transition: 0.5s all;
+}
+
+.choiceD{
+    font-size: 27px;
+    font-weight: bolder;
+    color: rgba(135, 149, 161, 0.67);
+    transition: 0.5s all;
 }
