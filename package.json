@@ -10,8 +10,9 @@
     "react": "^18.2.0",
     "react-copy-to-clipboard": "^5.1.0",
     "react-dom": "^18.2.0",
+    "react-phone-input-2": "^2.15.1",
+    "react-phone-number-input": "^3.3.6",
     "react-router-dom": "^5.2.0",
-    "react-screen-orientation": "^0.0.4",
     "react-scripts": "5.0.1",
     "simple-peer": "^9.11.1",
     "socket.io-client": "^4.7.2",
@@ -41,5 +42,8 @@
       "last 1 firefox version",
       "last 1 safari version"
     ]
+  },
+  "devDependencies": {
+    "@types/node": "^20.6.3"
   }
 }

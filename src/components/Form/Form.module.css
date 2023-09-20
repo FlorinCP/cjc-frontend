@@ -151,7 +151,7 @@
 }
 
 .enterQuestion:focus{
-   border: 2px solid #1c79b8;
+    border: 2px solid #1c79b8;
 }
 
 h2,h3{
@@ -180,13 +180,13 @@ h2,h3{
     align-self: flex-end;
 }
 
- .material-symbols-outlined {
-     font-variation-settings:
-             'FILL' 0,
-             'wght' 700,
-             'GRAD' 200,
-             'opsz' 48
- }
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 700,
+            'GRAD' 200,
+            'opsz' 48
+}
 
 
 .actionBtn{
@@ -430,16 +430,16 @@ input[type="file"] {
 }
 
 #logo-img{
-width: 10vw;
+    width: 10vw;
 }
 
- .material-symbols-outlined {
-     font-variation-settings:
-             'FILL' 0,
-             'wght' 700,
-             'GRAD' 200,
-             'opsz' 48
- }
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 700,
+            'GRAD' 200,
+            'opsz' 48
+}
 
 
 /* The switch - the box around the slider */
