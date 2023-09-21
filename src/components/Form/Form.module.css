@@ -209,6 +209,10 @@ h2,h3{
     gap: 20px;
 }
 
+.actionBtnNone{
+    display: none;
+}
+
 .actionBtn > span {
     font-size: 30px;
 }
@@ -501,6 +505,19 @@ input:checked + .slider:before {
     border-radius: 50%;
 }
 
+.succesfullRegister{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.succesfullRegister > img {
+    width: 15vw;
+}
+
 #swichDiv{
     height: 60px;
     margin-bottom: 60px;
@@ -509,6 +526,10 @@ input:checked + .slider:before {
     justify-content: center;
     align-items: center;
     gap : 20px
+}
+
+#swichDivNone{
+   display: none;
 }
 
 .choiceP{
@@ -528,6 +549,10 @@ input:checked + .slider:before {
 .loginRegisterBtn{
     background-color: #18446d;
     color: white;
+}
+
+.loginRegisterBtnNone{
+  display: none;
 }
 
 #phoneWrapper{

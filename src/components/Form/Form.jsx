@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./Form.module.css";
+import {registerUser,loginUser} from "../../services/user_api";
+import {sendQuestion,mapToObject} from "../../services/question_api";
 
 function Form(props) {
   const [isLoggedOrRegistered, setIsLoggedOrRegistered] = useState(false);
@@ -7,6 +9,8 @@ function Form(props) {
   const [selectedFiles, setSelectedFiles] = useState(null);
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const [isChecked, setIsChecked] = useState(false);
+  const [questionText,setQuestionText] = useState("")
+  const [currentLoggedUser,setCurrentLoggedUser] = useState(null)
 
   const [userRegisterData, setUserRegisterData] = useState({
     nume: "",
@@ -15,25 +19,26 @@ function Form(props) {
     phone: "",
     password: "",
   });
+
+  const [userLoginData, setUserLoginData] = useState({
+    email: "",
+    password: "",
+  });
+
   const handleRegisterChange = (e) => {
     const { name, value } = e.target;
     setUserRegisterData({ ...userRegisterData, [name]: value });
   };
 
-  const [userLoginData, setUserLoginData] = useState({
-    email: "",
-    phone: "",
-    password: "",
-  });
-
-  const [questionData, setQuestionData] = useState({
-    email: "",
-    phone: "",
-    questionText: "",
-  });
+  const handleLoginChange = (e) => {
+    const {name,value} = e.target;
+    setUserLoginData({...userLoginData, [name] : value})
+  }
+  const handleQuestionChange = (event) => {
+    setQuestionText(event.target.value);
+  };
 
   // used for Register / Auth toggle
-
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
   };
@@ -43,130 +48,44 @@ function Form(props) {
     setSelectedFiles(filesArray);
   };
 
-  const handleChange = (e) => {
-    const { name, value } = e.target;
-    setQuestionData({ ...questionData, [name]: value });
-  };
-
-  // useEffect used for changing the uploaded files into obj to better display
-
   useEffect(() => {
     if (selectedFiles) {
-      const obj = [];
-
-      selectedFiles.forEach((file, index) => {
-        let type = file.type;
-        const indexOfSlash = type.indexOf("/");
-        const finalType = type.substring(indexOfSlash + 1);
-
-        const img = new Image();
-
-        switch (finalType) {
-          case "pdf":
-            img.src = "/pdf-icon.svg";
-            break;
-          case "jpg":
-          case "png":
-          case "jpeg":
-            img.src = "/img-icon.svg";
-            break;
-          case "doc":
-            img.src = "/word-img.svg";
-            break;
-        }
-
-        let name = file.name;
-        const indexOfDot = name.indexOf(".");
-        const finalName = name.substring(0, indexOfDot);
-
-        let fileSize = file.size;
-        const finalSize = fileSize / 1024 ** 2;
-
-        obj.push({
-          image: img,
-          type: finalType,
-          name: finalName,
-          size: finalSize.toFixed(2),
-        });
-      });
-
+      const obj = mapToObject(selectedFiles)
       console.log(obj);
       setSelectedFilesObj(obj);
     }
   }, [selectedFiles]);
 
-  const handleUpload = () => {
+  const handleUpload = async (e) => {
+    e.preventDefault();
     const formData = new FormData();
 
     selectedFiles.forEach((file, index) => {
-      formData.append(`files`, file);
+      formData.append(`questionFiles`, file);
     });
+    formData.append('questionText', questionText)
+    formData.append("user", currentLoggedUser)
 
     console.log(formData);
 
-    fetch("http://localhost:8080/cjc/api/v1/file/upload", {
-      method: "POST",
-      body: formData,
-    })
-      .then((response) => response.json())
-      .then((data) => {
-        // Handle the response from the Spring Boot backend
-        console.log(data);
-      })
-      .catch((error) => {
-        console.error("Error uploading file:", error);
-      });
+    await sendQuestion(formData)
   };
 
-  async function loginRegisterUSer() {
-    if (isChecked) {
-      try {
-        const response = await fetch(
-          "http://localhost:8080/cjc/api/v1/user/auth",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userLoginData),
-          },
-        );
+  async function registerUserFunction(e){
+    e.preventDefault();
+     const data = await registerUser(userRegisterData)
+    if (data){setIsLoggedOrRegistered(true)}
+    setCurrentLoggedUser(data.email)
+    console.log(data)
+  }
 
-        if (response.ok) {
-          const responseData = await response.json();
-          setIsLoggedOrRegistered(true);
-          console.log("Authentication successfully:", responseData);
-        } else {
-          console.error("Error authenticating:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Something went wrong:", error);
-      }
-    } else {
-      console.log(userRegisterData);
-      try {
-        const response = await fetch(
-          "http://localhost:8080/cjc/api/v1/user/register",
-          {
-            method: "POST",
-            headers: {
-              "Content-Type": "application/json",
-            },
-            body: JSON.stringify(userRegisterData),
-          },
-        );
-
-        if (response.ok) {
-          const responseData = await response.json();
-          setIsLoggedOrRegistered(true);
-          console.log("Registered successfully:", responseData);
-        } else {
-          console.error("Error registering:", response.statusText);
-        }
-      } catch (error) {
-        console.error("Something went wrong:", error);
-      }
-    }
+  async function loginUserFunction(e){
+    e.preventDefault();
+    console.log(userLoginData)
+    const data = await loginUser(userLoginData)
+    if (data){setIsLoggedOrRegistered(true)}
+    setCurrentLoggedUser(data.email)
+    console.log(data)
   }
 
   function moveForward(e) {
@@ -176,29 +95,7 @@ function Form(props) {
 
   const handleSubmit = async (e) => {
     e.preventDefault();
-    handleUpload();
-
-    try {
-      const response = await fetch(
-        "http://localhost:8080/cjc/api/v1/question/question",
-        {
-          method: "POST",
-          headers: {
-            "Content-Type": "application/json",
-          },
-          body: JSON.stringify(questionData),
-        },
-      );
-
-      if (response.ok) {
-        const responseData = await response.json();
-        console.log("Data sent successfully:", responseData);
-      } else {
-        console.error("Error sending data:", response.statusText);
-      }
-    } catch (error) {
-      console.error("Error sending data:", error);
-    }
+    await handleUpload();
   };
 
   return (
@@ -209,6 +106,9 @@ function Form(props) {
         </div>
 
         <div className={style.formPage}>
+
+
+
           <div className={style.pageIndex}>
             <div id={nextPage ? style["line"] : style["lineDisabled"]}></div>
             <div className={style.holly}>
@@ -221,168 +121,214 @@ function Form(props) {
             </div>
           </div>
 
-          {nextPage ? (
-            <>
-              <h2>Textul intrebarii</h2>
 
-              <textarea
-                name="questionText"
-                value={questionData.questionText}
-                onChange={handleChange}
-                className={style.enterQuestion}
-                cols="20"
-                rows="7"
-              ></textarea>
 
-              <h2>Incarcarea Fisierelor</h2>
-              <div className={style.fileUpload}>
-                <div id={style["fileHeader"]}>
-                  <label
-                    htmlFor="file-upload"
-                    className={style.customFileUpload}
-                  >
+          {!nextPage ? (
+              <>
+                    <div id={style["inputs"]}>
+
+                      <div id={isLoggedOrRegistered ? style["swichDivNone"] : style["swichDiv"]}>
+                        <p className={!isChecked ? style.choiceP : style.choiceD}>
+                          Cont nou
+                        </p>
+                        <label className={style.switch}>
+                          <input
+                              type="checkbox"
+                              checked={isChecked}
+                              onChange={handleCheckboxChange}
+                          ></input>
+                          <span className={`${style.slider} ${style.round}`}></span>
+                        </label>
+                        <p className={isChecked ? style.choiceP : style.choiceD}>
+                          Autentificare
+                        </p>
+                      </div>
+
+                      {!isChecked ? (
+                          <>
+
+                            {/* Register  */}
+
+                            {
+                              !isLoggedOrRegistered ? (<>
+                                <h3>Nume</h3>
+                                <input
+                                    type="text"
+                                    name="nume"
+                                    value={userRegisterData.nume}
+                                    onChange={handleRegisterChange}
+                                    className={style.inputField}
+                                />
+                                <h3>Prenume</h3>
+                                <input
+                                    type="text"
+                                    name="prenume"
+                                    value={userRegisterData.prenume}
+                                    onChange={handleRegisterChange}
+                                    className={style.inputField}
+                                />
+                                <h3>Numar de telefon</h3>
+                                <input
+                                    type="text"
+                                    name="phone"
+                                    value={userRegisterData.phone}
+                                    onChange={handleRegisterChange}
+                                    className={style.inputField}
+                                />
+
+                                <h3>Email</h3>
+                                <input
+                                    type="text"
+                                    name="email"
+                                    value={userRegisterData.email}
+                                    onChange={handleRegisterChange}
+                                    className={style.inputField}
+                                />
+
+                                <h3>Parola</h3>
+                                <input
+                                    type="password"
+                                    name="password"
+                                    value={userRegisterData.password}
+                                    onChange={handleRegisterChange}
+                                    className={style.inputField}
+                                />
+                              </>) : (
+                                  <div className={style.succesfullRegister}>
+                                    <h2>INREGISTRARE REUSITA !</h2>
+                                    <img src="/succes.svg" alt=""/>
+                                  </div>
+                              )
+                            }
+
+                          </>
+                      ) : (
+                          <>
+
+                            {/* Login  */}
+
+                            {
+                              !isLoggedOrRegistered ? (
+                                  <>
+                                    <h3>Email</h3>
+                                    <input
+                                        type="text"
+                                        name="email"
+                                        value={userLoginData.email}
+                                        onChange={handleLoginChange}
+                                        className={style.inputField}
+                                    />
+                                    <h3>Parola</h3>
+                                    <input
+                                        type="password"
+                                        name="password"
+                                        value={userLoginData.password}
+                                        onChange={handleLoginChange}
+                                        className={style.inputField}
+                                    />
+                                  </>
+                              ) : (
+                                  <div className={style.succesfullRegister}>
+                                    <h2>AUTENTIFICARE REUSITA !</h2>
+                                    <img src="/succes.svg" alt=""/>
+                                  </div>
+                              )
+                            }
+
+                          </>
+                      )}
+                    </div>
+
+
+
+                    <div className={style.buttons}>
+
+                      {
+                        isChecked ? ( <button
+                            className={isLoggedOrRegistered ? style.loginRegisterBtnNone : style.loginRegisterBtn}
+                            onClick={loginUserFunction}>Autentificare
+                        </button>) : (
+                            <button
+                                className={isLoggedOrRegistered ? style.loginRegisterBtnNone : style.loginRegisterBtn}
+                                onClick={registerUserFunction}>Inregistrare
+                            </button>
+                        )
+                      }
+
+                      <button
+                          className={ isLoggedOrRegistered ? style.actionBtn : style.actionBtnNone}
+                          onClick={moveForward}
+                          // disabled={!isLoggedOrRegistered}
+                      >
+                        Urmatorul Pas
+                        <span className="material-symbols-outlined">
+                    chevron_right
+                  </span>
+                      </button>
+
+                    </div>
+                  </>
+          ) : (
+              <>
+
+                {/*  Adding Question Text and Question Files   */}
+
+                <h2>Textul intrebarii</h2>
+
+                <textarea
+                    name="questionText"
+                    value={questionText}
+                    onChange={handleQuestionChange}
+                    className={style.enterQuestion}
+                    cols="20"
+                    rows="7"
+                ></textarea>
+
+                <h2>Incarcarea Fisierelor</h2>
+                <div className={style.fileUpload}>
+                  <div id={style["fileHeader"]}>
+                    <label
+                        htmlFor="file-upload"
+                        className={style.customFileUpload}
+                    >
                     <span className="material-symbols-outlined">
                       upload_file
                     </span>{" "}
-                    <span>Alegeti fisierele</span>
-                  </label>
-                  <input
-                    type="file"
-                    id="file-upload"
-                    onChange={handleFileChange}
-                    multiple
-                  />
-                  {/*<button onClick={handleUpload}>Incarcati</button>*/}
+                      <span>Alegeti fisierele</span>
+                    </label>
+                    <input
+                        type="file"
+                        id="file-upload"
+                        onChange={handleFileChange}
+                        multiple
+                    />
+                    <button onClick={handleUpload}>Incarcati</button>
+                  </div>
+
+                  <div id={style["uploadedFiles"]}>
+                    {selectedFilesObj ? (
+                        selectedFilesObj.map((file, index) => (
+                            <div className={style.fileRepresentation} key={index}>
+                              <img src={file.image.src} alt="" />
+                              <p>{file.name}</p>
+                              <h4>{file.size} MB</h4>
+                            </div>
+                        ))
+                    ) : (
+                        <></>
+                    )}
+                  </div>
                 </div>
 
-                <div id={style["uploadedFiles"]}>
-                  {selectedFilesObj ? (
-                    selectedFilesObj.map((file, index) => (
-                      <div className={style.fileRepresentation} key={index}>
-                        <img src={file.image.src} alt="" />
-                        <p>{file.name}</p>
-                        <h4>{file.size} MB</h4>
-                      </div>
-                    ))
-                  ) : (
-                    <></>
-                  )}
-                </div>
-              </div>
-
-              <button className={style.actionBtn} onClick={moveForward}>
-                Urmatorul Pas
-                <span className="material-symbols-outlined">chevron_right</span>
-              </button>
-            </>
-          ) : (
-            <>
-              <div id={style["inputs"]}>
-                <div id={style["swichDiv"]}>
-                  <p className={!isChecked ? style.choiceP : style.choiceD}>
-                    Cont nou
-                  </p>
-                  <label className={style.switch}>
-                    <input
-                      type="checkbox"
-                      checked={isChecked}
-                      onChange={handleCheckboxChange}
-                    ></input>
-                    <span className={`${style.slider} ${style.round}`}></span>
-                  </label>
-                  <p className={isChecked ? style.choiceP : style.choiceD}>
-                    Autentificare
-                  </p>
-                </div>
-
-                {isChecked ? (
-                  <>
-                    <h3>Email / Numar de telefon</h3>
-                    <input
-                      type="text"
-                      name="email"
-                      value={questionData.email}
-                      onChange={handleChange}
-                      className={style.inputField}
-                    />
-
-                    <h3>Parola</h3>
-                    <input
-                      type="password"
-                      name="password"
-                      value={questionData.password}
-                      onChange={handleChange}
-                      className={style.inputField}
-                    />
-                  </>
-                ) : (
-                  <>
-                    <h3>Nume</h3>
-                    <input
-                      type="text"
-                      name="nume"
-                      value={userRegisterData.nume}
-                      onChange={handleRegisterChange}
-                      className={style.inputField}
-                    />
-                    <h3>Prenume</h3>
-                    <input
-                      type="text"
-                      name="prenume"
-                      value={userRegisterData.prenume}
-                      onChange={handleRegisterChange}
-                      className={style.inputField}
-                    />
-                    <h3>Numar de telefon</h3>
-                    <input
-                      type="text"
-                      name="phone"
-                      value={userRegisterData.phone}
-                      onChange={handleRegisterChange}
-                      className={style.inputField}
-                    />
-
-                    <h3>Email</h3>
-                    <input
-                      type="text"
-                      name="email"
-                      value={userRegisterData.email}
-                      onChange={handleRegisterChange}
-                      className={style.inputField}
-                    />
-
-                    <h3>Parola</h3>
-                    <input
-                      type="password"
-                      name="password"
-                      value={userRegisterData.password}
-                      onChange={handleRegisterChange}
-                      className={style.inputField}
-                    />
-                  </>
-                )}
-              </div>
-
-              <div className={style.buttons}>
-                <button
-                  className={style.loginRegisterBtn}
-                  onClick={loginRegisterUSer}
-                >
-                  {isChecked ? <>Autentificare</> : <>Inregistrare</>}
-                </button>
-                <button
-                  className={style.actionBtn}
-                  onClick={moveForward}
-                  disabled={!isLoggedOrRegistered}
-                >
+                <button className={style.actionBtn} onClick={moveForward}>
                   Urmatorul Pas
-                  <span className="material-symbols-outlined">
-                    chevron_right
-                  </span>
+                  <span className="material-symbols-outlined">chevron_right</span>
                 </button>
-              </div>
-            </>
+              </>
           )}
+
+
+
         </div>
       </form>
     </div>

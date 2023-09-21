@@ -4,6 +4,9 @@ html {
     overflow-x: hidden;
     scroll-behavior: smooth;
     box-sizing: border-box;
+    font-family: 'Montserrat', sans-serif;
+    font-family: 'Pathway Extreme', sans-serif;
+    font-family: 'Roboto', sans-serif;
 }
 
 
