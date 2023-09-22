@@ -51,7 +51,7 @@ function Navbar() {
                 <ul className={click ? 'nav-menu active' : 'nav-menu'}>
                     <li className='nav-item'>
                         <Link to='/' className='nav-links' onClick={closeMobileMenu}>
-                            Home
+                            Acasa
                         </Link>
                     </li>
                     <li
@@ -64,17 +64,17 @@ function Navbar() {
                             className='nav-links'
                             onClick={closeMobileMenu}
                         >
-                            Services <i className='fas fa-caret-down' />
+                            Servicii <i className='fas fa-caret-down' />
                         </Link>
                         {dropdown && <Dropdown />}
                     </li>
                     <li className='nav-item'>
                         <Link
-                            to='/products'
+                            to='/test'
                             className='nav-links'
                             onClick={closeMobileMenu}
                         >
-                            Products
+                            Test
                         </Link>
                     </li>
                     <li className='nav-item'>
@@ -83,20 +83,19 @@ function Navbar() {
                             className='nav-links'
                             onClick={closeMobileMenu}
                         >
-                            Contact Us
+                            Contul dumneavoastra
                         </Link>
                     </li>
-                    <li>
+                    <li className='nav-item'>
                         <Link
-                            to='/sign-up'
-                            className='nav-links-mobile'
+                            to='/contact-us'
+                            className='nav-links'
                             onClick={closeMobileMenu}
                         >
-                            Sign Up
+                            Inregistrare
                         </Link>
                     </li>
                 </ul>
-                <Button />
             </nav>
         </>
     );

@@ -11,6 +11,7 @@ function Form(props) {
   const [isChecked, setIsChecked] = useState(false);
   const [questionText,setQuestionText] = useState("")
   const [currentLoggedUser,setCurrentLoggedUser] = useState(null)
+  const [isQuestionSent,setIsQuestionSent] = useState(false)
 
   const [userRegisterData, setUserRegisterData] = useState({
     nume: "",
@@ -56,6 +57,30 @@ function Form(props) {
     }
   }, [selectedFiles]);
 
+
+  async function registerUserFunction(e){
+    e.preventDefault();
+     const data = await registerUser(userRegisterData)
+    if (data){setIsLoggedOrRegistered(true)}
+    setCurrentLoggedUser(data.email)
+    localStorage.setItem('user', data.email);
+    console.log(data)
+  }
+
+  async function loginUserFunction(e){
+    e.preventDefault();
+    console.log(userLoginData)
+    const data = await loginUser(userLoginData)
+    if (data){setIsLoggedOrRegistered(true)}
+    setCurrentLoggedUser(data.email)
+    localStorage.setItem('user', data.email);
+    console.log(data)
+  }
+
+  function moveForward(e) {
+    e.preventDefault();
+    setNextPage((prevState) => !prevState);
+  }
   const handleUpload = async (e) => {
     e.preventDefault();
     const formData = new FormData();
@@ -68,39 +93,15 @@ function Form(props) {
 
     console.log(formData);
 
-    await sendQuestion(formData)
-  };
-
-  async function registerUserFunction(e){
-    e.preventDefault();
-     const data = await registerUser(userRegisterData)
-    if (data){setIsLoggedOrRegistered(true)}
-    setCurrentLoggedUser(data.email)
-    console.log(data)
-  }
-
-  async function loginUserFunction(e){
-    e.preventDefault();
-    console.log(userLoginData)
-    const data = await loginUser(userLoginData)
-    if (data){setIsLoggedOrRegistered(true)}
-    setCurrentLoggedUser(data.email)
-    console.log(data)
-  }
-
-  function moveForward(e) {
-    e.preventDefault();
-    setNextPage((prevState) => !prevState);
-  }
-
-  const handleSubmit = async (e) => {
-    e.preventDefault();
-    await handleUpload();
+   const data =  await sendQuestion(formData)
+    if (data) {
+      setIsQuestionSent(true)
+    }
   };
 
   return (
     <div>
-      <form id={style["questions"]} onSubmit={handleSubmit}>
+      <form id={style["questions"]} onSubmit={handleUpload}>
         <div id={style["questionTitle"]}>
           <p className={style.title}>Formular intrebari</p>
         </div>
@@ -271,59 +272,71 @@ function Form(props) {
           ) : (
               <>
 
-                {/*  Adding Question Text and Question Files   */}
+                {!isQuestionSent ? (
 
-                <h2>Textul intrebarii</h2>
+                    <>
+                      {/*  Adding Question Text and Question Files   */}
 
-                <textarea
-                    name="questionText"
-                    value={questionText}
-                    onChange={handleQuestionChange}
-                    className={style.enterQuestion}
-                    cols="20"
-                    rows="7"
-                ></textarea>
+                      <h2>Textul intrebarii</h2>
 
-                <h2>Incarcarea Fisierelor</h2>
-                <div className={style.fileUpload}>
-                  <div id={style["fileHeader"]}>
-                    <label
-                        htmlFor="file-upload"
-                        className={style.customFileUpload}
-                    >
+                      <textarea
+                          name="questionText"
+                          value={questionText}
+                          onChange={handleQuestionChange}
+                          className={style.enterQuestion}
+                          cols="20"
+                          rows="7"
+                      ></textarea>
+
+                      <h2>Incarcarea Fisierelor</h2>
+                      <div className={style.fileUpload}>
+                        <div id={style["fileHeader"]}>
+                          <label
+                              htmlFor="file-upload"
+                              className={style.customFileUpload}
+                          >
                     <span className="material-symbols-outlined">
                       upload_file
                     </span>{" "}
-                      <span>Alegeti fisierele</span>
-                    </label>
-                    <input
-                        type="file"
-                        id="file-upload"
-                        onChange={handleFileChange}
-                        multiple
-                    />
-                    <button onClick={handleUpload}>Incarcati</button>
-                  </div>
+                            <span>Alegeti fisierele</span>
+                          </label>
+                          <input
+                              type="file"
+                              id="file-upload"
+                              onChange={handleFileChange}
+                              multiple
+                          />
+                        </div>
 
-                  <div id={style["uploadedFiles"]}>
-                    {selectedFilesObj ? (
-                        selectedFilesObj.map((file, index) => (
-                            <div className={style.fileRepresentation} key={index}>
-                              <img src={file.image.src} alt="" />
-                              <p>{file.name}</p>
-                              <h4>{file.size} MB</h4>
-                            </div>
-                        ))
-                    ) : (
-                        <></>
-                    )}
-                  </div>
-                </div>
+                        <div id={style["uploadedFiles"]}>
+                          {selectedFilesObj ? (
+                              selectedFilesObj.map((file, index) => (
+                                  <div className={style.fileRepresentation} key={index}>
+                                    <img src={file.image.src} alt="" />
+                                    <p>{file.name}</p>
+                                    <h4>{file.size} MB</h4>
+                                  </div>
+                              ))
+                          ) : (
+                              <></>
+                          )}
+                        </div>
+                      </div>
 
-                <button className={style.actionBtn} onClick={moveForward}>
-                  Urmatorul Pas
-                  <span className="material-symbols-outlined">chevron_right</span>
-                </button>
+                      <button onClick={handleUpload} className={style.actionBtn2} >Trimite !</button>
+                    </>
+
+                ) : (
+                    <>
+                      <div className={style.succesfullRegister}>
+                        <h2>Intrebare trimisa cu succes !</h2>
+                        <img src="/questionSent.svg" alt=""/>
+                        <p>Contul dumneavoasta : ceva link </p>
+                        <p>Veti fi notificat in cel mai scurt timp referitor la raspunsul intrebarii dumneavoastra</p>
+                      </div>
+                    </>
+                )}
+
               </>
           )}
 

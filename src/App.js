@@ -13,6 +13,7 @@ import VideoCall from "./pages/VideoCall";
 import useScreenSize from "./hooks/useScreenSize";
 import WebNavbar from "./components/WebNavbar/WebNavbar";
 import LandingPage from "./pages/LandingPage/LandingPage";
+import MainPage from "./pages/MainPage/MainPage";
 
 function App() {
 
@@ -29,7 +30,7 @@ function App() {
             <Switch>
                 <Route path='/' exact component={LandingPage} />
                 <Route path='/services' component={Services} />
-                <Route path='/products' component={Products} />
+                <Route path='/test' component={MainPage} />
                 <Route path='/contact-us' component={ContactUs} />
                 <Route path='/sign-up' component={SignUp} />
                 <Route path='/marketing' component={Marketing} />

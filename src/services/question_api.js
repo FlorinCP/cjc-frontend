@@ -20,11 +20,35 @@ export async function sendQuestion(formData){
     }
 }
 
+export async function getQuestionsForUser(email){
+    try{
+
+        const queryParams ={
+            email : `${email}`
+        }
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const response = await  fetch(`${BASE_URL}/question/allByEmail?${queryString}`)
+
+        if (response.ok){
+            const responseData = await response.json()
+            console.log("Question loaded successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error loading question:", response.statusText);
+        }
+    }catch(error) {
+        console.error("Error loading files:", error);
+    }
+}
+
 export function mapToObject(selectedFiles){
 
     const obj = [];
 
     selectedFiles.forEach((file, index) => {
+
         let type = file.type;
         const indexOfSlash = type.indexOf("/");
         const finalType = type.substring(indexOfSlash + 1);
@@ -51,14 +75,25 @@ export function mapToObject(selectedFiles){
         const indexOfDot = name.indexOf(".");
         const finalName = name.substring(0, indexOfDot);
 
-        let fileSize = file.size;
-        const finalSize = fileSize / 1024 ** 2;
+
+        if (file.size){
+            let fileSize = file.size;
+            const finalSize = fileSize / 1024 ** 2;
+
+            obj.push({
+                image: img,
+                type: finalType,
+                name: finalName,
+                size: finalSize.toFixed(2),
+            });
+        } else {
+
+        }
 
         obj.push({
             image: img,
             type: finalType,
             name: finalName,
-            size: finalSize.toFixed(2),
         });
     });
 
