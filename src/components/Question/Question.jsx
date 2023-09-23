@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from "react";
 import style from "./Question.module.css";
-import { mapToObject } from "../../services/question_api";
+import { mapToObject,updateStatus } from "../../services/question_api";
 
 function Question(props) {
   const [selectedFiles, setSelectedFiles] = useState(props.fileInfo);
@@ -17,6 +17,14 @@ function Question(props) {
 
   const expand = () =>{
     setIsExpanded(prevState => !prevState)
+  }
+
+  const rejectQuestion =() =>{
+    updateStatus(props.id, "reject")
+  }
+
+  const  approveQuestion = () =>{
+    updateStatus(props.id,"accepted")
   }
 
   return (
@@ -60,14 +68,17 @@ function Question(props) {
 
       <div className={style.holly}>
         <div className={style.subholly2}>
-          <button className={style.actionBtn}>Respinge</button>
-          <button className={style.actionBtn}>Aproba</button>
+          <button className={style.actionBtn} onClick={rejectQuestion}>Respinge</button>
+          <button className={style.actionBtn} onClick={approveQuestion}>Aproba</button>
         </div>
       </div>
 
       <p>{props.hasResponse}</p>
 
       {isExpanded ? (
+
+
+
         <div id={style["uploadedFiles"]}>
           {selectedFilesObj ? (
             selectedFilesObj.map((file, index) => (
@@ -81,6 +92,10 @@ function Question(props) {
             <></>
           )}
         </div>
+
+
+
+
       ) : (
         <></>
       )}

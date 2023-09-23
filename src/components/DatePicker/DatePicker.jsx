@@ -1,7 +1,8 @@
 import React, {useEffect, useState} from 'react';
-import "./CustomDatePicker.css";
+import style from './DatePicker.module.css'
 
-function CalendarulPulii(props) {
+
+function DatePicker({sendSelectedDate}) {
 
     const [today, setToday] = useState(new Date())
     const lang = "default";
@@ -22,6 +23,9 @@ function CalendarulPulii(props) {
     const [totalLastMonthFinalDays, setTotalLastMonthFinalDays] = useState(
         firstDayOfTheMonth.getDay()
     );
+
+
+    const [selectedDate,setSelectedDate] = useState()
 
     function getDay(year, monthIndex, day) {
         return new Date(year, monthIndex, day);
@@ -79,7 +83,6 @@ function CalendarulPulii(props) {
     function fillNext(){
         setFirstDaysOfNextMonthList([])
         const remaining = 7 - ((monthNumberOfDays + totalLastMonthFinalDays) % 7);
-        console.log(remaining)
         if (remaining < 7) {
             for (let i = 0; i < remaining; i++) {
                 setFirstDaysOfNextMonthList((oldArray) => [...oldArray, getDay(fullYear, monthNumber, i + 1)])
@@ -127,60 +130,72 @@ function CalendarulPulii(props) {
         }
     }
 
+    async function selectDate(value) {
+        const selection = {
+            dayNumber: value.getDate(),
+            monthNumber: value.getMonth() + 1,
+            year: value.getFullYear()
+        }
+        setSelectedDate(selection)
+    }
+
+    useEffect(() => {
+        if (selectedDate !== undefined){
+            console.log(selectedDate)
+            sendSelectedDate(selectedDate)
+        }
+    }, [selectedDate]);
+
     return (
-        <div className="date-picker">
-            <div className="header">
-                <div id="previous"
-                     onClick={prevMonth}
-                >
-                    <span className="material-symbols-outlined"> navigate_before </span>
-                </div>
-                <div id="month-year">
-                    <span>{monthName}</span>
-                    <span>{fullYear}</span>
-                </div>
-                <div id="next"
-                     onClick={nextMonth}>
-                  <span className="material-symbols-outlined"
-                  >navigate_next</span>
-                </div>
-            </div>
-
-            <div className="week-name-bar">
-                {weekdays.map((value, index) => {
-                    return (
-                        <div className="week-day-name" key={index}>
-                            {value}
-                        </div>
-                    );
-                })}
-            </div>
-
-            <div className="days-grid">
-                {pastDaysList.map((value, index) => {
-                    return (
-                        <div className="past-day" key={index}>
-                            {value.getDate()}
-                        </div>
-                    );
-                })}
-
-                {dayList.map((value, index) => (
-                    <div className="day" key={index}>
-                        {value.getDate()}
-                    </div>
-                ))}
-
-                {firstDaysOfNextMonthList.map((value, index) => {
-                    return (
-                        <div className="past-day" key={index}>
-                            {value.getDate()}
-                        </div>
-                    );
-                })}
-            </div>
+      <div className={style.datePicker}>
+        <div className={style.header}>
+          <div id={style["previous"]} onClick={prevMonth}>
+            <span className="material-symbols-outlined"> navigate_before </span>
+          </div>
+          <div id={style["monthYear"]}>
+            <span>{monthName}</span>
+            <span>{fullYear}</span>
+          </div>
+          <div id={style["next"]} onClick={nextMonth}>
+            <span className="material-symbols-outlined">navigate_next</span>
+          </div>
         </div>
+
+        <div className={style.weekNameBar}>
+          {weekdays.map((value, index) => {
+            return (
+              <div className={style.weekDayName} key={index}>
+                {value}
+              </div>
+            );
+          })}
+        </div>
+
+        <div className={style.daysGrid}>
+          {pastDaysList.map((value, index) => {
+            return (
+              <div className={style.pastDay} key={index}>
+                {value.getDate()}
+              </div>
+            );
+          })}
+
+          {dayList.map((value, index) => (
+            <div className={style.day} key={index} onClick={() => selectDate(value)}>
+              {value.getDate()}
+            </div>
+          ))}
+
+          {firstDaysOfNextMonthList.map((value, index) => {
+            return (
+              <div className={style.pastDay} key={index}>
+                {value.getDate()}
+              </div>
+            );
+          })}
+        </div>
+      </div>
     );
 }
 
-export default CalendarulPulii;
+export default DatePicker;

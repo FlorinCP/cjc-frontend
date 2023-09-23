@@ -87,16 +87,32 @@ export function mapToObject(selectedFiles){
                 size: finalSize.toFixed(2),
             });
         } else {
-
+            obj.push({
+                image: img,
+                type: finalType,
+                name: finalName,
+            });
         }
 
-        obj.push({
-            image: img,
-            type: finalType,
-            name: finalName,
-        });
     });
 
     return obj;
+
+}
+
+export async function updateStatus(id,status){
+
+
+        const queryParams ={
+            id : `${id}`,
+            status: `${status}`
+        }
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const response = await  fetch(`${BASE_URL}/question/status?${queryString}`, {
+            method: "POST",
+        })
+
 
 }
