@@ -416,22 +416,8 @@ input[type="file"] {
     height: 60px;
 }
 
-.footer{
-    margin-top: 50px;
-    background-color: #18446d;
-    height: 200px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    font-size: 1.2rem;
-    width: 100vw;
-    color: white;
-}
 
-#logo-img{
-width: 10vw;
-}
+
 
  .material-symbols-outlined {
      font-variation-settings:

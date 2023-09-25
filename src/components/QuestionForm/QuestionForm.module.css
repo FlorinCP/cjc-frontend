@@ -1,0 +1,134 @@
+.enterQuestion{
+    width: 40vw;
+    word-wrap: break-word;
+    resize: none;
+    outline: none;
+    padding: 20px;
+    box-sizing: border-box;
+    border: 2px solid #0f3f65;
+    font-size: 18px;
+    color: #344055;
+    margin-bottom: 50px;
+    border-radius: 10px;
+}
+
+.enterQuestion:focus{
+    border: 2px solid #1c79b8;
+}
+
+.material-symbols-outlined {
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 700,
+            'GRAD' 200,
+            'opsz' 48
+}
+
+#uploadedFiles{
+    margin-top: 30px;
+    width: 40vw;
+    max-height: 27vh;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 10px;
+}
+
+.fileRepresentation{
+    margin-top: 10px;
+    height: 220px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid rgba(5, 44, 70, 0.31) ;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+}
+
+.fileRepresentation > img {
+    width: 140px;
+    margin-bottom: 10px;
+}
+
+.fileRepresentation > p {
+    white-space: nowrap;
+    overflow: hidden;
+    inline-size: 150px;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.fileRepresentation > p {
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.actionBtn2{
+    margin: 10px 0;
+    width: 270px;
+    text-transform: none;
+    height: 50px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 120%;
+    border: none;
+    border-radius: 10px;
+    color: white;
+    background-color: rgb(15, 63, 101);
+    transition: all .2s ease-in-out;
+    cursor: pointer;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 20px;
+    float: right;
+}
+
+.succesfullRegister{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.succesfullRegister > img {
+    width: 15vw;
+}
+
+
+input[type="file"] {
+    display: none;
+}
+.customFileUpload {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    color: #052c46;
+    cursor: pointer;
+    border: 2px solid #052c46;
+    height: 40px;
+    padding-left: 25px;
+    padding-right: 25px;
+    font-size: 120%;
+    border-radius: 10px;
+    gap: 10px;
+}
+
+#fileHeader{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 10px;
+}
+
+
+
+

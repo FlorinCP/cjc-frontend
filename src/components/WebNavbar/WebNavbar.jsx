@@ -1,11 +1,13 @@
-import React, { useState } from 'react';
+import React, {useContext, useState} from 'react';
 import {Button} from "../Button/Button";
 import { Link } from 'react-router-dom';
 import './WebNavbar.css';
 import Dropdown from "../Dropdown/Dropdown";
+import UserContext from "../../context/UserContext";
 
 function Navbar() {
     const [click, setClick] = useState(false);
+    const currentUser = useContext(UserContext);
     const [dropdown, setDropdown] = useState(false);
 
     const handleClick = () => setClick(!click);
@@ -68,27 +70,38 @@ function Navbar() {
                         </Link>
                         {dropdown && <Dropdown />}
                     </li>
+
+                    {
+                        currentUser.email !== null && (
+                            <li className='nav-item'>
+                                <Link
+                                    to='/test'
+                                    className='nav-links'
+                                    onClick={closeMobileMenu}
+                                >
+                                    Test
+                                </Link>
+                            </li>
+                        )
+                    }
+
+
+                    {
+                        currentUser.email !== null && (
+                            <li className='nav-item'>
+                                <Link
+                                    to='/test'
+                                    className='nav-links'
+                                    onClick={closeMobileMenu}
+                                >
+                                    Cont
+                                </Link>
+                            </li>
+                        )
+                    }
                     <li className='nav-item'>
                         <Link
-                            to='/test'
-                            className='nav-links'
-                            onClick={closeMobileMenu}
-                        >
-                            Test
-                        </Link>
-                    </li>
-                    <li className='nav-item'>
-                        <Link
-                            to='/contact-us'
-                            className='nav-links'
-                            onClick={closeMobileMenu}
-                        >
-                            Contul dumneavoastra
-                        </Link>
-                    </li>
-                    <li className='nav-item'>
-                        <Link
-                            to='/contact-us'
+                            to='/login'
                             className='nav-links'
                             onClick={closeMobileMenu}
                         >

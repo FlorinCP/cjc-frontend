@@ -1,0 +1,53 @@
+.inputField{
+    color: #344055;
+    height: 45px;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #0f3f65;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    position: relative;
+    width: 20vw;
+}
+
+.wrapper{
+    width: 20vw;
+}
+
+.inputField:focus{
+    border: 2px solid #1c79b8;
+}
+
+.succesfullRegister{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+
+.succesfullRegister > img {
+    width: 15vw;
+}
+
+.buttons{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
+}
+
+.loginRegisterBtn{
+    background-color: #18446d;
+    color: white;
+    height: 60px;
+    width: 20vw;
+
+}
+
+

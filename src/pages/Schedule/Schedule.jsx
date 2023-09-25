@@ -2,6 +2,8 @@ import React, { useEffect, useState } from "react";
 import style from "./Schedule.module.css";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
+import { makeAppointment } from "../../services/appointment_api";
+import Footer from "../../components/Footer/Footer";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
@@ -32,6 +34,8 @@ function Schedule(props) {
       setSelectedStatus(selectedDay.workingStatus);
       setStartHourSelect(selectedDay.startHour);
       setEndHourSelect(selectedDay.endHour);
+      fillTime();
+      fillSlots();
     }
   }, [selectedDay]);
 
@@ -79,7 +83,86 @@ function Schedule(props) {
     setEndHourSelect(event.target.value);
   };
 
-  const timeList = []
+  const [timeList, setTimeList] = useState([]);
+  const [slotList, setSlotList] = useState([]);
+
+  function fillTime() {
+    let firstHour = selectedDay.startHour;
+    const newTimeList = [];
+
+    for (let i = 0; i < selectedDay.workingHours * 2; i++) {
+      const isEven = i % 2 === 0;
+      const formattedHour = isEven ? `${firstHour}:00` : `${firstHour}:30`;
+
+      newTimeList.push({ formattedHour });
+
+      if (!isEven) {
+        firstHour++;
+      }
+    }
+
+    setTimeList(newTimeList);
+  }
+
+  function fillSlots() {
+    let firstHour = selectedDay.startHour;
+    const newSlotList = [];
+
+    for (let index = 0; index < selectedDay.workingHours * 2; index++) {
+      newSlotList.push({});
+
+      firstHour++;
+    }
+
+    setSlotList(newSlotList);
+  }
+
+  const [selectedSlot, setSelectedSlot] = useState(null);
+
+  const selectSlot = (index) => {
+    setSelectedSlot(index);
+    setAppointmentDetails({
+      startHour: timeList[index].formattedHour,
+    });
+  };
+
+  const [followingSlot, setFollowingSlot] = useState(null);
+  const selectFollowingSlot = (index) => {
+    if (selectedSlot) {
+      setFollowingSlot(index);
+      console.log(index);
+    }
+  };
+
+  function getClassForSlot(index) {
+    if (selectedSlot === index) {
+      return style.selectedSlot;
+    }
+    // } else if(followingSlot === index) {
+    //   return style.selectedSlot
+    // }
+    else {
+      return style.slot;
+    }
+  }
+
+  useEffect(() => {
+    console.log(selectedSlot);
+  }, [selectedSlot]);
+
+  const [appointmentDetails, setAppointmentDetails] = useState(null);
+
+  const setAppointment = async () => {
+    await makeAppointment(
+      appointmentDetails.startHour,
+      timeList[selectedSlot + 1].formattedHour,
+      localStorage.getItem("user"),
+      3,
+      selectedDay.dayNumber,
+      selectedDay.monthNumber,
+      selectedDay.year,
+    );
+  };
 
   return (
     <div className={style.wrapper}>
@@ -95,12 +178,11 @@ function Schedule(props) {
           </div>
 
           <div className={style.workingArea}>
-
             <div className={style.flex}>
-            <h4> Cate ore alocam zilei ?  </h4>
+              <h4> Cate ore alocam zilei ? </h4>
               <select
-                  value={workingHoursSelect}
-                  onChange={handleWorkingHoursChange}
+                value={workingHoursSelect}
+                onChange={handleWorkingHoursChange}
               >
                 <option value={1}>1</option>
                 <option value={2}>2</option>
@@ -114,45 +196,46 @@ function Schedule(props) {
               </select>
             </div>
 
-         <div className={style.startend}>
-           <div className={style.flex}>
-             <h4> Inceputul programului</h4>
-             <select value={startHourSelect} onChange={handleStartHourChange}>
-               <option value={7}>7:00</option>
-               <option value={8}>8:00</option>
-               <option value={9}>9:00</option>
-               <option value={10}>10:00</option>
-               <option value={11}>11:00</option>
-               <option value={12}>12:00</option>
-               <option value={13}>13:00</option>
-               <option value={14}>14:00</option>
-               <option value={15}>15:00</option>
-               <option value={16}>16:00</option>
-               <option value={17}>17:00</option>
-               <option value={18}>18:00</option>
-             </select>
-           </div>
+            <div className={style.startend}>
+              <div className={style.flex}>
+                <h4> Inceputul programului</h4>
+                <select
+                  value={startHourSelect}
+                  onChange={handleStartHourChange}
+                >
+                  <option value={7}>7:00</option>
+                  <option value={8}>8:00</option>
+                  <option value={9}>9:00</option>
+                  <option value={10}>10:00</option>
+                  <option value={11}>11:00</option>
+                  <option value={12}>12:00</option>
+                  <option value={13}>13:00</option>
+                  <option value={14}>14:00</option>
+                  <option value={15}>15:00</option>
+                  <option value={16}>16:00</option>
+                  <option value={17}>17:00</option>
+                  <option value={18}>18:00</option>
+                </select>
+              </div>
 
-
-           <div className={style.flex}>
-             <h4> Finalul programului</h4>
-             <select value={endHourSelect} onChange={handleEndHourChange}>
-               <option value={7}>7:00</option>
-               <option value={8}>8:00</option>
-               <option value={9}>9:00</option>
-               <option value={10}>10:00</option>
-               <option value={11}>11:00</option>
-               <option value={12}>12:00</option>
-               <option value={13}>13:00</option>
-               <option value={14}>14:00</option>
-               <option value={15}>15:00</option>
-               <option value={16}>16:00</option>
-               <option value={17}>17:00</option>
-               <option value={18}>18:00</option>
-             </select>
-           </div>
-
-         </div>
+              <div className={style.flex}>
+                <h4> Finalul programului</h4>
+                <select value={endHourSelect} onChange={handleEndHourChange}>
+                  <option value={7}>7:00</option>
+                  <option value={8}>8:00</option>
+                  <option value={9}>9:00</option>
+                  <option value={10}>10:00</option>
+                  <option value={11}>11:00</option>
+                  <option value={12}>12:00</option>
+                  <option value={13}>13:00</option>
+                  <option value={14}>14:00</option>
+                  <option value={15}>15:00</option>
+                  <option value={16}>16:00</option>
+                  <option value={17}>17:00</option>
+                  <option value={18}>18:00</option>
+                </select>
+              </div>
+            </div>
 
             <h3>Disponibilitatea zilei :</h3>
             <select value={selectedStatus} onChange={handleDropdownChange}>
@@ -189,12 +272,51 @@ function Schedule(props) {
         </>
       )}
 
+      {selectedDay && (
+        <div className={style.dateDetails}>
+          <div className={style.timeRepresentation}>
+            <div className={style.timeStamps}>
+              {timeList.map((item, index) => (
+                <div className={style.timeStamp} key={index}>
+                  {item.formattedHour}
+                </div>
+              ))}
+            </div>
+            <div className={style.slots}>
+              {slotList.map((item, index) => (
+                <div
+                  className={
+                    getClassForSlot(index)
+                    // selectedSlot === index ? style.selectedSlot : style.slot
+                  }
+                  key={index}
+                  onClick={() => selectSlot(index)}
+                  // onMouseEnter={()=> selectFollowingSlot(index)}
+                ></div>
+              ))}
+            </div>
+          </div>
 
-      <div className={style.dateProperties}>
+          <div className={style.slotInfo}>
+            {appointmentDetails ? (
+              <>
+                <div className={style.infoHeader}>
+                  <h3>{appointmentDetails.startHour}</h3>
+                </div>
+                <div className={style.infoBody}>
+                  <button onClick={setAppointment}>Programeaza-te</button>
+                </div>
+              </>
+            ) : (
+              <div className={style.flex}>
+                <h2>Selectati un interval pentru detalii</h2>
+              </div>
+            )}
+          </div>
+        </div>
+      )}
 
-      </div>
-
-
+      <Footer />
     </div>
   );
 }

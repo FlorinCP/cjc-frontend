@@ -3,6 +3,7 @@ import style from "./MainPage.module.css";
 import Question from "../../components/Question/Question";
 import { getQuestionsForUser, mapToObject } from "../../services/question_api";
 import question from "../../components/Question/Question";
+import Footer from "../../components/Footer/Footer";
 
 function MainPage(props) {
   useEffect(() => {
@@ -101,6 +102,9 @@ function MainPage(props) {
                   key={index}
               />
           ))}
+
+
+      <Footer/>
     </div>
   );
 }

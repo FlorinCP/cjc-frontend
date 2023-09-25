@@ -1,8 +1,30 @@
 import React, { useEffect, useState } from "react";
 import style from "./LandingPage.module.css";
-import Form from "../../components/Form/Form";
+import Footer from "../../components/Footer/Footer";
+import LoginRegisterForm from "../../components/LoginRegisterForm/LoginRegisterForm";
 
 function LandingPage(props) {
+
+  const s1t1 = "In sectiunea de mai jos puteti adresa intrebari la care cu siguranta\n" +
+      "            veti primi un raspuns si in functie de aria noastra de expertiza si\n" +
+      "            de situatia dumneavoastra putem organiza o sedinta de consiliere."
+
+  const s1t2 = "Odata ce ne adresati intrebarea vom anailiza situatia si revenii in\n" +
+      "            cel mai scurt timp cu un raspuns , de acea va rugam ca pe langa\n" +
+      "            adresa de mail sa introduceti si numarul dumneavoastra de telefon si\n" +
+      "            sa incarcati cat mai multe documente ce ne pot fi de folos pentru a\n" +
+      "            va putea ajuta !"
+
+  const s3t1 = " In momentul in care intreabare dumneavoastra a primit un raspuns ,\n" +
+      "            veti primi un email la adresa mentionata anterior unde veti primi\n" +
+      "            mai multe detalii referitoare la modul in care puteti sa va faceti o\n" +
+      "            programare."
+
+  const s3t2 = "Programarea se realizeaza achitand contravaloarea acesteia in\n" +
+      "            functie de timpul necesar recomnadat de noi, in cazul in care\n" +
+      "            dumneavoastra doriti puteti selecta o perioada mai lunga de timp\n" +
+      "            pentru o sedinta."
+
   return (
     <div className={style.wrapper}>
       <div className={style.presentationLayer}></div>
@@ -11,16 +33,10 @@ function LandingPage(props) {
         <div className={style.inputContainer}>
           <p className={style.title}>Cum functioneaza platforma noastra ?</p>
           <h2 className={style.info}>
-            In sectiunea de mai jos puteti adresa intrebari la care cu siguranta
-            veti primi un raspuns si in functie de aria noastra de expertiza si
-            de situatia dumneavoastra putem organiza o sedinta de consiliere.
+            {s1t1}
           </h2>
           <h2 className={style.info}>
-            Odata ce ne adresati intrebarea vom anailiza situatia si revenii in
-            cel mai scurt timp cu un raspuns , de acea va rugam ca pe langa
-            adresa de mail sa introduceti si numarul dumneavoastra de telefon si
-            sa incarcati cat mai multe documente ce ne pot fi de folos pentru a
-            va putea ajuta !
+            {s1t2}
           </h2>
         </div>
         <div className={style.imageContainer}>
@@ -42,29 +58,28 @@ function LandingPage(props) {
       <div id={style["messagesInfo3"]}>
         <div>
           <h2 className={style.info2}>
-            In momentul in care intreabare dumneavoastra a primit un raspuns ,
-            veti primi un email la adresa mentionata anterior unde veti primi
-            mai multe detalii referitoare la modul in care puteti sa va faceti o
-            programare.
+            {s3t1}
           </h2>
-
           <h2 className={style.info2}>
-            Programarea se realizeaza achitand contravaloarea acesteia in
-            functie de timpul necesar recomnadat de noi, in cazul in care
-            dumneavoastra doriti puteti selecta o perioada mai lunga de timp
-            pentru o sedinta.
+            {s3t2}
           </h2>
         </div>
 
         <img src="/calendar.svg" alt="" id={style["calendar"]} />
       </div>
 
-      <Form />
+        <div id={style["questions"]} >
+            <div id={style["questionTitle"]}>
+                <p className={style.title}>Formular intrebari</p>
+            </div>
 
-      <div className={style.footer}>
-        <img src="/whitelogo.png" alt="check-email" id={style["logo-img"]} />
-        <p>2023</p>
-      </div>
+            <LoginRegisterForm/>
+
+
+        </div>
+
+      <Footer/>
+
     </div>
   );
 }
