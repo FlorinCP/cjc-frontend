@@ -156,7 +156,7 @@ function Schedule(props) {
     await makeAppointment(
       appointmentDetails.startHour,
       timeList[selectedSlot + 1].formattedHour,
-      localStorage.getItem("user"),
+      localStorage.getItem("email"),
       3,
       selectedDay.dayNumber,
       selectedDay.monthNumber,

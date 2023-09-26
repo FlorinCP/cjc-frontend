@@ -10,7 +10,7 @@ function LoginForm(props) {
         password: "",
     });
 
-    const currentUser = useContext(UserContext);
+    const { currentUser ,updateCurrentUser} = useContext(UserContext);
 
 
 
@@ -23,7 +23,11 @@ function LoginForm(props) {
         e.preventDefault();
         console.log(userLoginData)
         const data = await loginUser(userLoginData)
-        localStorage.setItem('user', data.email);
+        updateCurrentUser({
+            email : data.email,
+            role : data.role
+        })
+        localStorage.setItem('email', data.email);
         localStorage.setItem('role', data.role);
         console.log(data)
     }
@@ -31,7 +35,7 @@ function LoginForm(props) {
     return (
         <div className={style.wrapper}>
             {
-                !currentUser.email !== null ? (
+                currentUser.email === null ? (
                     <>
                         <h3>Email</h3>
                         <input
@@ -61,6 +65,7 @@ function LoginForm(props) {
                     <div className={style.succesfullRegister}>
                         <h2>AUTENTIFICARE REUSITA !</h2>
                         <img src="/succes.svg" alt=""/>
+
                     </div>
                 )
             }

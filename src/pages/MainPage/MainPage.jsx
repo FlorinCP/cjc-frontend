@@ -1,15 +1,21 @@
-import React, { useEffect, useState } from "react";
-import style from "./MainPage.module.css";
+import React, {useContext, useEffect, useState} from "react";
+import style from "../MainPage/MainPage.module.css";
 import Question from "../../components/Question/Question";
-import { getQuestionsForUser, mapToObject } from "../../services/question_api";
-import question from "../../components/Question/Question";
+import {getAllQuestions, getQuestionsForUser, mapToObject} from "../../services/question_api";
 import Footer from "../../components/Footer/Footer";
+import UserContext from "../../context/UserContext";
+import DatePicker from "../../components/DatePicker/DatePicker";
 
 function MainPage(props) {
+
+  const { currentUser ,updateCurrentUser} = useContext(UserContext);
+  const [loaded,setLoaded] = useState(false)
+
   useEffect(() => {
-    const user = localStorage.getItem("user");
-    getQuestionsForUser(user).then((r) => {
+    console.log(currentUser.email)
+    getAllQuestions().then((r) => {
       setQuestions(r);
+      setLoaded(true)
     });
   }, []);
 
@@ -17,6 +23,7 @@ function MainPage(props) {
   const [approvedQuestions, setApprovedQuestions] = useState([]);
   const [rejectedQuestions, setRejectedQuestions] = useState([]);
   const [waitingQuestions, setWaitingQuestions] = useState([]);
+  const [displayedQuestions,setDisplayedQuestions] = useState([])
 
   useEffect(() => {
     if (questions) {
@@ -41,71 +48,94 @@ function MainPage(props) {
       setApprovedQuestions(newApprovedQuestions);
       setRejectedQuestions(newRejectedQuestions);
       setWaitingQuestions(newWaitingQuestions);
+      setWaitingQuestions(newWaitingQuestions)
     }
   }, [questions]);
 
 
+  const showAcceptedQuestions = () =>{
+    setDisplayedQuestions(approvedQuestions);
+    setTitle("Intrebari Acceptate")
+  }
+
+  const showRejectedQuestions = () =>{
+    setDisplayedQuestions(rejectedQuestions)
+    setTitle("Intrebari Respinse")
+  }
+
+  const showWaitingQuestions = () => {
+    setDisplayedQuestions(waitingQuestions)
+    setTitle("Intrebari in asteptare")
+  }
+
+  const [title,setTitle] = useState("Intrebari in asteptare")
 
   return (
-    <div className={style.wrapper}>
-
-      <p className={style.title}>Intrebari in asteptare</p>
-      {waitingQuestions &&
-        waitingQuestions.map((question, index) => (
-          <Question
-            id={question.id}
-            email={question.email}
-            phone={question.phone}
-            questionText={question.questionText}
-            elapsedTime={question.elapsedTime}
-            hasResponse={question.hasResponse}
-            nume={question.nume}
-            prenume={question.prenume}
-            fileNumber={question.fileNumber}
-            fileInfo={question.fileInfo}
-            key={index}
-          />
-        ))}
-
-      <p className={style.title}>Intrebari Aprobate</p>
-      {approvedQuestions &&
-          approvedQuestions.map((question, index) => (
-              <Question
-                  id={question.id}
-                  email={question.email}
-                  phone={question.phone}
-                  questionText={question.questionText}
-                  elapsedTime={question.elapsedTime}
-                  hasResponse={question.hasResponse}
-                  nume={question.nume}
-                  prenume={question.prenume}
-                  fileNumber={question.fileNumber}
-                  fileInfo={question.fileInfo}
-                  key={index}
-              />
-          ))}
-
-      <p className={style.title}>Intrebari Respinse</p>
-      {rejectedQuestions &&
-          rejectedQuestions.map((question, index) => (
-              <Question
-                  id={question.id}
-                  email={question.email}
-                  phone={question.phone}
-                  questionText={question.questionText}
-                  elapsedTime={question.elapsedTime}
-                  hasResponse={question.hasResponse}
-                  nume={question.nume}
-                  prenume={question.prenume}
-                  fileNumber={question.fileNumber}
-                  fileInfo={question.fileInfo}
-                  key={index}
-              />
-          ))}
+      <>
+        {
+          !loaded ? (
+              <div className={style.sidebar}>
+                <div className={style.loader}></div>
+              </div>
+          ) : (
+              <div className={style.wrapper}>
 
 
-      <Footer/>
-    </div>
+
+                <div className={style.sidebar}>
+                  <div className={style.calendar}>
+
+                    <DatePicker/>
+                  </div>
+                  <button onClick={showWaitingQuestions}> Cereri in Asteptare </button>
+                  <button onClick={showAcceptedQuestions}> Cereri Acceptate </button>
+                  <button onClick={showRejectedQuestions}> Cereri Respinse </button>
+
+
+                </div>
+
+                <div className={style.mainContainer}>
+
+
+                  
+                  
+                  <p className={style.title}>{title}</p>
+                  {displayedQuestions.length > 0 ? (
+                      displayedQuestions.map((question, index) => (
+                          <Question
+                              id={question.id}
+                              email={question.email}
+                              phone={question.phone}
+                              questionText={question.questionText}
+                              elapsedTime={question.elapsedTime}
+                              status={question.status}
+                              nume={question.nume}
+                              prenume={question.prenume}
+                              fileNumber={question.fileNumber}
+                              fileInfo={question.fileInfo}
+                              key={index}
+                          />
+                      ))
+                      ) : (<>
+                  <h2 className={style.error}>Nu s-au gasit rezultate</h2>
+                      <img src="/eroare.svg" alt=""/>
+                  </>
+                  )}
+                  
+
+
+                </div>
+
+
+
+
+                {/*<Footer/>*/}
+              </div>
+
+          )
+        }
+      </>
+
   );
 }
 

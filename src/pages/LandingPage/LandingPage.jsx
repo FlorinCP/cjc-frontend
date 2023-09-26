@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./LandingPage.module.css";
 import Footer from "../../components/Footer/Footer";
-import LoginRegisterForm from "../../components/LoginRegisterForm/LoginRegisterForm";
+import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
 
 function LandingPage(props) {
 
@@ -73,7 +73,7 @@ function LandingPage(props) {
                 <p className={style.title}>Formular intrebari</p>
             </div>
 
-            <LoginRegisterForm/>
+            <LoginRegisterQuestionForm/>
 
 
         </div>

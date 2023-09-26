@@ -1,6 +1,6 @@
 .questionWrapper{
     width: 45vw;
-    min-height: 40vh;
+    height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -24,6 +24,28 @@
     align-self: flex-end;
 }
 
+.inputField{
+    color: #344055;
+    height: 45px;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #0f3f65;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    position: relative;
+    width: 100%;
+}
+
+.inputField:disabled{
+    border: 1px solid slategrey;
+}
+
+.inputField:focus{
+    border: 2px solid #1c79b8;
+}
 
 .author{
     width: 40vw;
@@ -74,6 +96,7 @@
 
 .enterQuestion{
     width: 40vw;
+    min-height: 10vh;
     word-wrap: break-word;
     resize: none;
     outline: none;
@@ -92,11 +115,6 @@
 
 h2,h3{
     color: #0f3f65;
-}
-
-.fileUpload{
-    width: 40vw;
-    min-height: 10vh;
 }
 
 #expand{
@@ -129,7 +147,7 @@ h2,h3{
 #uploadedFiles{
     margin-top: 30px;
     width: 40vw;
-    max-height: 27vh;
+    height: 250px;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;

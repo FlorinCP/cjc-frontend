@@ -1,13 +1,19 @@
 import React from 'react';
 import style from './Login.module.css'
 import Footer from "../../components/Footer/Footer";
-import LoginRegisterForm from "../../components/LoginRegisterForm/LoginRegisterForm";
+import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
+import LoginForm from "../../components/LoginForm/LoginForm";
+import LoginRegister from "../../components/LoginRegister/LoginRegister";
 function Login(props) {
-    return (
-        <div className={style.center}>
-            <LoginRegisterForm></LoginRegisterForm>
-        <Footer/>
-        </div>
+    return (<>
+            <div className={style.center}>
+
+                <LoginRegister/>
+                </div>
+
+            <Footer/>
+    </>
+
 
     );
 }

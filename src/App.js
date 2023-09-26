@@ -8,26 +8,18 @@ import VideoCall from "./pages/VideoCall";
 import useScreenSize from "./hooks/useScreenSize";
 import WebNavbar from "./components/WebNavbar/WebNavbar";
 import LandingPage from "./pages/LandingPage/LandingPage";
-import MainPage from "./pages/MainPage/MainPage";
+import MainPageUser from "./pages/MainPageUser/MainPageUser";
 import Login from "./pages/Login/Login";
-import UserContext from "./context/UserContext";
+import {MyProvider} from "./context/UserContext";
+import MainPage from "./pages/MainPage/MainPage";
+import QuestionForm from "./components/QuestionForm/QuestionForm";
+import AddQuestion from "./pages/AddQuestion/AddQuestion";
 
 function App() {
 
-    const [currentUser,setCurrentUser] = useState({
-        email : null,
-        role : null
-    })
-
-    useEffect(() => {
-        setCurrentUser({
-            email: localStorage.getItem("email"),
-            role : localStorage.getItem("role")
-        })
-    }, []);
 
     return (
-       <UserContext.Provider value={currentUser}>
+       <MyProvider>
            <div className={styles.globalWrapper}>
                <Router>
                    {
@@ -39,14 +31,16 @@ function App() {
                    }
                    <Switch>
                        <Route path='/' exact component={LandingPage} />
-                       <Route path='/test' component={MainPage} />
+                       <Route path='/admin-dashboard' component={MainPage} />
+                       <Route path='/user-dashboard' component={MainPageUser} />
                        <Route path='/videoCall' component={VideoCall} />
                        <Route path='/program' component={Schedule} />
                        <Route path='/login' component={Login} />
+                       <Route path='/add-question' component={AddQuestion} />
                    </Switch>
                </Router>
            </div>
-       </UserContext.Provider>
+       </MyProvider>
     );
 }
 

@@ -1,17 +1,12 @@
-import React, {useContext, useState} from 'react';
-import {Button} from "../Button/Button";
+import React, {useContext, useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './WebNavbar.css';
 import Dropdown from "../Dropdown/Dropdown";
 import UserContext from "../../context/UserContext";
 
 function Navbar() {
-    const [click, setClick] = useState(false);
-    const currentUser = useContext(UserContext);
     const [dropdown, setDropdown] = useState(false);
-
-    const handleClick = () => setClick(!click);
-    const closeMobileMenu = () => setClick(false);
+    const { currentUser ,updateCurrentUser} = useContext(UserContext);
 
     const onMouseEnter = () => {
         if (window.innerWidth < 960) {
@@ -29,33 +24,54 @@ function Navbar() {
         }
     };
 
+    const navbar = useRef(null);
+
+    const logout = () =>{
+        updateCurrentUser({})
+        localStorage.removeItem("email")
+        localStorage.removeItem("role")
+        window.location.reload()
+    }
+
     return (
         <>
-            <nav className='navbar'>
-                <Link to='/' className='navbar-logo' onClick={closeMobileMenu}>
+            <nav className='navbar'
+            ref={navbar}
+            >
+                <Link to='/' className='navbar-logo' >
                     <img src="/whitelogo.png" alt="check-email" id="logo-img"/>
                 </Link>
 
 
-                <div className='menu-icon' onClick={handleClick}>
-                    {
-                        click ? (
-                            <span className="material-symbols-rounded">close</span>
-                        ) : (
-                            <span className="material-symbols-rounded">menu</span>
-                        )
-                    }
-
-                </div>
-
-
-
-                <ul className={click ? 'nav-menu active' : 'nav-menu'}>
+                <ul className={'nav-menu'}>
                     <li className='nav-item'>
-                        <Link to='/' className='nav-links' onClick={closeMobileMenu}>
+                        <Link to='/' className='nav-links' >
                             Acasa
                         </Link>
                     </li>
+
+                    {
+                        currentUser.role === "ADMIN" ? (
+                            <li className='nav-item'>
+                                <Link
+                                    to='/admin-dashboard'
+                                    className='nav-links'
+                                >
+                                    Dashboard
+                                </Link>
+                            </li>
+                        ) : (
+                            <li className='nav-item'>
+                                <Link
+                                    to='/user-dashboard'
+                                    className='nav-links'
+                                >
+                                    Profil
+                                </Link>
+                            </li>
+                        )
+                    }
+
                     <li
                         className='nav-item'
                         onMouseEnter={onMouseEnter}
@@ -64,35 +80,21 @@ function Navbar() {
                         <Link
                             to='/services'
                             className='nav-links'
-                            onClick={closeMobileMenu}
                         >
                             Servicii <i className='fas fa-caret-down' />
                         </Link>
                         {dropdown && <Dropdown />}
                     </li>
 
+
+
+
                     {
-                        currentUser.email !== null && (
+                        !currentUser.email === null && (
                             <li className='nav-item'>
                                 <Link
                                     to='/test'
                                     className='nav-links'
-                                    onClick={closeMobileMenu}
-                                >
-                                    Test
-                                </Link>
-                            </li>
-                        )
-                    }
-
-
-                    {
-                        currentUser.email !== null && (
-                            <li className='nav-item'>
-                                <Link
-                                    to='/test'
-                                    className='nav-links'
-                                    onClick={closeMobileMenu}
                                 >
                                     Cont
                                 </Link>
@@ -100,13 +102,18 @@ function Navbar() {
                         )
                     }
                     <li className='nav-item'>
-                        <Link
-                            to='/login'
-                            className='nav-links'
-                            onClick={closeMobileMenu}
-                        >
-                            Inregistrare
-                        </Link>
+                        {
+                            currentUser.email === null ? (
+                                <Link
+                                    to='/login'
+                                    className='nav-linksPermanent'
+                                >
+                                    Inregistrare
+                                </Link>
+                            ) : (
+                                <div className='nav-linksPermanent' onClick={logout}> Deconectare </div>
+                            )
+                        }
                     </li>
                 </ul>
             </nav>

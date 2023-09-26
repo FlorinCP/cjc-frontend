@@ -43,6 +43,24 @@ export async function getQuestionsForUser(email){
     }
 }
 
+export async function getAllQuestions(email){
+    try{
+
+        const response = await  fetch(`${BASE_URL}/question/all`)
+
+        if (response.ok){
+            const responseData = await response.json()
+            console.log("Question loaded successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error loading question:", response.statusText);
+        }
+    }catch(error) {
+        console.error("Error loading files:", error);
+    }
+}
+
+
 export function mapToObject(selectedFiles){
 
     const obj = [];

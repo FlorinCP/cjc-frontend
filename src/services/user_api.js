@@ -50,3 +50,35 @@ export async function registerUser(userRegisterData){
         console.error("Something went wrong:", error);
     }
 }
+
+export async function getUser(email){
+    try {
+
+        const queryParams ={
+            email : `${email}`
+        }
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const response = await fetch(
+            `${BASE_URL}/user/get-user?${queryString}`,
+            {
+                method: "GET",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+            },
+        );
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log("Fetched successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error fetching:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Something went wrong:", error);
+    }
+}
+

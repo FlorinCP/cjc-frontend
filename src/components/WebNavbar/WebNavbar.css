@@ -2,22 +2,30 @@
     background-color: #18446d;
     height: 80px;
     display: flex;
-    justify-content: center;
+    justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
+}
+
+.logoutBtn{
+    color: white;
+    background-color: #1888ff;
+    border: none;
+    border-radius: 5px;
+    text-transform: none;
 }
 
 .navbar-logo {
     color: #fff;
     justify-self: start;
-    margin-left: 20px;
+    margin-left: 3vw;
     cursor: pointer;
     text-decoration: none;
     font-size: 2rem;
 }
 
 .navbar-logo > img {
-    width: 10vw;
+    width: 7vw;
     margin-top: 5px;
 }
 
@@ -32,7 +40,6 @@
     grid-gap: 10px;
     list-style: none;
     text-align: center;
-    width: 70vw;
     justify-content: end;
     margin-right: 2rem;
 }
@@ -47,6 +54,24 @@
     color: white;
     text-decoration: none;
     padding: 0.5rem 1rem;
+    cursor: pointer;
+}
+
+.nav-linksPermanent {
+    color: white;
+    text-decoration: none;
+    padding: 0.5rem 1rem;
+    cursor: pointer;
+    border-radius: 4px;
+    transition: 0.5s all ease;
+    background-color:  #1888ff;
+}
+
+.nav-linksPermanent:hover {
+    background-color: white;
+    color: #1888ff;
+    border-radius: 4px;
+    transition: 0.5s all ease;
 }
 
 .nav-links:hover {

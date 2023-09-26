@@ -69,6 +69,26 @@
     margin-bottom: 5px;
 }
 
+.inputField{
+    color: #344055;
+    height: 45px;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 2px solid #0f3f65;
+    border-radius: 10px;
+    outline: none;
+    margin-bottom: 40px;
+    margin-top: 15px;
+    position: relative;
+    width: 100% ;
+}
+
+.inputField:focus{
+    border: 2px solid #1c79b8;
+}
+
+
 .actionBtn2{
     margin: 10px 0;
     width: 270px;

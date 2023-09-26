@@ -1,17 +1,20 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import style from "./QuestionForm.module.css";
 import { mapToObject, sendQuestion } from "../../services/question_api";
 function QuestionForm(props) {
+  const [selectedFiles, setSelectedFiles] = useState(null);
+  const [selectedFilesObj, setSelectedFilesObj] = useState(null);
+  const [questionText, setQuestionText] = useState("");
+  const [questionTitle, setQuestionTitle] = useState("");
+  const [currentLoggedUser, setCurrentLoggedUser] = useState(null);
+  const [isQuestionSent, setIsQuestionSent] = useState(false);
 
-    const [selectedFiles, setSelectedFiles] = useState(null);
-    const [selectedFilesObj, setSelectedFilesObj] = useState(null);
-    const [questionText,setQuestionText] = useState("")
-    const [currentLoggedUser,setCurrentLoggedUser] = useState(null)
-    const [isQuestionSent,setIsQuestionSent] = useState(false)
-
-
-  const handleQuestionChange = (event) => {
+  const handleQuestionTextChange = (event) => {
     setQuestionText(event.target.value);
+  };
+
+  const handleQuestionTitleChange = (event) => {
+    setQuestionTitle(event.target.value);
   };
 
   const handleFileChange = (e) => {
@@ -35,7 +38,8 @@ function QuestionForm(props) {
       formData.append(`questionFiles`, file);
     });
     formData.append("questionText", questionText);
-    formData.append("user", currentLoggedUser);
+    formData.append("questionTitle", questionTitle);
+    formData.append("user", localStorage.getItem("email"));
 
     console.log(formData);
 
@@ -49,13 +53,21 @@ function QuestionForm(props) {
     <div>
       {!isQuestionSent ? (
         <>
+          <h2>Titlul intrebarii</h2>
+
+          <input
+            type="text"
+            className={style.inputField}
+            onChange={handleQuestionTitleChange}
+            value={questionTitle}
+          />
 
           <h2>Textul intrebarii</h2>
 
           <textarea
             name="questionText"
             value={questionText}
-            onChange={handleQuestionChange}
+            onChange={handleQuestionTextChange}
             className={style.enterQuestion}
             cols="20"
             rows="7"

@@ -27,7 +27,7 @@ function RegisterForm(props) {
       setIsLoggedOrRegistered(true);
     }
     setCurrentLoggedUser(data.email);
-    localStorage.setItem("user", data.email);
+    localStorage.setItem("email", data.email);
     console.log(data);
   }
 
