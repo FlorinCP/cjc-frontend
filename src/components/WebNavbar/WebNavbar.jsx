@@ -1,4 +1,4 @@
-import React, {useContext, useRef, useState} from 'react';
+import React, {useContext, useEffect, useRef, useState} from 'react';
 import { Link } from 'react-router-dom';
 import './WebNavbar.css';
 import Dropdown from "../Dropdown/Dropdown";
@@ -7,6 +7,35 @@ import UserContext from "../../context/UserContext";
 function Navbar() {
     const [dropdown, setDropdown] = useState(false);
     const { currentUser ,updateCurrentUser} = useContext(UserContext);
+
+    const logout = () =>{
+        updateCurrentUser({})
+        localStorage.removeItem("email")
+        localStorage.removeItem("role")
+        window.location.reload()
+    }
+
+    const [prevScrollPos, setPrevScrollPos] = useState(0);
+    const [visible, setVisible] = useState(true)
+
+    const handleScroll = () => {
+        const currentScrollPos = window.scrollY
+
+        if(currentScrollPos > prevScrollPos && window.scrollY > 80 ){
+            setVisible(false)
+        }else{
+            setVisible(true)
+        }
+
+        setPrevScrollPos(currentScrollPos)
+    }
+
+    useEffect( () => {
+        window.addEventListener('scroll', handleScroll);
+
+        return () => window.removeEventListener('scroll', handleScroll)
+    })
+
 
     const onMouseEnter = () => {
         if (window.innerWidth < 960) {
@@ -26,16 +55,9 @@ function Navbar() {
 
     const navbar = useRef(null);
 
-    const logout = () =>{
-        updateCurrentUser({})
-        localStorage.removeItem("email")
-        localStorage.removeItem("role")
-        window.location.reload()
-    }
-
     return (
         <>
-            <nav className='navbar'
+            <nav className={ !visible ?  'navbarScrollTop' : 'navbarScrollDown' }
             ref={navbar}
             >
                 <Link to='/' className='navbar-logo' >
@@ -47,6 +69,12 @@ function Navbar() {
                     <li className='nav-item'>
                         <Link to='/' className='nav-links' >
                             Acasa
+                        </Link>
+                    </li>
+
+                    <li className='nav-item'>
+                        <Link to='/test' className='nav-links' >
+                            Test
                         </Link>
                     </li>
 

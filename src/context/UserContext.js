@@ -10,9 +10,24 @@ export const MyProvider = ({ children }) => {
         email : null,
         role : null
     })
+
+    const [viewModeON,setViewMode] = useState({
+        status: false,
+        id:null,
+        question:{}
+    })
+
+    const updateViewMode = newData =>{
+        setViewMode(newData)
+    }
+
     const updateCurrentUser = newData => {
         setCurrentUser(newData);
     };
+
+    useEffect(() => {
+        console.log(viewModeON)
+    }, [viewModeON]);
 
     useEffect(() => {
         setCurrentUser({
@@ -22,7 +37,7 @@ export const MyProvider = ({ children }) => {
     }, []);
 
     return (
-        <UserContext.Provider value={{ currentUser,updateCurrentUser }}>
+        <UserContext.Provider value={{ currentUser,updateCurrentUser , updateViewMode , viewModeON}}>
             {children}
         </UserContext.Provider>
     );

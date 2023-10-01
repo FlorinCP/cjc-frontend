@@ -1,12 +1,11 @@
-import React, {useContext, useEffect, useState} from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Question.module.css";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import UserContext from "../../context/UserContext";
 
 function Question(props) {
   const [selectedFiles, setSelectedFiles] = useState(props.fileInfo);
-  const { currentUser ,updateCurrentUser} = useContext(UserContext);
-
+  const { currentUser, updateCurrentUser , updateViewMode} = useContext(UserContext);
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [status, setStatus] = useState(props.status);
@@ -25,47 +24,44 @@ function Question(props) {
 
   const rejectQuestion = () => {
     updateStatus(props.id, "reject").then(() => {
-        props.updateList();
+      props.updateList();
     });
-
   };
 
   const approveQuestion = () => {
     updateStatus(props.id, "accepted").then(() => {
-        props.updateList();
+      props.updateList();
     });
   };
 
-
+  const viewQuestion = () => {
+      updateViewMode({
+        status: true,
+        id: props.inStorePosition,
+        question: props
+      })
+  };
 
   return (
     <div className={style.questionWrapper}>
-
       <div className={style.status}>
-          {
-              props.status === "WAITING" && currentUser.role === "USER" && (
-                  <div>
-                      <h2>Intrebarea dumneavoastra se afla in asteptare</h2>
-                  </div>
-              )
-          }
-          {
-              props.status === "APPROVED" && currentUser.role === "USER" && (
-                  <div>
-                      <h2>Intrebarea a fost apropbata</h2>
-                      <h2>Apasati aici pentru a realiza o programare</h2>
-                  </div>
-              )
-          }
-          {
-              props.status === "REJECTED"&& currentUser.role === "USER" && (
-                  <div>
-                      <h2>Intrebarea a fost respinsa</h2>
-                      <h2>Apasati aici pentru a afla de ce</h2>
-                  </div>
-              )
-          }
-
+        {props.status === "WAITING" && currentUser.role === "USER" && (
+          <div>
+            <h2>Intrebarea dumneavoastra se afla in asteptare</h2>
+          </div>
+        )}
+        {props.status === "APPROVED" && currentUser.role === "USER" && (
+          <div>
+            <h2>Intrebarea a fost apropbata</h2>
+            <h2>Apasati aici pentru a realiza o programare</h2>
+          </div>
+        )}
+        {props.status === "REJECTED" && currentUser.role === "USER" && (
+          <div>
+            <h2>Intrebarea a fost respinsa</h2>
+            <h2>Apasati aici pentru a afla de ce</h2>
+          </div>
+        )}
       </div>
 
       <div className={style.author}>
@@ -85,16 +81,14 @@ function Question(props) {
         </div>
       </div>
 
-      <h2>Titlul intrebarii</h2>
+      <div className={style.titleAndInfo}>
+        <div className={style.title}>{props.questionTitle}</div>
+        <p>{props.elapsedTime} in urma</p>
+      </div>
 
-        <input
-            type="text"
-            value={props.questionTitle}
-            className={style.inputField}
-            disabled
-        />
+      <div className={style.questionText}>{props.questionText}</div>
+
       <div className={style.holly}>
-        <h2>Textul intrebarii</h2>
         <div className={style.subholly}>
           <p>{props.fileNumber}</p>
           <p>fisiere </p>
@@ -103,33 +97,15 @@ function Question(props) {
         <p>{props.elapsedTime} in urma</p>
       </div>
 
-
-
-      <textarea
-        name="questionText"
-        value={props.questionText}
-        onChange
-        className={style.enterQuestion}
-        disabled
-      ></textarea>
-
-
-        {
-            currentUser.role === 'ADMIN' && (
-                <div className={style.holly}>
-                    <div className={style.subholly2}>
-                        <button className={style.actionBtn} onClick={rejectQuestion}>
-                            Respinge
-                        </button>
-                        <button className={style.actionBtn} onClick={approveQuestion}>
-                            Aproba
-                        </button>
-                    </div>
-                </div>
-            )
-        }
-
-
+      {currentUser.role === "ADMIN" && (
+        <div className={style.holly}>
+          <div className={style.subholly2}>
+            <button className={style.actionBtn} onClick={viewQuestion}>
+              Vizualizeaza
+            </button>
+          </div>
+        </div>
+      )}
 
       {isExpanded ? (
         <div id={style["uploadedFiles"]}>

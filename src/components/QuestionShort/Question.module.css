@@ -16,6 +16,19 @@
     margin-bottom: 50px;
 }
 
+.titleAndInfo{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 40vw;
+}
+
+.title{
+    font-size: 26px;
+    color: #18446d;
+    font-weight: 500;
+}
+
 .questionWrapper > h2 {
     align-self: flex-start;
 }

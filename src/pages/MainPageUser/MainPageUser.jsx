@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "../MainPageUser/MainPageUser.module.css";
-import Question from "../../components/Question/Question";
+import Question from "../../components/QuestionShort/Question";
 import { getQuestionsForUser, mapToObject } from "../../services/question_api";
 import { getUser } from "../../services/user_api";
 import Footer from "../../components/Footer/Footer";

@@ -14,6 +14,7 @@ import {MyProvider} from "./context/UserContext";
 import MainPage from "./pages/MainPage/MainPage";
 import QuestionForm from "./components/QuestionForm/QuestionForm";
 import AddQuestion from "./pages/AddQuestion/AddQuestion";
+import Test from "./components/Test/Test";
 
 function App() {
 
@@ -37,6 +38,8 @@ function App() {
                        <Route path='/program' component={Schedule} />
                        <Route path='/login' component={Login} />
                        <Route path='/add-question' component={AddQuestion} />
+                       <Route path='/test' component={Test} />
+
                    </Switch>
                </Router>
            </div>

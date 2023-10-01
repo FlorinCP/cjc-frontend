@@ -16,13 +16,6 @@
     border: 2px solid #1c79b8;
 }
 
-.material-symbols-outlined {
-    font-variation-settings:
-            'FILL' 0,
-            'wght' 700,
-            'GRAD' 200,
-            'opsz' 48
-}
 
 #uploadedFiles{
     margin-top: 30px;

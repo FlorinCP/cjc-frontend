@@ -43,7 +43,7 @@ export async function getQuestionsForUser(email){
     }
 }
 
-export async function getAllQuestions(email){
+export async function getAllQuestions(){
     try{
 
         const response = await  fetch(`${BASE_URL}/question/all`)
@@ -57,6 +57,29 @@ export async function getAllQuestions(email){
         }
     }catch(error) {
         console.error("Error loading files:", error);
+    }
+}
+
+export async function getQuestionsByStatus(status){
+    try{
+
+        const queryParams ={
+            status : `${status}`
+        }
+
+        const queryString = new URLSearchParams(queryParams).toString();
+
+        const response = await  fetch(`${BASE_URL}/question/all-by-status?${queryString}`)
+
+        if (response.ok){
+            const responseData = await response.json()
+            console.log("Questions loaded successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error loading questions:", response.statusText);
+        }
+    }catch(error) {
+        console.error("Error loading questions:", error);
     }
 }
 

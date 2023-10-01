@@ -5,7 +5,45 @@
     justify-content: space-between;
     align-items: center;
     font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    width: 100vw;
 }
+
+.navbarScrollDown {
+    background-color: #18446d;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    /*box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;*/
+    transition: all 0.2s ease-in-out;
+    transform: translateY(0);
+    opacity: 1;
+    z-index: 100;
+}
+
+.navbarScrollTop {
+    z-index: 100;
+    background-color: #18446d;
+    height: 80px;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    font-size: 1.2rem;
+    position: sticky;
+    top: 0;
+    width: 100vw;
+    /*box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;*/
+    transition: all 0.4s ease-in-out;
+    transform: translateY(-100px);
+    opacity: 0;
+}
+
 
 .logoutBtn{
     color: white;

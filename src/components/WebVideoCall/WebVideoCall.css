@@ -227,16 +227,3 @@ input{
     border: 2px solid #344055;
 }
 
-button{
-    text-transform: uppercase;
-    height: 40px;
-    padding-left: 25px;
-    padding-right: 25px;
-    font-size: 120%;
-    border: 2px solid #344055;
-    color: #344055;
-    border-radius: 10px;
-    background-color: transparent;
-    transition: all .2s ease-in-out;
-    cursor: pointer;
-}

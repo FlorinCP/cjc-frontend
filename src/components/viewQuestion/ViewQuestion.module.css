@@ -1,5 +1,5 @@
 .questionWrapper{
-    width: 45vw;
+    width: 70vw;
     height: fit-content;
     display: flex;
     justify-content: center;
@@ -7,13 +7,78 @@
     flex-direction: column;
     gap: 20px;
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    padding: 20px 50px;
+    padding: 10px 10px;
     box-sizing: border-box;
     background-color: white;
     margin-top: 50px;
     border-radius: 10px;
     position: relative;
     margin-bottom: 50px;
+}
+
+.pdfFileWrapper{
+    width: 70vw;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    box-sizing: border-box;
+    background-color: white;
+    margin-top: 50px;
+    border-radius: 10px;
+    position: relative;
+    margin-bottom: 50px;
+    /*border: 1px solid orange;*/
+}
+
+.pdfView{
+    margin-top: 50px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+}
+
+.titleAndText{
+    background-color: rgba(249, 249, 249, 0.76);
+    padding: 20px;
+    width: 68vw;
+    box-sizing: border-box;
+    display: flex;
+    flex-direction: column;
+    gap: 20px;
+}
+
+.questionTitle{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 67vw;
+}
+
+.questionText{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 67vw;
+    max-height: 40vh;
+}
+
+.fileTitle{
+    display: grid;
+    place-items: center;
+    margin: 30px;
+    font-size: 26px;
+    color: #18446d;
+    font-weight: 500;
+}
+
+.title{
+    font-size: 26px;
+    color: #18446d;
+    font-weight: 500;
 }
 
 .questionWrapper > h2 {
@@ -47,9 +112,34 @@
     border: 2px solid #1c79b8;
 }
 
+.buttonsWrapper{
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    gap: 30px;
+}
+
+.approveBtn{
+    padding: 10px;
+    width: 200px;
+    border-radius: 10px;
+    border: 1px solid slategrey;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
+.rejectBtn{
+    padding: 10px;
+    width: 200px;
+    border-radius: 10px;
+    border: 1px solid slategrey;
+    cursor: pointer;
+    letter-spacing: 1px;
+}
+
 .author{
-    width: 40vw;
-    height: 7vh;
+    width: 68vw;
+    height: 5vh;
     background-color: #f7f7f7;
     display: flex;
     justify-content: space-between;
@@ -58,29 +148,30 @@
     padding: 20px;
     box-sizing: border-box;
     border-radius: 10px;
-    margin-bottom: 30px;
+    margin-bottom: 20px;
 }
 
-.holly{
-    width: 40vw;
+.filesInfoAndButtons{
+    width: 68vw;
     display: flex;
     justify-content: space-between;
-    align-items: center;
+    flex-direction: row;
 }
 
-.subholly{
+.filesNumber{
     display: flex;
     justify-content: center;
     align-items: center;
     gap: 10px;
+    padding: 10px;
+    margin-left: 10px;
+    background-color: #f7f7f7;
+    border-radius: 20px;
+    cursor: pointer;
 }
 
-.subholly2{
-    width: 40vw;
-    display: flex;
-    justify-content: flex-end;
-    align-items: center;
-    gap: 10px;
+.filesNumber:hover{
+    background-color: #f4f4f4;
 }
 
 .actionBtn{
@@ -138,8 +229,8 @@ h2,h3{
 
 #uploadedFiles{
     margin-top: 30px;
-    width: 40vw;
-    height: 250px;
+    width: 68vw;
+    height: 260px;
     padding: 10px;
     box-sizing: border-box;
     overflow-y: auto;
@@ -161,8 +252,22 @@ h2,h3{
     border: 1px solid rgba(5, 44, 70, 0.31) ;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-
     cursor: pointer;
+}
+
+.fileRepresentationSelected{
+    margin-top: 10px;
+    height: 220px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid orange ;
+    border-radius: 10px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    cursor: pointer;
+    box-sizing: border-box;
 }
 
 .fileRepresentation > img {
@@ -179,6 +284,24 @@ h2,h3{
 }
 
 .fileRepresentation > p {
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.fileRepresentationSelected > img {
+    width: 140px;
+    margin-bottom: 10px;
+}
+
+.fileRepresentationSelected > p {
+    white-space: nowrap;
+    overflow: hidden;
+    inline-size: 150px;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.fileRepresentationSelected > p {
     overflow-wrap: break-word;
     margin-bottom: 5px;
 }

@@ -4,9 +4,27 @@ html {
     overflow-x: hidden;
     scroll-behavior: smooth;
     box-sizing: border-box;
-    font-family: 'Montserrat', sans-serif;
+    /*font-family: 'Montserrat', sans-serif;*/
     font-family: 'Roboto', sans-serif;
+}
 
+.material-symbols-outlined{
+    font-variation-settings:
+            'FILL' 0,
+            'wght' 700,
+            'GRAD' 200,
+            'opsz' 48
+}
+
+/* Customize the scrollbar track */
+::-webkit-scrollbar {
+    width: 10px; /* Width of the scrollbar */
+}
+
+/* Customize the scrollbar thumb */
+::-webkit-scrollbar-thumb {
+    background-color: #18446d; /* Color of the thumb */
+    border-radius: 5px; /* Rounded corners for the thumb */
 }
 
 

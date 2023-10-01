@@ -2,7 +2,6 @@ import React, {useContext, useEffect, useState} from "react";
 import style from "./LoginRegisterQuestionForm.module.css";
 import RegisterForm from "../RegisterForm/RegisterForm";
 import LoginForm from "../LoginForm/LoginForm";
-import userContext from "../../context/UserContext";
 import UserContext from "../../context/UserContext";
 import QuestionForm from "../QuestionForm/QuestionForm";
 function LoginRegisterQuestionForm(props) {
