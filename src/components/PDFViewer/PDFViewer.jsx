@@ -18,10 +18,6 @@ function PDFViewer(props) {
   const handleScroll = (e) => {
     if (docRef.current) {
       const currentScrollPos = e.target.scrollTop;
-
-      console.log(currentScrollPos, " current scroll");
-      console.log(prevScrollPos, "previous scroll");
-
       if (currentScrollPos > prevScrollPos) {
         setVisible(false);
       } else {
@@ -34,19 +30,6 @@ function PDFViewer(props) {
   const receivedByteArray = useMemo(() => {
     return props.pdfData;
   }, [props.pdfData]);
-
-  function generatePages(numPages) {
-    console.log(numPages);
-
-    return Array.from(new Array(numPages), (el, index) => (
-      <Page
-        width={width}
-        height={650}
-        key={`page_${index + 1}`}
-        pageNumber={index + 1}
-      />
-    ));
-  }
 
   useEffect(() => {
     const element = docRef.current;
@@ -80,29 +63,47 @@ function PDFViewer(props) {
   //   return pages;
   // }
 
-  function MyDocument({ receivedByteArray }) {
+   function generatePages(numPages) {
+    console.log(numPages);
+
+    return Array.from(new Array(numPages), (el, index) => (
+      <Page
+        width={width}
+        height={650}
+        key={`page_${index + 1}`}
+        pageNumber={index + 1}
+      />
+    ));
+  }
+
+   function MyDocument({ receivedByteArray }) {
+    let pages = generatePages(props.pages);
+
+    function onDocumentLoadSuccess({ numPages }) {
+      console.log(numPages, " num pages");
+      setNumPages(numPages);
+
+      return numPages;
+    }
+
+    console.log(pages);
+
     return (
       <div className={style.wrapper} ref={docRef}>
         <Document
           onLoadSuccess={onDocumentLoadSuccess}
           file={{ data: receivedByteArray }}
         >
-          {generatePages(numPages)}
+          {pages}
         </Document>
       </div>
     );
   }
 
+
   const memoizedDocument = useMemo(() => {
-    return <MyDocument receivedByteArray={receivedByteArray} />;
+      return <MyDocument receivedByteArray={receivedByteArray} />;
   }, [receivedByteArray]);
-
-  function onDocumentLoadSuccess({ numPages }) {
-    console.log(numPages, " num pages");
-    setNumPages(numPages);
-
-    return numPages;
-  }
 
   function changePage(offSet) {
     setPageNumber((prevPageNumber) => prevPageNumber + offSet);
@@ -157,6 +158,7 @@ function PDFViewer(props) {
           {/*    />*/}
           {/*  ))}*/}
           {/*</Document>*/}
+
           {memoizedDocument}
         </div>
         <div className={style.goNext} onClick={changePageNext}>
