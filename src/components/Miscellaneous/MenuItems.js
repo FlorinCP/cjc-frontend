@@ -1,7 +1,7 @@
 export const MenuItems = [
   {
-    title: 'VideoCall',
-    path: '/videoCall',
+    title: 'Videocall',
+    path: '/videocall',
     cName: 'dropdown-link'
   },
   {

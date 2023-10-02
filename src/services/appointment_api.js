@@ -8,7 +8,8 @@ export async function makeAppointment(
     questionId,
     dayNumber,
     monthNumber,
-    year
+    year,
+    slotStatus
 
 ){
 
@@ -19,7 +20,8 @@ export async function makeAppointment(
         questionId: questionId,
         dayNumber: dayNumber,
         monthNumber: monthNumber,
-        year: year
+        year: year,
+        slotStatus: slotStatus
     };
 
     console.log(requestData)

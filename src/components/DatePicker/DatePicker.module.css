@@ -1,3 +1,12 @@
+.datePicker {
+  border-radius: 5px;
+  /*border: 1px solid #18446d;*/
+  min-width: 14vw;
+  user-select: none;
+  display: grid;
+  grid-template-rows: 20% 5% 75%;
+}
+
 
 .selectionWrapper{
     display: flex;
@@ -147,13 +156,3 @@
     height: 2vh;
   }
   
-  .datePicker {
-    background-color: white;
-    border-radius: 5px;
-    border: 1px solid #18446d;
-    height: fit-content;
-    min-width: 14vw;
-    user-select: none;
-    display: grid;
-    grid-template-rows: 20% 5% 75%;
-  }

@@ -10,6 +10,7 @@ import {
 import UserContext from "../../context/UserContext";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import ViewQuestion from "../../components/viewQuestion/ViewQuestion";
+import {Link} from "react-router-dom";
 
 function MainPage(props) {
   const { currentUser, updateCurrentUser, viewModeON, updateViewMode } =
@@ -108,6 +109,23 @@ function MainPage(props) {
     });
   };
 
+  const reloadAllQuestions = () => {
+    goBackToQuestions();
+    showRejectedQuestions();
+    showAcceptedQuestions();
+    showAcceptedQuestions();
+  };
+
+  const [showCalendar, setShowCalendar] = useState(false);
+  const [showRequests,setShowRequests] = useState(false)
+  const displayCalendar = () => {
+    setShowCalendar((prevState) => !prevState);
+  };
+
+  const displayRequests = () => {
+    setShowRequests((prevState) => !prevState);
+  };
+
   return (
     <>
       {!loaded ? (
@@ -117,40 +135,155 @@ function MainPage(props) {
       ) : (
         <div className={style.wrapper}>
           <div className={style.sidebar}>
-            {currentUser.role === "ADMIN" && viewModeON.status === true && (
-              <>
-                <div className={style.internalNavigation}>
-                  <p className={style.title2}>Vizualizare detaliata</p>
-                </div>
-                <div className={style.goBack} onClick={goBackToQuestions}>
+           <div>
+             {currentUser.role === "ADMIN" && viewModeON.status === true ? (
+                 <>
+
+                   <div className={style.internalNavigation}>
+                     <img
+                         src="/whitelogo.png"
+                         alt="check-email"
+                         id="logo-img"
+                         className={style.logo}
+                     />
+                     <p className={style.title2}>Vizualizare detaliata</p>
+                   </div>
+                   <div className={style.goBack} onClick={goBackToQuestions}>
                   <span className="material-symbols-outlined">
                     chevron_left
                   </span>{" "}
-                  Inapoi
-                </div>
-              </>
-            )}
-            <div className={style.calendar}>
-              <DatePicker />
+                     Inapoi
+                   </div>
+                 </>
+             ) : (
+
+                 <div className={style.internalNavigation}>
+                   <img
+                       src="/whitelogo.png"
+                       alt="check-email"
+                       id="logo-img"
+                       className={style.logo}
+                   />
+                   <p className={style.title2}>Panou de control</p>
+                 </div>
+             )}
+
+             <div className={style.sidebarItems}>
+               <div className={style.sidebarItem}>
+                 <div
+                     className={style.clickableSidebarItem}
+                     onClick={displayCalendar}
+                 >
+                <span className="material-symbols-outlined">
+                  calendar_month
+                </span>
+                   Calendar
+                 </div>
+
+                 {showCalendar && (
+                     <div className={style.calendar}>
+                       <DatePicker />
+                     </div>
+                 )}
+               </div>
+
+               <div className={style.sidebarItem}>
+                 <div
+                     className={style.clickableSidebarItem}
+                 >
+                   <span className="material-symbols-outlined">edit_calendar</span>
+                   Program
+                 </div>
+               </div>
+
+               <div className={style.sidebarItem}>
+                 <div
+                     className={style.clickableSidebarItem}
+                     onClick={displayRequests}
+                 >
+                   <span className="material-symbols-outlined">dynamic_form</span>
+                   Cereri
+                 </div>
+
+                 {showRequests && (
+                     <div className={style.insideSideBarItem}>
+                       <button className={style.loadBtn} onClick={showWaitingQuestions}>
+                         {" "}
+                         Cereri in Asteptare{" "}
+                       </button>
+                       <button className={style.loadBtn} onClick={showAcceptedQuestions}>
+                         {" "}
+                         Cereri Acceptate{" "}
+                       </button>
+                       <button className={style.loadBtn} onClick={showRejectedQuestions}>
+                         {" "}
+                         Cereri Respinse{" "}
+                       </button>
+                     </div>
+                 )}
+               </div>
+             </div>
+
+             <div className={style.sidebarItem}>
+               <div
+                   className={style.clickableSidebarItem}
+               >
+                 <span className="material-symbols-outlined">
+                  home
+                </span>
+                 <Link to='/' className={style.link}>
+
+                   Pagina Principala
+                 </Link>
+
+               </div>
+             </div>
+
+             <div className={style.sidebarItem}>
+               <div
+                   className={style.clickableSidebarItem}
+               >
+                 <span className="material-symbols-outlined">
+                  videocam
+                </span>
+                 <Link to='/videocall' className={style.link}>
+
+                   VideoCall
+                 </Link>
+
+               </div>
+             </div>
+
+             <div className={style.sidebarItem}>
+               <div
+                   className={style.clickableSidebarItem}
+               >
+                 <span className="material-symbols-outlined">
+                  recent_patient
+                </span>
+                Cazuri in Lucru
+
+               </div>
+             </div>
+
+           </div>
+
+
+            <div className={style.bottom}>
+              <div className={style.holly}>
+                <span className="material-symbols-outlined">
+                  account_circle
+                </span>{" "}
+                {currentUser.email}
+              </div>
+              <span className="material-symbols-outlined">logout</span>
             </div>
-            <button className={style.loadBtn} onClick={showWaitingQuestions}>
-              {" "}
-              Cereri in Asteptare{" "}
-            </button>
-            <button className={style.loadBtn} onClick={showAcceptedQuestions}>
-              {" "}
-              Cereri Acceptate{" "}
-            </button>
-            <button className={style.loadBtn} onClick={showRejectedQuestions}>
-              {" "}
-              Cereri Respinse{" "}
-            </button>
           </div>
 
           <div className={style.mainContainer}>
             {viewModeON.status ? (
               <>
-                <ViewQuestion />
+                <ViewQuestion updateList={reloadAllQuestions} />
               </>
             ) : (
               <>

@@ -72,15 +72,15 @@
 
 }
 
-.slots .slot:last-child{
+.slots *:last-child{
     border-bottom: 1px solid #8795a1;
 }
 
 
-.slot{
+.freeSlot{
     box-sizing: border-box;
     height: 40px;
-    background-color: #f7f7f7;
+    background-color: rgba(0, 255, 0, 0.44);
     border-top: 1px solid #8795a1;
     border-left: 1px solid #8795a1;
     border-right: 1px solid #8795a1;
@@ -91,12 +91,41 @@
 .selectedSlot{
     box-sizing: border-box;
     height: 40px;
-    background-color: rgba(24, 68, 109, 0.59);
+    background-color: rgb(255, 230, 78);
+    border-top: 1px solid orange;
+    border-left: 1px solid orange;
+    border-right: 1px solid orange;
+    width: 120px;
+    cursor: pointer;
+}
+
+.occupiedSlot{
+    box-sizing: border-box;
+    height: 40px;
+    background-color: rgb(255, 89, 0);
     border-top: 1px solid #8795a1;
     border-left: 1px solid #8795a1;
     border-right: 1px solid #8795a1;
     width: 120px;
     cursor: pointer;
+}
+
+.breakSlot{
+    box-sizing: border-box;
+    height: 40px;
+    background-color: rgba(75, 95, 112, 0.3);
+    border-top: 1px solid #8795a1;
+    border-left: 1px solid #8795a1;
+    border-right: 1px solid #8795a1;
+    width: 120px;
+    cursor: pointer;
+}
+
+.slots > * {
+    display: grid;
+    place-items: center;
+    font-size: 16px;
+    color: #18446d;
 }
 
 .slotInfo{

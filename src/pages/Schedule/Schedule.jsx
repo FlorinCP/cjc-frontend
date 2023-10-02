@@ -1,13 +1,16 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import style from "./Schedule.module.css";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
 import { makeAppointment } from "../../services/appointment_api";
 import Footer from "../../components/Footer/Footer";
+import UserContext from "../../context/UserContext";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
   const [selectedDay, setSelectedDay] = useState();
+  const [dayAppointments, setDayAppointments] = useState(null);
+  const { currentUser, updateCurrentUser } = useContext(UserContext);
 
   const handleSelectedDate = async (data) => {
     if (data !== undefined) {
@@ -16,6 +19,13 @@ function Schedule(props) {
       setSelectedDay(await getDayData(data));
     }
   };
+
+  useEffect(() => {
+    if (selectedDay) {
+      setDayAppointments(selectedDay.appointments);
+      console.log(selectedDay.appointments);
+    }
+  }, [selectedDay]);
 
   const submitChanges = async () => {
     await updateDayData(
@@ -126,6 +136,47 @@ function Schedule(props) {
     });
   };
 
+  // const isBooked = (index) =>  dayAppointments.every(slot => slot.startHour.includes(timeList[index].formattedHour))
+
+  const isBooked = (index) => {
+    let isFound = false;
+    for (let appointment of dayAppointments) {
+      if (
+        appointment.startHour.includes(timeList[index].formattedHour) &&
+        appointment.slotStatus.includes("OCCUPIED")
+      ) {
+        isFound = true;
+      }
+    }
+    return isFound;
+  };
+
+  const isFree = (index) => {
+    let isFound = false;
+    for (let appointment of dayAppointments) {
+      if (
+        appointment.startHour.includes(timeList[index].formattedHour) &&
+        appointment.slotStatus.includes("FREE")
+      ) {
+        isFound = true;
+      }
+    }
+    return isFound;
+  };
+
+  const isBreak = (index) => {
+    let isFound = false;
+    for (let appointment of dayAppointments) {
+      if (
+        appointment.startHour.includes(timeList[index].formattedHour) &&
+        appointment.slotStatus.includes("BREAK")
+      ) {
+        isFound = true;
+      }
+    }
+    return isFound;
+  };
+
   const [followingSlot, setFollowingSlot] = useState(null);
   const selectFollowingSlot = (index) => {
     if (selectedSlot) {
@@ -134,15 +185,34 @@ function Schedule(props) {
     }
   };
 
+  function getContentForSlot(index) {
+    if (isBooked(index)) {
+      return `Ocupat`;
+    }
+    if (isBreak(index)) {
+      return `Pauza`;
+    } else {
+      return `Liber`;
+    }
+  }
+
   function getClassForSlot(index) {
     if (selectedSlot === index) {
       return style.selectedSlot;
+    } else if (isBooked(index)) {
+      return style.occupiedSlot;
+    } else if (isBreak(index)) {
+      return style.breakSlot;
     }
+
+    // if (isFree(index)){
+    //
+    // }
     // } else if(followingSlot === index) {
     //   return style.selectedSlot
     // }
     else {
-      return style.slot;
+      return style.freeSlot;
     }
   }
 
@@ -161,6 +231,33 @@ function Schedule(props) {
       selectedDay.dayNumber,
       selectedDay.monthNumber,
       selectedDay.year,
+      "OCCUPIED",
+    );
+  };
+
+  const freeAppointment = async () => {
+    await makeAppointment(
+      appointmentDetails.startHour,
+      timeList[selectedSlot + 1].formattedHour,
+      localStorage.getItem("email"),
+      3,
+      selectedDay.dayNumber,
+      selectedDay.monthNumber,
+      selectedDay.year,
+      "FREE",
+    );
+  };
+
+  const breakAppointment = async () => {
+    await makeAppointment(
+      appointmentDetails.startHour,
+      timeList[selectedSlot + 1].formattedHour,
+      localStorage.getItem("email"),
+      3,
+      selectedDay.dayNumber,
+      selectedDay.monthNumber,
+      selectedDay.year,
+      "BREAK",
     );
   };
 
@@ -292,7 +389,9 @@ function Schedule(props) {
                   key={index}
                   onClick={() => selectSlot(index)}
                   // onMouseEnter={()=> selectFollowingSlot(index)}
-                ></div>
+                >
+                  {getContentForSlot(index)}
+                </div>
               ))}
             </div>
           </div>
@@ -300,12 +399,31 @@ function Schedule(props) {
           <div className={style.slotInfo}>
             {appointmentDetails ? (
               <>
-                <div className={style.infoHeader}>
-                  <h3>{appointmentDetails.startHour}</h3>
-                </div>
-                <div className={style.infoBody}>
-                  <button onClick={setAppointment}>Programeaza-te</button>
-                </div>
+                {currentUser.role === "ADMIN" ? (
+                  <>
+                    <div className={style.infoHeader}>
+                      <h3>{appointmentDetails.startHour}</h3>
+                    </div>
+                    <div className={style.infoBody}>
+                      <button onClick={freeAppointment}>
+                        Marcheaza ca si liber
+                      </button>
+                      <button onClick={breakAppointment}>
+                        Marcheaza ca si ocupat
+                      </button>
+                      <button onClick={setAppointment}>Programeaza-te</button>
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    <div className={style.infoHeader}>
+                      <h3>{appointmentDetails.startHour}</h3>
+                    </div>
+                    <div className={style.infoBody}>
+                      <button onClick={setAppointment}>Programeaza-te</button>
+                    </div>
+                  </>
+                )}
               </>
             ) : (
               <div className={style.flex}>

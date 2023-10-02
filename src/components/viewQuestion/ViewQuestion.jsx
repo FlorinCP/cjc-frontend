@@ -16,7 +16,7 @@ function ViewQuestion(props) {
   const [currentFile, setCurrentFile] = useState(null);
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
-  const [currentFilePages,setCurrentFilePages] = useState(null)
+  const [currentFilePages, setCurrentFilePages] = useState(null);
 
   useEffect(() => {
     if (selectedFiles) {
@@ -35,13 +35,13 @@ function ViewQuestion(props) {
   };
 
   const rejectQuestion = () => {
-    updateStatus(props.id, "reject").then(() => {
+    updateStatus(viewModeON.question.id, "reject").then(() => {
       props.updateList();
     });
   };
 
   const approveQuestion = () => {
-    updateStatus(props.id, "accepted").then(() => {
+    updateStatus(viewModeON.question.id, "accepted").then(() => {
       props.updateList();
     });
   };
@@ -53,7 +53,7 @@ function ViewQuestion(props) {
   const showFile = (index) => {
     if (currentIndex !== index) {
       setCurrentFileName(viewModeON.question.fileInfo[index].name);
-      setCurrentFilePages(viewModeON.question.fileInfo[index].pages)
+      setCurrentFilePages(viewModeON.question.fileInfo[index].pages);
       fetchPdfData(viewModeON.question.fileInfo[index].id).then((r) => {
         setCurrentIndex(index);
         console.log(r);
@@ -61,6 +61,18 @@ function ViewQuestion(props) {
       });
     } else {
       setCurrentIndex(null);
+    }
+  };
+
+  const goNext = () => {
+    if (currentIndex + 1 < viewModeON.question.fileNumber ) {
+      showFile(currentIndex + 1);
+    }
+  };
+
+  const goBack = () => {
+    if (currentIndex - 1 >= 0) {
+      showFile(currentIndex - 1);
     }
   };
 
@@ -195,6 +207,8 @@ function ViewQuestion(props) {
             title={currentFileName}
             pages={currentFilePages}
             closeModalEmit={closeModal}
+            moveForward={goNext}
+            moveBack={goBack}
           />
         </div>
       )}

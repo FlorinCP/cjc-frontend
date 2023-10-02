@@ -123,9 +123,12 @@
     padding: 10px;
     width: 200px;
     border-radius: 10px;
-    border: 1px solid slategrey;
+    color: #017c01;
+    border: 1px solid #017c01 ;
+    font-weight: bolder;
+    font-size: 17px;
+    background-color: #98fdd3;
     cursor: pointer;
-    letter-spacing: 1px;
 }
 
 .rejectBtn{

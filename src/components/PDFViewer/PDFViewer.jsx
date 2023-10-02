@@ -10,7 +10,6 @@ function PDFViewer(props) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [numPages, setNumPages] = useState();
-  const [pageNumber, setPageNumber] = useState(1);
   const [width, setWidth] = useState(1000);
 
   const docRef = useRef(null);
@@ -42,26 +41,6 @@ function PDFViewer(props) {
       element.removeEventListener("scroll", handleScroll);
     };
   }, [prevScrollPos]);
-
-  // function generatePages(numPages) {
-  //   const pages = [];
-  //
-  //   for (let index = 0; index < numPages; index++) {
-  //     const page = (
-  //         <Page
-  //             width={width}
-  //             height={650}
-  //             key={`page_${index + 1}`}
-  //             pageNumber={index + 1}
-  //         />
-  //     );
-  //     pages.push(page);
-  //   }
-  //
-  //   console.log(pages,"pages")
-  //
-  //   return pages;
-  // }
 
    function generatePages(numPages) {
     console.log(numPages);
@@ -102,19 +81,15 @@ function PDFViewer(props) {
 
 
   const memoizedDocument = useMemo(() => {
-      return <MyDocument receivedByteArray={receivedByteArray} />;
-  }, [receivedByteArray]);
-
-  function changePage(offSet) {
-    setPageNumber((prevPageNumber) => prevPageNumber + offSet);
-  }
+      return <MyDocument receivedByteArray={props.pdfData} />;
+  }, [props.pdfData]);
 
   function changePageBack() {
-    changePage(-1);
+    props.moveBack()
   }
 
   function changePageNext() {
-    changePage(+1);
+    props.moveForward()
   }
 
   function closeModal() {
