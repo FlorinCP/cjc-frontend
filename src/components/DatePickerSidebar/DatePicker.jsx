@@ -1,9 +1,8 @@
 import React, {useEffect, useState} from 'react';
 import style from './DatePicker.module.css'
-import {getClosedDays} from "../../services/day_api";
 
 
-function DatePicker(props) {
+function DatePicker({sendSelectedDate}) {
 
     const [today, setToday] = useState(new Date())
     const lang = "default";
@@ -24,7 +23,7 @@ function DatePicker(props) {
     const [totalLastMonthFinalDays, setTotalLastMonthFinalDays] = useState(
         firstDayOfTheMonth.getDay()
     );
-    const [closedDays,setCloseDays] = useState([])
+
 
     const [selectedDate,setSelectedDate] = useState()
 
@@ -95,14 +94,7 @@ function DatePicker(props) {
         setMonthNumberOfDays(getMonthNumberOfDays(monthNumber, fullYear))
         setMonthName(firstDayOfTheMonth.toLocaleString(lang, {month: "long"}))
         setTotalLastMonthFinalDays(firstDayOfTheMonth.getDay())
-        console.log(monthNumber," month number")
-        getClosedDays(monthNumber + 1).then(r => setCloseDays(r))
     }, [monthNumber]);
-
-    useEffect(() => {
-        if (closedDays){
-            props.sendClosedDays(closedDays)}
-    }, [closedDays]);
 
     useEffect(() => {
         fillPrev()
@@ -150,11 +142,9 @@ function DatePicker(props) {
     useEffect(() => {
         if (selectedDate !== undefined){
             console.log(selectedDate)
-            props.sendSelectedDate(selectedDate)
+            sendSelectedDate(selectedDate)
         }
     }, [selectedDate]);
-
-
 
     return (
       <div className={style.datePicker}>
@@ -191,7 +181,7 @@ function DatePicker(props) {
           })}
 
           {dayList.map((value, index) => (
-            <div className={  closedDays.includes(value.getDate()) ? style.closedDay : style.day} key={index} onClick={() => selectDate(value)}>
+            <div className={style.day} key={index} onClick={() => selectDate(value)}>
               {value.getDate()}
             </div>
           ))}

@@ -13,8 +13,26 @@ export async function getDayData(selectedDate) {
     const response = await fetch(`${BASE_URL}/day/day?${queryString}`);
 
     if (response.ok) {
+      // console.log("day loaded successfully:", responseData);
+      return await response.json();
+    } else {
+      return null;
+    }
+  } catch (error) {}
+}
+
+export async function getClosedDays(monthNumber) {
+  try {
+    const queryParams = {
+      monthNumber: `${monthNumber}`}
+
+    const queryString = new URLSearchParams(queryParams).toString();
+
+    const response = await fetch(`${BASE_URL}/day/closed-days?${queryString}`);
+
+    if (response.ok) {
       const responseData = await response.json();
-      console.log("day loaded successfully:", responseData);
+      console.log("days loaded successfully:", responseData);
       return responseData;
     } else {
       return null;

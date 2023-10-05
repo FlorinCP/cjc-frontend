@@ -2,6 +2,7 @@ import React, { useContext, useEffect, useState } from "react";
 import style from "./Question.module.css";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import UserContext from "../../context/UserContext";
+import ScheduleUser from "../ScheduleUser/ScheduleUser";
 
 function Question(props) {
   const [selectedFiles, setSelectedFiles] = useState(props.fileInfo);
@@ -9,6 +10,8 @@ function Question(props) {
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [status, setStatus] = useState(props.status);
+  const [scheduleView,setScheduleView] = useState(false)
+
 
   useEffect(() => {
     if (selectedFiles) {
@@ -42,6 +45,14 @@ function Question(props) {
       })
   };
 
+  function displayScheduleView(){
+      setScheduleView(prevState => !prevState)
+  }
+
+  const handleModalClose = () => {
+      setScheduleView(false)
+  }
+
   return (
     <div className={style.questionWrapper}>
       <div className={style.status}>
@@ -54,12 +65,16 @@ function Question(props) {
           <div>
             <h2>Intrebarea a fost apropbata</h2>
             <h2>Apasati aici pentru a realiza o programare</h2>
+              <button onClick={displayScheduleView}>
+                  Programeaza-te
+              </button>
           </div>
         )}
         {props.status === "REJECTED" && currentUser.role === "USER" && (
           <div>
             <h2>Intrebarea a fost respinsa</h2>
             <h2>Apasati aici pentru a afla de ce</h2>
+
           </div>
         )}
       </div>
@@ -124,6 +139,13 @@ function Question(props) {
       ) : (
         <></>
       )}
+
+        {
+            scheduleView && <div className={style.modal}>
+                <ScheduleUser sendDataToParent={handleModalClose}  id={props.id}/>
+            </div>
+        }
+
 
       <div id={style["expand"]} onClick={expand}>
         {isExpanded ? (

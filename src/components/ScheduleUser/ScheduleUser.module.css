@@ -1,15 +1,56 @@
 .wrapper{
-    display: grid;
-    grid-template-columns: 50% 50%;
-    background-color: #f7f7f7;
+    background-color: white;
+   display: grid;
+    grid-template-columns: auto auto;
     gap: 20px;
-    padding-top: 50px;
+    border: 1px solid #18446d;
+    border-radius: 5px;
+    min-width: 50vw;
+    position: relative;
+    padding: 30px;
+}
+
+.closeModal{
+    position: absolute;
+    right: 0;
+    top: 0;
+    width: 50px;
+    height: 50px;
+    background-color: transparent;
+    border: none;
+    cursor: pointer;
+}
+.closeModal > span {
+    font-size: 30px;
+
+}
+
+.wrapper > div {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.h2info{
+    width: 30vw;
+    background-color: #f7f7f7;
+    padding: 10px;
+    border-radius: 10px;
+    text-align: center;
+}
+
+.datePickerWrapper{
+    border: 1px solid #18446d;
+    border-radius: 5px;
+    width: 30vw;
 }
 
 .calendarAndInfo{
     display: flex;
-flex-direction: column;
-   align-items: center;
+    flex-direction: column;
+    align-items: center;
     gap: 20px;
     width: 30vw;
 }
@@ -37,13 +78,12 @@ flex-direction: column;
 }
 
 .dateDetails{
-    width: 28vw;
+    width: 30vw;
     min-height: 30vh;
     background-color: white;
-    padding: 30px;
+    padding: 10px;
     box-sizing: border-box;
     border-radius: 5px;
-    border: 1px solid #18446d;
     display: grid;
     grid-template-columns: 50% 50%;
 }
@@ -61,15 +101,15 @@ flex-direction: column;
 .timeStamp{
     height: 40px;
     box-sizing: border-box;
-    border-top: 2px solid #18446d;
-    border-left: 2px solid #18446d;
+    border-top: 1px solid #18446d;
+    border-left: 1px solid #18446d;
     padding-left: 5px;
     padding-top: 1px;
     width: 80px;
 }
 
 .timeStamps .timeStamp:last-child{
-    border-bottom: 2px solid #18446d;
+    border-bottom: 1px solid #18446d;
 
 }
 
@@ -78,7 +118,7 @@ flex-direction: column;
 }
 
 .slots *:last-child{
-    border-bottom: 2px solid #18446d;
+    border-bottom: 1px solid #18446d;
 }
 
 
@@ -86,9 +126,9 @@ flex-direction: column;
     box-sizing: border-box;
     height: 40px;
     background-color: rgba(28, 121, 184, 0.58);
-    border-top: 2px solid #18446d;
-    border-left: 2px solid #18446d;
-    border-right: 2px solid #18446d;
+    border-top: 1px solid #18446d;
+    border-left: 1px solid #18446d;
+    border-right: 1px solid #18446d;
     width: 120px;
     cursor: pointer;
 }
@@ -97,9 +137,9 @@ flex-direction: column;
     box-sizing: border-box;
     height: 40px;
     background-color: rgb(255, 230, 78);
-    border-top: 2px solid orange;
-    border-left: 2px solid orange;
-    border-right: 2px solid orange;
+    border-top: 1px solid orange;
+    border-left: 1px solid orange;
+    border-right: 1px solid orange;
     width: 120px;
     cursor: pointer;
 }
@@ -108,9 +148,9 @@ flex-direction: column;
     box-sizing: border-box;
     height: 40px;
     background-color: rgb(255, 89, 0);
-    border-top: 2px solid #18446d;
-    border-left: 2px solid #18446d;
-    border-right: 2px solid #18446d;
+    border-top: 1px solid #18446d;
+    border-left: 1px solid #18446d;
+    border-right: 1px solid #18446d;
     width: 120px;
     cursor: pointer;
 }
@@ -119,9 +159,9 @@ flex-direction: column;
     box-sizing: border-box;
     height: 40px;
     background-color: rgba(75, 95, 112, 0.3);
-    border-top: 2px solid #18446d;
-    border-left: 2px solid #18446d;
-    border-right: 2px solid #18446d;
+    border-top: 1px solid #18446d;
+    border-left: 1px solid #18446d;
+    border-right: 1px solid #18446d;
     width: 120px;
     cursor: pointer;
 }
@@ -216,8 +256,4 @@ select{
     font-size: inherit;
     cursor: inherit;
     line-height: inherit;
-}
-
-.datePickerWrapper{
-    border: 1px solid #18446d;
 }

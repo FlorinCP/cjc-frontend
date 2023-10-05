@@ -1,5 +1,8 @@
 .testWrapper{
     width: 100vw;
-    display: grid;
-    place-items: center;
+    height: 100vh;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    padding-top: 400px;
 }

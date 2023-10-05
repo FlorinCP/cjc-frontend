@@ -11,14 +11,19 @@ function Schedule(props) {
   const [selectedDay, setSelectedDay] = useState();
   const [dayAppointments, setDayAppointments] = useState(null);
   const { currentUser, updateCurrentUser } = useContext(UserContext);
-
+  const [closedDays,setClosedDays] = useState([])
   const handleSelectedDate = async (data) => {
     if (data !== undefined) {
       console.log(data);
       setCurrentSelectionDate(data);
+      console.log(data,"selected day")
       setSelectedDay(await getDayData(data));
     }
   };
+
+  const handleClosedDays = (receivedClosedDays) =>{
+    setClosedDays(receivedClosedDays)
+  }
 
   useEffect(() => {
     if (selectedDay) {
@@ -261,180 +266,204 @@ function Schedule(props) {
     );
   };
 
-  return (
-    <div className={style.wrapper}>
-      <h2>Program</h2>
-      <DatePicker sendSelectedDate={handleSelectedDate} />
+  function infoPanel(){
+    return(
+        <div>
+          { selectedDay ? (
+              <div className={style.dateProperties}>
+                <div className={style.selection}>
+                  <h2>{selectedDay.dayNumber} -</h2>
+                  <h2>{selectedDay.monthNumber} -</h2>
+                  <h2>{selectedDay.year}</h2>
+                </div>
 
-      {selectedDay ? (
-        <div className={style.dateProperties}>
-          <div className={style.selection}>
-            <h2>{selectedDay.dayNumber} -</h2>
-            <h2>{selectedDay.monthNumber} -</h2>
-            <h2>{selectedDay.year}</h2>
-          </div>
+                <div className={style.workingArea}>
+                  <div className={style.flex}>
+                    <h4> Cate ore alocam zilei ? </h4>
+                    <select
+                        value={workingHoursSelect}
+                        onChange={handleWorkingHoursChange}
+                    >
+                      <option value={1}>1</option>
+                      <option value={2}>2</option>
+                      <option value={3}>3</option>
+                      <option value={4}>4</option>
+                      <option value={5}>5</option>
+                      <option value={6}>6</option>
+                      <option value={7}>7</option>
+                      <option value={8}>8</option>
+                      <option value={9}>9 </option>
+                    </select>
+                  </div>
 
-          <div className={style.workingArea}>
-            <div className={style.flex}>
-              <h4> Cate ore alocam zilei ? </h4>
-              <select
-                value={workingHoursSelect}
-                onChange={handleWorkingHoursChange}
-              >
-                <option value={1}>1</option>
-                <option value={2}>2</option>
-                <option value={3}>3</option>
-                <option value={4}>4</option>
-                <option value={5}>5</option>
-                <option value={6}>6</option>
-                <option value={7}>7</option>
-                <option value={8}>8</option>
-                <option value={9}>9 </option>
-              </select>
-            </div>
+                  <div className={style.startend}>
+                    <div className={style.flex}>
+                      <h4> Inceputul programului</h4>
+                      <select
+                          value={startHourSelect}
+                          onChange={handleStartHourChange}
+                      >
+                        <option value={7}>7:00</option>
+                        <option value={8}>8:00</option>
+                        <option value={9}>9:00</option>
+                        <option value={10}>10:00</option>
+                        <option value={11}>11:00</option>
+                        <option value={12}>12:00</option>
+                        <option value={13}>13:00</option>
+                        <option value={14}>14:00</option>
+                        <option value={15}>15:00</option>
+                        <option value={16}>16:00</option>
+                        <option value={17}>17:00</option>
+                        <option value={18}>18:00</option>
+                      </select>
+                    </div>
 
-            <div className={style.startend}>
-              <div className={style.flex}>
-                <h4> Inceputul programului</h4>
-                <select
-                  value={startHourSelect}
-                  onChange={handleStartHourChange}
-                >
-                  <option value={7}>7:00</option>
-                  <option value={8}>8:00</option>
-                  <option value={9}>9:00</option>
-                  <option value={10}>10:00</option>
-                  <option value={11}>11:00</option>
-                  <option value={12}>12:00</option>
-                  <option value={13}>13:00</option>
-                  <option value={14}>14:00</option>
-                  <option value={15}>15:00</option>
-                  <option value={16}>16:00</option>
-                  <option value={17}>17:00</option>
-                  <option value={18}>18:00</option>
-                </select>
+                    <div className={style.flex}>
+                      <h4> Finalul programului</h4>
+                      <select value={endHourSelect} onChange={handleEndHourChange}>
+                        <option value={7}>7:00</option>
+                        <option value={8}>8:00</option>
+                        <option value={9}>9:00</option>
+                        <option value={10}>10:00</option>
+                        <option value={11}>11:00</option>
+                        <option value={12}>12:00</option>
+                        <option value={13}>13:00</option>
+                        <option value={14}>14:00</option>
+                        <option value={15}>15:00</option>
+                        <option value={16}>16:00</option>
+                        <option value={17}>17:00</option>
+                        <option value={18}>18:00</option>
+                      </select>
+                    </div>
+                  </div>
+
+                  <h3>Disponibilitatea zilei :</h3>
+                  <select value={selectedStatus} onChange={handleDropdownChange}>
+                    <option value="CLOSED">Inchis</option>
+                    <option value="VACATION">Concediu</option>
+                    <option value="HOLIDAY">Sarbatoare Legala</option>
+                    <option value="WORKING">Disponibil</option>
+                  </select>
+
+                  {modificationsPending ? (
+                      <button onClick={submitChanges}>Salveaza Modificarile</button>
+                  ) : (
+                      <></>
+                  )}
+                </div>
               </div>
-
-              <div className={style.flex}>
-                <h4> Finalul programului</h4>
-                <select value={endHourSelect} onChange={handleEndHourChange}>
-                  <option value={7}>7:00</option>
-                  <option value={8}>8:00</option>
-                  <option value={9}>9:00</option>
-                  <option value={10}>10:00</option>
-                  <option value={11}>11:00</option>
-                  <option value={12}>12:00</option>
-                  <option value={13}>13:00</option>
-                  <option value={14}>14:00</option>
-                  <option value={15}>15:00</option>
-                  <option value={16}>16:00</option>
-                  <option value={17}>17:00</option>
-                  <option value={18}>18:00</option>
-                </select>
-              </div>
-            </div>
-
-            <h3>Disponibilitatea zilei :</h3>
-            <select value={selectedStatus} onChange={handleDropdownChange}>
-              <option value="CLOSED">Inchis</option>
-              <option value="VACATION">Concediu</option>
-              <option value="HOLIDAY">Sarbatoare Legala</option>
-              <option value="WORKING">Disponibil</option>
-            </select>
-
-            {modificationsPending ? (
-              <button onClick={submitChanges}>Salveaza Modificarile</button>
-            ) : (
-              <></>
-            )}
-          </div>
-        </div>
-      ) : (
-        <>
-          {currentSelectionDate ? (
-            <div className={style.dateInfo}>
-              <div className={style.selection}>
-                <h2>{currentSelectionDate.dayNumber} -</h2>
-                <h2>{currentSelectionDate.monthNumber} -</h2>
-                <h2>{currentSelectionDate.year}</h2>
-              </div>
-              <h3>Nu am gasit nici un program pentru ziua selectata</h3>
-              <button onClick={setScheduleForDay}> Adauga program </button>
-            </div>
           ) : (
-            <div className={style.dateInfo}>
-              <h3>Pentru detalii, selecteaza o zi</h3>
-            </div>
-          )}
-        </>
-      )}
-
-      {selectedDay && (
-        <div className={style.dateDetails}>
-          <div className={style.timeRepresentation}>
-            <div className={style.timeStamps}>
-              {timeList.map((item, index) => (
-                <div className={style.timeStamp} key={index}>
-                  {item.formattedHour}
-                </div>
-              ))}
-            </div>
-            <div className={style.slots}>
-              {slotList.map((item, index) => (
-                <div
-                  className={
-                    getClassForSlot(index)
-                    // selectedSlot === index ? style.selectedSlot : style.slot
-                  }
-                  key={index}
-                  onClick={() => selectSlot(index)}
-                  // onMouseEnter={()=> selectFollowingSlot(index)}
-                >
-                  {getContentForSlot(index)}
-                </div>
-              ))}
-            </div>
-          </div>
-
-          <div className={style.slotInfo}>
-            {appointmentDetails ? (
               <>
-                {currentUser.role === "ADMIN" ? (
-                  <>
-                    <div className={style.infoHeader}>
-                      <h3>{appointmentDetails.startHour}</h3>
+                {currentSelectionDate ? (
+                    <div className={style.dateInfo}>
+                      <div className={style.selection}>
+                        <h2>{currentSelectionDate.dayNumber} -</h2>
+                        <h2>{currentSelectionDate.monthNumber} -</h2>
+                        <h2>{currentSelectionDate.year}</h2>
+                      </div>
+                      <h3>Nu am gasit nici un program pentru ziua selectata</h3>
+                      <button onClick={setScheduleForDay} className={style.selectBtn}> Adauga program </button>
                     </div>
-                    <div className={style.infoBody}>
-                      <button onClick={freeAppointment}>
-                        Marcheaza ca si liber
-                      </button>
-                      <button onClick={breakAppointment}>
-                        Marcheaza ca si ocupat
-                      </button>
-                      <button onClick={setAppointment}>Programeaza-te</button>
-                    </div>
-                  </>
                 ) : (
-                  <>
-                    <div className={style.infoHeader}>
-                      <h3>{appointmentDetails.startHour}</h3>
+                    <div className={style.dateInfo}>
+                      <h3>Pentru detalii, selecteaza o zi</h3>
                     </div>
-                    <div className={style.infoBody}>
-                      <button onClick={setAppointment}>Programeaza-te</button>
-                    </div>
-                  </>
                 )}
               </>
-            ) : (
-              <div className={style.flex}>
-                <h2>Selectati un interval pentru detalii</h2>
-              </div>
-            )}
-          </div>
+          )}
         </div>
-      )}
 
-      <Footer />
+
+    )
+  }
+
+  function expandedSchedule(){
+    return(
+        <div>
+          {selectedDay && !closedDays.includes(selectedDay.dayNumber) ? (
+              <div className={style.dateDetails}>
+                <div className={style.timeRepresentation}>
+                  <div className={style.timeStamps}>
+                    {timeList.map((item, index) => (
+                        <div className={style.timeStamp} key={index}>
+                          {item.formattedHour}
+                        </div>
+                    ))}
+                  </div>
+                  <div className={style.slots}>
+                    {slotList.map((item, index) => (
+                        <div
+                            className={
+                              getClassForSlot(index)
+                              // selectedSlot === index ? style.selectedSlot : style.slot
+                            }
+                            key={index}
+                            onClick={() => selectSlot(index)}
+                            // onMouseEnter={()=> selectFollowingSlot(index)}
+                        >
+                          {getContentForSlot(index)}
+                        </div>
+                    ))}
+                  </div>
+                </div>
+
+                <div className={style.slotInfo}>
+                  {appointmentDetails ? (
+                      <>
+                        {currentUser.role === "ADMIN" ? (
+                            <>
+                              <div className={style.infoHeader}>
+                                <h3>{appointmentDetails.startHour}</h3>
+                              </div>
+                              <div className={style.infoBody}>
+                                <button onClick={freeAppointment} className={style.selectBtn}>
+                                  Marcheaza ca si liber
+                                </button>
+                                <button onClick={breakAppointment} className={style.selectBtn}>
+                                  Marcheaza ca si ocupat
+                                </button>
+                                <button onClick={setAppointment} className={style.selectBtn}>Programeaza-te</button>
+                              </div>
+                            </>
+                        ) : (
+                            <>
+                              <div className={style.infoHeader}>
+                                <h3>{appointmentDetails.startHour}</h3>
+                              </div>
+                              <div className={style.infoBody}>
+                                <button onClick={setAppointment} className={style.selectBtn}>Programeaza-te</button>
+                              </div>
+                            </>
+                        )}
+                      </>
+                  ) : (
+                      <div className={style.flex}>
+                        <h2>Selectati un interval pentru detalii</h2>
+                      </div>
+                  )}
+                </div>
+              </div>
+          ) : (<div className={style.dateDetails}>
+            {
+             selectedDay && closedDays.includes(selectedDay.dayNumber) ? (<h2>Zi libera</h2>):( <h2>Odata ce iti vei programa ziua vei putea vizualiza fiecare ora in detaliu </h2>)
+            }
+
+          </div>)}
+        </div>
+    )
+  }
+
+  return (
+    <div className={style.wrapper}>
+      <div className={style.calendarAndInfo}>
+        <div className={style.datePickerWrapper}>
+        <DatePicker sendSelectedDate={handleSelectedDate}
+                    sendClosedDays={handleClosedDays}/>
+        </div>
+        {infoPanel()}
+      </div>
+      {expandedSchedule()}
+
     </div>
   );
 }

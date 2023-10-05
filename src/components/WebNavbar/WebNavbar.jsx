@@ -1,159 +1,138 @@
-import React, {useContext, useEffect, useRef, useState} from 'react';
-import {Link, useLocation} from 'react-router-dom';
-import './WebNavbar.css';
+import React, { useContext, useEffect, useRef, useState } from "react";
+import { Link, useLocation } from "react-router-dom";
+import "./WebNavbar.css";
 import Dropdown from "../Dropdown/Dropdown";
 import UserContext from "../../context/UserContext";
+import { useHistory } from "react-router-dom";
 
 function Navbar() {
-    const [dropdown, setDropdown] = useState(false);
-    const { currentUser ,updateCurrentUser} = useContext(UserContext);
+  const [dropdown, setDropdown] = useState(false);
+  const { currentUser, updateCurrentUser } = useContext(UserContext);
+  const history = useHistory();
+  const logout = () => {
+    updateCurrentUser({});
+    localStorage.removeItem("email");
+    localStorage.removeItem("role");
+    history.push("/");
+    window.location.reload();
+  };
 
-    const logout = () =>{
-        updateCurrentUser({})
-        localStorage.removeItem("email")
-        localStorage.removeItem("role")
-        window.location.reload()
+  const [prevScrollPos, setPrevScrollPos] = useState(0);
+  const [visible, setVisible] = useState(true);
+
+  const handleScroll = () => {
+    const currentScrollPos = window.scrollY;
+
+    if (currentScrollPos > prevScrollPos && window.scrollY > 80) {
+      setVisible(false);
+    } else {
+      setVisible(true);
     }
 
-    const [prevScrollPos, setPrevScrollPos] = useState(0);
-    const [visible, setVisible] = useState(true)
+    setPrevScrollPos(currentScrollPos);
+  };
 
-    const handleScroll = () => {
-        const currentScrollPos = window.scrollY
+  useEffect(() => {
+    window.addEventListener("scroll", handleScroll);
 
-        if(currentScrollPos > prevScrollPos && window.scrollY > 80 ){
-            setVisible(false)
-        }else{
-            setVisible(true)
-        }
+    return () => window.removeEventListener("scroll", handleScroll);
+  });
 
-        setPrevScrollPos(currentScrollPos)
+  const onMouseEnter = () => {
+    if (window.innerWidth < 960) {
+      setDropdown(false);
+    } else {
+      setDropdown(true);
     }
+  };
 
-    useEffect( () => {
-        window.addEventListener('scroll', handleScroll);
+  const onMouseLeave = () => {
+    if (window.innerWidth < 960) {
+      setDropdown(false);
+    } else {
+      setDropdown(false);
+    }
+  };
 
-        return () => window.removeEventListener('scroll', handleScroll)
-    })
+  const navbar = useRef(null);
 
+  const location = useLocation();
 
-    const onMouseEnter = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(true);
-        }
-    };
+  console.log(location.pathname);
 
-    const onMouseLeave = () => {
-        if (window.innerWidth < 960) {
-            setDropdown(false);
-        } else {
-            setDropdown(false);
-        }
-    };
+  return (
+    <>
+      {location.pathname !== "/admin-dashboard" && (
+        <nav
+          className={!visible ? "navbarScrollTop" : "navbarScrollDown"}
+          ref={navbar}
+        >
+          <Link to="/" className="navbar-logo">
+            <img src="/whitelogo.png" alt="check-email" id="logo-img" />
+          </Link>
 
-    const navbar = useRef(null);
+          <ul className={"nav-menu"}>
+            <li className="nav-item">
+              <Link to="/" className="nav-links">
+                Acasa
+              </Link>
+            </li>
 
-    const location = useLocation()
+            <li className="nav-item">
+              <Link to="/test" className="nav-links">
+                Test
+              </Link>
+            </li>
 
-    console.log(location.pathname)
+            {currentUser.role === "ADMIN" ? (
+              <li className="nav-item">
+                <Link to="/admin-dashboard" className="nav-links">
+                  Dashboard
+                </Link>
+              </li>
+            ) : (
+              <li className="nav-item">
+                <Link to="/user-dashboard" className="nav-links">
+                  Profil
+                </Link>
+              </li>
+            )}
 
-    return (
-        <>
-            {
-                location.pathname !== '/admin-dashboard' &&  <nav className={ !visible ?  'navbarScrollTop' : 'navbarScrollDown' }
-                                                                  ref={navbar}
-                >
-                    <Link to='/' className='navbar-logo' >
-                        <img src="/whitelogo.png" alt="check-email" id="logo-img"/>
-                    </Link>
+            <li
+              className="nav-item"
+              onMouseEnter={onMouseEnter}
+              onMouseLeave={onMouseLeave}
+            >
+              <Link to="/services" className="nav-links">
+                Servicii <i className="fas fa-caret-down" />
+              </Link>
+              {dropdown && <Dropdown />}
+            </li>
 
-
-                    <ul className={'nav-menu'}>
-                        <li className='nav-item'>
-                            <Link to='/' className='nav-links' >
-                                Acasa
-                            </Link>
-                        </li>
-
-                        <li className='nav-item'>
-                            <Link to='/test' className='nav-links' >
-                                Test
-                            </Link>
-                        </li>
-
-                        {
-                            currentUser.role === "ADMIN" ? (
-                                <li className='nav-item'>
-                                    <Link
-                                        to='/admin-dashboard'
-                                        className='nav-links'
-                                    >
-                                        Dashboard
-                                    </Link>
-                                </li>
-                            ) : (
-                                <li className='nav-item'>
-                                    <Link
-                                        to='/user-dashboard'
-                                        className='nav-links'
-                                    >
-                                        Profil
-                                    </Link>
-                                </li>
-                            )
-                        }
-
-                        <li
-                            className='nav-item'
-                            onMouseEnter={onMouseEnter}
-                            onMouseLeave={onMouseLeave}
-                        >
-                            <Link
-                                to='/services'
-                                className='nav-links'
-                            >
-                                Servicii <i className='fas fa-caret-down' />
-                            </Link>
-                            {dropdown && <Dropdown />}
-                        </li>
-
-
-
-
-                        {
-                            !currentUser.email === null && (
-                                <li className='nav-item'>
-                                    <Link
-                                        to='/test'
-                                        className='nav-links'
-                                    >
-                                        Cont
-                                    </Link>
-                                </li>
-                            )
-                        }
-                        <li className='nav-item'>
-                            {
-                                currentUser.email === null ? (
-                                    <Link
-                                        to='/login'
-                                        className='nav-linksPermanent'
-                                    >
-                                        Inregistrare
-                                    </Link>
-                                ) : (
-                                    <div className='nav-linksPermanent' onClick={logout}> Deconectare </div>
-                                )
-                            }
-                        </li>
-                    </ul>
-                </nav>
-            }
-
-        </>
-    );
+            {!currentUser.email === null && (
+              <li className="nav-item">
+                <Link to="/test" className="nav-links">
+                  Cont
+                </Link>
+              </li>
+            )}
+            <li className="nav-item">
+              {currentUser.email === null ? (
+                <Link to="/login" className="nav-linksPermanent">
+                  Inregistrare
+                </Link>
+              ) : (
+                <div className="nav-linksPermanent" onClick={logout}>
+                  {" "}
+                  Deconectare{" "}
+                </div>
+              )}
+            </li>
+          </ul>
+        </nav>
+      )}
+    </>
+  );
 }
 
 export default Navbar;
