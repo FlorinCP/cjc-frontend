@@ -21,7 +21,7 @@ function SideBarLayout({ children }) {
 
   return <div className={style.wrapper}>
       <SideBar currentUrl={currentUrl}/>
-      <div>
+      <div className={style.mainContainer}>
           {children}
       </div>
   </div>;

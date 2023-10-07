@@ -4,6 +4,7 @@ import ImageCarousel from "../ImageCarousel/ImageCarousel";
 import Calendar from "../Calendar/Calendar";
 import {getDayData} from "../../services/day_api";
 import UserContext from "../../context/UserContext";
+import ContextMenu from "../ContextMenu/ContextMenu";
 
 function Test() {
 
@@ -13,12 +14,13 @@ function Test() {
     const { currentUser, updateCurrentUser } = useContext(UserContext);
     const [closedDays,setClosedDays] = useState([])
 
-    const images = [
-        "/how.svg",
-        '/how.svg',
-        '/eroare.svg',
-        // Add more image URLs here
-    ];
+    const menuItems = ["Liber", "Ocupat", "Pauza"];
+    const [itemClicked, setItemClicked] = useState("");
+    const [count, setCount] = useState(0);
+    function onMenuClicked(menuItemClicked) {
+        setItemClicked(menuItemClicked);
+    }
+
 
     const handleSelectedDate = async (data) => {
         if (data !== undefined) {
@@ -34,6 +36,7 @@ function Test() {
 
     return (
         <div className={style.testWrapper}>
+            <ContextMenu menuItems={menuItems} clickedMenu={onMenuClicked} />
         <Calendar
             sendSelectedDate={handleSelectedDate}
             sendClosedDays={handleClosedDays}

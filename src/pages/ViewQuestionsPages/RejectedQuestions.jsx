@@ -1,13 +1,14 @@
 import React, {useContext, useEffect, useState} from 'react';
-import style from './WaitingQuestions.module.css'
+import style from './ViewQuestions.module.css'
 import {getQuestionsByStatus} from "../../services/question_api";
-import Question from "../../components/QuestionShort/Question";
 import UserContext from "../../context/UserContext";
-function WaitingQuestions(props) {
+import {useHistory} from "react-router-dom";
+import Question from "../../components/QuestionShort/Question";
+function RejectedQuestions(props) {
 
     const [loaded, setLoaded] = useState(false);
     const [displayedQuestions, setDisplayedQuestions] = useState([]);
-    const [title, setTitle] = useState("Intrebari in asteptare");
+    const [title, setTitle] = useState("Intrebari Respinse");
     const { currentUser, updateCurrentUser, viewModeON, updateViewMode } =
         useContext(UserContext);
 
@@ -15,7 +16,7 @@ function WaitingQuestions(props) {
         console.log(currentUser.email);
         console.log(currentUser.role);
 
-        getQuestionsByStatus("WAITING").then((r) => {
+        getQuestionsByStatus("REJECTED").then((r) => {
             setDisplayedQuestions(r);
             setLoaded(true);
         });
@@ -29,7 +30,7 @@ function WaitingQuestions(props) {
         getQuestionsByStatus("WAITING").then((r) => {
             setDisplayedQuestions(r);
         });
-        setTitle("Intrebari in asteptare");
+        setTitle("Intrebari Respinse");
     };
 
     function questionList() {
@@ -75,20 +76,20 @@ function WaitingQuestions(props) {
     return (
         <>
             <div className={style.wrapper}>
+                <div className={style.mainContainer}>
+                    {!loaded ? (
+                        loader()
+                    ) : (
+                        <React.Fragment>
+                            {header()}
 
-                {!loaded ? (
-                    loader()
-                ) : (
-                    <div className={style.mainContainer}>
-                        {header()}
-
-                        {questionList()}
-
-                    </div>
-                )}
+                            {questionList()}
+                        </React.Fragment>
+                    )}
+                </div>
             </div>
         </>
     );
 }
 
-export default WaitingQuestions;
+export default RejectedQuestions;

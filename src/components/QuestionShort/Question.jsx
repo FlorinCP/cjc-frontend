@@ -3,6 +3,7 @@ import style from "./Question.module.css";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import UserContext from "../../context/UserContext";
 import ScheduleUser from "../ScheduleUser/ScheduleUser";
+import {useHistory} from "react-router-dom";
 
 function Question(props) {
   const [selectedFiles, setSelectedFiles] = useState(props.fileInfo);
@@ -11,6 +12,7 @@ function Question(props) {
   const [isExpanded, setIsExpanded] = useState(false);
   const [status, setStatus] = useState(props.status);
   const [scheduleView,setScheduleView] = useState(false)
+    const history = useHistory();
 
 
   useEffect(() => {
@@ -43,6 +45,7 @@ function Question(props) {
         id: props.inStorePosition,
         question: props
       })
+      history.push("/view-question")
   };
 
   function displayScheduleView(){

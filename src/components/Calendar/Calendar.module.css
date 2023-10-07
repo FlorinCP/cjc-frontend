@@ -4,7 +4,7 @@
   display: grid;
   background-color: white;
   box-sizing: border-box;
-    color: #606060;
+  color: #606060;
 }
 
 .calendarBody {
@@ -13,51 +13,64 @@
 }
 
 .dayDetails {
-  height: 80px;
+  height: 90px;
   border: 1px solid slategrey;
   box-sizing: border-box;
   padding: 5px;
-  background-color: #efefef;
+  background-color: rgba(7, 64, 101, 0.09);
 }
 
-h1{
-    color: #18446d;
-    font-size: 45px;
+h1 {
+  color: #18446d;
+  font-size: 45px;
 }
 
 .dayNames {
   display: grid;
   grid-template-columns: 1fr repeat(7, 2fr);
-    background-color: #f7f7f7;
-
+  background-color: #f7f7f7;
 }
 
 .timeSlot {
-  height: 60px;
-  border: 1px solid slategrey;
+  height: var(--cell-height);
+  border: 1px solid #ccc;
   box-sizing: border-box;
   padding: 10px;
-    background-color: #efefef;
+  background-color: rgba(7, 64, 101, 0.09);
+  font-size: 20px;
 }
 
 .emptySlot {
-  height: 60px;
-    border: 1px solid #ccc;
+  height: 70px;
+  border: 1px solid #ccc;
 
-    box-sizing: border-box;
+  box-sizing: border-box;
   padding: 10px;
   background-color: #eeeeee;
 }
 
-.unsetSlot{
-    height: 60px;
-    border: 1px solid #ccc;
-    box-sizing: border-box;
-    padding: 10px;
-    background-color: #ffffff;
-    opacity: 0.8;
-    background-image: radial-gradient( ellipse farthest-corner at 4px 4px , #d3d3d3, #d3d3d3 50%, #ffffff 50%);
-    background-size: 4px 4px;
+.occupiedSlot {
+  height: var(--cell-height);
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  background-color: #d902d9;
+}
+
+.unsetSlot {
+  height: var(--cell-height);
+  border: 1px solid #ccc;
+  box-sizing: border-box;
+  padding: 10px;
+  opacity: 0.9;
+  background: #ffffff
+    repeating-linear-gradient(
+      -45deg,
+      #d0d0d0,
+      #d0d0d0 2px,
+      #ffffff 2px,
+      #ffffff 10px
+    );
+  cursor: pointer;
 }
 
 .selectionWrapper {
@@ -87,18 +100,18 @@ h1{
   display: grid;
   grid-template-columns: 23% auto 23%;
   align-items: center;
-    background-color: #f7f7f7;
+  background-color: #f7f7f7;
   font-weight: 400;
   text-transform: uppercase;
   font-size: 25px;
   overflow: hidden;
-    color: #344055;
+  color: #344055;
 }
 #monthYear {
   display: flex;
   justify-content: center;
   align-items: center;
-    gap: 20px;
+  gap: 20px;
   border-radius: 5px;
   min-height: 5vh;
   cursor: pointer;
@@ -118,13 +131,12 @@ h1{
   cursor: pointer;
   min-height: 5vh;
   overflow-y: hidden;
-    padding-left:30px ;
+  padding-left: 30px;
 }
 
 #previous:hover {
-    background-color: rgb(241, 241, 241);
+  background-color: rgb(241, 241, 241);
 }
-
 
 #next {
   text-align: right;
@@ -136,13 +148,12 @@ h1{
   cursor: pointer;
   min-height: 5vh;
   overflow-y: hidden;
-    padding-right: 30px;
+  padding-right: 30px;
 }
 
 #next:hover {
-    background-color: rgb(241, 241, 241);
+  background-color: rgb(241, 241, 241);
 }
-
 
 .test {
   display: flex;
@@ -176,14 +187,19 @@ h1{
 }
 
 .closedDay {
-  height: 60px;
+  height: var(--cell-height);
   font-size: large;
   color: white;
-  /*background-color: rgba(89, 78, 78, 0.46);*/
+  background-color: rgba(255, 167, 167, 0.25);
   display: flex;
-    background-color: #e5e5f7;
-    opacity: 0.4;
-    background: repeating-linear-gradient( -45deg, #f74545, #f74545 2px, #e5e5f7 2px, #e5e5f7 10px );
+  /*opacity: 0.5;*/
+  /*background: repeating-linear-gradient(*/
+  /*  -45deg,*/
+  /*  #f74545,*/
+  /*  #f74545 2px,*/
+  /*  #ffffff 2px,*/
+  /*  #ffffff 10px*/
+  /*);*/
   justify-content: center;
   align-content: center;
   flex-direction: column;
@@ -238,33 +254,68 @@ h1{
 }
 
 .freeSlot {
-  height: 60px;
+  height: var(--cell-height);
   box-sizing: border-box;
-  background-color: rgba(28, 121, 184, 0.25);
-  border-top: 1px solid rgba(24, 68, 109, 0.43);
-  border-left: 1px solid rgba(24, 68, 109, 0.43);
-  border-right: 1px solid rgba(24, 68, 109, 0.43);
+  background-color: rgba(34, 139, 215, 0.06);
+  border: 1px solid #ccc;
   cursor: pointer;
+  padding-top: 1px;
+  padding-bottom: 2px;
+  position: relative;
 }
 
 .selectedSlot {
   box-sizing: border-box;
-  height: 40px;
+  height: var(--cell-height);
   background-color: rgb(255, 230, 78);
-  border-top: 2px solid orange;
-  border-left: 2px solid orange;
-  border-right: 2px solid orange;
-  width: 120px;
+  border: 2px solid orange;
   cursor: pointer;
 }
 
-.breakSlot {
+.appointment {
+  height: calc(var(--cell-height) - 4px);
+  background-color: #ffa1ff;
+  width: 95%;
+  border-bottom-right-radius: 5px;
+  border-top-right-radius: 5px;
+  transition: 0.2s all ease-in-out;
   box-sizing: border-box;
-  height: 40px;
-  background-color: rgba(75, 95, 112, 0.3);
-  border-top: 2px solid #18446d;
-  border-left: 2px solid #18446d;
-  border-right: 2px solid #18446d;
-  width: 120px;
-  cursor: pointer;
+  margin-left: -1px;
+  display: grid;
+  grid-template-columns:7% 93% ;
+}
+
+.appointment:hover .bar {
+  width: 70%;
+}
+
+.bar {
+  background-color: #d902d9;
+  height: inherit;
+  width: 40%;
+  transition: 0.2s all ease-in-out;
+}
+
+.content{
+  box-sizing: border-box;
+  padding-top: 10px;
+}
+
+.userName{
+  color: #230023;
+  font-size: 18px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  margin-bottom: 5px;
+}
+
+.contentDetails{
+  color: #720072;
+  font-size: 16px;
+  width: 100%;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }

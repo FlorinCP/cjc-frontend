@@ -1,0 +1,21 @@
+.contentMenu {
+    width: 150px;
+    position: absolute;
+    background-color: #efefef;
+    list-style: none;
+    margin: 0;
+    border: solid 1px rgb(128, 128, 128);
+    border-bottom: none;
+    z-index: 500;
+}
+
+.contentMenu li {
+    text-decoration: none;
+    cursor: pointer;
+    border-bottom: 1px solid rgb(128, 128, 128);
+    padding: 10px;
+}
+
+.contentMenu li:hover {
+    background-color: #dddddd;
+}

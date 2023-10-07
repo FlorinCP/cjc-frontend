@@ -326,21 +326,6 @@ function Calendar(props) {
     }
   }, [dayList]);
 
-
-
-  function fillSlots() {
-    let firstHour = 7;
-    const newSlotList = [];
-
-    for (let index = 0; index < 16 * 2; index++) {
-      newSlotList.push({});
-
-      firstHour++;
-    }
-
-    return newSlotList;
-  }
-
   // --------------------------------------------------------------------------------------
 
   const [monday, setMonday] = useState([]);
@@ -400,13 +385,47 @@ function Calendar(props) {
         }
     }, [integerTimeList]);
 
+
+  function convertFromStringHourToIntegerHour(timeString){
+    const [hours,minutes] = timeString.split(':').map(Number)
+    const fractionOfHour = minutes/60
+    return hours + fractionOfHour
+  }
+
+  function getAppointmentsDetails(data){
+    const appointments =  data.appointments ;
+    const startingHourArray = []
+    appointments.forEach((appointment) => {
+      startingHourArray.push(convertFromStringHourToIntegerHour(appointment.startHour))
+    })
+
+    return startingHourArray
+  }
+
+  function fillAppointment(data,index){
+    const endHour = data.endHour
+    const startingHours = data.appointments ? getAppointmentsDetails(data) : null
+    const appointments = data.appointments
+    let result ;
+
+    if (endHour > integerTimeList[index]  && startingHours.includes(integerTimeList[index])){
+      appointments.forEach((appointment) =>{
+        if(convertFromStringHourToIntegerHour(appointment.startHour) === integerTimeList[index]){
+          result = appointment
+        }
+      })
+    }
+
+    return result
+  }
+
   function getClassForSlot(data,index) {
 
       const startHour = data.startHour
       const endHour = data.endHour
       const status = data.workingStatus
       const workingHours = data.workingHours
-
+      const startingHours = data.appointments ? getAppointmentsDetails(data) : null
 
       if (data && status === "CLOSED") {
           return style.closedDay;
@@ -418,8 +437,10 @@ function Calendar(props) {
       }
 
       // orele de munca propriu zise
-      if (endHour > integerTimeList[index]){
-          return style.freeSlot
+      if (endHour > integerTimeList[index]  && startingHours.includes(integerTimeList[index])){
+         return style.occupiedSlot
+      } else if(endHour > integerTimeList[index]){
+        return style.freeSlot
       }
 
       if (endHour <= integerTimeList[index]){
@@ -435,6 +456,7 @@ function Calendar(props) {
     for (let index = 0; index < 16 * 2; index++) {
       newSlotList.push({
         style: getClassForSlot(data,index),
+        appointment : fillAppointment(data,index)
       });
 
       firstHour++;
@@ -442,11 +464,70 @@ function Calendar(props) {
     return newSlotList;
   }
 
+  function halfHourCard(value,index){
+
+    const startHour = value.appointment.startHour;
+    const fullName = `${value.appointment.nume}`+' '+`${value.appointment.prenume}`
+    console.log(fullName)
+    return(
+        <div className={style.appointment}>
+          <div className={style.bar}></div>
+          <div className={style.content}>
+            <p className={style.userName}>
+              {
+                fullName
+              }
+            </p>
+            <p className={style.contentDetails}>
+              {value.appointment.duration} h
+            </p>
+            <p className={style.contentDetails}>
+             q.no. {value.appointment.questionId}
+            </p>
+
+          </div>
+        </div>
+    )
+  }
+
+  const [selectedCardMonday,setSelectedCardMonday] = useState(null)
+  const [selectedCardTuesday,setSelectedCardTuesday] = useState(null)
+  const [selectedCardWenesday,setSelectedCardWenesday] = useState(null)
+  const [selectedCardThursday,setSelectedCardThursday] = useState(null)
+  const [selectedCardFriday,setSelectedCardFriday] = useState(null)
+  const [selectedCardSaturnday,setSelectedCardSaturnday] = useState(null)
+  const [selectedCardSunday,setSelectedCardSunday] = useState(null)
+
+  const selectCard = (index) =>{
+    setSelectedCardTuesday(index)
+    console.log(index)
+  }
+
+  function getClassName(index,valueStyle){
+    if(selectedCardTuesday === index){
+      return style.selectedSlot
+    } else{
+      return valueStyle
+    }
+  }
+
   function fillColumn(data) {
     return (
       <div>
         {fillSlotsWithParam(data).map((value, index) => (
-          <div className={value.style} key={index}></div>
+           <React.Fragment>
+             {
+               value.style === style.occupiedSlot ? (
+                   <div className={style.freeSlot} key={index} onClick={() => selectCard(index)}
+                   onContextMenu={(e) => e.preventDefault()}
+                   >
+                     {halfHourCard(value,index)}
+                   </div>
+               ) : ( <div onClick={() => selectCard(index)}
+                          onContextMenu={(e) => e.preventDefault()}
+                          className={getClassName(index,value.style)} key={index} ></div>)
+             }
+           </React.Fragment>
         ))}
       </div>
     );
@@ -474,7 +555,7 @@ function Calendar(props) {
 
   const tuesdayColumn = useMemo(() => {
     return fillColumn(tuesday);
-  }, [tuesday]);
+  }, [tuesday,selectedCardTuesday]);
 
   const wensesdayColumn = useMemo(() => {
     return fillColumn(wenesday);

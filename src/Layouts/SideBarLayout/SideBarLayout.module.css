@@ -3,3 +3,8 @@
     grid-template-columns: 20% 80%;
     width: 100vw;
 }
+
+.mainContainer{
+    width: 100%;
+
+}

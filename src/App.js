@@ -19,12 +19,13 @@ import useScreenSize from "./hooks/useScreenSize";
 import WebNavbar from "./components/WebNavbar/WebNavbar";
 import MobileNavbar from "./components/MobileNavbar/MobileNavbar";
 import SideBarLayout from "./Layouts/SideBarLayout/SideBarLayout";
-import WaitingQuestions from "./pages/WaitingQuestions/WaitingQuestions";
+import WaitingQuestions from "./pages/ViewQuestionsPages/WaitingQuestions";
 import NavBarLayout from "./Layouts/NavBarLayout/NavBarLayout";
-import RejectedQuestions from "./pages/RejectedQuestions/RejectedQuestions";
-import AcceptedQuestions from "./pages/AcceptedQuestions/AcceptedQuestions";
-import WorkingQuestions from "./pages/WorkingQuestions/WorkingQuestions";
+import RejectedQuestions from "./pages/ViewQuestionsPages/RejectedQuestions";
+import AcceptedQuestions from "./pages/ViewQuestionsPages/AcceptedQuestions";
+import WorkingQuestions from "./pages/ViewQuestionsPages/WorkingQuestions";
 import Calendar from "./components/Calendar/Calendar";
+import ViewQuestion from "./components/viewQuestion/ViewQuestion";
 
 function App() {
   return (
@@ -55,6 +56,7 @@ function App() {
                 "/accepted-questions",
                 "/rejected-questions",
                 "/working-questions",
+                "/view-question",
               ]}
             >
               <SideBarLayout>
@@ -62,6 +64,8 @@ function App() {
                 <Route path="/user-dashboard" component={MainPageUser} />
                 <Route path="/edit-schedule" component={Schedule} />
                 <Route path="/waiting-questions" component={WaitingQuestions} />
+                <Route path="/view-question" component={ViewQuestion} />
+
                 <Route
                   path="/accepted-questions"
                   component={AcceptedQuestions}
