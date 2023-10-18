@@ -1,4 +1,4 @@
-.i-container {
+.icontainer {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -22,7 +22,7 @@
     border: 2px solid #344055;
 }
 
-.inputs-disabled > .input {
+.inputsDisabled > .input {
     /*border: 2px solid rgb(128, 128, 128);*/
     opacity: 0.5;
 }

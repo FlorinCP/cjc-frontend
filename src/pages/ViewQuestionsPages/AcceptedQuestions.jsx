@@ -3,6 +3,7 @@ import style from "./ViewQuestions.module.css";
 import { getQuestionsByStatus } from "../../services/question_api";
 import UserContext from "../../context/UserContext";
 import Question from "../../components/QuestionShort/Question";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
 function AcceptedQuestions(props) {
   const [loaded, setLoaded] = useState(false);
   const [displayedQuestions, setDisplayedQuestions] = useState([]);
@@ -36,7 +37,7 @@ function AcceptedQuestions(props) {
       <>
         {displayedQuestions.length > 0 ? (
           displayedQuestions.map((question, index) => (
-            <Question
+            <QuestionCard
               id={question.id}
               email={question.email}
               phone={question.phone}

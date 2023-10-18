@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import "./MobileVideoCall.css";
+import style from  "./MobileVideoCall.module.css";
 import CodeInput from "../CodeInput/CodeInput";
 
 function MobileVideoCall(props) {
@@ -517,31 +517,31 @@ function MobileVideoCall(props) {
   const callBtn = useRef(null);
 
   return (
-    <div id="m-wrapper">
-      <img src="/pigion.png" alt="check-email" id="check-email-img" />
-      <p className="title">Videocall </p>
-      <p className="info">Enter the credentials received in the email</p>
-      <div id={isConnected ? "m-controls-big" : "m-controls"}>
-        <div className="m-controls-input">
-          <p className="info-p">Your ID</p>
+    <div className={style.wrapper}>
+      <img src="/pigion.png" alt="check-email" id={style["check-email-img"]} />
+      <p className={style.title}>Videocall </p>
+      <p className={style.info}>Enter the credentials received in the email</p>
+      <div id={isConnected ? style["m-controls-big"] : style["m-controls"]}>
+        <div className={style.mcontrolsinput}>
+          <p className={style.infop}>Your ID</p>
           <CodeInput
             sendDataToParent={handleOwnIdData}
             // sendMoreDataToParent={getUserName}
             isDisabled={false}
           />
           {isConnected ? (
-            <button className="activeBtn" disabled={isConnected}>
+            <button className={style.activeBtn} disabled={isConnected}>
               Connected
             </button>
           ) : (
             <button
-              className="actionBtn"
+              className={style.actionBtn}
               onClick={openConnection}
               // disabled={!localUserName}
               ref={connectBtn}
             >
               {connectAnimation ? (
-                <div className="btn-loader"></div>
+                <div className={style.btnLoader}></div>
               ) : (
                 <>Connect</>
               )}
@@ -550,8 +550,8 @@ function MobileVideoCall(props) {
         </div>
 
         {isConnected ? (
-          <div className="m-controls-input">
-            <p className="info-p">Partner ID</p>
+          <div className={style.mcontrolsinput}>
+            <p className={style.info}>Partner ID</p>
             <CodeInput
               sendDataToParent={handleRemoteIdData}
               // sendMoreDataToParent={getRemoteId}
@@ -559,14 +559,9 @@ function MobileVideoCall(props) {
             />
 
             {isCallOn ? (
-              <button className="activeBtn">ongoing call</button>
+              <button className={style.activeBtn}>ongoing call</button>
             ) : (
-              <button
-                className="actionBtn"
-                onClick={call}
-                // disabled={!remoteUserName}
-                ref={callBtn}
-              >
+              <button className={style.actionBtn} onClick={call} ref={callBtn}>
                 call
               </button>
             )}
@@ -577,12 +572,12 @@ function MobileVideoCall(props) {
       </div>
 
       {isConnected ? (
-        <div id="m-video-component">
-          <div id="m-videos">
-            <div id="m-remote-video-container">
+        <div id={style["m-video-component"]}>
+          <div id={style["m-videos"]}>
+            <div id={style["m-remote-video-container"]}>
               <video
                 style={{ boxShadow: showVideo ? "" : "none" }}
-                id="m-remoteVideo"
+                id={style["m-remoteVideo"]}
                 playsInline
                 ref={remoteVideo}
                 autoPlay
@@ -593,11 +588,11 @@ function MobileVideoCall(props) {
               ) : (
                 <>
                   {isReceiving ? (
-                    <div className="loader-wrapper">
-                      <button id="answerCall" onClick={answerCall}>
+                    <div className={style.loaderWrapper}>
+                      <button id={style["answerCall"]} onClick={answerCall}>
                         <span
                           className="material-symbols-outlined"
-                          id="answerPhone-icon"
+                          id={style["answerPhone-icon"]}
                         >
                           call
                         </span>
@@ -610,9 +605,9 @@ function MobileVideoCall(props) {
               )}
             </div>
 
-            <div id="m-local-video-container">
+            <div id={style["m-local-video-container"]}>
               <video
-                id="m-localVideo"
+                id={style["m-localVideo"]}
                 playsInline
                 ref={localVideo}
                 autoPlay
@@ -621,45 +616,45 @@ function MobileVideoCall(props) {
             </div>
           </div>
 
-          <div className="m-video-controls">
+          <div className={style.mvideocontrols}>
             <>
-              <div id="m-mic-control" onClick={toggleMic}>
+              <div id={style["m-mic-control"]} onClick={toggleMic}>
                 {muteMic ? (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">mic_off</span>
                   </button>
                 ) : (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">mic</span>
                   </button>
                 )}
               </div>
-              <div id="m-video-control" onClick={toggleCamera}>
+              <div id={style["m-video-control"]} onClick={toggleCamera}>
                 {showCamera ? (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">videocam</span>
                   </button>
                 ) : (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">
                       videocam_off
                     </span>
                   </button>
                 )}
               </div>
-              <div id="m-sound-control" onClick={toggleSound}>
+              <div id={style["m-sound-control"]} onClick={toggleSound}>
                 {isMuted ? (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">no_sound</span>
                   </button>
                 ) : (
-                  <button className="m-control-button">
+                  <button className={style.mcontrolbutton}>
                     <span className="material-symbols-outlined">volume_up</span>
                   </button>
                 )}
               </div>
-              <div id="m-call-control" onClick={closeCall}>
-                <button className="m-control-button" id="m-close-call">
+              <div id={style["m-call-control"]} onClick={closeCall}>
+                <button className={style.mcontrolbutton} id={style["m-close-call"]}>
                   <span className="material-symbols-outlined">call_end</span>
                 </button>
               </div>

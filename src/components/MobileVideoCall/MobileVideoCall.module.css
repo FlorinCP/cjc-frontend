@@ -1,4 +1,4 @@
-#m-wrapper {
+.wrapper {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -50,10 +50,10 @@
     grid-template-rows:  auto auto;
 }
 
-#m-controls > .m-controls-input{
+#m-controls > .mcontrolsinput{
 }
 
-.m-controls-input {
+.mcontrolsinput {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,7 +203,7 @@
 font-size: 40px;
 }
 
-.info-p{
+.infop{
     color: rgb(5, 44, 70);
     font-weight: bold;
     text-transform: uppercase;
@@ -280,7 +280,7 @@ font-size: 40px;
 
 /* video controls : mute show cam .... */
 
-.m-video-controls{
+.mvideocontrols{
     display: flex;
     gap: 10px;
     justify-content: center;
@@ -289,7 +289,7 @@ font-size: 40px;
     width: inherit;
 }
 
-.m-control-button{
+.mcontrolbutton{
     width: 30px;
     height: 50px;
     border-radius: 50%;
@@ -308,7 +308,7 @@ font-size: 40px;
 
 /* loading animation */
 
-.loader-wrapper{
+.loaderWrapper{
     position: absolute;
     top: 50%;
     height: 10vh;
@@ -316,7 +316,7 @@ font-size: 40px;
     z-index: 20;
 }
 
-.btn-loader{
+.btnLoader{
     height: 20px;
     width: 20px;
     z-index: 20;

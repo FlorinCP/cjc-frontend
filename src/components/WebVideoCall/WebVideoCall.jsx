@@ -2,7 +2,7 @@ import React from 'react';
 import {useState, useRef, useEffect} from "react";
 import SockJS from "sockjs-client";
 import {Stomp} from "@stomp/stompjs";
-import "./WebVideoCall.css";
+import  style from "./WebVideoCall.module.css";
 
 
 function WebVideoCall(props) {
@@ -41,7 +41,6 @@ function WebVideoCall(props) {
     // daca el a vrut sa se inchida sa se inchida intro parte un stream si in alta alt stream
     useEffect(() => {
         if (isCallClosed) {
-            console.log("se inchide")
             // localStream.getTracks().forEach(track => track.stop())
             if (remoteStream) {
                 remoteStream.getTracks().forEach(track => track.stop())
@@ -144,7 +143,6 @@ function WebVideoCall(props) {
     }, [localStream]);
 
     useEffect(() => {
-        console.log("e bai")
         if (remoteStream) {
             remoteVideo.current.srcObject = remoteStream;
             console.log("remote stream settings ", remoteStream.getVideoTracks()[0])
@@ -174,24 +172,24 @@ function WebVideoCall(props) {
         if (persistentStompClient) {
 
             persistentStompClient.subscribe("/topic/testServer", function (test) {
-                console.log("Received: " + test.body);
+                // console.log("Received: " + test.body);
                 // setIsConnected(test.body)
             });
 
             persistentStompClient.subscribe("/topic/closeCall", function (test) {
-                console.log("is Call closed ? : " + test.body);
+                // console.log("is Call closed ? : " + test.body);
                 setIsCallClosed(test.body)
             });
 
             persistentStompClient.subscribe("/user/" + localIdInp.current.value + "/topic/call", (call) => {
-                console.log("Sunt sunat de ", call.body)
+                // console.log("Sunt sunat de ", call.body)
 
                 // console.log("Call From: " + call.body);
                 // console.log("Remote ID: " + call.body);
 
                 remoteID = call.body;
-                console.log(" REMOTE ID ", remoteID)
-                console.log("OWN ID ", localIdInp.current.value)
+                // console.log(" REMOTE ID ", remoteID)
+                // console.log("OWN ID ", localIdInp.current.value)
 
 
                 localPeer.ontrack = (event) => {
@@ -208,7 +206,7 @@ function WebVideoCall(props) {
                         // console.log(candidate);
 
 
-                        console.log("aici e primul toUser", call.body, "  fromUser " , localIdInp.current.value)
+                        // console.log("aici e primul toUser", call.body, "  fromUser " , localIdInp.current.value)
 
 
                         persistentStompClient.send("/app/candidate", {}, JSON.stringify({
@@ -226,7 +224,7 @@ function WebVideoCall(props) {
                     localPeer.setLocalDescription(description);
                     // console.log("Setting Description" + description);
 
-                    console.log("aici e AL DOILEA toUser", call.body , " fromUser " ,localIdInp.current.value)
+                    // console.log("aici e AL DOILEA toUser", call.body , " fromUser " ,localIdInp.current.value)
 
                     persistentStompClient.send("/app/offer", {}, JSON.stringify({
                         toUser: call.body, fromUser: localIdInp.current.value, offer: description,
@@ -237,7 +235,7 @@ function WebVideoCall(props) {
             });
 
             persistentStompClient.subscribe("/user/" + localIdInp.current.value + "/topic/offer", (offer) => {
-                console.log("Am OFerit")
+                // console.log("Am OFerit")
                 // setShowVideo(prevState => !prevState)
                 // console.log("Offer came");
                 var o = JSON.parse(offer.body)["offer"];
@@ -259,7 +257,7 @@ function WebVideoCall(props) {
                         // console.log(candidate);
 
 
-                        console.log(" al 3 lea toUser ",remoteID , " from USer " , localIdInp.current.value)
+                        // console.log(" al 3 lea toUser ",remoteID , " from USer " , localIdInp.current.value)
                         persistentStompClient.send("/app/candidate", {}, JSON.stringify({
                             toUser: remoteID, fromUser: localIdInp.current.value, candidate: candidate,
                         }));
@@ -278,7 +276,7 @@ function WebVideoCall(props) {
                     // console.log(description);
 
 
-                    console.log(" al 4 lea toUSer " , remoteID , " from User ", localIdInp.current.value)
+                    // console.log(" al 4 lea toUSer " , remoteID , " from User ", localIdInp.current.value)
                     persistentStompClient.send("/app/answer", {}, JSON.stringify({
                         toUser: remoteID, fromUser: localIdInp.current.value, answer: description,
                     }));
@@ -287,7 +285,7 @@ function WebVideoCall(props) {
             });
 
             persistentStompClient.subscribe("/user/" + localIdInp.current.value + "/topic/answer", (answer) => {
-                console.log("am primit / answear")
+                // console.log("am primit / answear")
                 // setShowVideo(prevState => !prevState)
                 // console.log("Answer Came");
                 let o = JSON.parse(answer.body)["answer"];
@@ -297,7 +295,7 @@ function WebVideoCall(props) {
             });
 
             persistentStompClient.subscribe("/user/" + localIdInp.current.value + "/topic/candidate", (answer) => {
-                console.log("candidate , cplm e asta")
+                // console.log("candidate , cplm e asta")
                 // setShowVideo(prevState => !prevState)
                 // console.log("Candidate Came");
                 let o = JSON.parse(answer.body)["candidate"];
@@ -322,7 +320,7 @@ function WebVideoCall(props) {
         let start = Date.now();
         persistentStompClient.send("/app/testServer", {}, true);
         let delta = Date.now() - start;
-        console.log("latency", delta)
+        // console.log("latency", delta)
         setLatency(delta)
     }
 
@@ -344,92 +342,67 @@ function WebVideoCall(props) {
 
 
     return (
-        <div id="wrapper">
-            <div id="video-component">
-                <div id="videos">
-                    {/*<div id="localVideoContainer">*/}
-                    {/*    <video*/}
-                    {/*        id="localVideo"*/}
-                    {/*        playsInline*/}
-                    {/*        ref={localVideo}*/}
-                    {/*        autoPlay*/}
-                    {/*        muted*/}
-                    {/*    ></video>*/}
-
-                    {/*</div>*/}
-                    <div id="remoteVideoContainer">
+        <div className={style.wrapper}>
+            <div className={style.videoComponent}>
+                <div className={style.videos}>
+                    <div className={style.remoteVideoContainer}>
                         <video
                             style={{boxShadow: showVideo ? '' : "none"}}
-                            id="remoteVideo"
+                            className={style.remoteVideo}
                             playsInline
                             ref={remoteVideo}
                             autoPlay
                         ></video>
-
-                        {/*{*/}
-                        {/*    showVideo ? (*/}
-                        {/*        <video*/}
-                        {/*            style={{boxShadow: showVideo ? '' : "none"}}*/}
-                        {/*            id="remoteVideo"*/}
-                        {/*            playsInline*/}
-                        {/*            ref={remoteVideo}*/}
-                        {/*            autoPlay*/}
-                        {/*        ></video>*/}
-
-                        {/*    ) : (<div className="loader">*/}
-
-                        {/*    </div>)*/}
-                        {/*}*/}
                     </div>
-                    <div className="video-controls">
-                        <div id="mic-control" onClick={toggleMic}>
+                    <div className={style.videoControls}>
+                        <div onClick={toggleMic}>
                             {
                                 muteMic ? (
-                                    <button className="control-button">
+                                    <button className={style.controlButton}>
                                         <span className="material-symbols-outlined">mic_off</span>
                                     </button>
                                 ) : (
-                                    <button className="control-button">
+                                    <button className={style.controlButton}>
                                         <span className="material-symbols-outlined">mic</span>
                                     </button>
                                 )
                             }
                         </div>
-                        <div id="video-control" onClick={toggleCamera}>
+                        <div onClick={toggleCamera}>
 
                             {showCamera ? (
 
-                                <button className="control-button">
+                                <button className={style.controlButton}>
                                     <span className="material-symbols-outlined">videocam</span>
                                 </button>) : (
 
-                                <button className="control-button">
+                                <button className={style.controlButton}>
                                     <span className="material-symbols-outlined">videocam_off</span>
                                 </button>)}
                         </div>
-                        <div id="sound-control" onClick={toggleSound}>
-                            {isMuted ? (<button className="control-button">
+                        <div onClick={toggleSound}>
+                            {isMuted ? (<button className={style.controlButton}>
                                 <span className="material-symbols-outlined">no_sound</span>
                             </button>) : (
 
-                                <button className="control-button">
+                                <button className={style.controlButton}>
                                     <span className="material-symbols-outlined">volume_up</span>
                                 </button>)}
                         </div>
-                        <div id="call-control" onClick={closeCall}>
-                            <button className="control-button" id="close-call">
+                        <div onClick={closeCall}>
+                            <button className={style.controlButton} id={style["close-call"]}>
                                 <span className="material-symbols-outlined">call_end</span>
                             </button>
                         </div>
                     </div>
                 </div>
 
-                <div id="controls">
+                <div className={style.controls}>
 
 
-                    <div id="connection-controls">
-                        <div className="controls-input">
-                            <div className="container">
+                    <div className={style.connectionControls}>
+                        <div className={style.controlsInput}>
+                            <div className={style.container}>
                                 <input
                                     type="text"
                                     name="localId"
@@ -437,15 +410,14 @@ function WebVideoCall(props) {
                                     maxLength="4"
                                     ref={localIdInp}
                                 ></input>
-                                {/*<p className="placeholder">OWN ID</p>*/}
                             </div>
                             {
                                 isConnected ? (
-                                    <button id="connectBtn" onClick={openConnection}>
+                                    <button className={style.activeBtn} onClick={openConnection}>
                                         Connected !
                                     </button>
                                 ) : (
-                                    <button id="connectBtn" onClick={openConnection}>
+                                    <button className={style.actionBtn} onClick={openConnection}>
                                         Connect
                                     </button>
                                 )
@@ -453,8 +425,8 @@ function WebVideoCall(props) {
 
 
                         </div>
-                        <div className="controls-input">
-                            <div className="container">
+                        <div className={style.controlsInput}>
+                            <div className={style.container}>
 
                                 <input
                                     type="text"
@@ -462,42 +434,34 @@ function WebVideoCall(props) {
                                     id="remoteId"
                                     ref={remoteIdInp}
                                 ></input>
-                                {/*<p className="placeholder" ref={remotePlaceholder} >REMOTE ID</p>*/}
                             </div>
 
                             {
                                 isCallOn ? (
-                                    <button id="callBtn" onClick={call}>
+                                    <button className={style.activeBtn} onClick={call}>
                                         ongoing call
                                     </button>
                                 ) : (
-                                    <button id="callBtn" onClick={call}>
+                                    <button className={style.actionBtn} onClick={call}>
                                         call
                                     </button>
                                 )
                             }
 
-                            <button onClick={toggleVideo}>Test</button>
                         </div>
-                        <div className="controls-input">
-                            <button id="testConnection" onClick={newTest}>
-                                Test Connection
-                            </button>
-                            <button onClick={answerCall}>
-                                Raspunde ba
-                            </button>
-                            <div>
-                                UP TIME :
-                            </div>
-                            <div>
-                                {minutes} : {time} {latency}
-                            </div>
-                        </div>
+                        {/*<div className={style.controlsInput}>*/}
+                        {/*    <div>*/}
+                        {/*        UP TIME :*/}
+                        {/*    </div>*/}
+                        {/*    <div>*/}
+                        {/*        {minutes} : {time} {latency}*/}
+                        {/*    </div>*/}
+                        {/*</div>*/}
                     </div>
 
-                    <div id="local-video-control">
+                    <div className={style.localVideoControl}>
                         <video
-                            id="localVideo"
+                            className={style.localVideo}
                             playsInline
                             ref={localVideo}
                             autoPlay

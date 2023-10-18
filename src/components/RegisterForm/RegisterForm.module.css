@@ -48,7 +48,17 @@
     color: white;
     height: 60px;
     width: 20vw;
-
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: "Montserrat", sans-serif;
+    transition: all 0.3s ease-in-out;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border: none;
 }
 
-
+.loginRegisterBtn:hover{
+    background-color: orange;
+    transition: all 0.3s ease-in-out;
+    border: none;
+}

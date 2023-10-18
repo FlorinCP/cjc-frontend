@@ -1,5 +1,3 @@
-import React, { useContext, useEffect, useState } from "react";
-import styles from "./App.module.css";
 import {
   BrowserRouter as Router,
   Switch,
@@ -14,10 +12,6 @@ import Login from "./pages/Login/Login";
 import UserContext, { MyProvider } from "./context/UserContext";
 import MainPage from "./pages/MainPage/MainPage";
 import AddQuestion from "./pages/AddQuestion/AddQuestion";
-import Test from "./components/Test/Test";
-import useScreenSize from "./hooks/useScreenSize";
-import WebNavbar from "./components/WebNavbar/WebNavbar";
-import MobileNavbar from "./components/MobileNavbar/MobileNavbar";
 import SideBarLayout from "./Layouts/SideBarLayout/SideBarLayout";
 import WaitingQuestions from "./pages/ViewQuestionsPages/WaitingQuestions";
 import NavBarLayout from "./Layouts/NavBarLayout/NavBarLayout";
@@ -26,22 +20,22 @@ import AcceptedQuestions from "./pages/ViewQuestionsPages/AcceptedQuestions";
 import WorkingQuestions from "./pages/ViewQuestionsPages/WorkingQuestions";
 import Calendar from "./components/Calendar/Calendar";
 import ViewQuestion from "./components/viewQuestion/ViewQuestion";
+import LandingPageMobile from "./pages/LandingPageMobile/LandingPageMobile";
 
 function App() {
   return (
     <MyProvider>
-      <div className={styles.globalWrapper}>
         <Router>
           <Switch>
             <Route
               exact
-              path={["/", "/login", "/add-question", "/test", "/videocall"]}
+              path={["/", "/login", "/add-question", "/videocall","old"]}
             >
               <NavBarLayout>
-                <Route exact path="/" component={LandingPage} />
+                <Route exact path="/" component={LandingPageMobile} />
+                  <Route path="/old" component={LandingPage} />
                 <Route path="/login" component={Login} />
                 <Route path="/add-question" component={AddQuestion} />
-                <Route path="/test" component={Test} />
                 <Route path="/videocall" component={VideoCall} />
               </NavBarLayout>
             </Route>
@@ -80,7 +74,6 @@ function App() {
             </Route>
           </Switch>
         </Router>
-      </div>
     </MyProvider>
   );
 }

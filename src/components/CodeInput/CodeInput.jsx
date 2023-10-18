@@ -1,5 +1,5 @@
 import React, {useEffect, useRef, useState} from 'react';
-import "./CodeInput.css"
+import style from "./CodeInput.module.css"
 
 function CodeInput({
                        sendDataToParent,
@@ -53,22 +53,22 @@ function CodeInput({
     }
 
     return (
-        <div className="i-container" >
-            <div id="inputs" className={ isDisabled ? "inputs-disabled" : "inputs" } ref={inputs} onInput={triggerSmth} onKeyUp={triggerSmthElse} >
-                <input className="input" type="text"
+        <div className={style.icontainer} >
+            <div id="inputs" className={ isDisabled ? style.inputsDisabled : style.inputs } ref={inputs} onInput={triggerSmth} onKeyUp={triggerSmthElse} >
+                <input className={style.input} type="text"
                        autoFocus={!isDisabled}
                        inputMode="numeric" maxLength="1"
                        disabled={isDisabled}
                 />
-                <input className="input" type="text"
+                <input className={style.input} type="text"
                        inputMode="numeric" maxLength="1"
                        disabled={isDisabled}
                 />
-                <input className="input" type="text"
+                <input className={style.input} type="text"
                        inputMode="numeric" maxLength="1"
                        disabled={isDisabled}
                 />
-                <input className="input" type="text"
+                <input className={style.input} type="text"
                        inputMode="numeric" maxLength="1"
                        disabled={isDisabled}
                 />

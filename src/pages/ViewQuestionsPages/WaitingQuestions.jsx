@@ -1,8 +1,8 @@
 import React, {useContext, useEffect, useState} from 'react';
 import style from './ViewQuestions.module.css'
 import {getQuestionsByStatus} from "../../services/question_api";
-import Question from "../../components/QuestionShort/Question";
 import UserContext from "../../context/UserContext";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
 function WaitingQuestions(props) {
 
     const [loaded, setLoaded] = useState(false);
@@ -37,7 +37,7 @@ function WaitingQuestions(props) {
             <>
                 {displayedQuestions.length > 0 ? (
                     displayedQuestions.map((question, index) => (
-                        <Question
+                        <QuestionCard
                             id={question.id}
                             email={question.email}
                             phone={question.phone}

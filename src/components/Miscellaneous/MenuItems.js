@@ -6,11 +6,11 @@ export const MenuItems = [
   },
   {
     title: 'Program',
-    path: '/program',
+    path: '/week-schedule',
     cName: 'dropdown-link'
   },
   {
-    title: 'Solicita Ajutor',
+    title: 'Adauga Intrebare',
     path: '/add-question',
     cName: 'dropdown-link'
   },

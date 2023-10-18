@@ -4,6 +4,7 @@ import {getQuestionsByStatus} from "../../services/question_api";
 import UserContext from "../../context/UserContext";
 import {useHistory} from "react-router-dom";
 import Question from "../../components/QuestionShort/Question";
+import QuestionCard from "../../components/QuestionCard/QuestionCard";
 function RejectedQuestions(props) {
 
     const [loaded, setLoaded] = useState(false);
@@ -38,7 +39,7 @@ function RejectedQuestions(props) {
             <>
                 {displayedQuestions.length > 0 ? (
                     displayedQuestions.map((question, index) => (
-                        <Question
+                        <QuestionCard
                             id={question.id}
                             email={question.email}
                             phone={question.phone}

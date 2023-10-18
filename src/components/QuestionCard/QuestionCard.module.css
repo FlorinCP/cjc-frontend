@@ -1,14 +1,5 @@
-.bigWrapper{
-    width: 80vw;
-    min-height: calc(100vh - 80px);
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    flex-direction: column;
-    position: relative;
-}
 .questionWrapper{
-    width: 70vw;
+    width: 60vw;
     height: fit-content;
     display: flex;
     justify-content: center;
@@ -23,59 +14,11 @@
     border-radius: 10px;
     position: relative;
     margin-bottom: 50px;
-    border: 2px solid #18446d;
-}
-
-.header{
-    width: 80vw;
-    min-height: 80px;
-    background-color: rgba(7, 64, 101, 0.09);
-    display: grid;
-    place-items: center;
-}
-
-.header > div {
-    display: flex;
-    align-items: center;
-    flex-direction: row;
-}
-
-.title {
-    font-size: 1.6rem;
-    color: #0f3f65;
-    font-weight: bolder;
-    font-stretch: expanded;
-    text-transform: uppercase;
-}
-
-.goBack {
-    width: 8vw;
-    font-size: 1.4rem;
-    color: #0f3f65;
-    display: flex;
-    align-items: center;
-    justify-content: center;
-    border: none;
-    margin-left: 30px;
-    padding: 7px 15px;
-    border-radius: 20px;
-    background-color: transparent;
-    cursor: pointer;
-    position: absolute;
-    left: 0;
-}
-
-
-.goBack:hover {
-    background-color: #f7f7f7;
-}
-
-.goBack > span {
-    font-size: 30px;
+    border: 1px solid #18446d;
 }
 
 .pdfFileWrapper{
-    width: 70vw;
+    width: 60vw;
     height: fit-content;
     display: flex;
     justify-content: center;
@@ -102,7 +45,7 @@
 .titleAndText{
     background-color: rgba(249, 249, 249, 0.76);
     padding: 20px;
-    width: 68vw;
+    width: 58vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
@@ -113,14 +56,14 @@
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 67vw;
+    width: 57vw;
 }
 
 .questionText{
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 67vw;
+    width: 57vw;
     max-height: 40vh;
 }
 
@@ -128,6 +71,12 @@
     display: grid;
     place-items: center;
     margin: 30px;
+    font-size: 26px;
+    color: #18446d;
+    font-weight: 500;
+}
+
+.title{
     font-size: 26px;
     color: #18446d;
     font-weight: 500;
@@ -205,7 +154,7 @@
 }
 
 .author{
-    width: 68vw;
+    width: 58vw;
     height: 5vh;
     background-color: #f7f7f7;
     display: flex;
@@ -220,7 +169,7 @@
 }
 
 .filesInfoAndButtons{
-    width: 68vw;
+    width: 58vw;
     display: flex;
     justify-content: space-between;
     flex-direction: row;
@@ -304,7 +253,7 @@ h2,h3{
 
 #uploadedFiles{
     margin-top: 30px;
-    width: 68vw;
+    width: 58vw;
     height: 260px;
     padding: 10px;
     box-sizing: border-box;
@@ -328,10 +277,6 @@ h2,h3{
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     cursor: pointer;
-}
-
-.fileRepresentation:hover{
-    background-color: #f7f7f7;
 }
 
 .fileRepresentationSelected{

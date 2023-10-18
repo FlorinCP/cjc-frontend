@@ -4,7 +4,6 @@ import Footer from "../../components/Footer/Footer";
 import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import Slider from "react-slick";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
 
 function LandingPage(props) {
@@ -100,7 +99,7 @@ function LandingPage(props) {
       </div>
 
 
-      <ImageCarousel images={images} />
+      <ImageCarousel/>
 
       <div className={style.messagesInfo}>
         <div className={style.inputContainer}>

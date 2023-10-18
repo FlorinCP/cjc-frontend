@@ -109,6 +109,8 @@ function Calendar(props) {
     }
   }, [closedDays]);
 
+
+  // asta e important
   useEffect(() => {
     fillPrev();
     fillMonth();
@@ -158,21 +160,17 @@ function Calendar(props) {
     }
   }, [selectedDate]);
 
-  function header() {
-    return (
-      <div className={style.header}>
-        <div id={style["previous"]} onClick={prevMonth}>
-          <span className="material-symbols-outlined"> navigate_before </span>
+  function weekNavigation(){
+    return(
+        <div className={style.weekNavigation}>
+          <div onClick={()=> setWeekIndex((oldVal) => oldVal - 1 )}>
+            <span className="material-symbols-outlined"> navigate_before </span>
+          </div>
+          <div onClick={()=> setWeekIndex((oldVal) => oldVal + 1 )}>
+            <span className="material-symbols-outlined">navigate_next</span>
+          </div>
         </div>
-        <div id={style["monthYear"]}>
-          <span>{monthName}</span>
-          <span>{fullYear}</span>
-        </div>
-        <div id={style["next"]} onClick={nextMonth}>
-          <span className="material-symbols-outlined">navigate_next</span>
-        </div>
-      </div>
-    );
+    )
   }
 
   function weekNameBar() {
@@ -281,6 +279,43 @@ function Calendar(props) {
     setDisplayedWeek(firstWeek);
   }
 
+  function secondWeek() {
+    const length = 14;
+    let secondWeek;
+    secondWeek = [...dayList.slice(7, length)];
+    secondWeek.map((day, index) => {
+      if (day.getDay() === 0 && index === 0) {
+        secondWeek.shift();
+        secondWeek.push(...dayList.slice(length, length + 1));
+      }
+    });
+    console.log(secondWeek)
+    setDisplayedWeek(secondWeek);
+  }
+
+  const [weekIndex,setWeekIndex] = useState(0)
+
+  function generalWeek(weekIndex){
+    console.log("weekIndex",weekIndex)
+    const length = 7 * weekIndex;
+    let generalWeek;
+    generalWeek = [...dayList.slice( weekIndex === 1 ? 0 : 7*weekIndex-7, length)];
+    generalWeek.map((day, index) => {
+      if (day.getDay() === 0 && index === 0) {
+        generalWeek.shift();
+        generalWeek.push(...dayList.slice(length, length + 1));
+      }
+    });
+    console.log(generalWeek)
+    setDisplayedWeek(generalWeek);
+  }
+
+  useEffect(() => {
+    if (weekIndex){
+      generalWeek(weekIndex)
+    }
+  }, [weekIndex]);
+
   // function daysGrid() {
   //   return (
   //     <div className={style.daysGrid}>
@@ -294,27 +329,27 @@ function Calendar(props) {
   // }
 
   const [timeList, setTimeList] = useState([]);
-    const [integerTimeList,setIntegerTimeList] = useState([])
+  const [integerTimeList, setIntegerTimeList] = useState([]);
 
   function fillTime() {
     let firstHour = 7;
     const newTimeList = [];
-    const newIntegerTimeList =[]
+    const newIntegerTimeList = [];
 
     for (let i = 0; i < 16 * 2; i++) {
       const isEven = i % 2 === 0;
       const formattedHour = isEven ? `${firstHour}:00` : `${firstHour}:30`;
-      const hour = isEven ? firstHour : firstHour + 0.5
+      const hour = isEven ? firstHour : firstHour + 0.5;
 
       newTimeList.push(formattedHour);
-      newIntegerTimeList.push(hour)
+      newIntegerTimeList.push(hour);
 
       if (!isEven) {
         firstHour++;
       }
     }
 
-    setIntegerTimeList(newIntegerTimeList)
+    setIntegerTimeList(newIntegerTimeList);
     setTimeList(newTimeList);
   }
 
@@ -336,27 +371,26 @@ function Calendar(props) {
   const [saturnday, setSaturnday] = useState([]);
   const [sunday, setSunday] = useState([]);
 
-    // here we set de dayArray by the days in a week
-    useEffect(() => {
-        if (displayedWeek) {
-            displayedWeek.map((value, index) => {
-                const currentDate = {
-                    monthNumber: value.getMonth() + 1,
-                    dayNumber: value.getDate(),
-                    year: value.getFullYear(),
-                };
-                getDayData(currentDate).then((r) => {
-                    setWeekDay(index, r);
-                });
-            });
-        }
-    }, [displayedWeek]);
+  // here we set de dayArray by the days in a week
+  useEffect(() => {
+    if (displayedWeek) {
+      displayedWeek.map((value, index) => {
+        const currentDate = {
+          monthNumber: value.getMonth() + 1,
+          dayNumber: value.getDate(),
+          year: value.getFullYear(),
+        };
+        getDayData(currentDate).then((r) => {
+          setWeekDay(index, r);
+        });
+      });
+    }
+  }, [displayedWeek]);
 
   function setWeekDay(index, r) {
     switch (index) {
       case 0:
         setMonday(r);
-          console.log(r,"monday")
         break;
       case 1:
         setTuesday(r);
@@ -379,74 +413,80 @@ function Calendar(props) {
     }
   }
 
-    useEffect(() => {
-        if (integerTimeList){
-            console.log(integerTimeList)
-        }
-    }, [integerTimeList]);
-
-
-  function convertFromStringHourToIntegerHour(timeString){
-    const [hours,minutes] = timeString.split(':').map(Number)
-    const fractionOfHour = minutes/60
-    return hours + fractionOfHour
+  function convertFromStringHourToIntegerHour(timeString) {
+    const [hours, minutes] = timeString.split(":").map(Number);
+    const fractionOfHour = minutes / 60;
+    return hours + fractionOfHour;
   }
 
-  function getAppointmentsDetails(data){
-    const appointments =  data.appointments ;
-    const startingHourArray = []
+  function getAppointmentsDetails(data) {
+    const appointments = data.appointments;
+    const startingHourArray = [];
     appointments.forEach((appointment) => {
-      startingHourArray.push(convertFromStringHourToIntegerHour(appointment.startHour))
-    })
+      startingHourArray.push(
+        convertFromStringHourToIntegerHour(appointment.startHour),
+      );
+    });
 
-    return startingHourArray
+    return startingHourArray;
   }
 
-  function fillAppointment(data,index){
-    const endHour = data.endHour
-    const startingHours = data.appointments ? getAppointmentsDetails(data) : null
-    const appointments = data.appointments
-    let result ;
+  function fillAppointment(data, index) {
+    const endHour = data.endHour;
+    const startingHours = data.appointments
+      ? getAppointmentsDetails(data)
+      : null;
+    const appointments = data.appointments;
+    let result;
 
-    if (endHour > integerTimeList[index]  && startingHours.includes(integerTimeList[index])){
-      appointments.forEach((appointment) =>{
-        if(convertFromStringHourToIntegerHour(appointment.startHour) === integerTimeList[index]){
-          result = appointment
+    if (
+      endHour > integerTimeList[index] &&
+      startingHours.includes(integerTimeList[index])
+    ) {
+      appointments.forEach((appointment) => {
+        if (
+          convertFromStringHourToIntegerHour(appointment.startHour) ===
+          integerTimeList[index]
+        ) {
+          result = appointment;
         }
-      })
+      });
     }
 
-    return result
+    return result;
   }
 
-  function getClassForSlot(data,index) {
+  function getClassForSlot(data, index) {
+    const startHour = data.startHour;
+    const endHour = data.endHour;
+    const status = data.workingStatus;
+    const workingHours = data.workingHours;
+    const startingHours = data.appointments
+      ? getAppointmentsDetails(data)
+      : null;
 
-      const startHour = data.startHour
-      const endHour = data.endHour
-      const status = data.workingStatus
-      const workingHours = data.workingHours
-      const startingHours = data.appointments ? getAppointmentsDetails(data) : null
+    if (data && status === "CLOSED") {
+      return style.closedDay;
+    }
 
-      if (data && status === "CLOSED") {
-          return style.closedDay;
-      }
+    // daca noi avem program de la 8 si incepe calendarul la 7
+    if (startHour > integerTimeList[index]) {
+      return style.unsetSlot;
+    }
 
-      // daca noi avem program de la 8 si incepe calendarul la 7
-      if (startHour > integerTimeList[index] ){
-          return  style.unsetSlot
-      }
+    // orele de munca propriu zise
+    if (
+      endHour > integerTimeList[index] &&
+      startingHours.includes(integerTimeList[index])
+    ) {
+      return style.occupiedSlot;
+    } else if (endHour > integerTimeList[index]) {
+      return style.freeSlot;
+    }
 
-      // orele de munca propriu zise
-      if (endHour > integerTimeList[index]  && startingHours.includes(integerTimeList[index])){
-         return style.occupiedSlot
-      } else if(endHour > integerTimeList[index]){
-        return style.freeSlot
-      }
-
-      if (endHour <= integerTimeList[index]){
-          return style.unsetSlot
-      }
-
+    if (endHour <= integerTimeList[index]) {
+      return style.unsetSlot;
+    }
   }
 
   function fillSlotsWithParam(data) {
@@ -455,8 +495,8 @@ function Calendar(props) {
 
     for (let index = 0; index < 16 * 2; index++) {
       newSlotList.push({
-        style: getClassForSlot(data,index),
-        appointment : fillAppointment(data,index)
+        style: getClassForSlot(data, index),
+        appointment: fillAppointment(data, index),
       });
 
       firstHour++;
@@ -464,118 +504,118 @@ function Calendar(props) {
     return newSlotList;
   }
 
-  function halfHourCard(value,index){
-
+  function halfHourCard(value, index) {
     const startHour = value.appointment.startHour;
-    const fullName = `${value.appointment.nume}`+' '+`${value.appointment.prenume}`
-    console.log(fullName)
-    return(
-        <div className={style.appointment}>
-          <div className={style.bar}></div>
-          <div className={style.content}>
-            <p className={style.userName}>
-              {
-                fullName
-              }
-            </p>
-            <p className={style.contentDetails}>
-              {value.appointment.duration} h
-            </p>
-            <p className={style.contentDetails}>
-             q.no. {value.appointment.questionId}
-            </p>
-
-          </div>
+    const fullName =
+      `${value.appointment.nume}` + " " + `${value.appointment.prenume}`;
+    return (
+      <div className={style.appointment}>
+        <div className={style.bar}></div>
+        <div className={style.content}>
+          <p className={style.userName}>{fullName}</p>
+          <p className={style.contentDetails}>{value.appointment.duration} h</p>
+          <p className={style.contentDetails}>
+            q.no. {value.appointment.questionId}
+          </p>
         </div>
-    )
+      </div>
+    );
   }
 
-  const [selectedCardMonday,setSelectedCardMonday] = useState(null)
-  const [selectedCardTuesday,setSelectedCardTuesday] = useState(null)
-  const [selectedCardWenesday,setSelectedCardWenesday] = useState(null)
-  const [selectedCardThursday,setSelectedCardThursday] = useState(null)
-  const [selectedCardFriday,setSelectedCardFriday] = useState(null)
-  const [selectedCardSaturnday,setSelectedCardSaturnday] = useState(null)
-  const [selectedCardSunday,setSelectedCardSunday] = useState(null)
+  const [selectedCard,setSelectedCard] = useState({index:undefined,weekday:undefined})
 
-  const selectCard = (index) =>{
-    setSelectedCardTuesday(index)
-    console.log(index)
-  }
+  const selectCard = (index, weekDay) => {
+    if (selectedCard.index === index && selectedCard.weekDay === weekDay){
+      console.log("muie")
+      setSelectedCard({index:undefined,weekDay:undefined});
+    } else {
+    setSelectedCard({index:index,weekDay:weekDay});
+    }
+  };
 
-  function getClassName(index,valueStyle){
-    if(selectedCardTuesday === index){
-      return style.selectedSlot
-    } else{
-      return valueStyle
+  useEffect(() => {
+    console.log(selectedCard)
+  }, [selectedCard]);
+
+  function getClassName(index, valueStyle,weekDay) {
+    if (selectedCard.index === index && selectedCard.weekDay === weekDay) {
+      return style.selectedSlot;
+    } else {
+      return valueStyle;
     }
   }
 
-  function fillColumn(data) {
+  function fillColumn(data, weekDay) {
     return (
       <div>
         {fillSlotsWithParam(data).map((value, index) => (
-           <React.Fragment>
-             {
-               value.style === style.occupiedSlot ? (
-                   <div className={style.freeSlot} key={index} onClick={() => selectCard(index)}
-                   onContextMenu={(e) => e.preventDefault()}
-                   >
-                     {halfHourCard(value,index)}
-                   </div>
-               ) : ( <div onClick={() => selectCard(index)}
-                          onContextMenu={(e) => e.preventDefault()}
-                          className={getClassName(index,value.style)} key={index} ></div>)
-             }
-           </React.Fragment>
+          <React.Fragment>
+            {value.style === style.occupiedSlot ? (
+              <div
+                className={style.freeSlot}
+                key={index}
+                onClick={() => selectCard(index, weekDay)}
+                onContextMenu={(e) => e.preventDefault()}
+              >
+                {halfHourCard(value, index)}
+              </div>
+            ) : (
+              <div
+                onClick={() => selectCard(index, weekDay)}
+                onContextMenu={(e) => e.preventDefault()}
+                className={getClassName(index, value.style, weekDay)}
+                key={index}
+              ></div>
+            )}
+          </React.Fragment>
         ))}
       </div>
     );
   }
 
-    function fillTimeColumn() {
-        return (
-            <div>
-                {timeList.map((value, index) => (
-                    <div className={style.timeSlot} key={index}>
-                        {value}
-                    </div>
-                ))}
-            </div>
-        );
-    }
+  function fillTimeColumn() {
+    return (
+      <div>
+        {timeList.map((value, index) => (
+          <div className={style.timeSlot} key={index}>
+            {value}
+          </div>
+        ))}
+      </div>
+    );
+  }
 
-    const timeColumn = useMemo(()=>{
-        return fillTimeColumn()
-    },[timeList])
+  const timeColumn = useMemo(() => {
+    return fillTimeColumn();
+  }, [timeList]);
 
   const mondayColumn = useMemo(() => {
-    return fillColumn(monday);
-  }, [monday]);
+    return fillColumn(monday, 0);
+  }, [monday,selectedCard]);
 
   const tuesdayColumn = useMemo(() => {
-    return fillColumn(tuesday);
-  }, [tuesday,selectedCardTuesday]);
+    return fillColumn(tuesday, 1);
+  }, [tuesday,selectedCard]);
 
   const wensesdayColumn = useMemo(() => {
-    return fillColumn(wenesday);
-  }, [wenesday]);
+    return fillColumn(wenesday, 2);
+  }, [wenesday,selectedCard]);
 
   const thursdayColumn = useMemo(() => {
-    return fillColumn(thursday);
-  }, [thursday]);
+    return fillColumn(thursday, 3);
+  }, [thursday,selectedCard]);
 
   const fridayColumn = useMemo(() => {
-    return fillColumn(friday);
-  }, [friday]);
+    return fillColumn(friday, 4);
+  }, [friday,selectedCard]);
 
   const saturndayColumn = useMemo(() => {
-    return fillColumn(saturnday);
-  }, [saturnday]);
+    return fillColumn(saturnday, 5);
+  }, [saturnday,selectedCard]);
 
   const sundayColumn = useMemo(() => {
-    return fillColumn(sunday);
-  }, [sunday]);
+    return fillColumn(sunday, 6);
+  }, [sunday,selectedCard]);
 
   function populateColumns() {
     return (
@@ -594,7 +634,7 @@ function Calendar(props) {
   function populateHeader() {
     return (
       <div className={style.dayNames}>
-        <div className={style.dayDetails}></div>
+        {weekNavigation()}
         {displayedWeek.map((item, index) => (
           <div key={index} className={style.dayDetails}>
             <h1>{item.getDate()}</h1>
@@ -607,7 +647,6 @@ function Calendar(props) {
 
   return (
     <div className={style.datePicker}>
-      {header()}
       {populateHeader()}
       {populateColumns()}
     </div>

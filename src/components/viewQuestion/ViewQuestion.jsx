@@ -4,6 +4,7 @@ import { mapToObject, updateStatus } from "../../services/question_api";
 import style from "./ViewQuestion.module.css";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import { fetchPdfData } from "../../services/file_api";
+import { useHistory } from "react-router-dom";
 
 function ViewQuestion(props) {
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
@@ -65,7 +66,7 @@ function ViewQuestion(props) {
   };
 
   const goNext = () => {
-    if (currentIndex + 1 < viewModeON.question.fileNumber ) {
+    if (currentIndex + 1 < viewModeON.question.fileNumber) {
       showFile(currentIndex + 1);
     }
   };
@@ -79,95 +80,134 @@ function ViewQuestion(props) {
   const closeModal = () => {
     setCurrentFile(null);
   };
+  const history = useHistory();
 
-  return (
-    <>
+  const goBackToQuestions = () => {
+    updateViewMode({
+      status: false,
+      id: null,
+      question: {},
+    });
+    history.goBack();
+  };
+
+  function header() {
+    return (
+      <div className={style.header}>
+        <div className={style.goBack} onClick={goBackToQuestions}>
+          <span className="material-symbols-outlined">chevron_left</span> Inapoi
+        </div>
+        <p className={style.title}>Vizualizare Detaliata</p>
+      </div>
+    );
+  }
+
+  function status() {
+    return (
+      <div className={style.status}>
+        {viewModeON.question.status === "WAITING" &&
+          currentUser.role === "USER" && (
+            <div>
+              <h2>Intrebarea dumneavoastra se afla in asteptare</h2>
+            </div>
+          )}
+        {viewModeON.question.status === "APPROVED" &&
+          currentUser.role === "USER" && (
+            <div>
+              <h2>Intrebarea a fost apropbata</h2>
+              <h2>Apasati aici pentru a realiza o programare</h2>
+            </div>
+          )}
+        {viewModeON.question.status === "REJECTED" &&
+          currentUser.role === "USER" && (
+            <div>
+              <h2>Intrebarea a fost respinsa</h2>
+              <h2>Apasati aici pentru a afla de ce</h2>
+            </div>
+          )}
+      </div>
+    );
+  }
+  function author() {
+    return (
+      <div className={style.author}>
+        <div className={style.name}>
+          <span className="material-symbols-outlined">person</span>
+          <h4>{viewModeON.question.nume}</h4>
+          <h4>{viewModeON.question.prenume}</h4>
+        </div>
+        <div className={style.name}>
+          <span className="material-symbols-outlined">call</span>
+          {viewModeON.question.phone}
+        </div>
+
+        <div className={style.name}>
+          <span className="material-symbols-outlined">mail</span>
+          {viewModeON.question.email}
+        </div>
+
+        <div className={style.name}>
+          <span className="material-symbols-outlined">schedule</span>
+          {viewModeON.question.elapsedTime} in urma
+        </div>
+      </div>
+    );
+  }
+  function titleAndText() {
+    return (
+      <div className={style.titleAndText}>
+        <div className={style.questionTitle}>
+          <div className={style.title}>{viewModeON.question.questionTitle}</div>
+        </div>
+
+        <div className={style.questionText}>
+          {viewModeON.question.questionText}
+        </div>
+      </div>
+    );
+  }
+  function filesInfo() {
+    return (
+      <div className={style.filesInfoAndButtons}>
+        <div className={style.filesNumber} onClick={expand}>
+          <p>{viewModeON.question.fileNumber}</p>
+          <p>fisiere </p>
+          <span className="material-symbols-outlined">attach_file</span>
+        </div>
+
+        {currentUser.role === "ADMIN" && viewModeON.status === false && (
+          <div className={style.holly}>
+            <div className={style.subholly2}>
+              <button className={style.actionBtn} onClick={viewQuestion}>
+                Vizualizeaza
+              </button>
+            </div>
+          </div>
+        )}
+
+        {currentUser.role === "ADMIN" && viewModeON.status === true && (
+          <div className={style.buttonsWrapper}>
+            <button className={style.rejectBtn} onClick={rejectQuestion}>
+              Refuza
+            </button>
+            <button className={style.approveBtn} onClick={approveQuestion}>
+              Accepta
+            </button>
+          </div>
+        )}
+      </div>
+    );
+  }
+  function questionItself() {
+    return (
       <div className={style.questionWrapper}>
-        <div className={style.status}>
-          {viewModeON.question.status === "WAITING" &&
-            currentUser.role === "USER" && (
-              <div>
-                <h2>Intrebarea dumneavoastra se afla in asteptare</h2>
-              </div>
-            )}
-          {viewModeON.question.status === "APPROVED" &&
-            currentUser.role === "USER" && (
-              <div>
-                <h2>Intrebarea a fost apropbata</h2>
-                <h2>Apasati aici pentru a realiza o programare</h2>
-              </div>
-            )}
-          {viewModeON.question.status === "REJECTED" &&
-            currentUser.role === "USER" && (
-              <div>
-                <h2>Intrebarea a fost respinsa</h2>
-                <h2>Apasati aici pentru a afla de ce</h2>
-              </div>
-            )}
-        </div>
+        {status()}
 
-        <div className={style.author}>
-          <div className={style.name}>
-            <span className="material-symbols-outlined">person</span>
-            <h4>{viewModeON.question.nume}</h4>
-            <h4>{viewModeON.question.prenume}</h4>
-          </div>
-          <div className={style.name}>
-            <span className="material-symbols-outlined">call</span>
-            {viewModeON.question.phone}
-          </div>
+        {author()}
 
-          <div className={style.name}>
-            <span className="material-symbols-outlined">mail</span>
-            {viewModeON.question.email}
-          </div>
+        {titleAndText()}
 
-          <div className={style.name}>
-            <span className="material-symbols-outlined">schedule</span>
-            {viewModeON.question.elapsedTime} in urma
-          </div>
-        </div>
-
-        <div className={style.titleAndText}>
-          <div className={style.questionTitle}>
-            <div className={style.title}>
-              {viewModeON.question.questionTitle}
-            </div>
-          </div>
-
-          <div className={style.questionText}>
-            {viewModeON.question.questionText}
-          </div>
-        </div>
-
-        <div className={style.filesInfoAndButtons}>
-          <div className={style.filesNumber} onClick={expand}>
-            <p>{viewModeON.question.fileNumber}</p>
-            <p>fisiere </p>
-            <span className="material-symbols-outlined">attach_file</span>
-          </div>
-
-          {currentUser.role === "ADMIN" && viewModeON.status === false && (
-            <div className={style.holly}>
-              <div className={style.subholly2}>
-                <button className={style.actionBtn} onClick={viewQuestion}>
-                  Vizualizeaza
-                </button>
-              </div>
-            </div>
-          )}
-
-          {currentUser.role === "ADMIN" && viewModeON.status === true && (
-            <div className={style.buttonsWrapper}>
-              <button className={style.rejectBtn} onClick={rejectQuestion}>
-                Refuza
-              </button>
-              <button className={style.approveBtn} onClick={approveQuestion}>
-                Accepta
-              </button>
-            </div>
-          )}
-        </div>
+        {filesInfo()}
 
         {isExpanded ? (
           <div id={style["uploadedFiles"]}>
@@ -199,7 +239,13 @@ function ViewQuestion(props) {
           )}
         </div>
       </div>
+    );
+  }
 
+  return (
+    <div className={style.bigWrapper}>
+      {header()}
+      {questionItself()}
       {currentFile && (
         <div className={style.pdfView}>
           <PDFViewer
@@ -212,7 +258,7 @@ function ViewQuestion(props) {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 
