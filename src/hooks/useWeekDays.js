@@ -1,64 +1,112 @@
 import {useEffect, useState} from "react";
 import {getDayData} from "../services/day_api";
 import {useCalendar} from "./useCalendar";
+import {useMonthDays} from "./useMonthDays";
+import {useDispatch} from "react-redux";
+import {setDisplayedWeekValue} from "../features/sharedDisplayedWeekSlice";
+import {setWeekData} from "../features/sharedWeekSlice";
 
 export function useWeekDays(){
 
-    const { displayedWeek} = useCalendar();
-    console.log(displayedWeek)
-    const [monday, setMonday] = useState([]);
-    const [tuesday, setTuesday] = useState([]);
-    const [wenesday, setWenesday] = useState([]);
-    const [thursday, setThursday] = useState([]);
-    const [friday, setFriday] = useState([]);
-    const [saturnday, setSaturnday] = useState([]);
-    const [sunday, setSunday] = useState([]);
+    const {navigationArray} = useMonthDays()
+
+    console.log(navigationArray)
+
+    const [week, setWeek] = useState({
+        monday: [],
+        tuesday: [],
+        wenesday: [],
+        thursday: [],
+        friday: [],
+        saturnday: [],
+        sunday: [],
+    });
 
     useEffect(() => {
-        console.log(monday)
-    }, [monday]);
-
-    useEffect(() => {
-        if (displayedWeek) {
-            displayedWeek.map((value, index) => {
-                const currentDate = {
-                    monthNumber: value.getMonth() + 1,
-                    dayNumber: value.getDate(),
-                    year: value.getFullYear(),
-                };
-                getDayData(currentDate).then((r) => {
+        if (navigationArray) {
+            navigationArray.map((value, index) => {
+                getDayData(value).then((r) => {
                     setWeekDay(index, r);
                 });
             });
         }
-    }, [displayedWeek]);
+    }, [navigationArray]);
 
+    /**
+     * this function assigns the received r param to the right weekDay
+     *
+     * @param index
+     * @param r
+     */
     function setWeekDay(index, r) {
         switch (index) {
             case 0:
-                setMonday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    monday: r,
+                }));
                 break;
             case 1:
-                setTuesday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    tuesday: r,
+                }));
                 break;
             case 2:
-                setWenesday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    wenesday: r,
+                }));
                 break;
             case 3:
-                setThursday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    thursday: r,
+                }));
                 break;
             case 4:
-                setFriday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    friday: r,
+                }));
                 break;
             case 5:
-                setSaturnday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    saturnday: r,
+                }));
                 break;
             case 6:
-                setSunday(r);
+                setWeek((prevWeek) => ({
+                    ...prevWeek,
+                    sunday: r,
+                }));
                 break;
         }
     }
 
-    return { monday, tuesday , wenesday ,thursday , friday ,saturnday, sunday}
+    /**
+     * This section updates the state based on the actions
+     *
+     * @type {Dispatch<AnyAction>}
+     */
+
+    const dispatch = useDispatch();
+
+    useEffect(() => {
+        if (navigationArray) {
+            dispatch(setDisplayedWeekValue(navigationArray));
+        }
+    }, [navigationArray]);
+
+    useEffect(() => {
+        if (week) {
+            dispatch(setWeekData(week));
+        }
+    }, [week]);
+
+    return {
+        week,
+    };
 
 }

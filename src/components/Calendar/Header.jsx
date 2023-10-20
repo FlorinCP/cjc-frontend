@@ -2,10 +2,11 @@ import React, { useEffect } from "react";
 import style from "./Calendar.module.css";
 import { useCalendar } from "../../hooks/useCalendar";
 import { useSelector } from "react-redux";
+import { useMonthDays } from "../../hooks/useMonthDays";
 
 function Header(props) {
-  const { weekdays, weekIndex, changeIndex } = useCalendar();
-
+  const { weekIndex, changeIndex } = useCalendar();
+  const { weekdays } = useMonthDays();
   const currentWeek = useSelector((state) => state.sharedDisplayedWeek.value);
 
   function weekNavigation() {
@@ -29,6 +30,7 @@ function Header(props) {
           <div key={index} className={style.dayDetails}>
             <h1>{item.dayNumber}</h1>
             <p>{weekdays[index]}</p>
+            <p>{item.fullYear}</p>
           </div>
         ))}
       </div>
