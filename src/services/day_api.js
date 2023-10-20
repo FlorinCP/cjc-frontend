@@ -32,7 +32,6 @@ export async function getClosedDays(monthNumber) {
 
     if (response.ok) {
       const responseData = await response.json();
-      console.log("days loaded successfully:", responseData);
       return responseData;
     } else {
       return null;

@@ -1,5 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getClosedDays, getDayData } from "../services/day_api";
+import { useDispatch } from "react-redux";
+import { setDisplayedWeekValue } from "../features/sharedDisplayedWeekSlice";
+import { setWeekData } from "../features/sharedWeekSlice";
 
 export function useCalendar() {
   const [today, setToday] = useState(new Date());
@@ -146,7 +149,6 @@ export function useCalendar() {
         generalWeek.push(...dayList.slice(length, length + 1));
       }
     });
-    console.log(generalWeek);
     setDisplayedWeek(generalWeek);
   }
 
@@ -166,13 +168,6 @@ export function useCalendar() {
   const changeIndex = (value) => {
     setWeekIndex(value); // for example, increment the current state
   };
-
-  return { weekdays, weekIndex, displayedWeek, changeIndex };
-}
-
-export function useWeekDays(){
-
-  const { displayedWeek} = useCalendar();
 
   const [monday, setMonday] = useState([]);
   const [tuesday, setTuesday] = useState([]);
@@ -223,6 +218,60 @@ export function useWeekDays(){
     }
   }
 
-  return { monday, tuesday , wenesday ,thursday , friday ,saturnday, sunday}
+  const dispatch = useDispatch();
 
+  useEffect(() => {
+    if (displayedWeek) {
+      const serializableArray = [];
+      displayedWeek.map((day) => {
+        let monthNumber = day.getMonth() + 1;
+        let dayNumber = day.getDate();
+        let year = day.getFullYear();
+        serializableArray.push({
+          monthNumber: monthNumber,
+          dayNumber: dayNumber,
+          year: year,
+        });
+      });
+      dispatch(setDisplayedWeekValue(serializableArray));
+    }
+  }, [displayedWeek]);
+
+  useEffect(() => {
+    if (
+      monday &&
+      tuesday &&
+      wenesday &&
+      thursday &&
+      friday &&
+      saturnday &&
+      sunday
+    ) {
+      dispatch(
+        setWeekData({
+          monday,
+          tuesday,
+          wenesday,
+          thursday,
+          friday,
+          saturnday,
+          sunday,
+        }),
+      );
+    }
+  }, [monday, tuesday, wenesday, thursday, friday, saturnday, sunday]);
+
+  return {
+    weekdays,
+    weekIndex,
+    displayedWeek,
+    changeIndex,
+    monday,
+    tuesday,
+    wenesday,
+    thursday,
+    friday,
+    saturnday,
+    sunday,
+  };
 }

@@ -1,18 +1,14 @@
-import React, { useState } from "react";
-import { useWeekDays } from "../../hooks/useCalendar";
+import React, { useEffect, useState } from "react";
 import style from "./Calendar.module.css";
 import TimeColumn from "./TimeColumn";
 import WeekDayColumn from "./WeekDayColumn";
+import { useSelector } from "react-redux";
 
 function CalendarBody(props) {
-  const { monday, tuesday, wenesday, thursday, friday, saturnday, sunday } =
-    useWeekDays();
-
   const [selectedCard, setSelectedCard] = useState({
     index: undefined,
     weekday: undefined,
   });
-
   const handleSelectCard = (data) => {
     console.log(data);
     console.log(selectedCard);
@@ -29,48 +25,50 @@ function CalendarBody(props) {
     }
   };
 
+  const weekData = useSelector((state) => state.sharedWeek);
+
   function populateColumns() {
     return (
       <div className={style.calendarBody}>
         <TimeColumn />
         <WeekDayColumn
-          weekDay={monday}
+          weekDay={weekData.monday}
           dayIndex={0}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={tuesday}
+          weekDay={weekData.tuesday}
           dayIndex={1}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={wenesday}
+          weekDay={weekData.wenesday}
           dayIndex={2}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={thursday}
+          weekDay={weekData.thursday}
           dayIndex={3}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={friday}
+          weekDay={weekData.friday}
           dayIndex={4}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={saturnday}
+          weekDay={weekData.saturday}
           dayIndex={5}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
         />
         <WeekDayColumn
-          weekDay={sunday}
+          weekDay={weekData.sunday}
           dayIndex={6}
           selectedCard={selectedCard}
           onDataReceived={handleSelectCard}
