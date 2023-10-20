@@ -62,7 +62,6 @@ function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
   }
 
   function fillSlotsWithParam(data) {
-    console.log("am ajuns in WeekDayCol")
     const newSlotList = [];
     let firstHour = 7;
 
@@ -132,11 +131,10 @@ function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
     return (
       <div>
         {data && fillSlotsWithParam(data).map((value, index) => (
-          <React.Fragment>
+          <React.Fragment key={index}>
             {value.style === style.occupiedSlot ? (
               <div
                 className={style.freeSlot}
-                key={index}
                 onClick={() => selectCard(index, weekDay)}
                 onContextMenu={(e) => e.preventDefault()}
               >
@@ -147,7 +145,6 @@ function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
                 onClick={() => selectCard(index, weekDay)}
                 onContextMenu={(e) => e.preventDefault()}
                 className={getClassName(index, value.style, weekDay)}
-                key={index}
               ></div>
             )}
           </React.Fragment>

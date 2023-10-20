@@ -137,6 +137,11 @@ export function useCalendar() {
 
   const [weekIndex, setWeekIndex] = useState(1);
 
+  /**
+   * This function returns a week based on a given index and rearanges it in order to place sunday on the last index
+   * @param weekIndex the current week index in the month
+   * @return displayedWeek object with the days
+   */
   function generalWeek(weekIndex) {
     const length = 7 * weekIndex;
     let generalWeek;
@@ -152,12 +157,6 @@ export function useCalendar() {
     setDisplayedWeek(generalWeek);
   }
 
-  useEffect(() => {
-    if (weekIndex) {
-      generalWeek(weekIndex);
-    }
-  }, [weekIndex]);
-
   // dupa ce avem lista cu zilele din luna curenta , extragem prima saptamana si calculam orele
   useEffect(() => {
     if (dayList) {
@@ -165,18 +164,35 @@ export function useCalendar() {
     }
   }, [dayList]);
 
+  // daca schimbam indexul actualizam luna curenta
+  useEffect(() => {
+    if (weekIndex) {
+      generalWeek(weekIndex);
+    }
+  }, [weekIndex]);
+
   const changeIndex = (value) => {
-    setWeekIndex(value); // for example, increment the current state
+    setWeekIndex(value);
   };
 
-  const [monday, setMonday] = useState([]);
-  const [tuesday, setTuesday] = useState([]);
-  const [wenesday, setWenesday] = useState([]);
-  const [thursday, setThursday] = useState([]);
-  const [friday, setFriday] = useState([]);
-  const [saturnday, setSaturnday] = useState([]);
-  const [sunday, setSunday] = useState([]);
+  /**
+   * Each const represents a day of the week that will be updated accordingly to the fetch data
+   *  format : id , dayNumber , year , workingStatus , workingHours , startHour , endHour , appointments
+   */
+  const [week, setWeek] = useState({
+    monday: [],
+    tuesday: [],
+    wenesday: [],
+    thursday: [],
+    friday: [],
+    saturnday: [],
+    sunday: [],
+  });
 
+  /**
+   * if displayedWeek was populated this function builds a new date object and based on the index it updates the weekState
+   *  @param displayedWeek
+   */
   useEffect(() => {
     if (displayedWeek) {
       displayedWeek.map((value, index) => {
@@ -192,28 +208,56 @@ export function useCalendar() {
     }
   }, [displayedWeek]);
 
+
+  /**
+   * this function assigns the received r param to the right weekDay
+   *
+   * @param index
+   * @param r
+   */
   function setWeekDay(index, r) {
     switch (index) {
       case 0:
-        setMonday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          monday: r
+        }));
         break;
       case 1:
-        setTuesday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          tuesday: r
+        }));
         break;
       case 2:
-        setWenesday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          wenesday: r
+        }));
         break;
       case 3:
-        setThursday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          thursday: r
+        }));
         break;
       case 4:
-        setFriday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          friday: r
+        }));
         break;
       case 5:
-        setSaturnday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          saturnday: r
+        }));
         break;
       case 6:
-        setSunday(r);
+        setWeek(prevWeek => ({
+          ...prevWeek,
+          sunday: r
+        }));
         break;
     }
   }
@@ -239,39 +283,19 @@ export function useCalendar() {
 
   useEffect(() => {
     if (
-      monday &&
-      tuesday &&
-      wenesday &&
-      thursday &&
-      friday &&
-      saturnday &&
-      sunday
+      week
     ) {
       dispatch(
-        setWeekData({
-          monday,
-          tuesday,
-          wenesday,
-          thursday,
-          friday,
-          saturnday,
-          sunday,
-        }),
+        setWeekData(week),
       );
     }
-  }, [monday, tuesday, wenesday, thursday, friday, saturnday, sunday]);
+  }, [week]);
 
   return {
     weekdays,
     weekIndex,
     displayedWeek,
     changeIndex,
-    monday,
-    tuesday,
-    wenesday,
-    thursday,
-    friday,
-    saturnday,
-    sunday,
+    week
   };
 }
