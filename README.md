@@ -4,11 +4,31 @@
 In this project I wanted to create a web app whos purpose is to serve as a tool for lawyers in order to increase their
 potential revenue.  
 The app was deigned for romanian user -> therefore romanian language used in the demo  
-@TODO add internationalisation    
+
+Obviously there is a lot of work to be done even if the vast majority of the functionality is already implemented.  
+My next goals are:
+1. Better user experience. - the flow should be simplified
+2. UI rework to ensure consistency
+3. The schedule is not mobile responsive
+4. Accessibility issues should be taken into account.
+5. Using a web friendly format for pictures to improve LightHouse report
+6. Context Menu for handling more efficiently the schedule.
+7. Downloading the send files into a custom directory using the FILE API
+8. Documenting each method using JS DOCs
+9. Better State Management
+10. Add internationalisation 
+11. International Phone Number Input
+12. Stripe integration 
+
+
 The flow of the application goes like this :  
 1. After visiting the landing page where the user will find out details about the  
  services that are being provided by the lawyer they are given proper explanation about the whole process
  they can leave a question through a form which is meant to give the lawyer a small insight about their potential client problem.
+
+"Login/Register"  
+
+![img_13.png](img_13.png) ![img_14.png](img_14.png)
 
 "Landing Page"
 ![img.png](img.png)
@@ -62,3 +82,8 @@ By clicking on the buttons the question will be accepted or rejected.
 "Mobile View"  
 ![img_11.png](img_11.png)
 ![img_12.png](img_12.png)
+
+
+
+
+
