@@ -151,6 +151,9 @@ function WebVideoCall(props) {
 
 
     function openConnection() {
+        // let socket = new SockJS("http://localhost:8080/websocket", {
+        //     debug: false,
+        // });
         let socket = new SockJS("https://spring-boot-server-web-rtc.lm.r.appspot.com/websocket", {
             debug: false,
         });

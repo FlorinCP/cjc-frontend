@@ -1,4 +1,8 @@
 import { createSlice } from '@reduxjs/toolkit';
+import {useMonthDays} from "../hooks/useMonthDays";
+
+
+// const {navigationArray,currentWeekIndex}  = useMonthDays();
 
 export const sharedDisplayedWeekSlice = createSlice({
     name: 'sharedDisplayedWeek',
