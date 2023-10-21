@@ -2,10 +2,12 @@
 import { configureStore } from '@reduxjs/toolkit';
 import sharedWeekReducer from '../features/sharedWeekSlice';
 import sharedDisplayedWeekReducer from '../features/sharedDisplayedWeekSlice'
+import sharedTodayReducer from "../features/sharedTodaySlice";
 
 export const store = configureStore({
     reducer: {
         sharedWeek: sharedWeekReducer,
-        sharedDisplayedWeek : sharedDisplayedWeekReducer
+        sharedDisplayedWeek : sharedDisplayedWeekReducer,
+        sharedToday : sharedTodayReducer
     },
 });

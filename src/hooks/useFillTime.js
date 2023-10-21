@@ -1,7 +1,6 @@
-import {useEffect, useState} from "react";
+import { useState} from "react";
 
 export function useFillTime() {
-  // Lazy initializer for state
   const createInitialState = () => {
     const intermediateTimeList = [];
     const intermediateIntegerTimeList = [];
@@ -22,18 +21,9 @@ export function useFillTime() {
     return { timeList: intermediateTimeList, integerTimeList: intermediateIntegerTimeList };
   };
 
-  // Using lazy initial state to avoid recalculating on every render
   const [timeState, setTimeState] = useState(createInitialState);
 
-  // Destructure the state for easy access
   const { timeList, integerTimeList } = timeState;
-
-  // Now, we use an effect to handle side effects.
-  // If you need to do something that could cause a re-render, place it here.
-  // If you only want it to run once, leave the dependency array empty.
-  useEffect(() => {
-    // Any side effects are handled here
-  }, []);
 
   return { timeList, integerTimeList };
 }

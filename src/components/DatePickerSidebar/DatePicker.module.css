@@ -4,7 +4,7 @@
   height: fit-content;
   user-select: none;
   display: grid;
-  grid-template-rows: 20% 5% 75%;
+  grid-template-rows: 17% 8% 75%;
 }
 
 
@@ -143,12 +143,9 @@
     display: grid;
     grid-auto-columns: minmax(0, 4vw);
     grid-auto-flow: column;
-    margin-top: 5px;
-    margin-bottom: 15px;
     text-align: center;
     gap: 10px;
-    margin-left: 10px;
-    margin-right: 10px;
+    margin: 5px 10px 15px;
     min-height: 2vh;
     color: #f7f7f7;
   }

@@ -474,30 +474,30 @@ export function useCalendar() {
    * @type {Dispatch<AnyAction>}
    */
 
-  const dispatch = useDispatch();
-
-  useEffect(() => {
-    if (displayedWeek) {
-      const serializableArray = [];
-      displayedWeek.map((day) => {
-        let monthNumber = day.getMonth() + 1;
-        let dayNumber = day.getDate();
-        let year = day.getFullYear();
-        serializableArray.push({
-          monthNumber: monthNumber,
-          dayNumber: dayNumber,
-          year: year,
-        });
-      });
-      dispatch(setDisplayedWeekValue(serializableArray));
-    }
-  }, [displayedWeek]);
-
-  useEffect(() => {
-    if (week) {
-      dispatch(setWeekData(week));
-    }
-  }, [week]);
+  // const dispatch = useDispatch();
+  //
+  // useEffect(() => {
+  //   if (displayedWeek) {
+  //     const serializableArray = [];
+  //     displayedWeek.map((day) => {
+  //       let monthNumber = day.getMonth() + 1;
+  //       let dayNumber = day.getDate();
+  //       let year = day.getFullYear();
+  //       serializableArray.push({
+  //         monthNumber: monthNumber,
+  //         dayNumber: dayNumber,
+  //         year: year,
+  //       });
+  //     });
+  //     dispatch(setDisplayedWeekValue(serializableArray));
+  //   }
+  // }, [displayedWeek]);
+  //
+  // useEffect(() => {
+  //   if (week) {
+  //     dispatch(setWeekData(week));
+  //   }
+  // }, [week]);
 
   return {
     weekdays,

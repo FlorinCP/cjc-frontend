@@ -5,17 +5,47 @@ import { setDisplayedWeekValue } from "../features/sharedDisplayedWeekSlice";
 import { setWeekData } from "../features/sharedWeekSlice";
 
 export function useMonthDays() {
+
+
+  /**
+   * the object used to store all the days
+   */
+  const [navigationArray, setNavigationArray] = useState([]);
+
+  /**
+   * current day, used for setting the displayed week in component and computing the navigationArray
+   */
   const [today, setToday] = useState(new Date());
-  const lang = "default";
+  const [todayObject,setTodayObject] = useState({
+    monthNumber: today.getMonth() + 1,
+    dayNumber: today.getDate(),
+    year: today.getFullYear(),
+  })
+
+  /**
+   * Static arrays
+   *
+   * @type {string[]}
+   */
   const weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
   const monthSize = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
 
-  const [monthNumber, setMonthNumber] = useState(
-    Number(today.toLocaleString(lang, { month: "2-digit" }) - 1),
-  );
+  /**
+   * current index of navigationArray
+   */
+  const [currentWeekIndex, setCurrentWeekIndex] = useState(null);
 
   /**
-   * creates a date object from speciffic params , is redundant , to be removed later
+   * changes the week index from navigationArray
+   *
+   * @param value
+   */
+  const changeIndex = (value) => {
+    setCurrentWeekIndex(value);
+  };
+
+  /**
+   * creates a date object from specific params , is redundant , to be removed later
    *
    * @param year
    * @param monthIndex
@@ -66,7 +96,21 @@ export function useMonthDays() {
     return intermediateArray;
   }
 
-  const [navigationArray, setNavigationArray] = useState([]);
+
+
+
+
+
+  /**
+   * starting from the current day it computes 3 small arrays
+   * one for the past month
+   * one for the current month
+   * one for the next month
+   *
+   * this approach was chosen in order to ensure better user experience by implementing sliding window protocol
+   *
+   * @param today
+   */
   function computeNavigationArray(today) {
     const monthNumber = today.getMonth();
     const fullYear = today.getFullYear();
@@ -101,29 +145,18 @@ export function useMonthDays() {
     const weeksArray = [];
 
     updatedArray.splice(0, index);
-    const length = navigationArray.length;
 
-    const todayObject = {
-      monthNumber: today.getMonth() + 1,
-      dayNumber: today.getDate(),
-      year: today.getFullYear(),
-    };
-
-    console.log(todayObject);
-
-    let currentWeekIndex = null;
-
-    for (let i = 0;i < navigationArray.length ; i += 7){
+    for (let i = 0; i < navigationArray.length; i += 7) {
       const intermediateArray = updatedArray.splice(0, 7);
       if (
-          intermediateArray.find(
-              (day) =>
-                  day.monthNumber === todayObject.monthNumber &&
-                  day.dayNumber === todayObject.dayNumber &&
-                  day.year === todayObject.year,
-          )
+        intermediateArray.find(
+          (day) =>
+            day.monthNumber === todayObject.monthNumber &&
+            day.dayNumber === todayObject.dayNumber &&
+            day.year === todayObject.year,
+        )
       ) {
-        currentWeekIndex = weeksArray.length;
+        setCurrentWeekIndex(weeksArray.length);
       }
       weeksArray.push(intermediateArray);
     }
@@ -133,14 +166,120 @@ export function useMonthDays() {
     setNavigationArray(weeksArray);
   }
 
-    useEffect(() => {
-        if (today){
-            computeNavigationArray(today)
-        }
-    }, [today]);
+
+  /**
+   * When today is changed we call the function that gives us the object array with the desired days
+   */
+  useEffect(() => {
+    if (today) {
+      computeNavigationArray(today);
+    }
+  }, [today]);
+
+  /**
+   * State object representing each day's data
+   */
+  const [week, setWeek] = useState({
+    monday: [],
+    tuesday: [],
+    wenesday: [],
+    thursday: [],
+    friday: [],
+    saturnday: [],
+    sunday: [],
+  });
+
+  /**
+   * when changing the week index, we assign data for each day
+   */
+  useEffect(() => {
+    if (navigationArray && currentWeekIndex) {
+      navigationArray[currentWeekIndex].map((value, index) => {
+        getDayData(value).then((r) => {
+          setWeekDay(index, r);
+        });
+      });
+    }
+  }, [navigationArray, currentWeekIndex]);
+
+  /**
+   * this function assigns the received r param to the right weekDay
+   *
+   * @param index
+   * @param data
+   */
+  function setWeekDay(index, data) {
+    switch (index) {
+      case 0:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          monday: data,
+        }));
+        break;
+      case 1:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          tuesday: data,
+        }));
+        break;
+      case 2:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          wenesday: data,
+        }));
+        break;
+      case 3:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          thursday: data,
+        }));
+        break;
+      case 4:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          friday: data,
+        }));
+        break;
+      case 5:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          saturnday: data,
+        }));
+        break;
+      case 6:
+        setWeek((prevWeek) => ({
+          ...prevWeek,
+          sunday: data,
+        }));
+        break;
+    }
+  }
+
+  const dispatch = useDispatch();
+
+  /**
+   * Updates current week Days
+   */
+  useEffect(() => {
+    if (navigationArray && currentWeekIndex) {
+      dispatch(setDisplayedWeekValue(navigationArray[currentWeekIndex]));
+    }
+  }, [navigationArray, currentWeekIndex]);
+
+  /**
+   * Updates current Week Days Data (the schedule for each day)
+   */
+  useEffect(() => {
+    if (week) {
+      dispatch(setWeekData(week));
+    }
+  }, [week]);
 
   return {
     weekdays,
-    navigationArray
+    navigationArray,
+    week,
+    currentWeekIndex,
+    changeIndex,
   };
 }

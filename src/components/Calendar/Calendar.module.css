@@ -15,30 +15,101 @@
 }
 
 .dayDetails {
-  height: 90px;
+  height: 80px;
   border: 1px solid slategrey;
   box-sizing: border-box;
   padding: 5px;
   background-color: rgba(7, 64, 101, 0.09);
-  display: flex;
-  align-items: flex-start;
-  justify-content: flex-end;
   flex-direction: column;
+  display: grid;
+  grid-template-columns: auto auto;
 }
 
-.dayDetails > h1,p{
+.dayDetails > div *{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
   margin: 0;
 }
 
+.today > div *{
+  display: flex;
+  align-items: center;
+  justify-content: flex-start;
+  margin: 0;
+}
+
+.today {
+  height: 80px;
+  border: 2px solid #054270;
+  box-sizing: border-box;
+  padding: 5px;
+  background-color: rgba(7, 64, 101, 0.09);
+  flex-direction: column;
+  display: grid;
+  grid-template-columns: auto auto;
+}
+
+.today > div > h1{
+  color: #054270;
+}
+
+.today > div > .year{
+  color: rgba(5, 66, 112, 0.71);
+}
+
+.today > div > .month{
+  color: rgba(5, 66, 112, 0.71);
+}
+
+.today > div > .weekDay{
+  color: rgba(5, 66, 112, 0.92);
+}
+
 h1 {
-  color: #18446d;
-  font-size: 45px;
+  color: slategrey;
+  font-size: 55px;
+}
+
+.year{
+  font-size: 25px;
+  color: rgba(112, 128, 144, 0.58);
+  font-weight: bold;
+}
+
+.month{
+  font-size: 16px;
+  color: rgba(112, 128, 144, 0.58);
+  font-weight: bold;
+}
+
+.weekDay{
+  font-size: 16px;
+  color: rgba(112, 128, 144, 0.87);
+  font-weight: bold;
 }
 
 .dayNames {
   display: grid;
   grid-template-columns: 1fr repeat(7, 2fr);
   background-color: #f7f7f7;
+}
+
+.headerNavigation{
+  display: flex;
+  flex-direction: row;
+  align-items: center;
+  padding-left: 30px;
+  position: relative;
+  /*background-color: rgba(7, 64, 101, 0.09);*/
+  background-color: #f7f7f7;
+  box-sizing: border-box;
+  border-top: 1px solid slategrey;
+  border-right: 1px solid slategrey;
+  border-left: 1px solid slategrey;
+  width: inherit;
+  height: 80px;
+  z-index: 999;
 }
 
 .timeSlot {
@@ -331,17 +402,15 @@ h1 {
 }
 
 .weekNavigation{
-  height: 90px;
-  border: 1px solid slategrey;
+  height: inherit;
   box-sizing: border-box;
   padding: 5px;
-  background-color: rgba(7, 64, 101, 0.09);
   display: flex;
   align-items: center;
   justify-content: center;
   flex-direction: row;
   transition: all 0.3s ease-in-out;
-
+  margin: 0 30px;
 }
 
 .weekNavigation > div > span{
@@ -354,4 +423,78 @@ h1 {
   color: #054270;
   transform: scale(1.05);
   transition: all 0.3s ease-in-out;
+}
+
+.sidebarItemSelected {
+  background-color: #18446d;
+  height: 50px;
+  width: 350px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  display: flex;
+  align-items: center;
+}
+
+.sidebarItem {
+  display: flex;
+  align-items: center;
+  height: 50px;
+  width: 350px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  font-size: 19px;
+  transition: all 0.3s ease-in-out;
+  background-color: rgba(7, 64, 101, 0.09);
+}
+
+.sidebarItem:hover{
+  transition: all 0.3s ease-in-out;
+  background-color: #18446d;
+}
+
+.sidebarItem:hover .clickableSidebarItem{
+  transition: all 0.3s ease-in-out;
+  color: white;
+}
+
+.sidebarItemSelected .clickableSidebarItem{
+  color: white;
+}
+
+.absoluteRight{
+  position: absolute;
+  right: -15px;
+  top: 30%;
+}
+
+.clickableSidebarItem {
+  transition: all 0.3s ease-in-out;
+  position: relative;
+  height: 50px;
+  font-size: 22px;
+  font-weight: bold;
+  width: 310px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 15px;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
+  color: #515d6e;
+
+}
+
+.calendar {
+  position: absolute;
+  top: 70px;
+  background-color: #18446d;
+  width: 350px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
 }

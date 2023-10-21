@@ -1,6 +1,5 @@
 import {useEffect, useState} from "react";
 import {getDayData} from "../services/day_api";
-import {useCalendar} from "./useCalendar";
 import {useMonthDays} from "./useMonthDays";
 import {useDispatch} from "react-redux";
 import {setDisplayedWeekValue} from "../features/sharedDisplayedWeekSlice";
