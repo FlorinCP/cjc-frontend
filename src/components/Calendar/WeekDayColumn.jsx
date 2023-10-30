@@ -1,9 +1,8 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useEffect, useMemo, useRef, useState } from "react";
 import style from "./Calendar.module.css";
 import { useFillTime } from "../../hooks/useFillTime";
-import { useWeekDays } from "../../hooks/useCalendar";
 
-function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
+function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
   const { integerTimeList } = useFillTime();
 
   const selectCard = (index, weekDay) => {
@@ -36,7 +35,11 @@ function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
   }
 
   function getClassName(index, valueStyle, weekDay) {
-    if ( selectedCard && selectedCard.index === index && selectedCard.weekDay === weekDay) {
+    if (
+      selectedCard &&
+      selectedCard.index === index &&
+      selectedCard.weekDay === weekDay
+    ) {
       return style.selectedSlot;
     } else {
       return valueStyle;
@@ -130,25 +133,24 @@ function WeekDayColumn({weekDay, dayIndex , onDataReceived , selectedCard }) {
   function fillColumn(data, weekDay) {
     return (
       <div>
-        {data && fillSlotsWithParam(data).map((value, index) => (
-          <React.Fragment key={index}>
-            {value.style === style.occupiedSlot ? (
-              <div
-                className={style.freeSlot}
-                onClick={() => selectCard(index, weekDay)}
-                onContextMenu={(e) => e.preventDefault()}
-              >
-                {halfHourCard(value, index)}
-              </div>
-            ) : (
-              <div
-                onClick={() => selectCard(index, weekDay)}
-                onContextMenu={(e) => e.preventDefault()}
-                className={getClassName(index, value.style, weekDay)}
-              ></div>
-            )}
-          </React.Fragment>
-        ))}
+        {data &&
+          fillSlotsWithParam(data).map((value, index) => (
+            <React.Fragment key={index}>
+              {value.style === style.occupiedSlot ? (
+                <div
+                  className={style.freeSlot}
+                  onClick={() => selectCard(index, weekDay)}
+                >
+                  {halfHourCard(value, index)}
+                </div>
+              ) : (
+                <div
+                  onClick={() => selectCard(index, weekDay)}
+                  className={getClassName(index, value.style, weekDay)}
+                ></div>
+              )}
+            </React.Fragment>
+          ))}
       </div>
     );
   }

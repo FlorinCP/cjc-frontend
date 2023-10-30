@@ -4,11 +4,10 @@ import Header from "./Header";
 import CalendarBody from "./CalendarBody";
 
 function Calendar(props) {
-
   return (
     <div className={style.datePicker}>
       <Header />
-      <CalendarBody/>
+      <CalendarBody />
     </div>
   );
 }

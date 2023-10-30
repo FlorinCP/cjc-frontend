@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useRef, useState } from "react";
 import style from "./Calendar.module.css";
 import { useSelector } from "react-redux";
 import { useMonthDays } from "../../hooks/useMonthDays";
@@ -8,7 +8,7 @@ function Header(props) {
   const { currentWeekIndex, changeIndex } = useMonthDays();
   const currentWeek = useSelector((state) => state.sharedDisplayedWeek.value);
   const today = useSelector((state) => state.sharedToday.today);
-    console.log(today)
+
   const daysOfWeek = [
     "Monday",
     "Tuesday",
@@ -64,7 +64,7 @@ function Header(props) {
       >
         <div className={style.clickableSidebarItem} onClick={displayCalendar}>
           <span className="material-symbols-outlined">calendar_today</span>
-            {today.dayNumber}{" "}{currentMonth(today.monthNumber)}{" "}{today.year}
+          {today.dayNumber} {currentMonth(today.monthNumber - 1)} {today.year}
           <div className={style.absoluteRight}>
             {showCalendar ? (
               <span className="material-symbols-outlined">expand_less</span>
@@ -85,15 +85,22 @@ function Header(props) {
 
   function populateHeader() {
     return (
-      <>
+      <div>
         <div className={style.headerNavigation}>
-          { today && calendar()}
+          {today && calendar()}
           {weekNavigation()}
         </div>
         <div className={style.dayNames}>
           <div className={style.dayDetails}></div>
           {currentWeek.map((item, index) => (
-            <div key={index} className={item.dayNumber === today.dayNumber ? style.today :  style.dayDetails}>
+            <div
+              key={index}
+              className={
+                item.dayNumber === today.dayNumber
+                  ? style.today
+                  : style.dayDetails
+              }
+            >
               <div>
                 <h1>{item.dayNumber}</h1>
               </div>
@@ -108,11 +115,17 @@ function Header(props) {
             </div>
           ))}
         </div>
-      </>
+      </div>
     );
   }
 
-  return <div>{currentWeek && populateHeader()}</div>;
+
+
+  return (
+    <div>
+      {currentWeek && populateHeader()}
+    </div>
+  );
 }
 
 export default Header;
