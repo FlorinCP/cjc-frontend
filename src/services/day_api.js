@@ -1,6 +1,7 @@
 const BASE_URL = "http://localhost:8080/cjc/api/v1";
 
 export async function getDayData(selectedDate) {
+  console.log(selectedDate);
   try {
     const queryParams = {
       monthNumber: `${selectedDate.monthNumber}`,
@@ -13,7 +14,6 @@ export async function getDayData(selectedDate) {
     const response = await fetch(`${BASE_URL}/day/day?${queryString}`);
 
     if (response.ok) {
-      // console.log("day loaded successfully:", responseData);
       return await response.json();
     } else {
       return null;
@@ -24,31 +24,37 @@ export async function getDayData(selectedDate) {
 export async function getClosedDays(monthNumber) {
   try {
     const queryParams = {
-      monthNumber: `${monthNumber}`}
+      monthNumber: `${monthNumber}`,
+    };
 
     const queryString = new URLSearchParams(queryParams).toString();
 
     const response = await fetch(`${BASE_URL}/day/closed-days?${queryString}`);
 
     if (response.ok) {
-      const responseData = await response.json();
-      return responseData;
+      return await response.json();
     } else {
       return null;
     }
   } catch (error) {}
 }
 
-export async function postDayData(selectedDate) {
+export async function postDayData(
+  selectedDate,
+  workingHours,
+  startHour,
+  endHour,
+  status,
+) {
   try {
     const queryParams = {
       monthNumber: `${selectedDate.monthNumber}`,
       dayNumber: `${selectedDate.dayNumber}`,
       year: `${selectedDate.year}`,
-      status: "WORKING",
-      workingHours: 8,
-      startHour: 8,
-      endHour: 16,
+      workingHours: `${workingHours}`,
+      startHour: `${startHour}`,
+      endHour: `${endHour}`,
+      status: `${status}`,
     };
 
     const queryString = new URLSearchParams(queryParams).toString();

@@ -52,20 +52,26 @@ function App() {
               "/view-question",
             ]}
           >
-            <SideBarLayout>
-              <Route path="/admin-dashboard" component={MainPage} />
-              <Route path="/user-dashboard" component={MainPageUser} />
-              <Route path="/edit-schedule" component={Schedule} />
-              <Route path="/waiting-questions" component={WaitingQuestions} />
-              <Route path="/view-question" component={ViewQuestion} />
+            <Provider store={store}>
+              <SideBarLayout>
+                <Route path="/admin-dashboard" component={MainPage} />
+                <Route path="/user-dashboard" component={MainPageUser} />
+                <Route path="/edit-schedule" component={Schedule} />
+                <Route path="/waiting-questions" component={WaitingQuestions} />
+                <Route path="/view-question" component={ViewQuestion} />
 
-              <Route path="/accepted-questions" component={AcceptedQuestions} />
-              <Route path="/rejected-questions" component={RejectedQuestions} />
-              <Route path="/working-questions" component={WorkingQuestions} />
-              <Provider store={store}>
+                <Route
+                  path="/accepted-questions"
+                  component={AcceptedQuestions}
+                />
+                <Route
+                  path="/rejected-questions"
+                  component={RejectedQuestions}
+                />
+                <Route path="/working-questions" component={WorkingQuestions} />
                 <Route path="/week-schedule" component={Calendar} />
-              </Provider>
-            </SideBarLayout>
+              </SideBarLayout>
+            </Provider>
           </Route>
         </Switch>
       </Router>

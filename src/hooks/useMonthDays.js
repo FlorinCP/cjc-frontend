@@ -161,8 +161,6 @@ export function useMonthDays() {
       weeksArray.push(intermediateArray);
     }
 
-    console.log(weeksArray);
-
     setNavigationArray(weeksArray);
   }
 

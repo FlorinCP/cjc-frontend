@@ -5,6 +5,7 @@ import WeekDayColumn from "./WeekDayColumn";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedDayValue } from "../../features/sharedSelectedDay";
 import {useFillTime} from "../../hooks/useFillTime";
+import {makeAppointment} from "../../services/appointment_api";
 
 function CalendarBody(props) {
   const [selectedCard, setSelectedCard] = useState({
@@ -15,8 +16,6 @@ function CalendarBody(props) {
   const dispatch = useDispatch();
 
   const handleSelectCard = (data) => {
-    console.log(data);
-    console.log(selectedCard);
     if (
       selectedCard.index === data.index &&
       selectedCard.weekDay === data.weekDay
@@ -104,9 +103,11 @@ function CalendarBody(props) {
           border: "1px solid black",
           backgroundColor: "white",
         }}
+
+        className={style.contextMenu}
       >
         {items.map((item, index) => (
-          <div key={index} onClick={item.onClick}>
+          <div key={index} onClick={item.onClick} className={style.contextMenuItem}>
             {item.label}
           </div>
         ))}
@@ -114,8 +115,10 @@ function CalendarBody(props) {
     );
   }
 
+
+
   const menuItems = [
-    { label: "First action", onClick: () => alert("First action clicked") },
+    { label: "Programeaza-te", onClick: () =>  setAppointment() },
     { label: "Second action", onClick: () => alert("Second action clicked") },
   ];
 
@@ -123,11 +126,7 @@ function CalendarBody(props) {
 
   useEffect(() => {
     const handleOutsideClick = (e) => {
-      console.log("test");
       setContextMenu(null);
-      if (menuRef.current && menuRef.current.contains(e.target)) {
-        console.log("e jale");
-      }
     };
 
     document.addEventListener("click", handleOutsideClick);
@@ -151,8 +150,21 @@ function CalendarBody(props) {
     });
   };
 
-  const selectedDay = useSelector((state) => state.sharedSelectedDay);
+  const selectedDay = useSelector((state) => state.sharedSelectedDay.value);
   const currentWeek = useSelector((state) => state.sharedDisplayedWeek.value);
+
+    const setAppointment = async () => {
+        await makeAppointment(
+            selectedDay.time,
+            timeList[selectedCard.index + 1],
+            "peanaflorincosmin@gmail.com",
+            3,
+            selectedDay.day.dayNumber,
+            selectedDay.day.monthNumber,
+            selectedDay.day.year,
+            "OCCUPIED",
+        );
+    };
 
   return (
     <div onContextMenu={handleRightClick}>

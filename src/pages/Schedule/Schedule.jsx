@@ -3,27 +3,43 @@ import style from "./Schedule.module.css";
 import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
 import { makeAppointment } from "../../services/appointment_api";
-import Footer from "../../components/Footer/Footer";
 import UserContext from "../../context/UserContext";
+import { useSelector } from "react-redux";
+import { useFillTime } from "../../hooks/useFillTime";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
   const [selectedDay, setSelectedDay] = useState();
   const [dayAppointments, setDayAppointments] = useState(null);
   const { currentUser, updateCurrentUser } = useContext(UserContext);
-  const [closedDays,setClosedDays] = useState([])
-  const handleSelectedDate = async (data) => {
-    if (data !== undefined) {
-      console.log(data);
-      setCurrentSelectionDate(data);
-      console.log(data,"selected day")
-      setSelectedDay(await getDayData(data));
-    }
-  };
+  const [closedDays, setClosedDays] = useState([]);
+  const { timeList } = useFillTime();
 
-  const handleClosedDays = (receivedClosedDays) =>{
-    setClosedDays(receivedClosedDays)
-  }
+  const selectedDayRedux = useSelector(
+    (state) => state.sharedSelectedDay.value,
+  );
+
+  /**
+   *
+   * Aici verificam daca exista sau nu un program pentru ziua respectiva
+   *
+   */
+  useEffect(() => {
+    if (selectedDayRedux.day) {
+      getDayData(selectedDayRedux.day).then((r) => {
+        if (r.id === null) {
+          setSelectedDay(null);
+          setCurrentSelectionDate(selectedDayRedux.day);
+        } else {
+          setSelectedDay(r);
+        }
+      });
+    }
+  }, [selectedDayRedux]);
+
+  const handleClosedDays = (receivedClosedDays) => {
+    setClosedDays(receivedClosedDays);
+  };
 
   useEffect(() => {
     if (selectedDay) {
@@ -43,27 +59,45 @@ function Schedule(props) {
     setSelectedDay(await getDayData(currentSelectionDate));
   };
 
-  useEffect(() => {
-    if (selectedDay) {
-      setWorkingHoursSelect(selectedDay.workingHours);
-      setSelectedStatus(selectedDay.workingStatus);
-      setStartHourSelect(selectedDay.startHour);
-      setEndHourSelect(selectedDay.endHour);
-      fillTime();
-      fillSlots();
-    }
-  }, [selectedDay]);
-
+  /**
+   *
+   * Sets a default schedule for a day
+   *
+   * @return {Promise<void>}
+   */
   const setScheduleForDay = async () => {
-    await postDayData(currentSelectionDate);
-    setSelectedDay(await getDayData(currentSelectionDate));
+    await postDayData(
+      currentSelectionDate,
+      workingHoursSelect,
+      startHourSelect,
+      endHourSelect,
+      selectedStatus,
+    );
   };
 
   const [selectedStatus, setSelectedStatus] = useState();
-  const [workingHoursSelect, setWorkingHoursSelect] = useState();
-  const [startHourSelect, setStartHourSelect] = useState();
-  const [endHourSelect, setEndHourSelect] = useState();
+  const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
+  const [startHourSelect, setStartHourSelect] = useState(8);
+  const [endHourSelect, setEndHourSelect] = useState(16);
   const [modificationsPending, setModificationsPending] = useState(false);
+
+  // useEffect(() => {
+  //   if (workingHoursSelect) {
+  //     setEndHourSelect( startHourSelect + workingHoursSelect);
+  //   }
+  // }, [workingHoursSelect]);
+  //
+  // useEffect(() => {
+  //   if (startHourSelect){
+  //     setWorkingHoursSelect(endHourSelect - startHourSelect)
+  //   }
+  // }, [startHourSelect]);
+  //
+  // useEffect(() => {
+  //   if (endHourSelect){
+  //     setWorkingHoursSelect(endHourSelect - startHourSelect)
+  //   }
+  // }, [endHourSelect]);
 
   function changeModificationStatus() {
     if (
@@ -88,201 +122,186 @@ function Schedule(props) {
 
   const handleWorkingHoursChange = (event) => {
     setWorkingHoursSelect(event.target.value);
+    setEndHourSelect(Number(event.target.value) + Number(startHourSelect))
   };
 
   const handleStartHourChange = (event) => {
     setStartHourSelect(event.target.value);
+    setWorkingHoursSelect( Number(endHourSelect) -Number(event.target.value) )
   };
 
   const handleEndHourChange = (event) => {
     setEndHourSelect(event.target.value);
+    setWorkingHoursSelect(Number(event.target.value) - Number(startHourSelect))
   };
 
-  const [timeList, setTimeList] = useState([]);
-  const [slotList, setSlotList] = useState([]);
+  // const setAppointment = async () => {
+  //   await makeAppointment(
+  //     appointmentDetails.startHour,
+  //     timeList[selectedSlot + 1].formattedHour,
+  //     localStorage.getItem("email"),
+  //     3,
+  //     selectedDay.dayNumber,
+  //     selectedDay.monthNumber,
+  //     selectedDay.year,
+  //     "OCCUPIED",
+  //   );
+  // };
+  //
+  // const freeAppointment = async () => {
+  //   await makeAppointment(
+  //     appointmentDetails.startHour,
+  //     timeList[selectedSlot + 1].formattedHour,
+  //     localStorage.getItem("email"),
+  //     3,
+  //     selectedDay.dayNumber,
+  //     selectedDay.monthNumber,
+  //     selectedDay.year,
+  //     "FREE",
+  //   );
+  // };
+  //
+  // const breakAppointment = async () => {
+  //   await makeAppointment(
+  //     appointmentDetails.startHour,
+  //     timeList[selectedSlot + 1].formattedHour,
+  //     localStorage.getItem("email"),
+  //     3,
+  //     selectedDay.dayNumber,
+  //     selectedDay.monthNumber,
+  //     selectedDay.year,
+  //     "BREAK",
+  //   );
+  // };
 
-  function fillTime() {
-    let firstHour = selectedDay.startHour;
-    const newTimeList = [];
-
-    for (let i = 0; i < selectedDay.workingHours * 2; i++) {
-      const isEven = i % 2 === 0;
-      const formattedHour = isEven ? `${firstHour}:00` : `${firstHour}:30`;
-
-      newTimeList.push({ formattedHour });
-
-      if (!isEven) {
-        firstHour++;
-      }
-    }
-
-    setTimeList(newTimeList);
-  }
-
-  function fillSlots() {
-    let firstHour = selectedDay.startHour;
-    const newSlotList = [];
-
-    for (let index = 0; index < selectedDay.workingHours * 2; index++) {
-      newSlotList.push({});
-
-      firstHour++;
-    }
-
-    setSlotList(newSlotList);
-  }
-
-  const [selectedSlot, setSelectedSlot] = useState(null);
-
-  const selectSlot = (index) => {
-    setSelectedSlot(index);
-    setAppointmentDetails({
-      startHour: timeList[index].formattedHour,
-    });
-  };
-
-  // const isBooked = (index) =>  dayAppointments.every(slot => slot.startHour.includes(timeList[index].formattedHour))
-
-  const isBooked = (index) => {
-    let isFound = false;
-    for (let appointment of dayAppointments) {
-      if (
-        appointment.startHour.includes(timeList[index].formattedHour) &&
-        appointment.slotStatus.includes("OCCUPIED")
-      ) {
-        isFound = true;
-      }
-    }
-    return isFound;
-  };
-
-  const isFree = (index) => {
-    let isFound = false;
-    for (let appointment of dayAppointments) {
-      if (
-        appointment.startHour.includes(timeList[index].formattedHour) &&
-        appointment.slotStatus.includes("FREE")
-      ) {
-        isFound = true;
-      }
-    }
-    return isFound;
-  };
-
-  const isBreak = (index) => {
-    let isFound = false;
-    for (let appointment of dayAppointments) {
-      if (
-        appointment.startHour.includes(timeList[index].formattedHour) &&
-        appointment.slotStatus.includes("BREAK")
-      ) {
-        isFound = true;
-      }
-    }
-    return isFound;
-  };
-
-  const [followingSlot, setFollowingSlot] = useState(null);
-  const selectFollowingSlot = (index) => {
-    if (selectedSlot) {
-      setFollowingSlot(index);
-      console.log(index);
-    }
-  };
-
-  function getContentForSlot(index) {
-    if (isBooked(index)) {
-      return `Ocupat`;
-    }
-    if (isBreak(index)) {
-      return `Pauza`;
-    } else {
-      return `Liber`;
-    }
-  }
-
-  function getClassForSlot(index) {
-    if (selectedSlot === index) {
-      return style.selectedSlot;
-    } else if (isBooked(index)) {
-      return style.occupiedSlot;
-    } else if (isBreak(index)) {
-      return style.breakSlot;
-    }
-
-    // if (isFree(index)){
-    //
-    // }
-    // } else if(followingSlot === index) {
-    //   return style.selectedSlot
-    // }
-    else {
-      return style.freeSlot;
-    }
-  }
-
-  useEffect(() => {
-    console.log(selectedSlot);
-  }, [selectedSlot]);
-
-  const [appointmentDetails, setAppointmentDetails] = useState(null);
-
-  const setAppointment = async () => {
-    await makeAppointment(
-      appointmentDetails.startHour,
-      timeList[selectedSlot + 1].formattedHour,
-      localStorage.getItem("email"),
-      3,
-      selectedDay.dayNumber,
-      selectedDay.monthNumber,
-      selectedDay.year,
-      "OCCUPIED",
+  function selectionInfo() {
+    return (
+      <div className={style.selection}>
+        <h2>{selectedDayRedux.day.dayNumber} -</h2>
+        <h2>{selectedDayRedux.day.monthNumber} -</h2>
+        <h2>{selectedDayRedux.day.year}</h2>
+      </div>
     );
-  };
+  }
 
-  const freeAppointment = async () => {
-    await makeAppointment(
-      appointmentDetails.startHour,
-      timeList[selectedSlot + 1].formattedHour,
-      localStorage.getItem("email"),
-      3,
-      selectedDay.dayNumber,
-      selectedDay.monthNumber,
-      selectedDay.year,
-      "FREE",
+  function workingHours() {
+    return (
+      <div className={style.flex}>
+        <h4> Cate ore alocam zilei ? </h4>
+        <select value={workingHoursSelect} onChange={handleWorkingHoursChange}>
+          <option value={1}>1</option>
+          <option value={2}>2</option>
+          <option value={3}>3</option>
+          <option value={4}>4</option>
+          <option value={5}>5</option>
+          <option value={6}>6</option>
+          <option value={7}>7</option>
+          <option value={8}>8</option>
+          <option value={9}>9 </option>
+          <option value={10}>10</option>
+          <option value={11}>11</option>
+          <option value={12}>12</option>
+          <option value={13}>13</option>
+          <option value={14}>14</option>
+          <option value={15}>15</option>
+        </select>
+      </div>
     );
-  };
+  }
 
-  const breakAppointment = async () => {
-    await makeAppointment(
-      appointmentDetails.startHour,
-      timeList[selectedSlot + 1].formattedHour,
-      localStorage.getItem("email"),
-      3,
-      selectedDay.dayNumber,
-      selectedDay.monthNumber,
-      selectedDay.year,
-      "BREAK",
+  function startHours() {
+    return (
+      <div className={style.flex}>
+        <h4> Inceputul programului</h4>
+        <select value={startHourSelect} onChange={handleStartHourChange}>
+          <option value={7}>7:00</option>
+          <option value={8}>8:00</option>
+          <option value={9}>9:00</option>
+          <option value={10}>10:00</option>
+          <option value={11}>11:00</option>
+          <option value={12}>12:00</option>
+          <option value={13}>13:00</option>
+          <option value={14}>14:00</option>
+          <option value={15}>15:00</option>
+          <option value={16}>16:00</option>
+          <option value={17}>17:00</option>
+          <option value={18}>18:00</option>
+        </select>
+      </div>
     );
-  };
+  }
 
-  function infoPanel(){
-    return(
-        <div>
-          { selectedDay ? (
-              <div className={style.dateProperties}>
+  function endHours() {
+    return (
+      <div className={style.flex}>
+        <h4> Finalul programului</h4>
+        <select value={endHourSelect} onChange={handleEndHourChange}>
+          <option value={7}>7:00</option>
+          <option value={8}>8:00</option>
+          <option value={9}>9:00</option>
+          <option value={10}>10:00</option>
+          <option value={11}>11:00</option>
+          <option value={12}>12:00</option>
+          <option value={13}>13:00</option>
+          <option value={14}>14:00</option>
+          <option value={15}>15:00</option>
+          <option value={16}>16:00</option>
+          <option value={17}>17:00</option>
+          <option value={18}>18:00</option>
+        </select>
+      </div>
+    );
+  }
+
+  function dayDispo() {
+    return (
+      <select value={selectedStatus} onChange={handleDropdownChange}>
+        <option value="CLOSED">Inchis</option>
+        <option value="VACATION">Concediu</option>
+        <option value="HOLIDAY">Sarbatoare Legala</option>
+        <option value="WORKING">Disponibil</option>
+      </select>
+    );
+  }
+
+  function infoPanel() {
+    return (
+      <div>
+        {selectedDayRedux.day && selectedDay ? (
+          <div className={style.dateProperties}>
+            {selectionInfo()}
+
+            {workingHours()}
+
+            {startHours()}
+
+            {endHours()}
+
+            <h3>Disponibilitatea zilei :</h3>
+            {dayDispo()}
+
+            {modificationsPending ? (
+              <button onClick={submitChanges}>Salveaza Modificarile</button>
+            ) : (
+              <></>
+            )}
+          </div>
+        ) : (
+          <>
+            {currentSelectionDate ? (
+              <div className={style.dateInfo}>
                 <div className={style.selection}>
-                  <h2>{selectedDay.dayNumber} -</h2>
-                  <h2>{selectedDay.monthNumber} -</h2>
-                  <h2>{selectedDay.year}</h2>
+                  <h2>{currentSelectionDate.dayNumber} -</h2>
+                  <h2>{currentSelectionDate.monthNumber} -</h2>
+                  <h2>{currentSelectionDate.year}</h2>
                 </div>
-
+                <h3>Nu am gasit nici un program pentru ziua selectata</h3>
                 <div className={style.workingArea}>
                   <div className={style.flex}>
                     <h4> Cate ore alocam zilei ? </h4>
                     <select
-                        value={workingHoursSelect}
-                        onChange={handleWorkingHoursChange}
+                      value={workingHoursSelect}
+                      onChange={handleWorkingHoursChange}
                     >
                       <option value={1}>1</option>
                       <option value={2}>2</option>
@@ -300,8 +319,8 @@ function Schedule(props) {
                     <div className={style.flex}>
                       <h4> Inceputul programului</h4>
                       <select
-                          value={startHourSelect}
-                          onChange={handleStartHourChange}
+                        value={startHourSelect}
+                        onChange={handleStartHourChange}
                       >
                         <option value={7}>7:00</option>
                         <option value={8}>8:00</option>
@@ -320,7 +339,10 @@ function Schedule(props) {
 
                     <div className={style.flex}>
                       <h4> Finalul programului</h4>
-                      <select value={endHourSelect} onChange={handleEndHourChange}>
+                      <select
+                        value={endHourSelect}
+                        onChange={handleEndHourChange}
+                      >
                         <option value={7}>7:00</option>
                         <option value={8}>8:00</option>
                         <option value={9}>9:00</option>
@@ -338,134 +360,33 @@ function Schedule(props) {
                   </div>
 
                   <h3>Disponibilitatea zilei :</h3>
-                  <select value={selectedStatus} onChange={handleDropdownChange}>
+                  <select
+                    value={selectedStatus}
+                    onChange={handleDropdownChange}
+                  >
                     <option value="CLOSED">Inchis</option>
                     <option value="VACATION">Concediu</option>
                     <option value="HOLIDAY">Sarbatoare Legala</option>
                     <option value="WORKING">Disponibil</option>
                   </select>
-
-                  {modificationsPending ? (
-                      <button onClick={submitChanges}>Salveaza Modificarile</button>
-                  ) : (
-                      <></>
-                  )}
                 </div>
+                <button onClick={setScheduleForDay} className={style.selectBtn}>
+                  {" "}
+                  Adauga program{" "}
+                </button>
               </div>
-          ) : (
-              <>
-                {currentSelectionDate ? (
-                    <div className={style.dateInfo}>
-                      <div className={style.selection}>
-                        <h2>{currentSelectionDate.dayNumber} -</h2>
-                        <h2>{currentSelectionDate.monthNumber} -</h2>
-                        <h2>{currentSelectionDate.year}</h2>
-                      </div>
-                      <h3>Nu am gasit nici un program pentru ziua selectata</h3>
-                      <button onClick={setScheduleForDay} className={style.selectBtn}> Adauga program </button>
-                    </div>
-                ) : (
-                    <div className={style.dateInfo}>
-                      <h3>Pentru detalii, selecteaza o zi</h3>
-                    </div>
-                )}
-              </>
-          )}
-        </div>
-
-
-    )
-  }
-
-  function expandedSchedule(){
-    return(
-        <div>
-          {selectedDay && !closedDays.includes(selectedDay.dayNumber) ? (
-              <div className={style.dateDetails}>
-                <div className={style.timeRepresentation}>
-                  <div className={style.timeStamps}>
-                    {timeList.map((item, index) => (
-                        <div className={style.timeStamp} key={index}>
-                          {item.formattedHour}
-                        </div>
-                    ))}
-                  </div>
-                  <div className={style.slots}>
-                    {slotList.map((item, index) => (
-                        <div
-                            className={
-                              getClassForSlot(index)
-                              // selectedSlot === index ? style.selectedSlot : style.slot
-                            }
-                            key={index}
-                            onClick={() => selectSlot(index)}
-                            // onMouseEnter={()=> selectFollowingSlot(index)}
-                        >
-                          {getContentForSlot(index)}
-                        </div>
-                    ))}
-                  </div>
-                </div>
-
-                <div className={style.slotInfo}>
-                  {appointmentDetails ? (
-                      <>
-                        {currentUser.role === "ADMIN" ? (
-                            <>
-                              <div className={style.infoHeader}>
-                                <h3>{appointmentDetails.startHour}</h3>
-                              </div>
-                              <div className={style.infoBody}>
-                                <button onClick={freeAppointment} className={style.selectBtn}>
-                                  Marcheaza ca si liber
-                                </button>
-                                <button onClick={breakAppointment} className={style.selectBtn}>
-                                  Marcheaza ca si ocupat
-                                </button>
-                                <button onClick={setAppointment} className={style.selectBtn}>Programeaza-te</button>
-                              </div>
-                            </>
-                        ) : (
-                            <>
-                              <div className={style.infoHeader}>
-                                <h3>{appointmentDetails.startHour}</h3>
-                              </div>
-                              <div className={style.infoBody}>
-                                <button onClick={setAppointment} className={style.selectBtn}>Programeaza-te</button>
-                              </div>
-                            </>
-                        )}
-                      </>
-                  ) : (
-                      <div className={style.flex}>
-                        <h2>Selectati un interval pentru detalii</h2>
-                      </div>
-                  )}
-                </div>
+            ) : (
+              <div className={style.dateInfo}>
+                <h3>Pentru detalii, selecteaza o zi</h3>
               </div>
-          ) : (<div className={style.dateDetails}>
-            {
-             selectedDay && closedDays.includes(selectedDay.dayNumber) ? (<h2>Zi libera</h2>):( <h2>Odata ce iti vei programa ziua vei putea vizualiza fiecare ora in detaliu </h2>)
-            }
-
-          </div>)}
-        </div>
-    )
-  }
-
-  return (
-    <div className={style.wrapper}>
-      <div className={style.calendarAndInfo}>
-        <div className={style.datePickerWrapper}>
-        <DatePicker sendSelectedDate={handleSelectedDate}
-                    sendClosedDays={handleClosedDays}/>
-        </div>
-        {infoPanel()}
+            )}
+          </>
+        )}
       </div>
-      {expandedSchedule()}
+    );
+  }
 
-    </div>
-  );
+  return <div>{infoPanel()}</div>;
 }
 
 export default Schedule;

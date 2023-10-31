@@ -4,6 +4,8 @@ import { Link, useHistory, useLocation } from "react-router-dom";
 import DatePicker from "../DatePickerSidebar/DatePicker";
 import UserContext from "../../context/UserContext";
 import { getQuestionsByStatus } from "../../services/question_api";
+import {useSelector} from "react-redux";
+import Schedule from "../../pages/Schedule/Schedule";
 
 function SideBar(props) {
   const { currentUser, updateCurrentUser, viewModeON, updateViewMode } =
@@ -290,6 +292,9 @@ function SideBar(props) {
         {videocall()}
 
         {calendar()}
+
+        <Schedule/>
+
       </div>
 
       <div className={style.bottom}>
