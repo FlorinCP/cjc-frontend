@@ -1,7 +1,6 @@
 const BASE_URL = "http://localhost:8080/cjc/api/v1";
 
 export async function getDayData(selectedDate) {
-  console.log(selectedDate);
   try {
     const queryParams = {
       monthNumber: `${selectedDate.monthNumber}`,

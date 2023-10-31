@@ -4,8 +4,9 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
 import { makeAppointment } from "../../services/appointment_api";
 import UserContext from "../../context/UserContext";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
+import { setDayData, setWeekData } from "../../features/sharedWeekSlice";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
@@ -56,48 +57,17 @@ function Schedule(props) {
       endHourSelect,
       selectedStatus,
     );
+    await getDayData(selectedDayRedux.day).then((r) => {
+      dispatch(setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }));
+    });
     setSelectedDay(await getDayData(currentSelectionDate));
   };
 
-  /**
-   *
-   * Sets a default schedule for a day
-   *
-   * @return {Promise<void>}
-   */
-  const setScheduleForDay = async () => {
-    await postDayData(
-      currentSelectionDate,
-      workingHoursSelect,
-      startHourSelect,
-      endHourSelect,
-      selectedStatus,
-    );
-  };
-
-  const [selectedStatus, setSelectedStatus] = useState();
+  const [selectedStatus, setSelectedStatus] = useState("WORKING");
   const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
   const [startHourSelect, setStartHourSelect] = useState(8);
   const [endHourSelect, setEndHourSelect] = useState(16);
   const [modificationsPending, setModificationsPending] = useState(false);
-
-  // useEffect(() => {
-  //   if (workingHoursSelect) {
-  //     setEndHourSelect( startHourSelect + workingHoursSelect);
-  //   }
-  // }, [workingHoursSelect]);
-  //
-  // useEffect(() => {
-  //   if (startHourSelect){
-  //     setWorkingHoursSelect(endHourSelect - startHourSelect)
-  //   }
-  // }, [startHourSelect]);
-  //
-  // useEffect(() => {
-  //   if (endHourSelect){
-  //     setWorkingHoursSelect(endHourSelect - startHourSelect)
-  //   }
-  // }, [endHourSelect]);
 
   function changeModificationStatus() {
     if (
@@ -122,17 +92,17 @@ function Schedule(props) {
 
   const handleWorkingHoursChange = (event) => {
     setWorkingHoursSelect(event.target.value);
-    setEndHourSelect(Number(event.target.value) + Number(startHourSelect))
+    setEndHourSelect(Number(event.target.value) + Number(startHourSelect));
   };
 
   const handleStartHourChange = (event) => {
     setStartHourSelect(event.target.value);
-    setWorkingHoursSelect( Number(endHourSelect) -Number(event.target.value) )
+    setWorkingHoursSelect(Number(endHourSelect) - Number(event.target.value));
   };
 
   const handleEndHourChange = (event) => {
     setEndHourSelect(event.target.value);
-    setWorkingHoursSelect(Number(event.target.value) - Number(startHourSelect))
+    setWorkingHoursSelect(Number(event.target.value) - Number(startHourSelect));
   };
 
   // const setAppointment = async () => {
@@ -264,6 +234,48 @@ function Schedule(props) {
     );
   }
 
+  const weekData = useSelector((state) => state.sharedWeek);
+
+  const dispatch = useDispatch();
+
+  /**
+   *
+   * Sets a default schedule for a day
+   *
+   * @return {Promise<void>}
+   */
+  const setScheduleForDay = async () => {
+    await postDayData(
+      currentSelectionDate,
+      workingHoursSelect,
+      startHourSelect,
+      endHourSelect,
+      selectedStatus,
+    );
+    getDayData(selectedDayRedux.day).then((r) => {
+      dispatch(setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }));
+    });
+  };
+
+  function getDayName(index){
+    switch (index){
+      case 0:
+        return "monday"
+      case 1:
+        return "tuesday"
+      case 2:
+        return "wenesday"
+      case 3:
+        return "thursday"
+      case 4:
+        return "friday"
+      case 5:
+        return "saturday"
+      case 6:
+        return "sunday"
+    }
+  }
+
   function infoPanel() {
     return (
       <div>
@@ -281,7 +293,9 @@ function Schedule(props) {
             {dayDispo()}
 
             {modificationsPending ? (
-              <button onClick={submitChanges}>Salveaza Modificarile</button>
+              <button onClick={submitChanges} className={style.selectBtn}>
+                Salveaza Modificarile
+              </button>
             ) : (
               <></>
             )}

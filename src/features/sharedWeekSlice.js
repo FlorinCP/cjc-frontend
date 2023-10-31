@@ -8,7 +8,7 @@ export const sharedWeekSlice = createSlice({
     wenesday: [],
     thursday: [],
     friday: [],
-    saturnday: [],
+    saturday: [],
     sunday: [],
   },
   reducers: {
@@ -21,12 +21,19 @@ export const sharedWeekSlice = createSlice({
       state.saturday = action.payload.saturnday;
       state.sunday = action.payload.sunday;
     },
+    setDayData: (state, action) => {
+      const { dayName, data } = action.payload;
+      console.log(action.payload)
+      if (state.hasOwnProperty(dayName)) { // This checks if the provided day exists in the state
+        state[dayName] = data;
+      }
+    },
   },
 });
 
 
 
-export const { setWeekData } = sharedWeekSlice.actions;
+export const { setWeekData ,setDayData} = sharedWeekSlice.actions;
 
 export default sharedWeekSlice.reducer;
 

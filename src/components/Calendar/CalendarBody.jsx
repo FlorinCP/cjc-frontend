@@ -4,8 +4,10 @@ import TimeColumn from "./TimeColumn";
 import WeekDayColumn from "./WeekDayColumn";
 import { useDispatch, useSelector } from "react-redux";
 import { setSelectedDayValue } from "../../features/sharedSelectedDay";
-import {useFillTime} from "../../hooks/useFillTime";
-import {makeAppointment} from "../../services/appointment_api";
+import { useFillTime } from "../../hooks/useFillTime";
+import { makeAppointment } from "../../services/appointment_api";
+import { getDayData } from "../../services/day_api";
+import { setDayData } from "../../features/sharedWeekSlice";
 
 function CalendarBody(props) {
   const [selectedCard, setSelectedCard] = useState({
@@ -33,15 +35,18 @@ function CalendarBody(props) {
       );
     } else {
       setSelectedCard(data);
-      dispatch(setSelectedDayValue({
+      dispatch(
+        setSelectedDayValue({
           day: currentWeek[data.weekDay],
-          time: timeList[data.index]
-      }));
+          weekday: data.weekDay,
+          time: timeList[data.index],
+        }),
+      );
     }
   };
 
   const weekData = useSelector((state) => state.sharedWeek);
-    const { timeList} = useFillTime();
+  const { timeList } = useFillTime();
 
   function populateColumns() {
     return (
@@ -103,11 +108,14 @@ function CalendarBody(props) {
           border: "1px solid black",
           backgroundColor: "white",
         }}
-
         className={style.contextMenu}
       >
         {items.map((item, index) => (
-          <div key={index} onClick={item.onClick} className={style.contextMenuItem}>
+          <div
+            key={index}
+            onClick={item.onClick}
+            className={style.contextMenuItem}
+          >
             {item.label}
           </div>
         ))}
@@ -115,10 +123,8 @@ function CalendarBody(props) {
     );
   }
 
-
-
   const menuItems = [
-    { label: "Programeaza-te", onClick: () =>  setAppointment() },
+    { label: "Programeaza-te", onClick: () => setAppointment() },
     { label: "Second action", onClick: () => alert("Second action clicked") },
   ];
 
@@ -153,18 +159,49 @@ function CalendarBody(props) {
   const selectedDay = useSelector((state) => state.sharedSelectedDay.value);
   const currentWeek = useSelector((state) => state.sharedDisplayedWeek.value);
 
-    const setAppointment = async () => {
-        await makeAppointment(
-            selectedDay.time,
-            timeList[selectedCard.index + 1],
-            "peanaflorincosmin@gmail.com",
-            3,
-            selectedDay.day.dayNumber,
-            selectedDay.day.monthNumber,
-            selectedDay.day.year,
-            "OCCUPIED",
+  const setAppointment = async () => {
+    await makeAppointment(
+      selectedDay.time,
+      timeList[selectedCard.index + 1],
+      "peanaflorincosmin@gmail.com",
+      3,
+      selectedDay.day.dayNumber,
+      selectedDay.day.monthNumber,
+      selectedDay.day.year,
+      "OCCUPIED",
+    );
+    await sleep(1000)
+    await getDayData(selectedDay.day).then((r) => {
+        dispatch(
+          setDayData({ dayName: getDayName(selectedDay.weekday), data: r }),
         );
-    };
+    });
+  };
+
+
+    function sleep(ms) {
+        return new Promise(resolve => setTimeout(resolve, ms));
+    }
+
+
+    function getDayName(index) {
+    switch (index) {
+      case 0:
+        return "monday";
+      case 1:
+        return "tuesday";
+      case 2:
+        return "wenesday";
+      case 3:
+        return "thursday";
+      case 4:
+        return "friday";
+      case 5:
+        return "saturday";
+      case 6:
+        return "sunday";
+    }
+  }
 
   return (
     <div onContextMenu={handleRightClick}>
