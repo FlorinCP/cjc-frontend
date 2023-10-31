@@ -1,19 +1,19 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./Schedule.module.css";
-import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
-import { makeAppointment } from "../../services/appointment_api";
-import UserContext from "../../context/UserContext";
 import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
-import { setDayData, setWeekData } from "../../features/sharedWeekSlice";
+import { setDayData } from "../../features/sharedWeekSlice";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
   const [selectedDay, setSelectedDay] = useState();
-  const [dayAppointments, setDayAppointments] = useState(null);
-  const { currentUser, updateCurrentUser } = useContext(UserContext);
-  const [closedDays, setClosedDays] = useState([]);
+  const [selectedStatus, setSelectedStatus] = useState("WORKING");
+  const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
+  const [startHourSelect, setStartHourSelect] = useState(8);
+  const [endHourSelect, setEndHourSelect] = useState(16);
+  const [modificationsPending, setModificationsPending] = useState(false);
+
   const { timeList } = useFillTime();
 
   const selectedDayRedux = useSelector(
@@ -23,7 +23,6 @@ function Schedule(props) {
   /**
    *
    * Aici verificam daca exista sau nu un program pentru ziua respectiva
-   *
    */
   useEffect(() => {
     if (selectedDayRedux.day) {
@@ -38,17 +37,11 @@ function Schedule(props) {
     }
   }, [selectedDayRedux]);
 
-  const handleClosedDays = (receivedClosedDays) => {
-    setClosedDays(receivedClosedDays);
-  };
-
-  useEffect(() => {
-    if (selectedDay) {
-      setDayAppointments(selectedDay.appointments);
-      console.log(selectedDay.appointments);
-    }
-  }, [selectedDay]);
-
+  /**
+   * submits changes from an unset day
+   *
+   * @return {Promise<void>}
+   */
   const submitChanges = async () => {
     await updateDayData(
       selectedDay.id,
@@ -65,12 +58,10 @@ function Schedule(props) {
     setSelectedDay(await getDayData(currentSelectionDate));
   };
 
-  const [selectedStatus, setSelectedStatus] = useState("WORKING");
-  const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
-  const [startHourSelect, setStartHourSelect] = useState(8);
-  const [endHourSelect, setEndHourSelect] = useState(16);
-  const [modificationsPending, setModificationsPending] = useState(false);
-
+  /**
+   *
+   * verifica daca s-au facut sau nu modificari statusului curent al zilei
+   */
   function changeModificationStatus() {
     if (
       selectedStatus !== selectedDay.workingStatus ||
@@ -82,70 +73,59 @@ function Schedule(props) {
     }
   }
 
+  /**
+   * checks if some modifications were made
+   */
   useEffect(() => {
     if (selectedDay) {
       changeModificationStatus();
     }
   }, [selectedStatus, workingHoursSelect, startHourSelect, endHourSelect]);
 
-  const handleDropdownChange = (event) => {
+  /**
+   * status change
+   *
+   * @param event
+   */
+  const handleStatusDropdownChange = (event) => {
     setSelectedStatus(event.target.value);
   };
 
+  /**
+   * ensures concordance between working hours and so on
+   *
+   * @param event
+   */
   const handleWorkingHoursChange = (event) => {
     setWorkingHoursSelect(event.target.value);
     setEndHourSelect(Number(event.target.value) + Number(startHourSelect));
   };
 
+  /**
+   * ensures concordance between working hours and so on
+   *
+   * @param event
+   */
   const handleStartHourChange = (event) => {
     setStartHourSelect(event.target.value);
     setWorkingHoursSelect(Number(endHourSelect) - Number(event.target.value));
   };
 
+  /**
+   * ensures concordance between working hours and so on
+   *
+   * @param event
+   */
   const handleEndHourChange = (event) => {
     setEndHourSelect(event.target.value);
     setWorkingHoursSelect(Number(event.target.value) - Number(startHourSelect));
   };
 
-  // const setAppointment = async () => {
-  //   await makeAppointment(
-  //     appointmentDetails.startHour,
-  //     timeList[selectedSlot + 1].formattedHour,
-  //     localStorage.getItem("email"),
-  //     3,
-  //     selectedDay.dayNumber,
-  //     selectedDay.monthNumber,
-  //     selectedDay.year,
-  //     "OCCUPIED",
-  //   );
-  // };
-  //
-  // const freeAppointment = async () => {
-  //   await makeAppointment(
-  //     appointmentDetails.startHour,
-  //     timeList[selectedSlot + 1].formattedHour,
-  //     localStorage.getItem("email"),
-  //     3,
-  //     selectedDay.dayNumber,
-  //     selectedDay.monthNumber,
-  //     selectedDay.year,
-  //     "FREE",
-  //   );
-  // };
-  //
-  // const breakAppointment = async () => {
-  //   await makeAppointment(
-  //     appointmentDetails.startHour,
-  //     timeList[selectedSlot + 1].formattedHour,
-  //     localStorage.getItem("email"),
-  //     3,
-  //     selectedDay.dayNumber,
-  //     selectedDay.monthNumber,
-  //     selectedDay.year,
-  //     "BREAK",
-  //   );
-  // };
-
+  /**
+   * info about the selected day
+   *
+   * @return {Element}
+   */
   function selectionInfo() {
     return (
       <div className={style.selection}>
@@ -156,6 +136,11 @@ function Schedule(props) {
     );
   }
 
+  /**
+   * working hours selection
+   *
+   * @return {Element}
+   */
   function workingHours() {
     return (
       <div className={style.flex}>
@@ -181,6 +166,11 @@ function Schedule(props) {
     );
   }
 
+  /**
+   * start hour selection
+   *
+   * @return {Element}
+   */
   function startHours() {
     return (
       <div className={style.flex}>
@@ -203,6 +193,11 @@ function Schedule(props) {
     );
   }
 
+  /**
+   * end hours selection
+   *
+   * @return {Element}
+   */
   function endHours() {
     return (
       <div className={style.flex}>
@@ -225,9 +220,14 @@ function Schedule(props) {
     );
   }
 
+  /**
+   * disponibility selection
+   *
+   * @return {Element}
+   */
   function dayDispo() {
     return (
-      <select value={selectedStatus} onChange={handleDropdownChange}>
+      <select value={selectedStatus} onChange={handleStatusDropdownChange}>
         <option value="CLOSED">Inchis</option>
         <option value="VACATION">Concediu</option>
         <option value="HOLIDAY">Sarbatoare Legala</option>
@@ -261,6 +261,12 @@ function Schedule(props) {
     });
   };
 
+  /**
+   * function used for getting day name
+   *
+   * @param index
+   * @return {string}
+   */
   function getDayName(index) {
     switch (index) {
       case 0:
@@ -280,6 +286,11 @@ function Schedule(props) {
     }
   }
 
+  /**
+   * the component
+   *
+   * @return {Element}
+   */
   function infoPanel() {
     return (
       <div>
@@ -312,7 +323,7 @@ function Schedule(props) {
                 {selectionInfo()}
 
                 <h3>Nu am gasit nici un program pentru ziua selectata</h3>
-                
+
                 {workingHours()}
 
                 {startHours()}

@@ -17,6 +17,11 @@ function CalendarBody(props) {
 
   const dispatch = useDispatch();
 
+    /**
+     * Sets the state of current selected day
+     *
+     * @param data
+     */
   const handleSelectCard = (data) => {
     if (
       selectedCard.index === data.index &&
@@ -45,9 +50,15 @@ function CalendarBody(props) {
     }
   };
 
+
   const weekData = useSelector((state) => state.sharedWeek);
   const { timeList } = useFillTime();
 
+    /**
+     * function to populate each column by the week state
+     *
+     * @return {Element}
+     */
   function populateColumns() {
     return (
       <div className={style.calendarBody}>
@@ -98,6 +109,15 @@ function CalendarBody(props) {
     );
   }
 
+    /**
+     * context menu functional component
+     *
+     * @param items
+     * @param top
+     * @param left
+     * @return {Element}
+     * @constructor
+     */
   function ContextMenu({ items, top, left }) {
     return (
       <div
@@ -123,13 +143,20 @@ function CalendarBody(props) {
     );
   }
 
+    /**
+     * list of actions for context menu
+     *
+     * @type {[{onClick: (function(): Promise<void>), label: string},{onClick: (function(): void), label: string}]}
+     */
   const menuItems = [
     { label: "Programeaza-te", onClick: () => setAppointment() },
     { label: "Second action", onClick: () => alert("Second action clicked") },
   ];
 
-  const menuRef = useRef(null);
 
+    /**
+     * closing contextMenu
+     */
   useEffect(() => {
     const handleOutsideClick = (e) => {
       setContextMenu(null);
@@ -141,12 +168,20 @@ function CalendarBody(props) {
     };
   }, []);
 
+    /**
+     * contextMenu state
+     */
   const [contextMenu, setContextMenu] = useState({
     visible: false,
     x: 0,
     y: 0,
   });
 
+    /**
+     * enables the context menu
+     *
+     * @param event
+     */
   const handleRightClick = (event) => {
     event.preventDefault();
     setContextMenu({
@@ -159,6 +194,11 @@ function CalendarBody(props) {
   const selectedDay = useSelector((state) => state.sharedSelectedDay.value);
   const currentWeek = useSelector((state) => state.sharedDisplayedWeek.value);
 
+    /**
+     * function to make an appointment
+     *
+     * @return {Promise<void>}
+     */
   const setAppointment = async () => {
     await makeAppointment(
       selectedDay.time,
@@ -178,12 +218,23 @@ function CalendarBody(props) {
     });
   };
 
-
+    /**
+     * sleep function used to wait until the entries have been written into db
+     *
+     * @param ms
+     * @return {Promise<unknown>}
+     */
     function sleep(ms) {
         return new Promise(resolve => setTimeout(resolve, ms));
     }
 
 
+    /**
+     * function to get the dayName used to change elements from week state
+     *
+     * @param index
+     * @return {string}
+     */
     function getDayName(index) {
     switch (index) {
       case 0:
@@ -208,7 +259,6 @@ function CalendarBody(props) {
       {populateColumns()}
       {selectedCard.index && contextMenu && contextMenu.visible && (
         <ContextMenu
-          ref={menuRef}
           items={menuItems}
           top={contextMenu.y}
           left={contextMenu.x}

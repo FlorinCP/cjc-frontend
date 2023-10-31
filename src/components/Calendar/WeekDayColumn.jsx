@@ -9,6 +9,13 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     onDataReceived({ index: index, weekDay: weekDay });
   };
 
+  /**
+   * important function
+   *
+   * @param data
+   * @param index
+   * @return {*}
+   */
   function fillAppointment(data, index) {
     const endHour = data.endHour;
     const startingHours = data.appointments
@@ -34,6 +41,14 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     return result;
   }
 
+  /**
+   * function for getting classname
+   *
+   * @param index
+   * @param valueStyle
+   * @param weekDay
+   * @return {*}
+   */
   function getClassName(index, valueStyle, weekDay) {
     if (
       selectedCard &&
@@ -46,7 +61,16 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     }
   }
 
-  function halfHourCard(value, index) {
+  /**
+   * Renders a card for a half hour appointment
+   *
+   * TODO more for 1h and 1:5h appointments
+   *
+   * @param value
+   * @param index
+   * @return {Element}
+   */
+  function halfHourAppointmentCard(value, index) {
     const startHour = value.appointment.startHour;
     const fullName =
       `${value.appointment.nume}` + " " + `${value.appointment.prenume}`;
@@ -79,6 +103,13 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     return newSlotList;
   }
 
+
+  /**
+   * assigns each appointment to its starting hour
+   *
+   * @param data
+   * @return {*[]}
+   */
   function getAppointmentsDetails(data) {
     const appointments = data.appointments;
     const startingHourArray = [];
@@ -91,12 +122,25 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     return startingHourArray;
   }
 
+  /**
+   * used in some computations
+   *
+   * @param timeString
+   * @return {*}
+   */
   function convertFromStringHourToIntegerHour(timeString) {
     const [hours, minutes] = timeString.split(":").map(Number);
     const fractionOfHour = minutes / 60;
     return hours + fractionOfHour;
   }
 
+  /**
+   * function used to determine what class should a slot have based on its state
+   *
+   * @param data
+   * @param index
+   * @return {*}
+   */
   function getClassForSlot(data, index) {
     const startHour = data.startHour;
     const endHour = data.endHour;
@@ -130,6 +174,14 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     }
   }
 
+  /**
+   *
+   * function to render a column with its properties
+   *
+   * @param data
+   * @param weekDay
+   * @return {Element}
+   */
   function fillColumn(data, weekDay) {
     return (
       <div>
@@ -141,7 +193,7 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
                   className={style.freeSlot}
                   onClick={() => selectCard(index, weekDay)}
                 >
-                  {halfHourCard(value, index)}
+                  {halfHourAppointmentCard(value, index)}
                 </div>
               ) : (
                 <div
@@ -155,6 +207,10 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     );
   }
 
+  /**
+   *
+   * memorised column
+   */
   const weekDayColumn = useMemo(() => {
     return fillColumn(weekDay, dayIndex);
   }, [weekDay, selectedCard]);
