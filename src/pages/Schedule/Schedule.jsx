@@ -58,7 +58,9 @@ function Schedule(props) {
       selectedStatus,
     );
     await getDayData(selectedDayRedux.day).then((r) => {
-      dispatch(setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }));
+      dispatch(
+        setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }),
+      );
     });
     setSelectedDay(await getDayData(currentSelectionDate));
   };
@@ -253,26 +255,28 @@ function Schedule(props) {
       selectedStatus,
     );
     getDayData(selectedDayRedux.day).then((r) => {
-      dispatch(setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }));
+      dispatch(
+        setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }),
+      );
     });
   };
 
-  function getDayName(index){
-    switch (index){
+  function getDayName(index) {
+    switch (index) {
       case 0:
-        return "monday"
+        return "monday";
       case 1:
-        return "tuesday"
+        return "tuesday";
       case 2:
-        return "wenesday"
+        return "wenesday";
       case 3:
-        return "thursday"
+        return "thursday";
       case 4:
-        return "friday"
+        return "friday";
       case 5:
-        return "saturday"
+        return "saturday";
       case 6:
-        return "sunday"
+        return "sunday";
     }
   }
 
@@ -304,86 +308,20 @@ function Schedule(props) {
           <>
             {currentSelectionDate ? (
               <div className={style.dateInfo}>
-                <div className={style.selection}>
-                  <h2>{currentSelectionDate.dayNumber} -</h2>
-                  <h2>{currentSelectionDate.monthNumber} -</h2>
-                  <h2>{currentSelectionDate.year}</h2>
-                </div>
+
+                {selectionInfo()}
+
                 <h3>Nu am gasit nici un program pentru ziua selectata</h3>
-                <div className={style.workingArea}>
-                  <div className={style.flex}>
-                    <h4> Cate ore alocam zilei ? </h4>
-                    <select
-                      value={workingHoursSelect}
-                      onChange={handleWorkingHoursChange}
-                    >
-                      <option value={1}>1</option>
-                      <option value={2}>2</option>
-                      <option value={3}>3</option>
-                      <option value={4}>4</option>
-                      <option value={5}>5</option>
-                      <option value={6}>6</option>
-                      <option value={7}>7</option>
-                      <option value={8}>8</option>
-                      <option value={9}>9 </option>
-                    </select>
-                  </div>
+                
+                {workingHours()}
 
-                  <div className={style.startend}>
-                    <div className={style.flex}>
-                      <h4> Inceputul programului</h4>
-                      <select
-                        value={startHourSelect}
-                        onChange={handleStartHourChange}
-                      >
-                        <option value={7}>7:00</option>
-                        <option value={8}>8:00</option>
-                        <option value={9}>9:00</option>
-                        <option value={10}>10:00</option>
-                        <option value={11}>11:00</option>
-                        <option value={12}>12:00</option>
-                        <option value={13}>13:00</option>
-                        <option value={14}>14:00</option>
-                        <option value={15}>15:00</option>
-                        <option value={16}>16:00</option>
-                        <option value={17}>17:00</option>
-                        <option value={18}>18:00</option>
-                      </select>
-                    </div>
+                {startHours()}
 
-                    <div className={style.flex}>
-                      <h4> Finalul programului</h4>
-                      <select
-                        value={endHourSelect}
-                        onChange={handleEndHourChange}
-                      >
-                        <option value={7}>7:00</option>
-                        <option value={8}>8:00</option>
-                        <option value={9}>9:00</option>
-                        <option value={10}>10:00</option>
-                        <option value={11}>11:00</option>
-                        <option value={12}>12:00</option>
-                        <option value={13}>13:00</option>
-                        <option value={14}>14:00</option>
-                        <option value={15}>15:00</option>
-                        <option value={16}>16:00</option>
-                        <option value={17}>17:00</option>
-                        <option value={18}>18:00</option>
-                      </select>
-                    </div>
-                  </div>
+                {endHours()}
 
-                  <h3>Disponibilitatea zilei :</h3>
-                  <select
-                    value={selectedStatus}
-                    onChange={handleDropdownChange}
-                  >
-                    <option value="CLOSED">Inchis</option>
-                    <option value="VACATION">Concediu</option>
-                    <option value="HOLIDAY">Sarbatoare Legala</option>
-                    <option value="WORKING">Disponibil</option>
-                  </select>
-                </div>
+                <h3>Disponibilitatea zilei :</h3>
+
+                {dayDispo()}
                 <button onClick={setScheduleForDay} className={style.selectBtn}>
                   {" "}
                   Adauga program{" "}
