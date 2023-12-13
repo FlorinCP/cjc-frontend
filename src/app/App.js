@@ -59,7 +59,6 @@ function App() {
                 <Route path="/edit-schedule" component={Schedule} />
                 <Route path="/waiting-questions" component={WaitingQuestions} />
                 <Route path="/view-question" component={ViewQuestion} />
-
                 <Route
                   path="/accepted-questions"
                   component={AcceptedQuestions}

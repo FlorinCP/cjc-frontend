@@ -1,10 +1,10 @@
 import React from 'react';
-import MobileNavbar from "../../components/MobileNavbar/MobileNavbar";
+import ResponsiveNavbar from "../../components/MobileNavbar/ResponsiveNavbar";
 
 function NavBarLayout({children}) {
     return (
         <div>
-            <MobileNavbar/>
+            <ResponsiveNavbar/>
             <div>
                 {children}
             </div>

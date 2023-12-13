@@ -2,9 +2,9 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./LandingPageMobile.module.css"
 import Footer from "../../components/Footer/Footer";
 import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import MobileNavbar from "../../components/MobileNavbar/MobileNavbar";
+import ResponsiveNavbar from "../../components/MobileNavbar/ResponsiveNavbar";
 // import ImageCarousel from "../../components/OLDImageCarousel/ImageCarousel";
-// import MobileNavbar from "../../components/MobileNavbar/MobileNavbar";
+// import ResponsiveNavbar from "../../components/ResponsiveNavbar/ResponsiveNavbar";
 
 function LandingPageMobile(props) {
   const scrollToTopBtn = useRef(null);

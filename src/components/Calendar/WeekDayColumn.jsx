@@ -9,6 +9,11 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     onDataReceived({ index: index, weekDay: weekDay });
   };
 
+  const selectAppointment = () => {
+
+    
+  };
+
   /**
    * important function
    *
@@ -75,7 +80,7 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     const fullName =
       `${value.appointment.nume}` + " " + `${value.appointment.prenume}`;
     return (
-      <div className={style.appointment}>
+      <div className={style.appointment} onClick={selectAppointment}>
         <div className={style.bar}></div>
         <div className={style.content}>
           <p className={style.userName}>{fullName}</p>
@@ -102,7 +107,6 @@ function WeekDayColumn({ weekDay, dayIndex, onDataReceived, selectedCard }) {
     }
     return newSlotList;
   }
-
 
   /**
    * assigns each appointment to its starting hour

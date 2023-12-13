@@ -6,10 +6,12 @@
     align-items: center;
     flex-direction: column;
     gap: 20px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    padding: 20px 50px;
+    border-radius: 7px;
+    border : 1px solid slategrey;
+    //box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    padding: 5px 10px;
     box-sizing: border-box;
+    background-color: white;
 }
 
 .pageIndex{
@@ -91,12 +93,12 @@
 
 #swichDiv{
     height: 60px;
-    margin-bottom: 60px;
-    width: 20vw;
+    margin: 20px;
+    width: 22vw;
     display: flex;
     justify-content: center;
     align-items: center;
-    gap : 20px
+    gap :20px
 }
 
 #swichDivNone{
@@ -106,7 +108,7 @@
 .choiceP{
     font-size: 27px;
     font-weight: bolder;
-    color:#18446d;
+    color:rgb(238,49,88);
     transition: 0.5s all;
 }
 
@@ -141,7 +143,7 @@
     left: 0;
     right: 0;
     bottom: 0;
-    background-color: #18446d;
+    background-color: rgb(238,49,88);
     -webkit-transition: .4s;
     transition: .4s;
 }
@@ -159,7 +161,7 @@
 }
 
 input:checked + .slider {
-    background-color: #18446d;
+    background-color: rgb(238,49,88);
 }
 
 input:checked + .slider:before {
@@ -177,7 +179,117 @@ input:checked + .slider:before {
 }
 
 .title{
-    margin: 50px;
-    color: #18446d;
+    margin-top: 30px;
+    color: #464b52;
     text-transform: uppercase;
+    font-weight: bold;
+    font-size: 25px;
+}
+
+
+.inputField {
+    color: #344055;
+    height: 45px;
+    font-size: 18px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid slategrey;
+    border-radius: 7px;
+    outline: none;
+    margin-bottom: 40px;
+    margin-top: 10px;
+    position: relative;
+    width: 20vw;
+}
+
+.wrapper {
+    width: 20vw;
+}
+
+.succesfullRegister {
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    gap: 30px;
+}
+
+.succesfullRegister > img {
+    width: 15vw;
+}
+
+.buttons {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: column;
+    margin: 30px;
+}
+
+.loginRegisterBtn {
+    background-color: rgb(238,49,88);
+    color: white;
+    height: 60px;
+    width: 20vw;
+    border-radius: 10px;
+    font-size: 20px;
+    cursor: pointer;
+    font-family: 'Montserrat', sans-serif;
+    transition: all 0.3s ease-in-out;
+    box-shadow:
+            rgba(0, 0, 0, 0.32) 0px 1px 3px,
+            rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border: none;
+}
+
+.loginRegisterBtn:hover {
+    background-color: white;
+    color: rgb(238,49,88);
+    transition: all 0.3s ease-in-out;
+    border: 1px solid rgb(238,49,88);
+}
+
+
+@media screen and (max-width: 768px) {
+    .formPage{
+        width: 90vw;
+        display: flex;
+        justify-content: center;
+        align-items: center;
+    }
+
+    .wrapper {
+        width: 80vw;
+    }
+
+    .inputField {
+        color: #344055;
+        height: 45px;
+        font-size: 18px;
+        box-sizing: border-box;
+        border: 1px solid slategrey;
+        border-radius: 7px;
+        outline: none;
+        margin-bottom: 40px;
+        margin-top: 10px;
+        position: relative;
+        width: 80vw;
+    }
+
+    .choiceP{
+        font-size: 20px;
+    }
+
+    .choiceD{
+        font-size: 20px;
+    }
+
+    #swichDiv{
+        width: 82vw;
+    }
+
+    .loginRegisterBtn {
+        width: 80vw;
+
+    }
 }
