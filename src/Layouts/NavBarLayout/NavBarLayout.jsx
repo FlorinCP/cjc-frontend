@@ -1,13 +1,12 @@
 import React from 'react';
+import { Outlet } from 'react-router-dom';
 import ResponsiveNavbar from "../../components/MobileNavbar/ResponsiveNavbar";
 
-function NavBarLayout({children}) {
+function NavBarLayout() {
     return (
         <div>
             <ResponsiveNavbar/>
-            <div>
-                {children}
-            </div>
+            <Outlet/>
         </div>
     );
 }

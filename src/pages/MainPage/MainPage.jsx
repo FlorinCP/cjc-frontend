@@ -10,7 +10,6 @@ import {
 import UserContext from "../../context/UserContext";
 import DatePicker from "../../components/DatePickerSidebar/DatePicker";
 import ViewQuestion from "../../components/viewQuestion/ViewQuestion";
-import { Link, useHistory } from "react-router-dom";
 import Schedule from "../Schedule/Schedule";
 import Calendar from "../../components/Calendar/Calendar";
 import { getDayData } from "../../services/day_api";
@@ -24,7 +23,6 @@ function MainPage(props) {
   const [displayedQuestions, setDisplayedQuestions] = useState([]);
   const [currentDisplayedComponent, setCurrentDisplayedComponent] =
     useState("QuestionList");
-  const history = useHistory();
 
   useEffect(() => {
     console.log(currentUser.email);
@@ -114,7 +112,6 @@ function MainPage(props) {
     updateCurrentUser({});
     localStorage.removeItem("email");
     localStorage.removeItem("role");
-    history.push("/");
     window.location.reload();
   };
 

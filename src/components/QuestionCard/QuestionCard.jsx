@@ -4,7 +4,7 @@ import UserContext from "../../context/UserContext";
 import {mapToObject, updateStatus} from "../../services/question_api";
 import {fetchPdfData} from "../../services/file_api";
 import PDFViewer from "../PDFViewer/PDFViewer";
-import {useHistory} from "react-router-dom";
+// import {useHistory} from "react-router-dom";
 
 function QuestionCard(props) {
 
@@ -47,7 +47,7 @@ function QuestionCard(props) {
             props.updateList();
         });
     };
-    const history = useHistory();
+    // const history = useHistory();
 
     const viewQuestion = () => {
         updateViewMode({
@@ -55,7 +55,7 @@ function QuestionCard(props) {
             id: props.inStorePosition,
             question: props
         })
-        history.push("/view-question")
+        // history.push("/view-question")
     };
 
     const showFile = (index) => {

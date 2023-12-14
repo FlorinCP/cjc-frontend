@@ -4,7 +4,7 @@ import { mapToObject, updateStatus } from "../../services/question_api";
 import style from "./ViewQuestion.module.css";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import { fetchPdfData } from "../../services/file_api";
-import { useHistory } from "react-router-dom";
+// import { useHistory } from "react-router-dom";
 
 function ViewQuestion(props) {
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
@@ -80,7 +80,7 @@ function ViewQuestion(props) {
   const closeModal = () => {
     setCurrentFile(null);
   };
-  const history = useHistory();
+  // const history = useHistory();
 
   const goBackToQuestions = () => {
     updateViewMode({
@@ -88,7 +88,7 @@ function ViewQuestion(props) {
       id: null,
       question: {},
     });
-    history.goBack();
+    // history.goBack();
   };
 
   function header() {

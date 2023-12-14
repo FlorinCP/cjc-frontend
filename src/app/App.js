@@ -1,80 +1,40 @@
-import { BrowserRouter as Router, Switch, Route } from "react-router-dom";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Schedule from "../pages/Schedule/Schedule";
 import VideoCall from "../pages/VideoCall";
-import LandingPage from "../pages/LandingPage/LandingPage";
 import MainPageUser from "../pages/MainPageUser/MainPageUser";
 import Login from "../pages/Login/Login";
-import UserContext, { MyProvider } from "../context/UserContext";
 import MainPage from "../pages/MainPage/MainPage";
 import AddQuestion from "../pages/AddQuestion/AddQuestion";
 import SideBarLayout from "../Layouts/SideBarLayout/SideBarLayout";
-import WaitingQuestions from "../pages/ViewQuestionsPages/WaitingQuestions";
 import NavBarLayout from "../Layouts/NavBarLayout/NavBarLayout";
-import RejectedQuestions from "../pages/ViewQuestionsPages/RejectedQuestions";
-import AcceptedQuestions from "../pages/ViewQuestionsPages/AcceptedQuestions";
-import WorkingQuestions from "../pages/ViewQuestionsPages/WorkingQuestions";
 import Calendar from "../components/Calendar/Calendar";
 import ViewQuestion from "../components/viewQuestion/ViewQuestion";
-import LandingPageMobile from "../pages/LandingPageMobile/LandingPageMobile";
-import { Provider } from "react-redux";
-import { store } from "./store";
-import Header from "../components/Calendar/Header";
-import CalendarBody from "../components/Calendar/CalendarBody";
+import ProtectedRoute from "../components/Miscellaneous/ProtectedRoute";
+import ViewQuestions from "../components/ViewQuestions/ViewQuestions";
+import NotFoundPage from "../pages/404/NotFoundPAge";
 
 function App() {
   return (
-    <MyProvider>
-      <Router>
-        <Switch>
-          <Route
-            exact
-            path={["/", "/login", "/add-question", "/videocall", "old"]}
-          >
-            <NavBarLayout>
-              <Route exact path="/" component={LandingPageMobile} />
-              <Route path="/old" component={LandingPage} />
-              <Route path="/login" component={Login} />
-              <Route path="/add-question" component={AddQuestion} />
-              <Route path="/videocall" component={VideoCall} />
-            </NavBarLayout>
-          </Route>
+    <Router>
+      <Routes>
+        <Route element={<SideBarLayout />}>
+          <Route path="/admin-dashboard" element={<MainPage />} />
+          <Route path="/user-dashboard" element={<MainPageUser />} />
+          <Route path="/edit-schedule" element={<Schedule />} />
+          <Route path="/view-question" element={<ViewQuestion />} />
+          <Route path="/week-schedule" element={<Calendar />} />
+          <Route path="/questions/:questionStatus" end element={<ViewQuestions />}/>
+        </Route>
 
-          <Route
-            path={[
-              "/admin-dashboard",
-              "/user-dashboard",
-              "/week-schedule",
-              "/edit-schedule",
-              "/waiting-questions",
-              "/accepted-questions",
-              "/rejected-questions",
-              "/working-questions",
-              "/view-question",
-            ]}
-          >
-            <Provider store={store}>
-              <SideBarLayout>
-                <Route path="/admin-dashboard" component={MainPage} />
-                <Route path="/user-dashboard" component={MainPageUser} />
-                <Route path="/edit-schedule" component={Schedule} />
-                <Route path="/waiting-questions" component={WaitingQuestions} />
-                <Route path="/view-question" component={ViewQuestion} />
-                <Route
-                  path="/accepted-questions"
-                  component={AcceptedQuestions}
-                />
-                <Route
-                  path="/rejected-questions"
-                  component={RejectedQuestions}
-                />
-                <Route path="/working-questions" component={WorkingQuestions} />
-                <Route path="/week-schedule" component={Calendar} />
-              </SideBarLayout>
-            </Provider>
-          </Route>
-        </Switch>
-      </Router>
-    </MyProvider>
+        <Route element={<NavBarLayout />}>
+          <Route  path="/login" element={<Login />} />
+          <Route  path="/" element={<Login />} />
+          <Route path="/add-question" element={<AddQuestion />} />
+          <Route path="/videocall" element={<VideoCall />} />
+          <Route path="*" element={<NotFoundPage />} />
+        </Route>
+      </Routes>
+    </Router>
   );
 }
 

@@ -1,49 +1,33 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./SideBar.module.css";
-import { Link, useHistory, useLocation } from "react-router-dom";
+import { Link, NavLink, useLocation, useParams } from "react-router-dom";
 import DatePicker from "../DatePickerSidebar/DatePicker";
 import UserContext from "../../context/UserContext";
-import { getQuestionsByStatus } from "../../services/question_api";
-import {useSelector} from "react-redux";
 import Schedule from "../../pages/Schedule/Schedule";
-
 function SideBar(props) {
   const { currentUser, updateCurrentUser, viewModeON, updateViewMode } =
     useContext(UserContext);
-  const [loaded, setLoaded] = useState(false);
-  const [currentQuestionStatus, setCurrentQuestionStatus] = useState("WAITING");
-  const [displayedQuestions, setDisplayedQuestions] = useState([]);
-  const [currentDisplayedComponent, setCurrentDisplayedComponent] =
-    useState("QuestionList");
-  const history = useHistory();
+  const [questionsStatus, setQuestionsStatus] = useState();
 
-  const showAcceptedQuestions = () => {
-    history.push("/accepted-questions");
-    setShowSchedule(false);
-  };
+  const { questionStatus } = useParams();
 
-  const showRejectedQuestions = () => {
-    history.push("/rejected-questions");
-    setShowSchedule(false);
-  };
 
-  const showWaitingQuestions = () => {
-    history.push("/waiting-questions");
-    setShowSchedule(false);
-  };
+  const currentUrl = useLocation().pathname;
 
-  const showWorkingQuestions = () => {
-    history.push("/working-questions");
+  useEffect(() => {
+    console.log(currentUrl);
+    console.log(questionStatus);
+  });
+
+  useEffect(() => {
     setShowSchedule(false);
-  };
+  }, [questionsStatus]);
 
   const showWeekSchedule = () => {
-    history.push("/week-schedule");
     setShowRequests(false);
   };
 
   const showEditSchedule = () => {
-    history.push("edit-schedule");
     setShowRequests(false);
   };
 
@@ -67,77 +51,14 @@ function SideBar(props) {
     updateCurrentUser({});
     localStorage.removeItem("email");
     localStorage.removeItem("role");
-    history.push("/");
     window.location.reload();
   };
-
-  function waitingQBtn() {
-    return (
-      <button
-        className={
-          props.currentUrl.includes("waiting-questions")
-            ? style.loadBtnSelected
-            : style.loadBtn
-        }
-        onClick={showWaitingQuestions}
-      >
-        <span className="material-symbols-outlined">hourglass_top</span> Cereri
-        in Asteptare{" "}
-      </button>
-    );
-  }
-
-  function acceptedQBtn() {
-    return (
-      <button
-        className={
-          props.currentUrl.includes("accepted-questions")
-            ? style.loadBtnSelected
-            : style.loadBtn
-        }
-        onClick={showAcceptedQuestions}
-      >
-        <span className="material-symbols-outlined">done</span> Cereri Acceptate{" "}
-      </button>
-    );
-  }
-
-  function rejectedQBtn() {
-    return (
-      <button
-        className={
-          props.currentUrl.includes("rejected-questions")
-            ? style.loadBtnSelected
-            : style.loadBtn
-        }
-        onClick={showRejectedQuestions}
-      >
-        <span className="material-symbols-outlined">block</span> Cereri Respinse{" "}
-      </button>
-    );
-  }
-
-  function workingQBtn() {
-    return (
-      <button
-        className={
-          props.currentUrl.includes("working-questions")
-            ? style.loadBtnSelected
-            : style.loadBtn
-        }
-        onClick={showWorkingQuestions}
-      >
-        <span className="material-symbols-outlined">recent_patient</span>
-        Cereri in Lucru
-      </button>
-    );
-  }
 
   function requests() {
     return (
       <div
         className={
-          props.currentUrl.includes("questions") || showRequests
+          currentUrl.includes("questions") || showRequests
             ? style.sidebarItemSelected
             : style.sidebarItem
         }
@@ -156,13 +77,45 @@ function SideBar(props) {
 
         {showRequests && (
           <div className={style.insideSideBarItem}>
-            {waitingQBtn()}
+            <NavLink
+              to="/questions/waiting"
+              className={({ isActive }) =>
+                isActive ? style.loadBtnSelected : style.loadBtn
+              }
+            >
+              <span className="material-symbols-outlined">hourglass_top</span>{" "}
+              Cereri in Asteptare{" "}
+            </NavLink>
 
-            {acceptedQBtn()}
+            <NavLink
+              to="/questions/accepted"
+              className={({ isActive }) =>
+                isActive ? style.loadBtnSelected : style.loadBtn
+              }
+            >
+              <span className="material-symbols-outlined">done</span> Cereri
+              Acceptate{" "}
+            </NavLink>
 
-            {rejectedQBtn()}
+            <NavLink
+              to="/questions/rejected"
+              className={({ isActive }) =>
+                isActive ? style.loadBtnSelected : style.loadBtn
+              }
+            >
+              <span className="material-symbols-outlined">block</span> Cereri
+              Respinse{" "}
+            </NavLink>
 
-            {workingQBtn()}
+            <NavLink
+                to="/questions/working"
+                className={({ isActive }) =>
+                    isActive ? style.loadBtnSelected : style.loadBtn
+                }
+            >
+              <span className="material-symbols-outlined">recent_patient</span>
+              Cereri in Lucru
+            </NavLink>
           </div>
         )}
       </div>
@@ -173,9 +126,7 @@ function SideBar(props) {
     return (
       <button
         className={
-          props.currentUrl.includes("week")
-            ? style.loadBtnSelected
-            : style.loadBtn
+          currentUrl.includes("week") ? style.loadBtnSelected : style.loadBtn
         }
         onClick={showWeekSchedule}
       >
@@ -189,9 +140,7 @@ function SideBar(props) {
     return (
       <button
         className={
-          props.currentUrl.includes("edit")
-            ? style.loadBtnSelected
-            : style.loadBtn
+          currentUrl.includes("edit") ? style.loadBtnSelected : style.loadBtn
         }
         onClick={showEditSchedule}
       >
@@ -205,7 +154,7 @@ function SideBar(props) {
     return (
       <div
         className={
-          props.currentUrl.includes("schedule") || showSchedule
+          currentUrl.includes("schedule") || showSchedule
             ? style.sidebarItemSelected
             : style.sidebarItem
         }
@@ -293,8 +242,7 @@ function SideBar(props) {
 
         {calendar()}
 
-        <Schedule/>
-
+        <Schedule />
       </div>
 
       <div className={style.bottom}>

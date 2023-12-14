@@ -199,7 +199,7 @@
 }
 
 .loadBtn {
-    width: 17vw;
+    width: 16vw;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -211,10 +211,12 @@
     justify-items: flex-start;
     background-color: transparent;
     gap: 10px;
+    text-decoration: none;
+
 }
 
 .loadBtnSelected{
-    width: 17vw;
+    width: 16vw;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -226,6 +228,7 @@
     justify-items: flex-start;
     gap: 10px;
     background-color:rgba(173, 191, 210, 0.35);
+    text-decoration: none;
 }
 
 

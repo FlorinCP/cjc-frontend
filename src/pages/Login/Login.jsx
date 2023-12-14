@@ -4,7 +4,8 @@ import Footer from "../../components/Footer/Footer";
 import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
 import LoginForm from "../../components/LoginForm/LoginForm";
 import LoginRegister from "../../components/LoginRegister/LoginRegister";
-function Login(props) {
+
+const Login = (props) => {
   return (
     <>
       <div className={style.center}>
