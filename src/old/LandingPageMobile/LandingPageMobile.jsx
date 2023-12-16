@@ -1,8 +1,8 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./LandingPageMobile.module.css"
-import Footer from "../../components/Footer/Footer";
-import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
-import ResponsiveNavbar from "../../components/MobileNavbar/ResponsiveNavbar";
+import Footer from "../../Layouts/Footer/Footer";
+import ImageCarousel from "../ImageCarousel/ImageCarousel";
+import ResponsiveNavbar from "../../Layouts/ResponsiveNavbar/ResponsiveNavbar";
 // import ImageCarousel from "../../components/OLDImageCarousel/ImageCarousel";
 // import ResponsiveNavbar from "../../components/ResponsiveNavbar/ResponsiveNavbar";
 

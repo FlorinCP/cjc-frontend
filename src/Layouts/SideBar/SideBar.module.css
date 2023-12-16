@@ -18,6 +18,8 @@
     margin: 20px;
     width: 5vw;
     border-radius: 50%;
+    box-shadow: rgba(0, 0, 0, 0.32) 1px 1px 1px 1px;
+
 }
 
 .sidebarItem {

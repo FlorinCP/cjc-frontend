@@ -1,9 +1,9 @@
 import React, { useContext, useEffect, useState } from "react";
-import style from "../MainPageUser/MainPageUser.module.css";
-import Question from "../../components/QuestionShort/Question";
+import style from "./MainPageUser.module.css";
+import Question from "../QuestionShort/Question";
 import { getQuestionsForUser, mapToObject } from "../../services/question_api";
 import { getUser } from "../../services/user_api";
-import Footer from "../../components/Footer/Footer";
+import Footer from "../../Layouts/Footer/Footer";
 import UserContext from "../../context/UserContext";
 import { Link } from "react-router-dom";
 

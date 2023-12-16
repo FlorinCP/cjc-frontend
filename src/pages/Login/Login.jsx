@@ -1,8 +1,8 @@
 import React from "react";
 import style from "./Login.module.css";
-import Footer from "../../components/Footer/Footer";
-import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
-import LoginForm from "../../components/LoginForm/LoginForm";
+import Footer from "../../Layouts/Footer/Footer";
+import LoginRegisterQuestionForm from "../../old/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
+import LoginForm from "../../Layouts/LoginForm/LoginForm";
 import LoginRegister from "../../components/LoginRegister/LoginRegister";
 
 const Login = (props) => {

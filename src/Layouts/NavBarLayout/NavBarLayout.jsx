@@ -1,6 +1,6 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import ResponsiveNavbar from "../../components/MobileNavbar/ResponsiveNavbar";
+import ResponsiveNavbar from "../ResponsiveNavbar/ResponsiveNavbar";
 
 function NavBarLayout() {
     return (

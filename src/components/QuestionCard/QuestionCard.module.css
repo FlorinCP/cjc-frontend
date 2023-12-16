@@ -1,23 +1,23 @@
-.questionWrapper{
-    width: 80vw;
+.questionWrapper {
+    width: 70vw;
     height: fit-content;
     display: flex;
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    gap: 20px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    gap: 10px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
     padding: 10px 10px;
     box-sizing: border-box;
-    background-color: white;
     margin-top: 50px;
-    border-radius: 10px;
+    border-radius: 5px;
     position: relative;
     margin-bottom: 50px;
-    border: 1px solid #18446d;
+    border: 1px solid rgba(24, 68, 109, 0.25);
+    background-color: white;
 }
 
-.pdfFileWrapper{
+.pdfFileWrapper {
     width: 60vw;
     height: fit-content;
     display: flex;
@@ -35,39 +35,40 @@
     /*border: 1px solid orange;*/
 }
 
-.pdfView{
+.pdfView {
     margin-top: 50px;
     padding: 20px;
     box-sizing: border-box;
     border-radius: 20px;
 }
 
-.titleAndText{
-    background-color: rgba(249, 249, 249, 0.76);
+.titleAndText {
+    border-top: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    width: 68vw;
     padding: 20px;
-    width: 58vw;
     box-sizing: border-box;
     display: flex;
     flex-direction: column;
     gap: 20px;
+    height: 15vh;
 }
 
-.questionTitle{
+.questionTitle {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 57vw;
+    width: 69vw;
 }
 
-.questionText{
+.questionText {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 57vw;
-    max-height: 40vh;
+    width: 68vw;
 }
 
-.fileTitle{
+.fileTitle {
     display: grid;
     place-items: center;
     margin: 30px;
@@ -76,7 +77,7 @@
     font-weight: 500;
 }
 
-.title{
+.title {
     font-size: 26px;
     color: #18446d;
     font-weight: 500;
@@ -90,7 +91,7 @@
     align-self: flex-end;
 }
 
-.inputField{
+.inputField {
     color: #344055;
     height: 45px;
     font-size: 18px;
@@ -105,77 +106,96 @@
     width: 100%;
 }
 
-.inputField:disabled{
+.inputField:disabled {
     border: 1px solid slategrey;
 }
 
-.inputField:focus{
+.inputField:focus {
     border: 2px solid #1c79b8;
 }
 
-.buttonsWrapper{
+.buttonsWrapper {
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 30px;
 }
 
-.approveBtn{
+.approveBtn {
     padding: 10px;
     width: 200px;
     border-radius: 10px;
-    color:white;
+    color: white;
     border: none;
     font-size: 17px;
-    background-color: rgba(7, 44, 72, 0.8);
+    font-weight: bold;
+    background-color: #1c79b8;
     cursor: pointer;
     letter-spacing: 1px;
+    transition: 0.3s all ease-in-out;
 }
 
-.approveBtn:hover{
-    background-color: #1c79b8;
+.approveBtn:hover {
+    background-color: white;
+    color: #1c79b8;
+    border: 1px solid #1c79b8;
+    transition: 0.3s all ease-in-out;
 }
 
-.rejectBtn:hover{
-    background-color: red;
+.rejectBtn:hover {
+    color: rgb(238, 49, 88);
+    background-color: white;
+    border: 1px solid rgb(238, 49, 88);
+    transition: 0.3s all ease-in-out;
 }
 
-.rejectBtn{
+.rejectBtn {
     padding: 10px;
     width: 200px;
     border-radius: 10px;
     border: none;
     color: white;
-    background-color: rgba(112, 128, 144, 0.6);
+    background-color: rgb(238, 49, 88);
     cursor: pointer;
     letter-spacing: 1px;
     font-size: 17px;
-
+    font-weight: bold;
+    transition: 0.3s all ease-in-out;
 }
 
-.author{
-    width: 58vw;
+.author {
+    width: 70vw;
     height: 5vh;
-    background-color: #f7f7f7;
     display: flex;
     justify-content: space-between;
     align-items: center;
     gap: 10px;
     padding: 20px;
     box-sizing: border-box;
-    border-radius: 10px;
-    margin-bottom: 20px;
+    border-radius: 5px;
     color: #072c48;
 }
 
-.filesInfoAndButtons{
-    width: 58vw;
-    display: flex;
-    justify-content: space-between;
-    flex-direction: row;
+.filesInfoAndButtons {
+    width: 68vw;
+    display: grid;
+    grid-template-columns: 1fr 1fr 1fr;
+
 }
 
-.filesNumber{
+.filesInfoAndButtons > div:last-child{
+    display: flex;
+    justify-content: end;
+    align-items: center;
+}
+
+.filesInfoAndButtons > div:first-child{
+    display: flex;
+    justify-content: start;
+    align-items: center;
+}
+
+.filesNumber {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -187,15 +207,15 @@
     cursor: pointer;
 }
 
-.filesNumber:hover{
+.filesNumber:hover {
     background-color: #f4f4f4;
 }
 
-.actionBtn{
+.actionBtn {
     width: 10vw;
 }
 
-.name{
+.name {
     display: flex;
     justify-content: center;
     align-items: center;
@@ -203,13 +223,22 @@
     cursor: pointer;
     padding: 5px;
     border-radius: 10px;
+    transition: 0.15s all ease-in-out;
+
 }
 
-.name:hover{
-    background-color: white;
+.name > h4:hover {
+    color: rgb(238, 49, 88);
+    transition: 0.15s all ease-in-out;
+
 }
 
-.enterQuestion{
+.name > span {
+    font-weight: 900;
+    font-size: 30px;
+}
+
+.enterQuestion {
     width: 40vw;
     min-height: 10vh;
     word-wrap: break-word;
@@ -224,16 +253,19 @@
     border-radius: 10px;
 }
 
-.enterQuestion:focus{
+.enterQuestion:focus {
     border: 2px solid #1c79b8;
 }
 
-h2,h3{
+h2, h3 {
     color: #0f3f65;
 }
 
-#expand{
+.expand {
     cursor: pointer;
+    display: flex;
+    align-items: end;
+    justify-content: center;
 }
 
 .customFileUpload {
@@ -251,9 +283,8 @@ h2,h3{
     gap: 10px;
 }
 
-#uploadedFiles{
-    margin-top: 30px;
-    width: 58vw;
+.uploadedFiles {
+    width: 68vw;
     height: 260px;
     padding: 10px;
     box-sizing: border-box;
@@ -265,7 +296,7 @@ h2,h3{
     gap: 10px;
 }
 
-.fileRepresentation{
+.fileRepresentation {
     margin-top: 10px;
     height: 220px;
     width: 170px;
@@ -273,13 +304,19 @@ h2,h3{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 1px solid #18446d;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
+    border: 1px solid rgba(24, 68, 109, 0.49);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
     cursor: pointer;
 }
 
-.fileRepresentationSelected{
+.fileRepresentation:hover {
+    background-color: #f7f7f7;
+    border: 1px solid rgba(24, 68, 109);
+
+}
+
+.fileRepresentationSelected {
     margin-top: 10px;
     height: 220px;
     width: 170px;
@@ -287,7 +324,7 @@ h2,h3{
     justify-content: center;
     align-items: center;
     flex-direction: column;
-    border: 1px solid orange ;
+    border: 1px solid orange;
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
     cursor: pointer;

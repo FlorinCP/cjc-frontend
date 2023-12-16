@@ -1,8 +1,8 @@
 import { useLocation, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
-import CircularLoadingAnimation from "../LoadingAnimations/CircularLoadingAnimation";
+import CircularLoadingAnimation from "../../components/LoadingAnimations/CircularLoadingAnimation";
 import { getQuestionsByStatus } from "../../services/question_api";
-import QuestionList from "../QuestionList/QuestionList";
+import QuestionList from "../../components/QuestionList/QuestionList";
 import style from "./ViewQuestions.module.css";
 
 function ViewQuestions(props) {
@@ -15,10 +15,16 @@ function ViewQuestions(props) {
   const [title, setTitle] = useState("Intrebari in Asteptare");
 
   useEffect(() => {
-    getQuestionsByStatus(questionStatus.toUpperCase()).then((r) => {
-      setDisplayedQuestions(r);
-      setLoaded(true);
-    });
+    if (
+      questionStatus === "waiting" ||
+      questionStatus === "accepted" ||
+      questionStatus === "rejected"
+    ) {
+      getQuestionsByStatus(questionStatus.toUpperCase()).then((r) => {
+        setDisplayedQuestions(r);
+        setLoaded(true);
+      });
+    }
   }, [questionStatus, currentUrl]);
 
   function Header() {
@@ -41,7 +47,7 @@ function ViewQuestions(props) {
           <Header />
 
           {displayedQuestions.length > 0 ? (
-            <div >
+            <div>
               <QuestionList questions={displayedQuestions} />
             </div>
           ) : (

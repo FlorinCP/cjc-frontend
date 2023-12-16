@@ -1,10 +1,10 @@
 import React, { useEffect, useRef, useState } from "react";
 import style from "./LandingPage.module.css";
-import Footer from "../../components/Footer/Footer";
-import LoginRegisterQuestionForm from "../../components/LoginRegisterQuestionForm/LoginRegisterQuestionForm";
+import Footer from "../../Layouts/Footer/Footer";
+import LoginRegisterQuestionForm from "../LoginRegisterQuestionForm/LoginRegisterQuestionForm";
 import 'slick-carousel/slick/slick.css';
 import 'slick-carousel/slick/slick-theme.css';
-import ImageCarousel from "../../components/ImageCarousel/ImageCarousel";
+import ImageCarousel from "../ImageCarousel/ImageCarousel";
 
 function LandingPage(props) {
   const questionComponent = useRef(null);

@@ -14,7 +14,7 @@ export const tokenSlice = createSlice({
             state.email = action.payload.email;
             state.role = action.payload.role;
         },
-        clearToken: state => {
+        clearToken: (state) => {
             state.token = false;
             state.email = null;
             state.role = null;

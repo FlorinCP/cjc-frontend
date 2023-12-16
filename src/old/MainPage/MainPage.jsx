@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
-import style from "../MainPage/MainPage.module.css";
-import Question from "../../components/QuestionShort/Question";
+import style from "./MainPage.module.css";
+import Question from "../QuestionShort/Question";
 import {
   getAllQuestions,
   getQuestionsForUser,
@@ -8,12 +8,9 @@ import {
   getQuestionsByStatus,
 } from "../../services/question_api";
 import UserContext from "../../context/UserContext";
-import DatePicker from "../../components/DatePickerSidebar/DatePicker";
-import ViewQuestion from "../../components/viewQuestion/ViewQuestion";
-import Schedule from "../Schedule/Schedule";
+import Schedule from "../../pages/Schedule/Schedule";
 import Calendar from "../../components/Calendar/Calendar";
 import { getDayData } from "../../services/day_api";
-import SideBar from "../../components/SideBar/SideBar";
 
 function MainPage(props) {
   const { currentUser, updateCurrentUser, viewModeON, updateViewMode } =
@@ -216,9 +213,6 @@ function MainPage(props) {
           <div className={style.mainContainer}>
             {currentDisplayedComponent !== "DetailedSchedule" && header()}
 
-            {currentDisplayedComponent === "ViewQuestion" && (
-              <ViewQuestion updateList={reloadAllQuestions} />
-            )}
 
             {currentDisplayedComponent === "QuestionList" && questionList()}
 

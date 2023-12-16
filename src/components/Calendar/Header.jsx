@@ -2,7 +2,7 @@ import React, { useEffect, useRef, useState } from "react";
 import style from "./Calendar.module.css";
 import { useSelector } from "react-redux";
 import { useMonthDays } from "../../hooks/useMonthDays";
-import DatePicker from "../DatePickerSidebar/DatePicker";
+import DatePicker from "../../old/DatePickerSidebar/DatePicker";
 
 function Header(props) {
   const { currentWeekIndex, changeIndex } = useMonthDays();

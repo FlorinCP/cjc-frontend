@@ -1,6 +1,6 @@
 import QuestionCard from "../QuestionCard/QuestionCard";
 import React from "react";
-import style from "../ViewQuestions/ViewQuestions.module.css";
+import style from "../../pages/ViewQuestions/ViewQuestions.module.css";
 
 function QuestionList(props) {
   return (
