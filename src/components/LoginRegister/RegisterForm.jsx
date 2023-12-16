@@ -1,10 +1,12 @@
 import React, { useState } from "react";
 import style from "./LoginRegister.module.css";
 import { registerUser } from "../../services/user_api";
+import {useSelector} from "react-redux";
+import useRegister from "../../hooks/useRegister";
 
 function RegisterForm(props) {
-  const [isLoggedOrRegistered, setIsLoggedOrRegistered] = useState(false);
-  const [currentLoggedUser, setCurrentLoggedUser] = useState(null);
+  const islogged = useSelector((state) => state.token.token)
+  const register = useRegister()
 
   const [userRegisterData, setUserRegisterData] = useState({
     nume: "",
@@ -21,18 +23,12 @@ function RegisterForm(props) {
 
   async function registerUserFunction(e) {
     e.preventDefault();
-    const data = await registerUser(userRegisterData);
-    if (data) {
-      setIsLoggedOrRegistered(true);
-    }
-    setCurrentLoggedUser(data.email);
-    localStorage.setItem("email", data.email);
-    console.log(data);
+    await register(userRegisterData)
   }
 
   return (
     <div className={style.wrapper}>
-      {!isLoggedOrRegistered ? (
+      {!islogged ? (
         <>
           <h3>Nume</h3>
           <input

@@ -1,9 +1,10 @@
 import QuestionCard from "../QuestionCard/QuestionCard";
 import React from "react";
+import style from "../ViewQuestions/ViewQuestions.module.css";
 
 function QuestionList(props) {
   return (
-    <>
+    < div className={style.questionsWrapper}>
       {props.questions.map((question, index) => (
           <QuestionCard
             id={question.id}
@@ -20,7 +21,7 @@ function QuestionList(props) {
             key={index}
           />
         ))}
-    </>
+    </div>
   );
 }
 

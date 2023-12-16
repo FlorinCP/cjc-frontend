@@ -1,41 +1,36 @@
 import React, {useContext, useState} from 'react';
 import style from './LoginRegister.module.css'
-import {loginUser} from "../../services/user_api";
+import {loginUser, singin} from "../../services/user_api";
 import UserContext from "../../context/UserContext";
+import {useDispatch, useSelector} from "react-redux";
+import {setToken} from "../../features/tokenSlice";
+import useTokenParser from "../../hooks/useTokenParser";
+import useLogin from "../../hooks/useLogin";
 
 function LoginForm(props) {
+
+    const islogged = useSelector((state) => state.token.token)
+    const login = useLogin()
 
     const [userLoginData, setUserLoginData] = useState({
         email: "",
         password: "",
     });
 
-    const { currentUser ,updateCurrentUser} = useContext(UserContext);
-
-
-
     const handleLoginChange = (e) => {
         const {name,value} = e.target;
         setUserLoginData({...userLoginData, [name] : value})
     }
 
-    async function loginUserFunction(e){
+    const loginUserFunction =async (e) => {
         e.preventDefault();
-        console.log(userLoginData)
-        const data = await loginUser(userLoginData)
-        updateCurrentUser({
-            email : data.email,
-            role : data.role
-        })
-        localStorage.setItem('email', data.email);
-        localStorage.setItem('role', data.role);
-        console.log(data)
+        await login(userLoginData)
     }
 
     return (
         <div className={style.wrapper}>
             {
-                currentUser.email === null ? (
+                islogged === false ? (
                     <>
                         <h3>Email</h3>
                         <input

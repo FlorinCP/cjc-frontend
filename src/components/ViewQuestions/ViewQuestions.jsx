@@ -1,4 +1,4 @@
-import { useLocation, useParams} from "react-router-dom";
+import { useLocation, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import CircularLoadingAnimation from "../LoadingAnimations/CircularLoadingAnimation";
 import { getQuestionsByStatus } from "../../services/question_api";
@@ -12,23 +12,18 @@ function ViewQuestions(props) {
 
   const [loaded, setLoaded] = useState(false);
   const [displayedQuestions, setDisplayedQuestions] = useState([]);
-  const [title, setTitle] = useState("Intrebari in asteptare");
+  const [title, setTitle] = useState("Intrebari in Asteptare");
 
   useEffect(() => {
-
-    console.log(questionStatus);
-    console.log(currentUrl);
-
-
     getQuestionsByStatus(questionStatus.toUpperCase()).then((r) => {
       setDisplayedQuestions(r);
       setLoaded(true);
     });
-  }, [questionStatus,currentUrl]);
+  }, [questionStatus, currentUrl]);
 
   function Header() {
     return (
-      <div>
+      <div className={style.header}>
         <p>{title}</p>
       </div>
     );
@@ -37,18 +32,23 @@ function ViewQuestions(props) {
   return (
     <div className={style.mainContainer}>
       {!loaded ? (
-        <CircularLoadingAnimation />
+        <>
+          <Header />
+          <CircularLoadingAnimation />
+        </>
       ) : (
         <>
           <Header />
 
           {displayedQuestions.length > 0 ? (
-            <QuestionList questions={displayedQuestions} />
+            <div >
+              <QuestionList questions={displayedQuestions} />
+            </div>
           ) : (
-            <>
-              <h2>Nu s-au gasit rezultate</h2>
+            <div className={style.notFound}>
               <img src="/eroare.svg" alt="" />
-            </>
+              <h2>Nu s-au gasit rezultate</h2>
+            </div>
           )}
         </>
       )}

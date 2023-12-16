@@ -1,16 +1,12 @@
 import React, { useContext, useEffect, useState } from 'react';
 import style from './LoginRegister.module.css';
-import UserContext from '../../context/UserContext';
 import RegisterForm from './RegisterForm';
 import LoginForm from './LoginForm';
+import {useSelector} from "react-redux";
 
 function LoginRegister(props) {
   const [isChecked, setIsChecked] = useState(true);
-  const { currentUser } = useContext(UserContext);
-
-  useEffect(() => {
-    console.log(currentUser);
-  }, [currentUser]);
+  const islogged = useSelector((state) => state.token.token)
 
   const handleCheckboxChange = (event) => {
     setIsChecked(event.target.checked);
@@ -20,7 +16,7 @@ function LoginRegister(props) {
     <div className={style.formPage}>
       {isChecked ? (
         <>
-          {currentUser.email === null ? (
+          {islogged === false ? (
             <h1 className={style.title}>Autentificare</h1>
           ) : (
             <></>
@@ -32,7 +28,7 @@ function LoginRegister(props) {
 
       <div
         id={
-          currentUser.email !== null ? style['swichDivNone'] : style['swichDiv']
+          islogged !== false ? style['swichDivNone'] : style['swichDiv']
         }
       >
         <p className={!isChecked ? style.choiceP : style.choiceD}>Cont nou</p>

@@ -22,7 +22,8 @@ function App() {
           <Route path="/user-dashboard" element={<MainPageUser />} />
           <Route path="/edit-schedule" element={<Schedule />} />
           <Route path="/view-question" element={<ViewQuestion />} />
-          <Route path="/week-schedule" element={<Calendar />} />
+          <Route path="/schedule/view" element={<Calendar />} />
+          {/*Working*/}
           <Route path="/questions/:questionStatus" end element={<ViewQuestions />}/>
         </Route>
 

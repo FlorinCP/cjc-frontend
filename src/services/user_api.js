@@ -26,6 +26,56 @@ export async function loginUser(userLoginData) {
     }
 }
 
+export async function singin(userLoginData) {
+    try {
+        const response = await fetch(
+            `${BASE_URL}/signin`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userLoginData),
+            },
+        );
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log("Authentication successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error authenticating:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Something went wrong:", error);
+    }
+}
+
+export async function singup(userLoginData) {
+    try {
+        const response = await fetch(
+            `${BASE_URL}/signup`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userLoginData),
+            },
+        );
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log("Authentication successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error authenticating:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Something went wrong:", error);
+    }
+}
+
 export async function registerUser(userRegisterData){
     try {
         const response = await fetch(
