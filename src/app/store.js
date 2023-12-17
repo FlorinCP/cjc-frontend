@@ -1,5 +1,5 @@
 // app/store.js
-import { configureStore } from '@reduxjs/toolkit';
+import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
@@ -36,20 +36,35 @@ const myTransform = createTransform(
     }
 );
 
-const persistConfig = {
-    key: 'root',
+const tokenConfig = {
+    key: 'token',
     storage,
     transforms: [myTransform],
 };
 
-const persistedReducers = {
-    sharedWeek: persistReducer(persistConfig, sharedWeekReducer),
-    sharedDisplayedWeek: persistReducer(persistConfig, sharedDisplayedWeekReducer),
-    sharedToday: persistReducer(persistConfig, sharedTodayReducer),
-    sharedSelectedDay: persistReducer(persistConfig, sharedSelectedDayReducer),
-    token: persistReducer(persistConfig, tokenReducer),
-    questions: persistReducer(persistConfig, quesstionReducer),
+const questionConfig = {
+    key: 'questions',
+    storage,
+    blacklist: ['token'],
 };
+
+// const persistedReducers = {
+//     sharedWeek: persistReducer(persistConfig, sharedWeekReducer),
+//     sharedDisplayedWeek: persistReducer(persistConfig, sharedDisplayedWeekReducer),
+//     sharedToday: persistReducer(persistConfig, sharedTodayReducer),
+//     sharedSelectedDay: persistReducer(persistConfig, sharedSelectedDayReducer),
+//     token: persistReducer(persistConfig, tokenReducer),
+//     questions: persistReducer(persistConfig, quesstionReducer),
+// };
+
+const persistedReducers = combineReducers({
+    sharedWeek:  sharedWeekReducer,
+    sharedDisplayedWeek: sharedDisplayedWeekReducer,
+    sharedToday: sharedTodayReducer,
+    sharedSelectedDay:  sharedSelectedDayReducer,
+    token: persistReducer(tokenConfig, tokenReducer),
+    questions: persistReducer(questionConfig,quesstionReducer) ,
+});
 
 export const store = configureStore({
     reducer: persistedReducers,

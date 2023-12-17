@@ -1,5 +1,7 @@
 import { createSlice } from "@reduxjs/toolkit";
 
+
+// each one of the days of the week
 export const sharedWeekSlice = createSlice({
   name: "sharedWeek",
   initialState: {
