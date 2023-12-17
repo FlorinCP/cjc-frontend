@@ -8,6 +8,7 @@ import Calendar from "../components/Calendar/Calendar";
 import {ProtectedRoute} from "../components/Miscellaneous/ProtectedRoute";
 import ViewQuestions from "../pages/ViewQuestions/ViewQuestions";
 import NotFoundPage from "../pages/404/NotFoundPAge";
+import QuestionDetails from "../components/QuestionDetails/QuestionDetails";
 
 function App() {
   return (
@@ -16,10 +17,15 @@ function App() {
         <Route element={<SideBarLayout />}>
           <Route path="/edit-schedule" element={<Schedule />} />
           <Route path="/schedule" element={<Calendar />} />
-          <Route path="/questions/:questionStatus" end element={
+          <Route path="/questions/status/:questionStatus" end element={
           <ProtectedRoute>
             <ViewQuestions />
           </ProtectedRoute>
+          }/>
+          <Route path="/questions/id/:questionId" end element={
+            <ProtectedRoute>
+              <QuestionDetails />
+            </ProtectedRoute>
           }/>
         </Route>
 

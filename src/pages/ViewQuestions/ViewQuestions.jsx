@@ -1,31 +1,37 @@
 import { useLocation, useParams } from "react-router-dom";
 import React, { useContext, useEffect, useState } from "react";
 import CircularLoadingAnimation from "../../components/LoadingAnimations/CircularLoadingAnimation";
-import { getQuestionsByStatus } from "../../services/question_api";
 import QuestionList from "../../components/QuestionList/QuestionList";
 import style from "./ViewQuestions.module.css";
+import { useDispatch, useSelector } from "react-redux";
+import { getQuestionsByStatus } from "../../features/questionsSlice";
 
 function ViewQuestions(props) {
   const { questionStatus } = useParams();
-
   const currentUrl = useLocation().pathname;
 
-  const [loaded, setLoaded] = useState(false);
-  const [displayedQuestions, setDisplayedQuestions] = useState([]);
   const [title, setTitle] = useState("Intrebari in Asteptare");
+  const isValidStatus = ["waiting", "accepted", "rejected"].includes(questionStatus);
+  const dispatch = useDispatch();
+  const { questions, loading, error } = useSelector((state) => state.questions);
 
   useEffect(() => {
-    if (
-      questionStatus === "waiting" ||
-      questionStatus === "accepted" ||
-      questionStatus === "rejected"
-    ) {
-      getQuestionsByStatus(questionStatus.toUpperCase()).then((r) => {
-        setDisplayedQuestions(r);
-        setLoaded(true);
-      });
+      getTitle(questionStatus)
+    if (isValidStatus) {
+      dispatch(getQuestionsByStatus(questionStatus.toUpperCase()));
     }
   }, [questionStatus, currentUrl]);
+
+
+  function getTitle(questionStatus){
+      switch (questionStatus){
+          case 'accepted' : setTitle("Intrebari Acceptate");
+          break
+          case 'rejected' : setTitle("Intrebari Respinse")
+              break
+          default : setTitle("Intrebari in Asteptare")
+      }
+  }
 
   function Header() {
     return (
@@ -35,29 +41,29 @@ function ViewQuestions(props) {
     );
   }
 
+  if (loading)
+    return (
+      <div className={style.mainContainer}>
+        <Header />
+        <CircularLoadingAnimation />
+      </div>
+    );
+
+  if (error || !isValidStatus || questions.length === 0)
+    return (
+      <div className={style.mainContainer}>
+        <Header />
+        <div className={style.notFound}>
+          <img src="/eroare.svg" alt="" />
+          <h2>Nu s-au gasit rezultate</h2>
+        </div>
+      </div>
+    );
+
   return (
     <div className={style.mainContainer}>
-      {!loaded ? (
-        <>
-          <Header />
-          <CircularLoadingAnimation />
-        </>
-      ) : (
-        <>
-          <Header />
-
-          {displayedQuestions.length > 0 ? (
-            <div>
-              <QuestionList questions={displayedQuestions} />
-            </div>
-          ) : (
-            <div className={style.notFound}>
-              <img src="/eroare.svg" alt="" />
-              <h2>Nu s-au gasit rezultate</h2>
-            </div>
-          )}
-        </>
-      )}
+      <Header />
+      <QuestionList questions={questions} />
     </div>
   );
 }

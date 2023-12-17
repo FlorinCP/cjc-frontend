@@ -16,17 +16,17 @@ function SideBar(props) {
 
   const requestItems = [
     {
-      url: "/questions/waiting",
+      url: "/questions/status/waiting",
       iconStringClass: "hourglass_top",
       title: "Cereri in Asteptare",
     },
     {
-      url: "/questions/accepted",
+      url: "/questions/status/accepted",
       iconStringClass: "done",
       title: "Cereri Acceptate",
     },
     {
-      url: "/questions/rejected",
+      url: "/questions/status/rejected",
       iconStringClass: "block",
       title: "Cereri Respinse",
     },

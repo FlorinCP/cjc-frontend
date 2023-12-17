@@ -14,6 +14,7 @@ export const tokenSlice = createSlice({
             state.email = action.payload.email;
             state.role = action.payload.role;
         },
+        // not a good practice since it goes against the redux pattern
         clearToken: (state) => {
             state.token = false;
             state.email = null;

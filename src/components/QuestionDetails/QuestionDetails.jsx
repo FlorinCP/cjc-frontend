@@ -1,21 +1,27 @@
-import React, { useContext, useEffect, useState } from "react";
-import style from "./QuestionCard.module.css";
-import UserContext from "../../context/UserContext";
+import style from "./QuestionDetails.module.css";
+import { useSelector } from "react-redux";
+import { selectQuestionById } from "../../selectors/questionSelectors";
+import { useNavigate, useParams } from "react-router-dom";
+import ActionButton from "../ActionButton/ActionButton";
+import PDFViewer from "../PDFViewer/PDFViewer";
+import React, { useEffect, useState } from "react";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import { fetchPdfData } from "../../services/file_api";
-import PDFViewer from "../PDFViewer/PDFViewer";
-import { useSelector } from "react-redux";
-import ActionButton from "../ActionButton/ActionButton";
-import {useNavigate} from "react-router-dom";
-// import {useHistory} from "react-router-dom";
 
-function QuestionCard(props) {
+function QuestionDetails() {
+  const questionId = parseInt(useParams().questionId, 10);
+  const question = useSelector((state) =>
+    selectQuestionById(state, questionId),
+  );
+  console.log(question);
   const { email, role } = useSelector((state) => state.token);
+
+  const [updatedStatus, setUpdatedStatus] = useState(null);
 
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState(props.fileInfo);
+  const [selectedFiles, setSelectedFiles] = useState(question.fileInfo);
   const [currentFile, setCurrentFile] = useState(null);
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
@@ -34,22 +40,24 @@ function QuestionCard(props) {
   };
 
   const rejectQuestion = () => {
-    updateStatus(props.id, "reject").then(() => {
-      props.updateList();
-    });
+    setUpdatedStatus("rejected");
+    // updateStatus(question.id, "reject").then(() => {
+    //   question.updateList();
+    // });
   };
 
   const approveQuestion = () => {
-    updateStatus(props.id, "accepted").then(() => {
-      props.updateList();
-    });
+    setUpdatedStatus("accepted");
+    // updateStatus(question.id, "accepted").then(() => {
+    //   question.updateList();
+    // });
   };
 
   const showFile = (index) => {
     if (currentIndex !== index) {
-      setCurrentFileName(props.fileInfo[index].name);
-      setCurrentFilePages(props.fileInfo[index].pages);
-      fetchPdfData(props.fileInfo[index].id).then((r) => {
+      setCurrentFileName(question.fileInfo[index].name);
+      setCurrentFilePages(question.fileInfo[index].pages);
+      fetchPdfData(question.fileInfo[index].id).then((r) => {
         setCurrentIndex(index);
         console.log(r);
         setCurrentFile(r);
@@ -60,7 +68,7 @@ function QuestionCard(props) {
   };
 
   const goNext = () => {
-    if (currentIndex + 1 < props.fileNumber) {
+    if (currentIndex + 1 < question.fileNumber) {
       showFile(currentIndex + 1);
     }
   };
@@ -75,57 +83,59 @@ function QuestionCard(props) {
     setCurrentFile(null);
   };
 
+  function Header() {
+    return (
+      <div className={style.header}>
+        <p>Vizualizare Detaliata</p>
+      </div>
+    );
+  }
+
   return (
-    <>
+    <div className={style.mainContainer}>
+      <Header />
       <div className={style.questionWrapper}>
         <div className={style.author}>
           <div className={style.name}>
             <span className="material-symbols-outlined">person</span>
             <h4>
-              {props.nume} {props.prenume}{" "}
+              {question.nume} {question.prenume}{" "}
             </h4>
           </div>
           <div className={style.name}>
             <span className="material-symbols-outlined">call</span>
-            <h4>{props.phone}</h4>
+            <h4>{question.phone}</h4>
           </div>
 
           <div className={style.name}>
             <span className="material-symbols-outlined">mail</span>
-            <h4>{props.email}</h4>
+            <h4>{question.email}</h4>
           </div>
 
           <div className={style.name}>
             <span className="material-symbols-outlined">schedule</span>
-            <h4>{props.elapsedTime} in urma</h4>
+            <h4>{question.elapsedTime} in urma</h4>
           </div>
 
+          <div className={style.name}>
+            <span className="material-symbols-outlined">hourglass_top</span>
+            <h4>{question.status}</h4>
+          </div>
         </div>
 
         <div className={style.titleAndText}>
           <div className={style.questionTitle}>
-            <div className={style.title}>{props.questionTitle}</div>
+            <div className={style.title}>{question.questionTitle}</div>
           </div>
 
-          <div className={style.questionText}>{props.questionText}</div>
+          <div className={style.questionText}>{question.questionText}</div>
         </div>
 
         <div className={style.filesInfoAndButtons}>
           <div className={style.name} onClick={expand}>
             <span className="material-symbols-outlined">draft</span>
-            <h4>{props.fileNumber} fisiere</h4>
+            <h4>{question.fileNumber} fisiere</h4>
           </div>
-
-          {/*{role === "ADMIN" && (*/}
-          {/*  <div className={style.buttonsWrapper}>*/}
-          {/*    <button className={style.rejectBtn} onClick={rejectQuestion}>*/}
-          {/*      Refuza*/}
-          {/*    </button>*/}
-          {/*    <button className={style.approveBtn} onClick={approveQuestion}>*/}
-          {/*      Accepta*/}
-          {/*    </button>*/}
-          {/*  </div>*/}
-          {/*)}*/}
 
           <div className={style.expand} onClick={expand}>
             {isExpanded ? (
@@ -136,10 +146,16 @@ function QuestionCard(props) {
           </div>
           <div>
             <ActionButton
-              text={"Vizualizare"}
+              text={" Refuza"}
               color={"white"}
-              backgroundColor={"#1c79b8"}
-              onClick={() => navigate(`/questions/id/${props.id}`)}
+              backgroundColor={"rgb(238, 49, 88)"}
+              onClick={rejectQuestion}
+            />
+            <ActionButton
+              text={" Accepta"}
+              color={"white"}
+              backgroundColor={"#18c52f"}
+              onClick={approveQuestion}
             />
           </div>
         </div>
@@ -165,6 +181,25 @@ function QuestionCard(props) {
         ) : (
           <></>
         )}
+
+        {updatedStatus && question.status === "WAITING" && (
+          <div className={style.updateStatus}>
+            <i>
+              * Inainte de a trimite raspunsul final referitor la acceptarea sau
+              refuzarea cererii va rugam sa adaugati mentiuni
+            </i>
+            <textarea
+              name="questionText"
+              className={style.enterQuestion}
+            ></textarea>
+            <ActionButton
+              text={"Trimite"}
+              color={"white"}
+              backgroundColor={"#1c79b8"}
+              onClick={approveQuestion}
+            />
+          </div>
+        )}
       </div>
 
       {currentFile && (
@@ -179,8 +214,8 @@ function QuestionCard(props) {
           />
         </div>
       )}
-    </>
+    </div>
   );
 }
 
-export default QuestionCard;
+export default QuestionDetails;

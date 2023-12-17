@@ -13,7 +13,7 @@ const useLogin = () => {
             const data = await singin(userLoginData)
             parser(data.token)
 
-            navigate("/questions/waiting")
+            navigate("/questions/status/waiting")
         } catch (error) {
             console.error("Error authenticating:", error);
         }
