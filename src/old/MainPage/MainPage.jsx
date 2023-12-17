@@ -137,7 +137,6 @@ function MainPage(props) {
               fileInfo={question.fileInfo}
               key={index}
               inStorePosition={index}
-              updateList={handleUpdateList}
             />
           ))
         ) : (

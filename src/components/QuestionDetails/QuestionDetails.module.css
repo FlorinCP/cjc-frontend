@@ -17,6 +17,7 @@
     background-color: white;
 }
 
+
 .updateStatus{
     width: 78vw;
     min-height: 20vh;
@@ -31,11 +32,19 @@
 }
 
 
+.myFileInput[type="file"] {
+    display: none;
+    outline: none;
+}
+
 
 .updateStatus > :last-child{
     position: absolute;
     right: 0;
     bottom: 0;
+    width: 100%;
+    display: flex;
+    justify-content: space-between;
 }
 
 .header{
@@ -299,6 +308,7 @@
     color: black;
     margin-bottom: 30px;
     border-radius: 3px;
+    font-family: Inter, sans-serif;
 }
 
 
@@ -324,13 +334,14 @@ h2, h3 {
     align-items: center;
     color: #052c46;
     cursor: pointer;
-    border: 2px solid #052c46;
+    border: 1px solid #052c46;
     height: 40px;
     padding-left: 25px;
     padding-right: 25px;
-    font-size: 120%;
-    border-radius: 10px;
+    border-radius: 5px;
     gap: 10px;
+    font-weight: bold;
+    background-color: #f7f7f7;
 }
 
 .uploadedFiles {

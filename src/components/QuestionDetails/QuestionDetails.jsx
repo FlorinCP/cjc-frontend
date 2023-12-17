@@ -1,36 +1,43 @@
 import style from "./QuestionDetails.module.css";
-import { useSelector } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { selectQuestionById } from "../../selectors/questionSelectors";
-import { useNavigate, useParams } from "react-router-dom";
+import { useParams } from "react-router-dom";
 import ActionButton from "../ActionButton/ActionButton";
 import PDFViewer from "../PDFViewer/PDFViewer";
 import React, { useEffect, useState } from "react";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import { fetchPdfData } from "../../services/file_api";
+import {getRepliesByQuestionId, updateQuestionStatus} from "../../features/questionsSlice";
+import { sendReply } from "../../services/reply_api";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
   const question = useSelector((state) =>
     selectQuestionById(state, questionId),
   );
-  console.log(question);
   const { email, role } = useSelector((state) => state.token);
-
+  const dispatch = useDispatch();
   const [updatedStatus, setUpdatedStatus] = useState(null);
 
   const [selectedFilesObj, setSelectedFilesObj] = useState(null);
-  const navigate = useNavigate();
   const [isExpanded, setIsExpanded] = useState(false);
   const [selectedFiles, setSelectedFiles] = useState(question.fileInfo);
   const [currentFile, setCurrentFile] = useState(null);
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentFilePages, setCurrentFilePages] = useState(null);
+  const [replyText, setReplyText] = useState("");
+  const [replyFiles, setReplyFiles] = useState(null);
+
+  const { questions, loading, error } = useSelector((state) => state.questions);
+
+  useEffect(() => {
+    dispatch(getRepliesByQuestionId(questionId))
+  }, []);
 
   useEffect(() => {
     if (selectedFiles) {
       const obj = mapToObject(selectedFiles);
-      console.log(obj);
       setSelectedFilesObj(obj);
     }
   }, [selectedFiles]);
@@ -39,18 +46,33 @@ function QuestionDetails() {
     setIsExpanded((prevState) => !prevState);
   };
 
-  const rejectQuestion = () => {
-    setUpdatedStatus("rejected");
-    // updateStatus(question.id, "reject").then(() => {
-    //   question.updateList();
-    // });
+  const handleFileChange = (e) => {
+    const filesArray = Array.from(e.target.files);
+    setReplyFiles(filesArray);
   };
 
-  const approveQuestion = () => {
-    setUpdatedStatus("accepted");
-    // updateStatus(question.id, "accepted").then(() => {
-    //   question.updateList();
-    // });
+  const updateQuestion = () => {
+    updateStatus(question.id, updatedStatus).then(() => {
+      dispatch(
+        updateQuestionStatus({ questionId: questionId, status: updatedStatus }),
+      );
+    });
+
+    const formData = new FormData();
+    formData.append("replyText", replyText);
+    formData.append("questionId", question.id);
+    formData.append("email", email);
+    if (replyFiles) {
+      replyFiles.forEach((file) => {
+        formData.append(`replyFiles`, file);
+      });
+    } else {
+      formData.append(`replyFiles`, null);
+    }
+
+    sendReply(formData).then((r) => {
+      console.log(r);
+    });
   };
 
   const showFile = (index) => {
@@ -91,6 +113,30 @@ function QuestionDetails() {
     );
   }
 
+  function getICon() {
+    switch (updatedStatus) {
+    }
+    if (updatedStatus === "ACCEPTED") {
+      return <span className="material-symbols-outlined">check</span>;
+    } else if (updatedStatus === "REJECTED") {
+      return <span className="material-symbols-outlined">close</span>;
+    } else {
+      return <span className="material-symbols-outlined">hourglass_top</span>;
+    }
+  }
+
+  function getColor() {
+    switch (updatedStatus) {
+    }
+    if (updatedStatus === "ACCEPTED") {
+      return "#18c52f";
+    } else if (updatedStatus === "REJECTED") {
+      return "rgb(238, 49, 88)";
+    } else {
+      return "black";
+    }
+  }
+
   return (
     <div className={style.mainContainer}>
       <Header />
@@ -117,9 +163,9 @@ function QuestionDetails() {
             <h4>{question.elapsedTime} in urma</h4>
           </div>
 
-          <div className={style.name}>
-            <span className="material-symbols-outlined">hourglass_top</span>
-            <h4>{question.status}</h4>
+          <div className={style.name} style={{ color: getColor() }}>
+            {getICon()}
+            <h4>{updatedStatus ? updatedStatus : question.status}</h4>
           </div>
         </div>
 
@@ -144,20 +190,54 @@ function QuestionDetails() {
               <span className="material-symbols-outlined">expand_more</span>
             )}
           </div>
-          <div>
-            <ActionButton
-              text={" Refuza"}
-              color={"white"}
-              backgroundColor={"rgb(238, 49, 88)"}
-              onClick={rejectQuestion}
-            />
-            <ActionButton
-              text={" Accepta"}
-              color={"white"}
-              backgroundColor={"#18c52f"}
-              onClick={approveQuestion}
-            />
-          </div>
+
+          {question.status === "WAITING" && role === "ADMIN" && (
+            <div>
+              <ActionButton
+                text={"Refuza"}
+                color={"white"}
+                backgroundColor={"rgb(238, 49, 88)"}
+                onClick={() => {
+                  setUpdatedStatus("REJECTED");
+                }}
+              />
+              <ActionButton
+                text={" Accepta"}
+                color={"white"}
+                backgroundColor={"#18c52f"}
+                onClick={() => {
+                  setUpdatedStatus("ACCEPTED");
+                }}
+              />
+            </div>
+          )}
+
+          {(question.status === "ACCEPTED" || question.status === "REJECTED") &&
+            role === "ADMIN" && (
+              <div>
+                <ActionButton
+                  text={"Termina"}
+                  color={"white"}
+                  backgroundColor={"#1c79b8"}
+                  onClick={() => {
+                    setUpdatedStatus("DONE");
+                  }}
+                />
+              </div>
+            )}
+
+          {question.status === "REJECTED" && role === "ADMIN" && (
+            <div>
+              <ActionButton
+                text={" Accepta"}
+                color={"white"}
+                backgroundColor={"#18c52f"}
+                onClick={() => {
+                  setUpdatedStatus("ACCEPTED");
+                }}
+              />
+            </div>
+          )}
         </div>
 
         {isExpanded ? (
@@ -191,15 +271,45 @@ function QuestionDetails() {
             <textarea
               name="questionText"
               className={style.enterQuestion}
+              value={replyText}
+              onChange={(e) => {
+                setReplyText(e.target.value);
+              }}
             ></textarea>
-            <ActionButton
-              text={"Trimite"}
-              color={"white"}
-              backgroundColor={"#1c79b8"}
-              onClick={approveQuestion}
-            />
+
+            <div>
+              <div>
+                <label htmlFor="file-upload" className={style.customFileUpload}>
+                  <span className="material-symbols-outlined">draft</span>
+                  <span>Alegeti fisierele</span>
+                </label>
+
+                <input
+                  type="file"
+                  id="file-upload"
+                  onChange={handleFileChange}
+                  className={style.myFileInput}
+                  multiple
+                />
+              </div>
+
+              <ActionButton
+                text={"Trimite"}
+                color={"white"}
+                backgroundColor={"#1c79b8"}
+                onClick={updateQuestion}
+              />
+            </div>
           </div>
         )}
+
+        {/*{*/}
+        {/*  question.replyNumber.map((reply, index) => (*/}
+        {/*      <div>*/}
+        {/*        */}
+        {/*      </div>*/}
+        {/*  ))*/}
+        {/*}*/}
       </div>
 
       {currentFile && (
