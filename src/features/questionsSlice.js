@@ -55,7 +55,7 @@ export const getRepliesByQuestionId = createAsyncThunk(
 
       const responseData = await response.json();
       console.log("Replies loaded successfully:", responseData);
-      return responseData;
+      return {data: responseData, questionId: questionId};
     } catch (error) {
       console.error("Error loading replies:", error);
       return rejectWithValue(error.message);
@@ -97,15 +97,16 @@ const questionsSlice = createSlice({
         state.questions[index].status = status;
       }
     },
+    // unusable since replies have to many backend dependencies
     updateQuestionReplies: (state, action) => {
       console.log(action.payload);
-      const { questionId, replies } = action.payload;
+      const { questionId, reply } = action.payload;
       const index = state.questions.findIndex(
         (question) => question.id === questionId,
       );
 
       if (index !== -1) {
-        state.questions[index].replies = replies;
+        state.questions[index].replies.push(reply);
       }
     },
   },
@@ -140,7 +141,13 @@ const questionsSlice = createSlice({
     },
     [getRepliesByQuestionId.fulfilled]: (state, action) => {
       state.loading = false;
-      state.questions = action.payload;
+        const { data, questionId } = action.payload;
+        const index = state.questions.findIndex(
+            (question) => question.id === questionId,
+        );
+        if (index !== -1) {
+            state.questions[index].replies = data;
+        }
     },
     [getRepliesByQuestionId.rejected]: (state, action) => {
       state.loading = false;
@@ -149,6 +156,6 @@ const questionsSlice = createSlice({
   },
 });
 
-export const { updateQuestionStatus } = questionsSlice.actions;
+export const { updateQuestionStatus,updateQuestionReplies } = questionsSlice.actions;
 
 export default questionsSlice.reducer;

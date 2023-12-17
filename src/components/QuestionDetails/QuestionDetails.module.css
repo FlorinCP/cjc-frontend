@@ -17,6 +17,18 @@
     background-color: white;
 }
 
+.repliesWrapper{
+    display: flex;
+    justify-content: space-between;
+    flex-direction: column;
+    margin-bottom: 10px;
+    border-top: 1px solid rgb(238, 238, 238);
+    border-bottom: 1px solid rgb(238, 238, 238);
+    width: 78vw;
+    background-color: #fafbff;
+    padding: 10px;
+    /*background-color: rgba(128, 0, 128, 0.04);*/
+}
 
 .updateStatus{
     width: 78vw;

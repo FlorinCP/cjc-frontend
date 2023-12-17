@@ -1,0 +1,132 @@
+.replyWrapper {
+  width: 60vw;
+  min-height: 15vh;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+  margin-top: 20px;
+  border-radius: 5px;
+  margin-bottom: 20px;
+  border: 1px solid rgba(24, 68, 109, 0.25);
+  background-color: white;
+}
+
+.name {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  transition: 0.15s all ease-in-out;
+}
+
+/*.name > h4:hover {*/
+/*    color: rgb(238, 49, 88);*/
+/*    transition: 0.15s all ease-in-out;*/
+
+/*}*/
+
+.name > h4 {
+  font-size: 16px;
+  color: #054270;
+  /*font-weight: 500;*/
+}
+
+.name > span {
+  font-weight: 900;
+  font-size: 25px;
+  color: #054270;
+}
+
+.author {
+  width: 100%;
+  height: 3vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #072c48;
+}
+
+.author > div:first-child {
+  display: flex;
+  flex-direction: row;
+  gap: 30px;
+}
+
+.titleAndText {
+  border-top: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(238, 238, 238);
+  width: 100%;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  min-height: 10vh;
+}
+
+.filesInfoAndButtons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 10px 0;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #072c48;
+  height: 3vh;
+  width: 100%;
+}
+
+.uploadedFiles {
+  width: 100%;
+  height: 260px;
+  padding: 10px;
+  box-sizing: border-box;
+  overflow-y: auto;
+  overflow-x: hidden;
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: left;
+  gap: 10px;
+  border-top: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(238, 238, 238);
+}
+
+.fileRepresentation {
+  margin-top: 10px;
+  height: 220px;
+  width: 170px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  border: 1px solid rgba(24, 68, 109, 0.49);
+  border-radius: 5px;
+  box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
+  cursor: pointer;
+}
+
+.fileRepresentation:hover {
+  background-color: #f7f7f7;
+  border: 1px solid rgba(24, 68, 109);
+}
+
+.expand {
+  cursor: pointer;
+  display: flex;
+  align-items: end;
+  justify-content: center;
+}

@@ -4,10 +4,9 @@ import UserContext from "../../context/UserContext";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import { fetchPdfData } from "../../services/file_api";
 import PDFViewer from "../PDFViewer/PDFViewer";
-import {useDispatch, useSelector} from "react-redux";
+import { useSelector } from "react-redux";
 import ActionButton from "../ActionButton/ActionButton";
 import {useNavigate} from "react-router-dom";
-import {getRepliesByQuestionId} from "../../features/questionsSlice";
 // import {useHistory} from "react-router-dom";
 
 function QuestionCard(props) {
@@ -21,7 +20,6 @@ function QuestionCard(props) {
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentFilePages, setCurrentFilePages] = useState(null);
-
 
   useEffect(() => {
     if (selectedFiles) {
@@ -118,16 +116,16 @@ function QuestionCard(props) {
             <h4>{props.fileNumber} fisiere</h4>
           </div>
 
-          {role === "ADMIN" && (
-            <div className={style.buttonsWrapper}>
-              <button className={style.rejectBtn} onClick={rejectQuestion}>
-                Refuza
-              </button>
-              <button className={style.approveBtn} onClick={approveQuestion}>
-                Accepta
-              </button>
-            </div>
-          )}
+          {/*{role === "ADMIN" && (*/}
+          {/*  <div className={style.buttonsWrapper}>*/}
+          {/*    <button className={style.rejectBtn} onClick={rejectQuestion}>*/}
+          {/*      Refuza*/}
+          {/*    </button>*/}
+          {/*    <button className={style.approveBtn} onClick={approveQuestion}>*/}
+          {/*      Accepta*/}
+          {/*    </button>*/}
+          {/*  </div>*/}
+          {/*)}*/}
 
           <div className={style.expand} onClick={expand}>
             {isExpanded ? (

@@ -2,7 +2,7 @@ import PropTypes from "prop-types";
 import React, {useState} from "react";
 
 
-const ActionButton = ({text, onClick, disabled, type, size, color, backgroundColor}) => {
+const ActionButton = ({text, onClick, disabled, type, size, color, backgroundColor ,children}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
@@ -18,7 +18,11 @@ const ActionButton = ({text, onClick, disabled, type, size, color, backgroundCol
         letterSpacing: '1px',
         fontSize: '17px',
         fontWeight: 'bold',
-        transition: '0.3s all ease-in-out'
+        transition: '0.3s all ease-in-out',
+        display: 'flex',
+        alignItems: 'center',
+        justifyContent: 'center',
+        gap : '10px'
     };
 
     const hoverStyle = {
@@ -41,6 +45,7 @@ const ActionButton = ({text, onClick, disabled, type, size, color, backgroundCol
             type={type}
         >
             {text}
+            {children}
         </button>
     );
 };

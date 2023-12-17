@@ -7,8 +7,12 @@ import PDFViewer from "../PDFViewer/PDFViewer";
 import React, { useEffect, useState } from "react";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import { fetchPdfData } from "../../services/file_api";
-import {getRepliesByQuestionId, updateQuestionStatus} from "../../features/questionsSlice";
+import {
+  getRepliesByQuestionId, updateQuestionReplies,
+  updateQuestionStatus,
+} from "../../features/questionsSlice";
 import { sendReply } from "../../services/reply_api";
+import Reply from "../Reply/Reply";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -29,10 +33,8 @@ function QuestionDetails() {
   const [replyText, setReplyText] = useState("");
   const [replyFiles, setReplyFiles] = useState(null);
 
-  const { questions, loading, error } = useSelector((state) => state.questions);
-
   useEffect(() => {
-    dispatch(getRepliesByQuestionId(questionId))
+    dispatch(getRepliesByQuestionId(questionId));
   }, []);
 
   useEffect(() => {
@@ -113,28 +115,44 @@ function QuestionDetails() {
     );
   }
 
-  function getICon() {
-    switch (updatedStatus) {
-    }
-    if (updatedStatus === "ACCEPTED") {
+  function getICon(status) {
+    if (status === "ACCEPTED") {
       return <span className="material-symbols-outlined">check</span>;
-    } else if (updatedStatus === "REJECTED") {
+    } else if (status === "REJECTED") {
       return <span className="material-symbols-outlined">close</span>;
     } else {
       return <span className="material-symbols-outlined">hourglass_top</span>;
     }
   }
 
-  function getColor() {
-    switch (updatedStatus) {
+  function getColor(status) {
+    switch (status) {
     }
-    if (updatedStatus === "ACCEPTED") {
+    if (status === "ACCEPTED") {
       return "#18c52f";
-    } else if (updatedStatus === "REJECTED") {
+    } else if (status === "REJECTED") {
       return "rgb(238, 49, 88)";
     } else {
       return "black";
     }
+  }
+
+  function addReply() {
+    const formData = new FormData();
+    formData.append("text", replyText);
+    formData.append("questionId", question.id);
+    formData.append("email", email);
+    if (replyFiles) {
+      replyFiles.forEach((file) => {
+        formData.append(`replyFiles`, file);
+      });
+    } else {
+      formData.append(`replyFiles`, null);
+    }
+
+    sendReply(formData).then((r) => {
+      dispatch(getRepliesByQuestionId(questionId));
+    });
   }
 
   return (
@@ -163,8 +181,13 @@ function QuestionDetails() {
             <h4>{question.elapsedTime} in urma</h4>
           </div>
 
-          <div className={style.name} style={{ color: getColor() }}>
-            {getICon()}
+          <div
+            className={style.name}
+            style={{
+              color: getColor(updatedStatus ? updatedStatus : question.status),
+            }}
+          >
+            {getICon(updatedStatus ? updatedStatus : question.status)}
             <h4>{updatedStatus ? updatedStatus : question.status}</h4>
           </div>
         </div>
@@ -222,7 +245,9 @@ function QuestionDetails() {
                   onClick={() => {
                     setUpdatedStatus("DONE");
                   }}
-                />
+                >
+                  <span className="material-symbols-outlined">verified</span>
+                </ActionButton>
               </div>
             )}
 
@@ -303,13 +328,50 @@ function QuestionDetails() {
           </div>
         )}
 
-        {/*{*/}
-        {/*  question.replyNumber.map((reply, index) => (*/}
-        {/*      <div>*/}
-        {/*        */}
-        {/*      </div>*/}
-        {/*  ))*/}
-        {/*}*/}
+        <div className={style.repliesWrapper}>
+          {question.replies &&
+            question.replies.map((reply, index) => <Reply reply={reply} />)}
+        </div>
+
+        {/* add reply */}
+
+        <div className={style.updateStatus}>
+          <i>* Adaugeti un raspuns</i>
+          <textarea
+            name="questionText"
+            className={style.enterQuestion}
+            value={replyText}
+            onChange={(e) => {
+              setReplyText(e.target.value);
+            }}
+          ></textarea>
+
+          <div>
+            <div>
+              <label htmlFor="file-upload" className={style.customFileUpload}>
+                <span className="material-symbols-outlined">draft</span>
+                <span>Alegeti fisierele</span>
+              </label>
+
+              <input
+                type="file"
+                id="file-upload"
+                onChange={handleFileChange}
+                className={style.myFileInput}
+                multiple
+              />
+            </div>
+
+            <ActionButton
+              text={"Trimite"}
+              color={"white"}
+              backgroundColor={"purple"}
+              onClick={addReply}
+            >
+              <span className="material-symbols-outlined">outgoing_mail</span>
+            </ActionButton>
+          </div>
+        </div>
       </div>
 
       {currentFile && (
