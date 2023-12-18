@@ -13,6 +13,7 @@ import {
 } from "../../features/questionsSlice";
 import { sendReply } from "../../services/reply_api";
 import Reply from "../Reply/Reply";
+import FilesWrapper from "../FilesWrapper/FilesWrapper";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -22,27 +23,13 @@ function QuestionDetails() {
   const { email, role } = useSelector((state) => state.token);
   const dispatch = useDispatch();
   const [updatedStatus, setUpdatedStatus] = useState(null);
-
-  const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
-  const [selectedFiles, setSelectedFiles] = useState(question.fileInfo);
-  const [currentFile, setCurrentFile] = useState(null);
-  const [currentFileName, setCurrentFileName] = useState(null);
-  const [currentIndex, setCurrentIndex] = useState(null);
-  const [currentFilePages, setCurrentFilePages] = useState(null);
   const [replyText, setReplyText] = useState("");
   const [replyFiles, setReplyFiles] = useState(null);
 
   useEffect(() => {
     dispatch(getRepliesByQuestionId(questionId));
   }, []);
-
-  useEffect(() => {
-    if (selectedFiles) {
-      const obj = mapToObject(selectedFiles);
-      setSelectedFilesObj(obj);
-    }
-  }, [selectedFiles]);
 
   const expand = () => {
     setIsExpanded((prevState) => !prevState);
@@ -52,6 +39,24 @@ function QuestionDetails() {
     const filesArray = Array.from(e.target.files);
     setReplyFiles(filesArray);
   };
+
+  function addReply() {
+    const formData = new FormData();
+    formData.append("text", replyText);
+    formData.append("questionId", question.id);
+    formData.append("email", email);
+    if (replyFiles) {
+      replyFiles.forEach((file) => {
+        formData.append(`replyFiles`, file);
+      });
+    } else {
+      formData.append(`replyFiles`, null);
+    }
+
+    sendReply(formData).then((r) => {
+      dispatch(getRepliesByQuestionId(questionId));
+    });
+  }
 
   const updateQuestion = () => {
     updateStatus(question.id, updatedStatus).then(() => {
@@ -75,36 +80,6 @@ function QuestionDetails() {
     sendReply(formData).then((r) => {
       console.log(r);
     });
-  };
-
-  const showFile = (index) => {
-    if (currentIndex !== index) {
-      setCurrentFileName(question.fileInfo[index].name);
-      setCurrentFilePages(question.fileInfo[index].pages);
-      fetchPdfData(question.fileInfo[index].id).then((r) => {
-        setCurrentIndex(index);
-        console.log(r);
-        setCurrentFile(r);
-      });
-    } else {
-      setCurrentIndex(null);
-    }
-  };
-
-  const goNext = () => {
-    if (currentIndex + 1 < question.fileNumber) {
-      showFile(currentIndex + 1);
-    }
-  };
-
-  const goBack = () => {
-    if (currentIndex - 1 >= 0) {
-      showFile(currentIndex - 1);
-    }
-  };
-
-  const closeModal = () => {
-    setCurrentFile(null);
   };
 
   function Header() {
@@ -137,23 +112,7 @@ function QuestionDetails() {
     }
   }
 
-  function addReply() {
-    const formData = new FormData();
-    formData.append("text", replyText);
-    formData.append("questionId", question.id);
-    formData.append("email", email);
-    if (replyFiles) {
-      replyFiles.forEach((file) => {
-        formData.append(`replyFiles`, file);
-      });
-    } else {
-      formData.append(`replyFiles`, null);
-    }
 
-    sendReply(formData).then((r) => {
-      dispatch(getRepliesByQuestionId(questionId));
-    });
-  }
 
   return (
     <div className={style.mainContainer}>
@@ -265,27 +224,9 @@ function QuestionDetails() {
           )}
         </div>
 
-        {isExpanded ? (
-          <div className={style.uploadedFiles}>
-            {selectedFilesObj ? (
-              selectedFilesObj.map((file, index) => (
-                <div
-                  className={style.fileRepresentation}
-                  key={index}
-                  onClick={() => showFile(index)}
-                >
-                  <img src={file.image.src} alt="" />
-                  <p>{file.name}</p>
-                  {file.size ? <h4>{file.size} MB</h4> : <></>}
-                </div>
-              ))
-            ) : (
-              <></>
-            )}
-          </div>
-        ) : (
-          <></>
-        )}
+        {isExpanded &&
+         <FilesWrapper fileInfo={question.fileInfo} fileNumber={question.fileNumber}/>
+        }
 
         {updatedStatus && question.status === "WAITING" && (
           <div className={style.updateStatus}>
@@ -373,19 +314,6 @@ function QuestionDetails() {
           </div>
         </div>
       </div>
-
-      {currentFile && (
-        <div className={style.pdfView}>
-          <PDFViewer
-            pdfData={currentFile}
-            title={currentFileName}
-            pages={currentFilePages}
-            closeModalEmit={closeModal}
-            moveForward={goNext}
-            moveBack={goBack}
-          />
-        </div>
-      )}
     </div>
   );
 }
