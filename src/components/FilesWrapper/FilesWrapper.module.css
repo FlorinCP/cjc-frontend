@@ -1,0 +1,58 @@
+.uploadedFiles {
+    width: 100%;
+    height: 260px;
+    padding: 10px;
+    box-sizing: border-box;
+    overflow-y: auto;
+    overflow-x: hidden;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: left;
+    gap: 10px;
+}
+
+.fileRepresentation {
+    margin-top: 10px;
+    height: 220px;
+    width: 170px;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    border: 1px solid rgba(24, 68, 109, 0.49);
+    border-radius: 5px;
+    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
+    cursor: pointer;
+}
+
+.fileRepresentation:hover {
+    background-color: #f7f7f7;
+    border: 1px solid rgba(24, 68, 109);
+
+}
+
+
+.fileRepresentation > img {
+    width: 140px;
+    margin-bottom: 10px;
+}
+
+.fileRepresentation > p {
+    white-space: nowrap;
+    overflow: hidden;
+    inline-size: 150px;
+    text-overflow: ellipsis;
+    text-align: center;
+}
+
+.fileRepresentation > p {
+    overflow-wrap: break-word;
+    margin-bottom: 5px;
+}
+
+.pdfView {
+    margin-top: 50px;
+    padding: 20px;
+    box-sizing: border-box;
+    border-radius: 20px;
+}

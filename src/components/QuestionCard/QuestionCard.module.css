@@ -1,369 +1,170 @@
 .questionWrapper {
-    width: 70vw;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
-    padding: 10px 10px;
-    box-sizing: border-box;
-    margin-top: 50px;
-    border-radius: 5px;
-    position: relative;
-    margin-bottom: 50px;
-    border: 1px solid rgba(24, 68, 109, 0.25);
-    background-color: white;
-}
-
-.pdfFileWrapper {
-    width: 60vw;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    box-sizing: border-box;
-    background-color: white;
-    margin-top: 50px;
-    border-radius: 10px;
-    position: relative;
-    margin-bottom: 50px;
-    /*border: 1px solid orange;*/
-}
-
-.pdfView {
-    margin-top: 50px;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 20px;
+  width: 70vw;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
+  padding: 10px 10px;
+  box-sizing: border-box;
+  margin-top: 50px;
+  border-radius: 5px;
+  position: relative;
+  margin-bottom: 50px;
+  border: 1px solid rgba(24, 68, 109, 0.25);
+  background-color: white;
 }
 
 .titleAndText {
-    border-top: 1px solid rgb(238, 238, 238);
-    border-bottom: 1px solid rgb(238, 238, 238);
-    width: 68vw;
-    padding: 20px;
-    box-sizing: border-box;
-    display: flex;
-    flex-direction: column;
-    gap: 20px;
-    height: 15vh;
+  border-top: 1px solid rgb(238, 238, 238);
+  border-bottom: 1px solid rgb(238, 238, 238);
+  width: 68vw;
+  padding: 20px;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  height: 15vh;
 }
 
 .questionTitle {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 69vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 69vw;
 }
 
 .questionText {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    width: 68vw;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 68vw;
 }
 
 .fileTitle {
-    display: grid;
-    place-items: center;
-    margin: 30px;
-    font-size: 26px;
-    color: #18446d;
-    font-weight: 500;
+  display: grid;
+  place-items: center;
+  margin: 30px;
+  font-size: 26px;
+  color: #18446d;
+  font-weight: 500;
 }
 
 .title {
-    font-size: 26px;
-    color: #18446d;
-    font-weight: 500;
+  font-size: 26px;
+  color: #18446d;
+  font-weight: 500;
 }
 
 .questionWrapper > h2 {
-    align-self: flex-start;
+  align-self: flex-start;
 }
 
 .questionWrapper > button {
-    align-self: flex-end;
-}
-
-.inputField {
-    color: #344055;
-    height: 45px;
-    font-size: 18px;
-    box-sizing: border-box;
-    padding: 10px;
-    border: 2px solid #0f3f65;
-    border-radius: 10px;
-    outline: none;
-    margin-bottom: 40px;
-    margin-top: 15px;
-    position: relative;
-    width: 100%;
+  align-self: flex-end;
 }
 
 .inputField:disabled {
-    border: 1px solid slategrey;
+  border: 1px solid slategrey;
 }
 
 .inputField:focus {
-    border: 2px solid #1c79b8;
+  border: 2px solid #1c79b8;
 }
 
 .buttonsWrapper {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 30px;
-}
-
-.approveBtn {
-    padding: 10px;
-    width: 200px;
-    border-radius: 10px;
-    color: white;
-    border: none;
-    font-size: 17px;
-    font-weight: bold;
-    background-color: #1c79b8;
-    cursor: pointer;
-    letter-spacing: 1px;
-    transition: 0.3s all ease-in-out;
-}
-
-.approveBtn:hover {
-    background-color: white;
-    color: #1c79b8;
-    border: 1px solid #1c79b8;
-    transition: 0.3s all ease-in-out;
-}
-
-.rejectBtn:hover {
-    color: rgb(238, 49, 88);
-    background-color: white;
-    border: 1px solid rgb(238, 49, 88);
-    transition: 0.3s all ease-in-out;
-}
-
-.rejectBtn {
-    padding: 10px;
-    width: 200px;
-    border-radius: 10px;
-    border: none;
-    color: white;
-    background-color: rgb(238, 49, 88);
-    cursor: pointer;
-    letter-spacing: 1px;
-    font-size: 17px;
-    font-weight: bold;
-    transition: 0.3s all ease-in-out;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 30px;
 }
 
 .author {
-    width: 70vw;
-    height: 5vh;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    gap: 10px;
-    padding: 20px;
-    box-sizing: border-box;
-    border-radius: 5px;
-    color: #072c48;
+  width: 70vw;
+  height: 5vh;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  gap: 10px;
+  padding: 20px;
+  box-sizing: border-box;
+  border-radius: 5px;
+  color: #072c48;
 }
 
 .filesInfoAndButtons {
-    width: 68vw;
-    display: grid;
-    grid-template-columns: 1fr 1fr 1fr;
-
+  width: 68vw;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
 }
 
-.filesInfoAndButtons > div:last-child{
-    display: flex;
-    justify-content: end;
-    align-items: center;
+.filesInfoAndButtons > div:last-child {
+  display: flex;
+  justify-content: end;
+  align-items: center;
 }
 
-.filesInfoAndButtons > div:first-child{
-    display: flex;
-    justify-content: start;
-    align-items: center;
+.filesInfoAndButtons > div:first-child {
+  display: flex;
+  justify-content: start;
+  align-items: center;
 }
 
 .filesNumber {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding: 10px;
-    margin-left: 10px;
-    background-color: #f7f7f7;
-    border-radius: 20px;
-    cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  margin-left: 10px;
+  background-color: #f7f7f7;
+  border-radius: 20px;
+  cursor: pointer;
 }
 
 .filesNumber:hover {
-    background-color: #f4f4f4;
+  background-color: #f4f4f4;
 }
 
 .actionBtn {
-    width: 10vw;
+  width: 10vw;
 }
 
 .name {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    cursor: pointer;
-    padding: 5px;
-    border-radius: 10px;
-    transition: 0.15s all ease-in-out;
-
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  transition: 0.15s all ease-in-out;
 }
 
 .name > h4:hover {
-    color: rgb(238, 49, 88);
-    transition: 0.15s all ease-in-out;
-
+  color: rgb(238, 49, 88);
+  transition: 0.15s all ease-in-out;
 }
 
 .name > span {
-    font-weight: 900;
-    font-size: 30px;
-}
-
-.enterQuestion {
-    width: 40vw;
-    min-height: 10vh;
-    word-wrap: break-word;
-    resize: none;
-    outline: none;
-    padding: 20px;
-    box-sizing: border-box;
-    border: 1px solid #344055;
-    font-size: 18px;
-    color: #344055;
-    margin-bottom: 30px;
-    border-radius: 10px;
+  font-weight: 900;
+  font-size: 30px;
 }
 
 .enterQuestion:focus {
-    border: 2px solid #1c79b8;
+  border: 2px solid #1c79b8;
 }
 
-h2, h3 {
-    color: #0f3f65;
+h2,
+h3 {
+  color: #0f3f65;
 }
 
 .expand {
-    cursor: pointer;
-    display: flex;
-    align-items: end;
-    justify-content: center;
+  cursor: pointer;
+  display: flex;
+  align-items: end;
+  justify-content: center;
 }
-
-.customFileUpload {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    color: #052c46;
-    cursor: pointer;
-    border: 2px solid #052c46;
-    height: 40px;
-    padding-left: 25px;
-    padding-right: 25px;
-    font-size: 120%;
-    border-radius: 10px;
-    gap: 10px;
-}
-
-.uploadedFiles {
-    width: 68vw;
-    height: 260px;
-    padding: 10px;
-    box-sizing: border-box;
-    overflow-y: auto;
-    overflow-x: hidden;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: left;
-    gap: 10px;
-}
-
-.fileRepresentation {
-    margin-top: 10px;
-    height: 220px;
-    width: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border: 1px solid rgba(24, 68, 109, 0.49);
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
-    cursor: pointer;
-}
-
-.fileRepresentation:hover {
-    background-color: #f7f7f7;
-    border: 1px solid rgba(24, 68, 109);
-
-}
-
-.fileRepresentationSelected {
-    margin-top: 10px;
-    height: 220px;
-    width: 170px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    border: 1px solid orange;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    cursor: pointer;
-    box-sizing: border-box;
-}
-
-.fileRepresentation > img {
-    width: 140px;
-    margin-bottom: 10px;
-}
-
-.fileRepresentation > p {
-    white-space: nowrap;
-    overflow: hidden;
-    inline-size: 150px;
-    text-overflow: ellipsis;
-    text-align: center;
-}
-
-.fileRepresentation > p {
-    overflow-wrap: break-word;
-    margin-bottom: 5px;
-}
-
-.fileRepresentationSelected > img {
-    width: 140px;
-    margin-bottom: 10px;
-}
-
-.fileRepresentationSelected > p {
-    white-space: nowrap;
-    overflow: hidden;
-    inline-size: 150px;
-    text-overflow: ellipsis;
-    text-align: center;
-}
-
-.fileRepresentationSelected > p {
-    overflow-wrap: break-word;
-    margin-bottom: 5px;
-}
-
