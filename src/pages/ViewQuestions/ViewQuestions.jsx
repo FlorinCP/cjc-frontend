@@ -4,7 +4,7 @@ import CircularLoadingAnimation from "../../components/LoadingAnimations/Circula
 import QuestionList from "../../components/QuestionList/QuestionList";
 import style from "./ViewQuestions.module.css";
 import { useDispatch, useSelector } from "react-redux";
-import { getQuestionsByStatus } from "../../features/questionsSlice";
+import {getQuestionsByStatus, getQuestionsByUserAndStatus} from "../../features/questionsSlice";
 
 function ViewQuestions(props) {
   const { questionStatus } = useParams();
@@ -14,11 +14,16 @@ function ViewQuestions(props) {
   const isValidStatus = ["waiting", "accepted", "rejected"].includes(questionStatus);
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
+  const {email,role} = useSelector((state) => state.token)
+
+    console.log(email,role)
 
   useEffect(() => {
       getTitle(questionStatus)
-    if (isValidStatus) {
+    if (isValidStatus && role === 'ADMIN') {
       dispatch(getQuestionsByStatus(questionStatus.toUpperCase()));
+    } else {
+        dispatch(getQuestionsByUserAndStatus({email : email,status : questionStatus.toUpperCase()}));
     }
   }, [questionStatus, currentUrl]);
 

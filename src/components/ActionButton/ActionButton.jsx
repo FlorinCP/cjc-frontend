@@ -2,18 +2,18 @@ import PropTypes from "prop-types";
 import React, {useState} from "react";
 
 
-const ActionButton = ({text, onClick, disabled, type, size, color, backgroundColor ,children}) => {
+const ActionButton = ({text, onClick, disabled,active, type, size, color, backgroundColor ,children}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
     const defaultStyle = {
         padding: '10px',
-        width: '200px',
+        width: size === 'medium' ? '200px' : '250px',
         height: '45px',
         borderRadius: '5px',
-        border: 'none',
-        color: color,
-        backgroundColor: backgroundColor,
+        border: active ?  'none' : `1px solid ${backgroundColor}` ,
+        color: active ? color : backgroundColor,
+        backgroundColor: active ? backgroundColor : color,
         cursor: 'pointer',
         letterSpacing: '1px',
         fontSize: '17px',
@@ -65,7 +65,8 @@ ActionButton.defaultProps = {
     style: {},
     className: '',
     disabled: false,
-    type: 'button'
+    type: 'button',
+    active : true,
 };
 
 export default ActionButton;

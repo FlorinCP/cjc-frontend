@@ -1,0 +1,153 @@
+.datePicker {
+    border-radius: 5px;
+    min-width: 14vw;
+    width: 100%;
+    height: fit-content;
+    user-select: none;
+    display: grid;
+    grid-template-rows: 17% 8% 75%;
+}
+
+
+.selectionWrapper{
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    gap: 10px;
+    border: 1px solid slategray;
+    width: 28%;
+    margin-bottom: 10px;
+}
+.selection{
+
+    text-align: center;
+    padding: 10px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: row;
+    margin-bottom: 20px;
+    font-size: x-large;
+    border-radius: 5px;
+    background-color: rgb(226, 226, 226);
+    cursor: pointer;
+}
+.header {
+    display: grid;
+    grid-template-columns: 23% auto 23%;
+    align-items: center;
+    font-weight: 600;
+    text-transform: uppercase;
+    font-size: large;
+    gap: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    height: 5vh;
+    overflow: hidden;
+    color: #f7f7f7;
+}
+#monthYear{
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    border-radius: 5px;
+    min-height: 5vh;
+    cursor: pointer;
+    margin-bottom: 5px;
+    font-size: 19px;
+    padding-top: 7px;
+}
+
+#monthYear > span:last-child{
+    margin-left: 10px;
+}
+
+#monthYear > .material-symbols-outlined{
+    margin-left: 5px;
+    margin-bottom: 2px;
+}
+#previous {
+    box-sizing: border-box;
+    text-align: right;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    cursor: pointer;
+    min-height: 5vh;
+    overflow-y: hidden;
+}
+
+#next {
+    text-align: left;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    border-radius: 5px;
+    cursor: pointer;
+    min-height: 5vh;
+    overflow-y: hidden;
+}
+.test {
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+}
+.day {
+    height: 40px;
+    font-size: large;
+    color:rgba(15, 63, 101, 0.8);
+    background-color: #f7f7f7;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    cursor: pointer;
+}
+
+.day:hover {
+    background-color: #1888ff;
+    transition: 0.15s all ease;
+}
+
+.pastDay {
+    font-size: large;
+    height: 40px;
+    border-radius: 5px;
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+    color: white;
+    background-color: rgb(207, 206, 206);
+    cursor: pointer;
+}
+.daysGrid {
+    display: grid;
+    min-height: 220px;
+    gap: 5px;
+    grid-template-columns: repeat(7, auto);
+    text-align: center;
+}
+.weekDayName {
+    display: flex;
+    justify-content: center;
+    align-content: center;
+    flex-direction: column;
+}
+.weekNameBar {
+    display: grid;
+    grid-auto-columns: minmax(0, 4vw);
+    grid-auto-flow: column;
+    text-align: center;
+    gap: 10px;
+    margin: 5px 10px 15px;
+    min-height: 2vh;
+    color: #f7f7f7;
+}
+

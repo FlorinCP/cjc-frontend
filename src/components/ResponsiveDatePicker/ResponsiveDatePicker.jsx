@@ -1,10 +1,11 @@
+import style from "./ResponsiveDatePicker.module.css";
 import React, { useEffect, useState } from "react";
-import style from "./DatePicker.module.css";
+import DayCell from "./DayCell";
 
-function DatePicker({ sendSelectedDate }) {
+function ResponsiveDatePicker(props) {
   const [today, setToday] = useState(new Date());
   const lang = "default";
-  const weekdays = ["Sun", "Mon", "Tue", "Wen", "Thu", "Fri", "Sat"];
+  const weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
   const monthSize = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
   const [fullYear, setFullYear] = useState(today.getFullYear());
 
@@ -37,7 +38,13 @@ function DatePicker({ sendSelectedDate }) {
   function isLeapYear(year) {
     return year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
   }
-
+  function mapToTwoDimensional(array, n) {
+    let result = [];
+    for (let i = 0; i < array.length; i += n) {
+      result.push(array.slice(i, i + n));
+    }
+    return result;
+  }
   function getMonthNumberOfDays(monthNumber, year) {
     if (isLeapYear(year) && monthNumber === 1) {
       return 29;
@@ -146,9 +153,92 @@ function DatePicker({ sendSelectedDate }) {
   useEffect(() => {
     if (selectedDate !== undefined) {
       console.log(selectedDate);
-      sendSelectedDate(selectedDate);
+      // sendSelectedDate(selectedDate);
     }
   }, [selectedDate]);
+
+  const [allDays, setAllDays] = useState([]);
+
+  useEffect(() => {
+    const pastDaysListObj = pastDaysList.map((value, index) => {
+      return {
+        day: value.getDate(),
+        monthNumber: value.getMonth(),
+        weekday: value.getDay(),
+      };
+    });
+    const dayListObj = dayList.map((value, index) => {
+      return {
+        day: value.getDate(),
+        monthNumber: value.getMonth(),
+        weekday: value.getDay(),
+      };
+    });
+    const firstDaysOfNextMonthListObj = firstDaysOfNextMonthList.map(
+      (value, index) => {
+        return {
+          day: value.getDate(),
+          monthNumber: value.getMonth(),
+          weekday: value.getDay(),
+        };
+      },
+    );
+
+    const allDays = pastDaysListObj
+      .concat(dayListObj)
+      .concat(firstDaysOfNextMonthListObj);
+
+    const newAllDays = mapToTwoDimensional(allDays, 7);
+    setAllDays(newAllDays);
+  }, [pastDaysList, dayList, firstDaysOfNextMonthList]);
+
+  const [finalDays, setFinalDays] = useState([]);
+
+  function fillCurrentMonthSchema() {
+    const monthNumberOfDays = getMonthNumberOfDays(
+      today.getMonth(),
+      today.getFullYear(),
+    );
+    const firstDayOfTheMonth = getDay(today.getFullYear(), today.getMonth(), 1);
+    const weekIndexOfFIrstDayOfTheMonth = firstDayOfTheMonth.getDay();
+    const lastDayOfTheMonth = getDay(
+      today.getFullYear(),
+      today.getMonth(),
+      monthNumberOfDays,
+    );
+    const dayList = [];
+    for (let i = 1; i <= monthNumberOfDays; i++) {
+      dayList.push({ day: i, monthNumber: today.getMonth() });
+    }
+
+    if (weekIndexOfFIrstDayOfTheMonth !== 0) {
+      const neededDays = weekIndexOfFIrstDayOfTheMonth - 1;
+      const lastDayOfThePreviousMonth = getMonthNumberOfDays(
+        today.getMonth() - 1,
+        today.getFullYear(),
+      );
+      for (
+        let i = lastDayOfThePreviousMonth;
+        i > lastDayOfThePreviousMonth - neededDays;
+        i--
+      ) {
+        dayList.unshift({ day: i, monthNumber: today.getMonth() - 1 });
+      }
+    }
+
+    if (lastDayOfTheMonth.getDay() !== 0) {
+      const neededDays = 6 - lastDayOfTheMonth.getDay();
+      for (let i = 1; i <= neededDays; i++) {
+        dayList.push({ day: i, monthNumber: today.getMonth() + 1 });
+      }
+    }
+
+    return mapToTwoDimensional(dayList, 7);
+  }
+
+  useEffect(() => {
+    setFinalDays(fillCurrentMonthSchema());
+  }, [today]);
 
   return (
     <div className={style.datePicker}>
@@ -176,34 +266,61 @@ function DatePicker({ sendSelectedDate }) {
       </div>
 
       <div className={style.daysGrid}>
-        {pastDaysList.map((value, index) => {
-          return (
-            <div className={style.pastDay} key={index}>
-              {value.getDate()}
-            </div>
-          );
+        {/*{finalDays.map((day, index) => {*/}
+        {/*  return (<DayCell*/}
+        {/*      value={day.day}*/}
+        {/*      key={index}*/}
+        {/*      style={day.monthNumber !== monthNumber ? "pastDay" : ""}*/}
+        {/*  />)*/}
+        {/*})}*/}
+
+        {finalDays.map((row, r) => {
+          return row.map((day, c) => {
+            return (
+              <DayCell
+                value={day.day}
+                key={`${r}-${c}`}
+                style={day.monthNumber !== monthNumber ? "pastDay" : ""}
+              />
+            );
+          });
         })}
 
-        {dayList.map((value, index) => (
-          <div
-            className={style.day}
-            key={index}
-            onClick={() => selectDate(value)}
-          >
-            {value.getDate()}
-          </div>
-        ))}
+        {/*{allDays.map((row, index) => {*/}
+        {/*  return row.map((day, index) => {*/}
+        {/*    return (*/}
+        {/*      <DayCell*/}
+        {/*        style={day.monthNumber !== monthNumber ? "pastDay" : ""}*/}
+        {/*        value={day.day}*/}
+        {/*        key={index}*/}
+        {/*      />*/}
+        {/*    );*/}
+        {/*  });*/}
+        {/*})}*/}
 
-        {firstDaysOfNextMonthList.map((value, index) => {
-          return (
-            <div className={style.pastDay} key={index}>
-              {value.getDate()}
-            </div>
-          );
-        })}
+        {/*{pastDaysList.map((value, index) => {*/}
+        {/*  return (*/}
+        {/*    <DayCell style="pastDay" value={value.getDate()} key={index} />*/}
+        {/*  );*/}
+        {/*})}*/}
+
+        {/*{dayList.map((value, index) => (*/}
+        {/*  <DayCell*/}
+        {/*    style="day"*/}
+        {/*    value={value.getDate()}*/}
+        {/*    key={index}*/}
+        {/*    onClick={() => selectDate(value)}*/}
+        {/*  />*/}
+        {/*))}*/}
+
+        {/*{firstDaysOfNextMonthList.map((value, index) => {*/}
+        {/*  return (*/}
+        {/*    <DayCell style="pastDay" value={value.getDate()} key={index} />*/}
+        {/*  );*/}
+        {/*})}*/}
       </div>
     </div>
   );
 }
 
-export default DatePicker;
+export default ResponsiveDatePicker;

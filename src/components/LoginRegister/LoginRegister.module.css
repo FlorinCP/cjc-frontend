@@ -164,6 +164,13 @@ input:checked + .slider {
     background-color: rgb(238,49,88);
 }
 
+.error{
+    color: rgb(238,49,88);
+    font-size: 15px;
+    margin-top: 10px;
+    height: 20px;
+}
+
 input:checked + .slider:before {
     -webkit-transform: translateX(26px);
     -ms-transform: translateX(26px);
@@ -197,7 +204,6 @@ input:checked + .slider:before {
     border-radius: 7px;
     outline: none;
     margin-bottom: 40px;
-    margin-top: 10px;
     position: relative;
     width: 20vw;
 }

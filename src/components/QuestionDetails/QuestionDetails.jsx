@@ -8,7 +8,8 @@ import React, { useEffect, useState } from "react";
 import { mapToObject, updateStatus } from "../../services/question_api";
 import { fetchPdfData } from "../../services/file_api";
 import {
-  getRepliesByQuestionId, updateQuestionReplies,
+  getRepliesByQuestionId,
+  updateQuestionReplies,
   updateQuestionStatus,
 } from "../../features/questionsSlice";
 import { sendReply } from "../../services/reply_api";
@@ -25,18 +26,26 @@ function QuestionDetails() {
   const [updatedStatus, setUpdatedStatus] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [replyText, setReplyText] = useState("");
+  const [selectedFilesObj, setSelectedFilesObj] = useState(null);
   const [replyFiles, setReplyFiles] = useState(null);
+  const [errorMessage, setErrorMessage] = useState(null);
+  const [wasClicked, setWasClicked] = useState(true);
 
   useEffect(() => {
     dispatch(getRepliesByQuestionId(questionId));
   }, []);
 
   const expand = () => {
-    setIsExpanded((prevState) => !prevState);
+    if (question.fileNumber > 0) {
+      setIsExpanded((prevState) => !prevState);
+    }
   };
 
   const handleFileChange = (e) => {
     const filesArray = Array.from(e.target.files);
+    const obj = mapToObject(filesArray);
+    console.log(obj);
+    setSelectedFilesObj(obj);
     setReplyFiles(filesArray);
   };
 
@@ -56,6 +65,9 @@ function QuestionDetails() {
     sendReply(formData).then((r) => {
       dispatch(getRepliesByQuestionId(questionId));
     });
+
+    setReplyText("");
+    setReplyFiles(null);
   }
 
   const updateQuestion = () => {
@@ -80,6 +92,9 @@ function QuestionDetails() {
     sendReply(formData).then((r) => {
       console.log(r);
     });
+
+    setReplyText("");
+    setReplyFiles(null);
   };
 
   function Header() {
@@ -112,7 +127,9 @@ function QuestionDetails() {
     }
   }
 
-
+  function openScheduleModal() {
+    setWasClicked((prevState) => !prevState);
+  }
 
   return (
     <div className={style.mainContainer}>
@@ -173,6 +190,22 @@ function QuestionDetails() {
             )}
           </div>
 
+          {question.status === "ACCEPTED" && role === "REGISTERED" && (
+            <div>
+              <ActionButton
+                text={"Programeaza-te"}
+                color={"white"}
+                backgroundColor={"#1c79b8"}
+                active={wasClicked}
+                onClick={() => {
+                  openScheduleModal();
+                }}
+              >
+                <span className="material-symbols-outlined">event</span>
+              </ActionButton>
+            </div>
+          )}
+
           {question.status === "WAITING" && role === "ADMIN" && (
             <div>
               <ActionButton
@@ -224,9 +257,14 @@ function QuestionDetails() {
           )}
         </div>
 
-        {isExpanded &&
-         <FilesWrapper fileInfo={question.fileInfo} fileNumber={question.fileNumber}/>
-        }
+        {isExpanded && (
+          <FilesWrapper
+            fileInfo={question.fileInfo}
+            fileNumber={question.fileNumber}
+          />
+        )}
+
+        {/* If waiting change status and optionaly add reply */}
 
         {updatedStatus && question.status === "WAITING" && (
           <div className={style.updateStatus}>
@@ -269,50 +307,63 @@ function QuestionDetails() {
           </div>
         )}
 
-        <div className={style.repliesWrapper}>
-          {question.replies &&
-            question.replies.map((reply, index) => <Reply reply={reply} />)}
-        </div>
+
+        {!wasClicked && <div></div>}
+
+
+        {/* Render replies */}
+        {question.replyNumber > 0 && (
+          <div className={style.repliesWrapper}>
+            {question.replies &&
+              question.replies.map((reply, index) => <Reply reply={reply} />)}
+          </div>
+        )}
 
         {/* add reply */}
 
-        <div className={style.updateStatus}>
-          <i>* Adaugeti un raspuns</i>
-          <textarea
-            name="questionText"
-            className={style.enterQuestion}
-            value={replyText}
-            onChange={(e) => {
-              setReplyText(e.target.value);
-            }}
-          ></textarea>
+        {question.status !== "WAITING" && (
+          <div className={style.updateStatus}>
+            <i>* Adaugeti un raspuns</i>
+            <textarea
+              name="questionText"
+              className={style.enterQuestion}
+              value={replyText}
+              onChange={(e) => {
+                setReplyText(e.target.value);
+              }}
+            ></textarea>
 
-          <div>
             <div>
-              <label htmlFor="file-upload" className={style.customFileUpload}>
-                <span className="material-symbols-outlined">draft</span>
-                <span>Alegeti fisierele</span>
-              </label>
+              <div>
+                <label htmlFor="file-upload" className={style.customFileUpload}>
+                  <span className="material-symbols-outlined">draft</span>
+                  <span>Alegeti fisierele</span>
+                </label>
 
-              <input
-                type="file"
-                id="file-upload"
-                onChange={handleFileChange}
-                className={style.myFileInput}
-                multiple
-              />
+                {/*{*/}
+                {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
+                {/*}*/}
+
+                <input
+                  type="file"
+                  id="file-upload"
+                  onChange={handleFileChange}
+                  className={style.myFileInput}
+                  multiple
+                />
+              </div>
+
+              <ActionButton
+                text={"Trimite"}
+                color={"white"}
+                backgroundColor={"purple"}
+                onClick={addReply}
+              >
+                <span className="material-symbols-outlined">outgoing_mail</span>
+              </ActionButton>
             </div>
-
-            <ActionButton
-              text={"Trimite"}
-              color={"white"}
-              backgroundColor={"purple"}
-              onClick={addReply}
-            >
-              <span className="material-symbols-outlined">outgoing_mail</span>
-            </ActionButton>
           </div>
-        </div>
+        )}
       </div>
     </div>
   );

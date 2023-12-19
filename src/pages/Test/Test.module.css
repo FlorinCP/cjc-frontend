@@ -1,0 +1,17 @@
+.wrapper {
+  width: 100vw;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  height: 100vh;
+}
+
+.calendar{
+  /*border:1px solid  rgb(238,49,88);*/
+  background-color: #18446d;
+  border-radius: 10px;
+  box-sizing: border-box;
+  padding-left: 10px;
+  padding-right: 10px;
+  padding-bottom: 10px;
+}

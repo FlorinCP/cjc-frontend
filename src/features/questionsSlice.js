@@ -11,6 +11,31 @@ export const fetchQuestions = createAsyncThunk(
   },
 );
 
+export const getQuestionsByUserAndStatus = createAsyncThunk(
+  "questions/getQuestionsByUser ",
+  async ({ email, status }, { rejectWithValue }) => {
+    try {
+
+      console.log(email, status)
+      const response = await fetch(
+          `${BASE_URL}/question/allByEmailAndStatus?email=${encodeURIComponent(email)}&status=${encodeURIComponent(status)}`,
+      );
+
+      if (!response.ok) {
+        console.error("Error loading questions:", response.statusText);
+        return rejectWithValue(response.statusText);
+      }
+
+      const responseData = await response.json();
+      console.log("Questions loaded successfully:", responseData);
+      return responseData;
+    } catch (error) {
+      console.error("Error loading questions:", error);
+      return rejectWithValue(error.message);
+    }
+  },
+);
+
 export const getQuestionsByStatus = createAsyncThunk(
   "questions/getQuestionsByStatus ",
   async (status, { rejectWithValue }) => {
@@ -55,7 +80,7 @@ export const getRepliesByQuestionId = createAsyncThunk(
 
       const responseData = await response.json();
       console.log("Replies loaded successfully:", responseData);
-      return {data: responseData, questionId: questionId};
+      return { data: responseData, questionId: questionId };
     } catch (error) {
       console.error("Error loading replies:", error);
       return rejectWithValue(error.message);
@@ -133,6 +158,19 @@ const questionsSlice = createSlice({
       state.loading = false;
       state.error = action.error.message;
     },
+    // ----------------------------
+    [getQuestionsByUserAndStatus.pending]: (state) => {
+      state.loading = true;
+    },
+    [getQuestionsByUserAndStatus.rejected]: (state, action) => {
+      state.loading = false;
+      state.error = action.error.message;
+    },
+    [getQuestionsByUserAndStatus.fulfilled]: (state, action) => {
+      state.loading = false;
+      state.questions = action.payload;
+    },
+    // ----------------------------
     [addQuestion.fulfilled]: (state, action) => {
       state.questions.push(action.payload);
     },
@@ -141,13 +179,13 @@ const questionsSlice = createSlice({
     },
     [getRepliesByQuestionId.fulfilled]: (state, action) => {
       state.loading = false;
-        const { data, questionId } = action.payload;
-        const index = state.questions.findIndex(
-            (question) => question.id === questionId,
-        );
-        if (index !== -1) {
-            state.questions[index].replies = data;
-        }
+      const { data, questionId } = action.payload;
+      const index = state.questions.findIndex(
+        (question) => question.id === questionId,
+      );
+      if (index !== -1) {
+        state.questions[index].replies = data;
+      }
     },
     [getRepliesByQuestionId.rejected]: (state, action) => {
       state.loading = false;
@@ -156,6 +194,7 @@ const questionsSlice = createSlice({
   },
 });
 
-export const { updateQuestionStatus,updateQuestionReplies } = questionsSlice.actions;
+export const { updateQuestionStatus, updateQuestionReplies } =
+  questionsSlice.actions;
 
 export default questionsSlice.reducer;

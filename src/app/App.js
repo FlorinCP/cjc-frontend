@@ -9,6 +9,8 @@ import {ProtectedRoute} from "../components/Miscellaneous/ProtectedRoute";
 import ViewQuestions from "../pages/ViewQuestions/ViewQuestions";
 import NotFoundPage from "../pages/404/NotFoundPAge";
 import QuestionDetails from "../components/QuestionDetails/QuestionDetails";
+import RegisterWithToken from "../pages/Login/RegisterWithToken";
+import Test from "../pages/Test/Test";
 
 function App() {
   return (
@@ -34,6 +36,8 @@ function App() {
           <Route  path="/" element={<Login />} />
           <Route path="/videocall" element={<VideoCall />} />
           <Route path="*" element={<NotFoundPage />} />
+          <Route path="/register" element={<RegisterWithToken />} />
+          <Route path="test" end element={ <Test />}/>
         </Route>
       </Routes>
     </Router>

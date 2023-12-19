@@ -1,5 +1,5 @@
 
-const BASE_URL = "http://localhost:8080/cjc/api/v1"
+const BASE_URL = "http://localhost:8080/cjc/api/v1/auth"
 
 export async function loginUser(userLoginData) {
     try {
@@ -55,6 +55,31 @@ export async function singup(userLoginData) {
     try {
         const response = await fetch(
             `${BASE_URL}/signup`,
+            {
+                method: "POST",
+                headers: {
+                    "Content-Type": "application/json",
+                },
+                body: JSON.stringify(userLoginData),
+            },
+        );
+
+        if (response.ok) {
+            const responseData = await response.json();
+            console.log("Authentication successfully:", responseData);
+            return responseData;
+        } else {
+            console.error("Error authenticating:", response.statusText);
+        }
+    } catch (error) {
+        console.error("Something went wrong:", error);
+    }
+}
+
+export async function registerWithToken(userLoginData) {
+    try {
+        const response = await fetch(
+            `${BASE_URL}/register`,
             {
                 method: "POST",
                 headers: {
