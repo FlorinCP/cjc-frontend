@@ -22,6 +22,27 @@
   font-family: "Roboto", sans-serif;
   text-transform: uppercase;
 }
+.selectedDay {
+  font-size: 25px;
+  margin: 0;
+  color: #072c48;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding: 10px;
+  background-color: #f7f7f7;
+  border-radius: 5px;
+}
+
+.navigation{
+
+}
+
+.navigation > span{
+  font-size: 35px;
+  cursor: pointer;
+}
 
 .body {
   width: 100%;
@@ -53,236 +74,81 @@
   height: 50px;
 }
 
-.selection > h2 {
-  color: white;
-}
-
-.dateProperties {
-  width: 18vw;
-  background-color: #18446d;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border: 1px solid #18446d;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.dateProperties > h3 {
-  color: white;
-}
-
-.dateDetails {
-  width: 28vw;
-  min-height: 30vh;
-  background-color: white;
-  padding: 30px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border: 1px solid #18446d;
-  display: grid;
-  grid-template-columns: 50% 50%;
-}
-
-.timeRepresentation {
-  display: flex;
-  justify-content: flex-start;
-  align-items: center;
-}
-
-.timeStamps {
-}
-
-.timeStamp {
-  height: 40px;
-  box-sizing: border-box;
-  border-top: 2px solid #18446d;
-  border-left: 2px solid #18446d;
-  padding-left: 5px;
-  padding-top: 1px;
-  width: 80px;
-}
-
-.timeStamps .timeStamp:last-child {
-  border-bottom: 2px solid #18446d;
-}
-
-.slots {
-}
-
-.slots *:last-child {
-  border-bottom: 2px solid #18446d;
-}
-
-.freeSlot {
-  box-sizing: border-box;
-  height: 40px;
-  background-color: rgba(28, 121, 184, 0.58);
-  border-top: 2px solid #18446d;
-  border-left: 2px solid #18446d;
-  border-right: 2px solid #18446d;
-  width: 120px;
-  cursor: pointer;
-}
-
-.selectedSlot {
-  box-sizing: border-box;
-  height: 40px;
-  background-color: rgb(255, 230, 78);
-  border-top: 2px solid orange;
-  border-left: 2px solid orange;
-  border-right: 2px solid orange;
-  width: 120px;
-  cursor: pointer;
-}
-
-.occupiedSlot {
-  box-sizing: border-box;
-  height: 40px;
-  background-color: rgb(255, 89, 0);
-  border-top: 2px solid #18446d;
-  border-left: 2px solid #18446d;
-  border-right: 2px solid #18446d;
-  width: 120px;
-  cursor: pointer;
-}
-
-.breakSlot {
-  box-sizing: border-box;
-  height: 40px;
-  background-color: rgba(75, 95, 112, 0.3);
-  border-top: 2px solid #18446d;
-  border-left: 2px solid #18446d;
-  border-right: 2px solid #18446d;
-  width: 120px;
-  cursor: pointer;
-}
-
-.slots > * {
-  display: grid;
-  place-items: center;
-  font-size: 16px;
-  color: #18446d;
-}
-
-.slotInfo {
-  width: 13vw;
-  height: 20vh;
-  background-color: #f7f7f7;
-  border: 1px solid #8795a1;
-  padding: 10px;
-  box-sizing: border-box;
-}
-
-.workingArea {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.dateInfo {
-  width: 18vw;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  gap: 10px;
-  flex-direction: column;
-  background-color: #18446d;
-  padding: 10px;
-  box-sizing: border-box;
-  border-radius: 5px;
-  border: 1px solid #18446d;
-  color: white;
-}
-
-.dateInfo > h3 {
-  color: white;
-}
-
-.startend {
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-}
-
-.flex {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  gap: 10px;
-  width: 15vw;
-  color: white;
-}
-
-select {
-  color: white;
-  background-color: slategrey;
-}
-
-option {
-  color: #052c46;
-}
-.infoHeader {
-  width: 100%;
-  height: 30%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: row;
-}
-
-.infoBody {
-  width: 100%;
-  height: 70%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  flex-direction: column;
-  gap: 10px;
-}
-
-.selectBtn {
-  width: 12vw;
-  height: 50px;
-  cursor: pointer;
-  font-size: 16px;
-  border-radius: 10px;
-  margin: 15px 0;
-  background-color: rgba(53, 154, 243, 0.07);
-  border: 1px solid slategrey;
-  transition: 0.3s all ease-in-out;
-  color: white;
-}
-
-.selectBtn:hover {
-  transition: 0.3s all ease-in-out;
-  color: orange;
-}
-
-select {
-  background-color: rgba(53, 154, 243, 0.07);
-  padding: 5px;
-  border: 1px solid slategrey;
-  border-radius: 5px;
-  margin: 0;
-  min-width: 70px;
-  font-family: inherit;
-  font-size: inherit;
-  cursor: inherit;
-  line-height: inherit;
-}
-
 .datePickerWrapper {
   width: 100%;
-  height: 500px ;
+  height: 500px;
   background-color: #fafcff;
   padding: 20px 50px 30px;
   box-sizing: border-box;
   border-radius: 5px;
   border-top: 1px solid rgb(213, 213, 213);
   border-bottom: 1px solid rgb(213, 213, 213);
+}
+
+.dateInfo {
+  width: 40%;
+  height: fit-content;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  flex-direction: column;
+  border: 1px solid rgb(213, 213, 213);
+  margin: 20px;
+  gap: 20px;
+  padding: 20px;
+}
+.settings {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+}
+
+.buttons {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  border-bottom: 1px solid rgb(213, 213, 213);
+  padding-bottom: 20px;
+}
+
+.bodyCard {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  gap: 30px;
+  margin-bottom: 50px;
+}
+
+/* Style for the select element */
+select {
+  padding: 8px 12px; /* Padding for the dropdown */
+  border: 1px solid #ccc; /* Border color */
+  border-radius: 4px; /* Rounded corners */
+  background-color: #f8f8f8; /* Background color */
+  color: #333; /* Text color */
+  font-size: 16px; /* Font size */
+  cursor: pointer; /* Cursor style */
+  outline: none; /* Removes the default focus outline */
+}
+
+/* Style for the options inside the select */
+select option {
+  padding: 8px; /* Padding for each option */
+  background-color: white; /* Background color for options */
+  color: #333; /* Text color for options */
+}
+
+/* You can add additional styling for hover, focus, etc. */
+select:hover {
+  border-color: #888; /* Changes border color on hover */
+}
+
+select:focus {
+  border-color: #555; /* Changes border color when focused */
 }

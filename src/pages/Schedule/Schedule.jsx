@@ -5,6 +5,7 @@ import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
 import { setDayData } from "../../features/sharedWeekSlice";
 import ResponsiveDatePicker from "../../components/ResponsiveDatePicker/ResponsiveDatePicker";
+import ActionButton from "../../components/ActionButton/ActionButton";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
@@ -138,59 +139,26 @@ function Schedule(props) {
   }
 
   /**
-   * working hours selection
-   *
-   * @return {Element}
-   */
-  function workingHours() {
-    return (
-      <div className={style.flex}>
-        <h4> Cate ore alocam zilei ? </h4>
-        <select value={workingHoursSelect} onChange={handleWorkingHoursChange}>
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-          <option value={9}>9 </option>
-          <option value={10}>10</option>
-          <option value={11}>11</option>
-          <option value={12}>12</option>
-          <option value={13}>13</option>
-          <option value={14}>14</option>
-          <option value={15}>15</option>
-        </select>
-      </div>
-    );
-  }
-
-  /**
    * start hour selection
    *
    * @return {Element}
    */
   function startHours() {
     return (
-      <div className={style.flex}>
-        <h4> Inceputul programului</h4>
-        <select value={startHourSelect} onChange={handleStartHourChange}>
-          <option value={7}>7:00</option>
-          <option value={8}>8:00</option>
-          <option value={9}>9:00</option>
-          <option value={10}>10:00</option>
-          <option value={11}>11:00</option>
-          <option value={12}>12:00</option>
-          <option value={13}>13:00</option>
-          <option value={14}>14:00</option>
-          <option value={15}>15:00</option>
-          <option value={16}>16:00</option>
-          <option value={17}>17:00</option>
-          <option value={18}>18:00</option>
-        </select>
-      </div>
+      <select value={startHourSelect} onChange={handleStartHourChange}>
+        <option value={7}>7:00</option>
+        <option value={8}>8:00</option>
+        <option value={9}>9:00</option>
+        <option value={10}>10:00</option>
+        <option value={11}>11:00</option>
+        <option value={12}>12:00</option>
+        <option value={13}>13:00</option>
+        <option value={14}>14:00</option>
+        <option value={15}>15:00</option>
+        <option value={16}>16:00</option>
+        <option value={17}>17:00</option>
+        <option value={18}>18:00</option>
+      </select>
     );
   }
 
@@ -201,39 +169,29 @@ function Schedule(props) {
    */
   function endHours() {
     return (
-      <div className={style.flex}>
-        <h4> Finalul programului</h4>
-        <select value={endHourSelect} onChange={handleEndHourChange}>
-          <option value={7}>7:00</option>
-          <option value={8}>8:00</option>
-          <option value={9}>9:00</option>
-          <option value={10}>10:00</option>
-          <option value={11}>11:00</option>
-          <option value={12}>12:00</option>
-          <option value={13}>13:00</option>
-          <option value={14}>14:00</option>
-          <option value={15}>15:00</option>
-          <option value={16}>16:00</option>
-          <option value={17}>17:00</option>
-          <option value={18}>18:00</option>
-        </select>
-      </div>
+      <select value={endHourSelect} onChange={handleEndHourChange}>
+        <option value={7}>7:00</option>
+        <option value={8}>8:00</option>
+        <option value={9}>9:00</option>
+        <option value={10}>10:00</option>
+        <option value={11}>11:00</option>
+        <option value={12}>12:00</option>
+        <option value={13}>13:00</option>
+        <option value={14}>14:00</option>
+        <option value={15}>15:00</option>
+        <option value={16}>16:00</option>
+        <option value={17}>17:00</option>
+        <option value={18}>18:00</option>
+      </select>
     );
   }
 
-  /**
-   * disponibility selection
-   *
-   * @return {Element}
-   */
-  function dayDispo() {
+  function startEndHours() {
     return (
-      <select value={selectedStatus} onChange={handleStatusDropdownChange}>
-        <option value="CLOSED">Inchis</option>
-        <option value="VACATION">Concediu</option>
-        <option value="HOLIDAY">Sarbatoare Legala</option>
-        <option value="WORKING">Disponibil</option>
-      </select>
+      <div>
+        <h3>Program : </h3>
+        {startHours()} {endHours()}
+      </div>
     );
   }
 
@@ -287,66 +245,6 @@ function Schedule(props) {
     }
   }
 
-  /**
-   * the component
-   *
-   * @return {Element}
-   */
-  function infoPanel() {
-    return (
-      <div>
-        {selectedDayRedux.day && selectedDay ? (
-          <div className={style.dateProperties}>
-            {selectionInfo()}
-
-            {workingHours()}
-
-            {startHours()}
-
-            {endHours()}
-
-            <h3>Disponibilitatea zilei :</h3>
-            {dayDispo()}
-
-            {modificationsPending ? (
-              <button onClick={submitChanges} className={style.selectBtn}>
-                Salveaza Modificarile
-              </button>
-            ) : (
-              <></>
-            )}
-          </div>
-        ) : (
-          <>
-            {currentSelectionDate ? (
-              <div className={style.dateInfo}>
-                <h3>Nu am gasit nici un program pentru ziua selectata</h3>
-
-                {workingHours()}
-
-                {startHours()}
-
-                {endHours()}
-
-                <h3>Disponibilitatea zilei :</h3>
-
-                {dayDispo()}
-                <button onClick={setScheduleForDay} className={style.selectBtn}>
-                  {" "}
-                  Adauga program{" "}
-                </button>
-              </div>
-            ) : (
-              <div className={style.dateInfo}>
-                <h3>Pentru detalii, selecteaza o zi</h3>
-              </div>
-            )}
-          </>
-        )}
-      </div>
-    );
-  }
-
   const handleSelectedDays = (date) => {
     setCurrentSelectionDate(date);
   };
@@ -364,23 +262,76 @@ function Schedule(props) {
           />
         </div>
 
-        <div className={style.dateInfo}>
-          <h3>Nu am gasit nici un program pentru ziua selectata</h3>
+        {currentSelectionDate && (
+          <div className={style.dateInfo}>
+            <div className={style.buttons}>
+              <p className={style.selectedDay}>
+                <span className="material-symbols-outlined">
+                  calendar_today
+                </span>
+                {currentSelectionDate.dayNumber} -{" "}
+                {currentSelectionDate.monthNumber + 1} -{" "}
+                {currentSelectionDate.fullYear}
+              </p>
+              <div className={style.navigation}>
+                <span className="material-symbols-outlined">chevron_left</span>
+                <span className="material-symbols-outlined">chevron_right</span>
+              </div>
+              <ActionButton
+                text={"Salveaza"}
+                onClick={setScheduleForDay}
+                color={"white"}
+                backgroundColor={"#1c79b8"}
+                active={true}
+              >
+                <span className="material-symbols-outlined">
+                  event_available
+                </span>
+              </ActionButton>
+            </div>
 
-          {workingHours()}
+            <div className={style.settings}>
+              <div>
+                <h3>Disponibilitatea :</h3>
 
-          {startHours()}
+                <select
+                  value={selectedStatus}
+                  onChange={handleStatusDropdownChange}
+                >
+                  <option value="CLOSED">Inchis</option>
+                  <option value="VACATION">Concediu</option>
+                  <option value="HOLIDAY">Sarbatoare Legala</option>
+                  <option value="WORKING">Disponibil</option>
+                </select>
+              </div>
 
-          {endHours()}
-
-          <h3>Disponibilitatea zilei :</h3>
-
-          {dayDispo()}
-          <button onClick={setScheduleForDay} className={style.selectBtn}>
-            {" "}
-            Adauga program{" "}
-          </button>
-        </div>
+              <div className={style.flex}>
+                <h4> Ore de munca : </h4>
+                <select
+                  value={workingHoursSelect}
+                  onChange={handleWorkingHoursChange}
+                >
+                  <option value={1}>1</option>
+                  <option value={2}>2</option>
+                  <option value={3}>3</option>
+                  <option value={4}>4</option>
+                  <option value={5}>5</option>
+                  <option value={6}>6</option>
+                  <option value={7}>7</option>
+                  <option value={8}>8</option>
+                  <option value={9}>9 </option>
+                  <option value={10}>10</option>
+                  <option value={11}>11</option>
+                  <option value={12}>12</option>
+                  <option value={13}>13</option>
+                  <option value={14}>14</option>
+                  <option value={15}>15</option>
+                </select>
+              </div>
+              {startEndHours()}
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
