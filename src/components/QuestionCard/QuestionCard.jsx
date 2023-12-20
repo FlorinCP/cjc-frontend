@@ -74,6 +74,7 @@ function QuestionCard(props) {
               text={"Vizualizare"}
               color={"white"}
               backgroundColor={"#1c79b8"}
+              active={true}
               onClick={() => navigate(`/questions/id/${props.id}`)}
             />
           </div>

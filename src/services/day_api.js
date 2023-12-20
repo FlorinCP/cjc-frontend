@@ -38,6 +38,26 @@ export async function getClosedDays(monthNumber) {
   } catch (error) {}
 }
 
+export async function getDatesForMonth(monthNumber) {
+  try {
+    const queryParams = {
+      monthNumber: `${monthNumber}`,
+    };
+
+    const queryString = new URLSearchParams(queryParams).toString();
+
+    const response = await fetch(
+      `${BASE_URL}/day/all-days-in-month?${queryString}`,
+    );
+
+    if (response.ok) {
+      return await response.json();
+    } else {
+      return null;
+    }
+  } catch (error) {}
+}
+
 export async function postDayData(
   selectedDate,
   workingHours,
@@ -46,20 +66,22 @@ export async function postDayData(
   status,
 ) {
   try {
-    const queryParams = {
-      monthNumber: `${selectedDate.monthNumber}`,
-      dayNumber: `${selectedDate.dayNumber}`,
-      year: `${selectedDate.year}`,
-      workingHours: `${workingHours}`,
-      startHour: `${startHour}`,
-      endHour: `${endHour}`,
-      status: `${status}`,
+    const day = {
+      monthNumber: parseInt(selectedDate.monthNumber),
+      dayNumber: parseInt(selectedDate.dayNumber),
+      year: parseInt(selectedDate.fullYear),
+      startHour: parseInt(startHour),
+      workingHours: parseInt(workingHours),
+      endHour: parseInt(endHour),
+      workingStatus: status.toString(),
     };
 
-    const queryString = new URLSearchParams(queryParams).toString();
-
-    const response = await fetch(`${BASE_URL}/day/day?${queryString}`, {
+    const response = await fetch(`${BASE_URL}/day/add-day`, {
       method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(day),
     });
 
     if (response.ok) {

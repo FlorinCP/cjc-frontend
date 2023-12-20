@@ -132,6 +132,10 @@ function QuestionDetails() {
     setWasClicked((prevState) => !prevState);
   }
 
+  function handleSelectedDays(date) {
+    
+  }
+
   return (
     <div className={style.mainContainer}>
       <Header />
@@ -234,6 +238,7 @@ function QuestionDetails() {
                 <ActionButton
                   text={"Termina"}
                   color={"white"}
+                  active={true}
                   backgroundColor={"#1c79b8"}
                   onClick={() => {
                     setUpdatedStatus("DONE");
@@ -301,6 +306,7 @@ function QuestionDetails() {
               <ActionButton
                 text={"Trimite"}
                 color={"white"}
+                active={true}
                 backgroundColor={"#1c79b8"}
                 onClick={updateQuestion}
               />
@@ -310,7 +316,9 @@ function QuestionDetails() {
 
 
         {!wasClicked && <div className={style.datePickerWrapper}>
-          <ResponsiveDatePicker/>
+          <ResponsiveDatePicker
+            sendSelectedDate={(date) => handleSelectedDays(date)}
+          />
         </div>}
 
 
@@ -359,6 +367,7 @@ function QuestionDetails() {
               <ActionButton
                 text={"Trimite"}
                 color={"white"}
+                active={true}
                 backgroundColor={"purple"}
                 onClick={addReply}
               >

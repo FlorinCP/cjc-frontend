@@ -1,123 +1,85 @@
 import style from "./ResponsiveDatePicker.module.css";
 import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
+import useDatePicker from "../../hooks/useDatePicker";
 
-function ResponsiveDatePicker({ sendSelectedDate }) {
-  const [today, setToday] = useState(new Date());
-  const weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
-  const monthSize = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
-  const lang = "default";
-  const [finalDays, setFinalDays] = useState([]);
-  const [monthNumber, setMonthNumber] = useState(today.getMonth());
-  const [fullYear, setFullYear] = useState(today.getFullYear());
-  const [monthName,setMonthname] = useState(today.toLocaleString(lang, { month: "long" }));
-
-  const [selectedDate, setSelectedDate] = useState();
-
+function ResponsiveDatePicker({
+  sendSelectedDate,
+  sendCurrentMonth,
+  monthData,
+}) {
   const sendSelectedDateToParent = (date) => {
     sendSelectedDate(date);
+  };
+
+  const weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
+
+  const { prevMonth, nextMonth, monthName, fullYear, finalDays, today } =
+    useDatePicker();
+  const [weekDays, setWeekDays] = useState([]);
+
+  function setStatus(monthData,finalDays){
+    finalDays.forEach((row) => {
+      return row.forEach((day) => {
+        if (monthData.some((receivedDay) => receivedDay.dayNumber === day.dayNumber)) {
+          day.workingStatus = monthData.find((receivedDay) => receivedDay.dayNumber === day.dayNumber).workingStatus;
+        }
+      })
+    })
   }
+
+  if (monthData && finalDays) {
+    console.log("am intrat in functie")
+    setStatus(monthData,finalDays);
+  }
+
+  console.log(finalDays,monthData);
 
   useEffect(() => {
-    sendSelectedDateToParent(selectedDate);
-  }, [selectedDate]);
-
-  function getDay(year, monthIndex, day) {
-    return new Date(year, monthIndex, day);
-  }
-
-  function isLeapYear(year) {
-    return year % 100 === 0 ? year % 400 === 0 : year % 4 === 0;
-  }
-  function mapToTwoDimensional(array, n) {
-    let result = [];
-    for (let i = 0; i < array.length; i += n) {
-      result.push(array.slice(i, i + n));
-    }
-    return result;
-  }
-  function getMonthNumberOfDays(monthNumber, year) {
-    if (isLeapYear(year) && monthNumber === 1) {
-      return 29;
-    }
-    return monthSize[monthNumber];
-  }
-
-  function fillCurrentMonthSchema() {
-    const monthNumberOfDays = getMonthNumberOfDays(
-      today.getMonth(),
-      today.getFullYear(),
-    );
-    const firstDayOfTheMonth = new Date(today.getFullYear(), today.getMonth(), 1);
-    const weekIndexOfFIrstDayOfTheMonth = firstDayOfTheMonth.getDay();
-    const lastDayOfTheMonth = getDay(
-      today.getFullYear(),
-      today.getMonth(),
-      monthNumberOfDays,
-    );
-    const dayList = [];
-
-
-    for (let i = 1; i <= monthNumberOfDays; i++) {
-      dayList.push({ dayNumber: i, monthNumber: today.getMonth(), fullYear: today.getFullYear() });
-    }
-
-    if (weekIndexOfFIrstDayOfTheMonth !== 0) {
-      const neededDays = weekIndexOfFIrstDayOfTheMonth - 1;
-      const lastDayOfThePreviousMonth = getMonthNumberOfDays(
-        today.getMonth() - 1,
-        today.getFullYear(),
-      );
-      for (
-        let i = lastDayOfThePreviousMonth;
-        i > lastDayOfThePreviousMonth - neededDays;
-        i--
-      ) {
-        dayList.unshift({ dayNumber: i, monthNumber: today.getMonth() - 1 ,fullYear: today.getFullYear()});
-      }
-    }
-
-    if (lastDayOfTheMonth.getDay() !== 0) {
-      const neededDays = 7 - lastDayOfTheMonth.getDay();
-      for (let i = 1; i <= neededDays; i++) {
-        dayList.push({ dayNumber: i, monthNumber: today.getMonth() + 1 ,fullYear: today.getFullYear()});
-      }
-    }
-
-    if (dayList.length % 7 !== 0) {
-      dayList.pop()
-    }
-
-    return mapToTwoDimensional(dayList, 7);
-  }
-
-  useEffect(() => {
-    setMonthNumber(today.getMonth());
-    setFullYear(today.getFullYear());
-    setMonthname(today.toLocaleString(lang, { month: "long" }));
-    setFinalDays(fillCurrentMonthSchema());
+    sendCurrentMonth(today.getMonth());
   }, [today]);
 
-
-  function nextMonth() {
-      if (monthNumber === 11) {
-        const newDate = new Date(today.getFullYear() + 1, 0, today.getDate());
-        setToday(newDate)
-      } else {
-        const newDate = new Date(today.getFullYear(), today.getMonth() + 1, 1);
-        setToday(newDate)
-      }
+  useEffect(() => {
+    if (monthData) {
+      let mappedWeekDays = monthData.map((day) => {
+        return { day: day.dayNumber, status: day.workingStatus };
+      });
+      setWeekDays(mappedWeekDays);
+      console.log(mappedWeekDays);
     }
+  }, [monthData]);
 
-    function prevMonth() {
-      if (monthNumber === 0) {
-        const newDate = new Date(today.getFullYear() - 1, 11, 1);
-        setToday(newDate);
-      } else {
-        const newDate = new Date(today.getFullYear(), today.getMonth() - 1, 1);
-        setToday(newDate);
-      }
+  function getStyle(day) {
+    if (day.monthNumber !== today.getMonth()) {
+      return "pastDay";
+    } else if (day.dayNumber === today.getDate()) {
+      return "today";
+    } else if (day.dayNumber === selectedDay?.dayNumber) {
+      return "selectedDay";
     }
+  }
+
+  function getBackground(workingStatus) {
+    if(workingStatus){
+      switch (workingStatus) {
+        case "WORKING":
+          return "lime";
+        case "CLOSED":
+          return "red";
+        default:
+          return "white";
+      }
+    } else {
+      return "white";
+    }
+  }
+
+  const [selectedDay, setSelectedDay] = useState(null);
+  function onClickHandler(day){
+    sendSelectedDateToParent(day)
+    setSelectedDay((prevState) => prevState === day ? null : day)
+  }
+
 
   return (
     <div className={style.datePicker}>
@@ -145,20 +107,19 @@ function ResponsiveDatePicker({ sendSelectedDate }) {
       </div>
 
       <div className={style.daysGrid}>
-
         {finalDays.map((row, r) => {
           return row.map((day, c) => {
             return (
               <DayCell
                 value={day.dayNumber}
                 key={`${r}-${c}`}
-                style={day.monthNumber !== today.getMonth() ? "pastDay" : ""}
-                onClick={()=> setSelectedDate(day)}
+                style={getStyle(day)}
+                backgroundColor={getBackground(day.workingStatus)}
+                onClick={() => onClickHandler(day)}
               />
             );
           });
         })}
-
       </div>
     </div>
   );

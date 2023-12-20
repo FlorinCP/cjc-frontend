@@ -1,6 +1,6 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./Schedule.module.css";
-import { getDayData, postDayData, updateDayData } from "../../services/day_api";
+import {getDatesForMonth, getDayData, postDayData, updateDayData} from "../../services/day_api";
 import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
 import { setDayData } from "../../features/sharedWeekSlice";
@@ -17,12 +17,26 @@ function Schedule(props) {
   const [modificationsPending, setModificationsPending] = useState(false);
 
   const { timeList } = useFillTime();
+  const [currentMonth,setCurrentMonth] = useState();
+  const [monthAvailability,setMonthAvailability] = useState();
+
 
   const selectedDayRedux = useSelector(
     (state) => state.sharedSelectedDay.value,
   );
 
-  /**
+
+    useEffect(() => {
+        if (currentMonth){
+            const fetchData = async () => {
+                return  await getDatesForMonth(currentMonth);
+            };
+
+            fetchData().then(r => setMonthAvailability(r));
+        }
+    }, [currentMonth]);
+
+    /**
    *
    * Aici verificam daca exista sau nu un program pentru ziua respectiva
    */
@@ -213,11 +227,11 @@ function Schedule(props) {
       endHourSelect,
       selectedStatus,
     );
-    getDayData(selectedDayRedux.day).then((r) => {
-      dispatch(
-        setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }),
-      );
-    });
+    // getDayData(selectedDayRedux.day).then((r) => {
+    //   dispatch(
+    //     setDayData({ dayName: getDayName(selectedDayRedux.weekday), data: r }),
+    //   );
+    // });
   };
 
   /**
@@ -259,6 +273,8 @@ function Schedule(props) {
         <div className={style.datePickerWrapper}>
           <ResponsiveDatePicker
             sendSelectedDate={(date) => handleSelectedDays(date)}
+            sendCurrentMonth={(month) => setCurrentMonth(month)}
+            monthData = {monthAvailability}
           />
         </div>
 
@@ -274,7 +290,7 @@ function Schedule(props) {
                 {currentSelectionDate.fullYear}
               </p>
               <div className={style.navigation}>
-                <span className="material-symbols-outlined">chevron_left</span>
+                  <span className="material-symbols-outlined">chevron_left</span>
                 <span className="material-symbols-outlined">chevron_right</span>
               </div>
               <ActionButton
