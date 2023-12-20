@@ -92,7 +92,7 @@ function DayCell({
       aria-disabled={isDisabled}
       onMouseEnter={() => {
         setIsHovered(true);
-
+        onMouseEnter();
       }}
       onMouseLeave={() => {
         setIsHovered(false);

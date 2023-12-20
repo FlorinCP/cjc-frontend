@@ -1,11 +1,17 @@
 import React, { useContext, useEffect, useState } from "react";
 import style from "./Schedule.module.css";
-import {getDatesForMonth, getDayData, postDayData, updateDayData} from "../../services/day_api";
+import {
+  getDatesForMonth,
+  getDayData,
+  postDayData,
+  updateDayData,
+} from "../../services/day_api";
 import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
 import { setDayData } from "../../features/sharedWeekSlice";
 import ResponsiveDatePicker from "../../components/ResponsiveDatePicker/ResponsiveDatePicker";
 import ActionButton from "../../components/ActionButton/ActionButton";
+import ContextMenu from "../../components/ContextMenu/ContextMenu";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
@@ -17,26 +23,24 @@ function Schedule(props) {
   const [modificationsPending, setModificationsPending] = useState(false);
 
   const { timeList } = useFillTime();
-  const [currentMonth,setCurrentMonth] = useState();
-  const [monthAvailability,setMonthAvailability] = useState();
-
+  const [currentMonth, setCurrentMonth] = useState();
+  const [monthAvailability, setMonthAvailability] = useState();
 
   const selectedDayRedux = useSelector(
     (state) => state.sharedSelectedDay.value,
   );
 
+  useEffect(() => {
+    if (currentMonth) {
+      const fetchData = async () => {
+        return await getDatesForMonth(currentMonth);
+      };
 
-    useEffect(() => {
-        if (currentMonth){
-            const fetchData = async () => {
-                return  await getDatesForMonth(currentMonth);
-            };
+      fetchData().then((r) => setMonthAvailability(r));
+    }
+  }, [currentMonth]);
 
-            fetchData().then(r => setMonthAvailability(r));
-        }
-    }, [currentMonth]);
-
-    /**
+  /**
    *
    * Aici verificam daca exista sau nu un program pentru ziua respectiva
    */
@@ -263,6 +267,8 @@ function Schedule(props) {
     setCurrentSelectionDate(date);
   };
 
+
+
   return (
     <div className={style.mainContainer}>
       <div className={style.header}>
@@ -270,11 +276,14 @@ function Schedule(props) {
       </div>
 
       <div className={style.body}>
-        <div className={style.datePickerWrapper}>
+        <div
+          className={style.datePickerWrapper}
+
+        >
           <ResponsiveDatePicker
             sendSelectedDate={(date) => handleSelectedDays(date)}
             sendCurrentMonth={(month) => setCurrentMonth(month)}
-            monthData = {monthAvailability}
+            monthData={monthAvailability}
           />
         </div>
 
@@ -290,7 +299,7 @@ function Schedule(props) {
                 {currentSelectionDate.fullYear}
               </p>
               <div className={style.navigation}>
-                  <span className="material-symbols-outlined">chevron_left</span>
+                <span className="material-symbols-outlined">chevron_left</span>
                 <span className="material-symbols-outlined">chevron_right</span>
               </div>
               <ActionButton

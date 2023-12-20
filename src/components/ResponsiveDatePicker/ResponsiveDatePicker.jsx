@@ -2,6 +2,7 @@ import style from "./ResponsiveDatePicker.module.css";
 import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
 import useDatePicker from "../../hooks/useDatePicker";
+import ContextMenu from "../ContextMenu/ContextMenu";
 
 function ResponsiveDatePicker({
   sendSelectedDate,
@@ -18,22 +19,25 @@ function ResponsiveDatePicker({
     useDatePicker();
   const [weekDays, setWeekDays] = useState([]);
 
-  function setStatus(monthData,finalDays){
+  function setStatus(monthData, finalDays) {
     finalDays.forEach((row) => {
       return row.forEach((day) => {
-        if (monthData.some((receivedDay) => receivedDay.dayNumber === day.dayNumber)) {
-          day.workingStatus = monthData.find((receivedDay) => receivedDay.dayNumber === day.dayNumber).workingStatus;
+        if (
+          monthData.some(
+            (receivedDay) => receivedDay.dayNumber === day.dayNumber,
+          )
+        ) {
+          day.workingStatus = monthData.find(
+            (receivedDay) => receivedDay.dayNumber === day.dayNumber,
+          ).workingStatus;
         }
-      })
-    })
+      });
+    });
   }
 
   if (monthData && finalDays) {
-    console.log("am intrat in functie")
-    setStatus(monthData,finalDays);
+    setStatus(monthData, finalDays);
   }
-
-  console.log(finalDays,monthData);
 
   useEffect(() => {
     sendCurrentMonth(today.getMonth());
@@ -52,6 +56,11 @@ function ResponsiveDatePicker({
   function getStyle(day) {
     if (day.monthNumber !== today.getMonth()) {
       return "pastDay";
+    } else if (
+      multipleSelectionDates.some((date) => date.dayNumber === day.dayNumber)
+    ) {
+      console.log("stil");
+      return "selectedDay";
     } else if (day.dayNumber === today.getDate()) {
       return "today";
     } else if (day.dayNumber === selectedDay?.dayNumber) {
@@ -60,7 +69,7 @@ function ResponsiveDatePicker({
   }
 
   function getBackground(workingStatus) {
-    if(workingStatus){
+    if (workingStatus) {
       switch (workingStatus) {
         case "WORKING":
           return "lime";
@@ -75,14 +84,73 @@ function ResponsiveDatePicker({
   }
 
   const [selectedDay, setSelectedDay] = useState(null);
-  function onClickHandler(day){
-    sendSelectedDateToParent(day)
-    setSelectedDay((prevState) => prevState === day ? null : day)
+  function onClickHandler(day) {
+    sendSelectedDateToParent(selectedDay === day ? null : day);
+    setSelectedDay((prevState) => (prevState === day ? null : day));
+    setAllowMultipleSelection(false);
   }
 
+  const [allowMultipleSelection, setAllowMultipleSelection] = useState(false);
+  const [multipleSelectionDates, setMultipleSelectionDates] = useState([]);
+
+  function onMouseEnterHandler(day) {
+    if (allowMultipleSelection) {
+      if (
+        !multipleSelectionDates.some((date) => date.dayNumber !== day.dayNumber)
+      ) {
+        setMultipleSelectionDates((prevState) => [...prevState, day]);
+      } else {
+        let newArray = multipleSelectionDates.filter(
+          (day) => day.dayNumber !== day.dayNumber,
+        );
+        setMultipleSelectionDates(newArray);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (multipleSelectionDates.length > 0) {
+      console.log(multipleSelectionDates);
+    }
+  }, [multipleSelectionDates]);
+
+  /**
+   * contextMenu state
+   */
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+  });
+
+  const menuItems = [
+    {
+      label: "Programeaza-te",
+      icon: "schedule",
+      onClick: () => alert("First action clicked"),
+    },
+    {
+      label: "Selectie multipla",
+      icon: "playlist_add",
+      onClick: () => setAllowMultipleSelection(true),
+    },
+  ];
+
+  const handleRightClick = (event) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.clientX,
+      y: event.clientY,
+    });
+  };
 
   return (
-    <div className={style.datePicker}>
+    <div
+      className={style.datePicker}
+      onContextMenu={handleRightClick}
+      onClick={() => setContextMenu({ visible: false, x: 0, y: 0 })}
+    >
       <div className={style.header}>
         <div className={style.previous} onClick={prevMonth}>
           <span className="material-symbols-outlined"> navigate_before </span>
@@ -116,11 +184,20 @@ function ResponsiveDatePicker({
                 style={getStyle(day)}
                 backgroundColor={getBackground(day.workingStatus)}
                 onClick={() => onClickHandler(day)}
+                onMouseEnter={() => onMouseEnterHandler(day)}
               />
             );
           });
         })}
       </div>
+
+      {selectedDay && contextMenu && contextMenu.visible && (
+        <ContextMenu
+          items={menuItems}
+          top={contextMenu.y}
+          left={contextMenu.x}
+        />
+      )}
     </div>
   );
 }

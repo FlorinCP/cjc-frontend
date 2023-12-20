@@ -499,23 +499,3 @@ h1 {
 }
 
 
-.contextMenu{
-  width: 150px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  flex-direction: column;
-}
-
-.contextMenuItem{
-  cursor: pointer;
-  transition: all ease-in-out 0.3s ;
-  padding: 10px;
-  box-sizing: border-box;
-  width: inherit;
-}
-
-.contextMenuItem:hover{
-  background-color: #e7e7e7;
-  transition: all ease-in-out 0.3s ;
-}

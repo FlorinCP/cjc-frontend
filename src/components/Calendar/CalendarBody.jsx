@@ -8,6 +8,7 @@ import { useFillTime } from "../../hooks/useFillTime";
 import { makeAppointment } from "../../services/appointment_api";
 import { getDayData } from "../../services/day_api";
 import { setDayData } from "../../features/sharedWeekSlice";
+import ContextMenu from "../ContextMenu/ContextMenu";
 
 function CalendarBody(props) {
   const [selectedCard, setSelectedCard] = useState({
@@ -109,39 +110,7 @@ function CalendarBody(props) {
     );
   }
 
-    /**
-     * context menu functional component
-     *
-     * @param items
-     * @param top
-     * @param left
-     * @return {Element}
-     * @constructor
-     */
-  function ContextMenu({ items, top, left }) {
-    return (
-      <div
-        style={{
-          position: "absolute",
-          top: `${top}px`,
-          left: `${left}px`,
-          border: "1px solid black",
-          backgroundColor: "white",
-        }}
-        className={style.contextMenu}
-      >
-        {items.map((item, index) => (
-          <div
-            key={index}
-            onClick={item.onClick}
-            className={style.contextMenuItem}
-          >
-            {item.label}
-          </div>
-        ))}
-      </div>
-    );
-  }
+
 
     /**
      * list of actions for context menu
