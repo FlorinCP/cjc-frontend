@@ -9,7 +9,7 @@ function DayCell({style,value}) {
 
   const pastDayStyle = {
     fontSize: "16px",
-    height: "40px",
+    height: "100%",
     borderRadius: "5px",
     display: "flex",
     justifyContent: "center",
@@ -21,10 +21,11 @@ function DayCell({style,value}) {
   };
 
   const dayStyle = {
-    height: "40px",
+    height: "100%",
+    border: "1px solid rgb(238, 238, 238)",
     fontSize: "16px",
     color: "rgba(15, 63, 101, 0.8)",
-    backgroundColor: isHovered ? "#1888ff" : "#f7f7f7",
+    backgroundColor: isHovered ? "#1888ff" : "white",
     borderRadius: "5px",
     display: "flex",
     justifyContent: "center",

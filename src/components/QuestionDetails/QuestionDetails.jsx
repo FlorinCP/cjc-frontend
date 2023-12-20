@@ -15,6 +15,7 @@ import {
 import { sendReply } from "../../services/reply_api";
 import Reply from "../Reply/Reply";
 import FilesWrapper from "../FilesWrapper/FilesWrapper";
+import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -308,7 +309,9 @@ function QuestionDetails() {
         )}
 
 
-        {!wasClicked && <div></div>}
+        {!wasClicked && <div className={style.datePickerWrapper}>
+          <ResponsiveDatePicker/>
+        </div>}
 
 
         {/* Render replies */}
@@ -323,7 +326,7 @@ function QuestionDetails() {
 
         {question.status !== "WAITING" && (
           <div className={style.updateStatus}>
-            <i>* Adaugeti un raspuns</i>
+            <i>* Adaugati un raspuns</i>
             <textarea
               name="questionText"
               className={style.enterQuestion}
