@@ -5,7 +5,7 @@
     height: 100%;
     user-select: none;
     display: grid;
-    grid-template-rows: 55px 25px calc(100% - 80px);
+    grid-template-rows: 55px 30px calc(100% - 85px);
 }
 
 .header {
@@ -27,6 +27,7 @@
     align-items: center;
     border-radius: 5px;
     height: 30px;
+    width: 200px;
     cursor: pointer;
     margin-bottom: 5px;
     font-size: 19px;
@@ -96,6 +97,8 @@
     gap: 10px;
     flex-direction: row;
     margin-bottom: 5px;
-    color: #165fab;
+    margin-top: 5px;
+    color: #3c4854;
+    font-weight: bold;
 }
 

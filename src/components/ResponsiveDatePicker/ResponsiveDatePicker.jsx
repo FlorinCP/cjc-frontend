@@ -2,7 +2,7 @@ import style from "./ResponsiveDatePicker.module.css";
 import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
 
-function ResponsiveDatePicker(props) {
+function ResponsiveDatePicker({ sendSelectedDate }) {
   const [today, setToday] = useState(new Date());
   const weekdays = ["Mon", "Tue", "Wen", "Thu", "Fri", "Sat", "Sun"];
   const monthSize = [31, 28, 31, 30, 31, 30, 31, 31, 30, 31, 30, 31];
@@ -12,6 +12,15 @@ function ResponsiveDatePicker(props) {
   const [fullYear, setFullYear] = useState(today.getFullYear());
   const [monthName,setMonthname] = useState(today.toLocaleString(lang, { month: "long" }));
 
+  const [selectedDate, setSelectedDate] = useState();
+
+  const sendSelectedDateToParent = (date) => {
+    sendSelectedDate(date);
+  }
+
+  useEffect(() => {
+    sendSelectedDateToParent(selectedDate);
+  }, [selectedDate]);
 
   function getDay(year, monthIndex, day) {
     return new Date(year, monthIndex, day);
@@ -50,7 +59,7 @@ function ResponsiveDatePicker(props) {
 
 
     for (let i = 1; i <= monthNumberOfDays; i++) {
-      dayList.push({ day: i, monthNumber: today.getMonth() });
+      dayList.push({ dayNumber: i, monthNumber: today.getMonth(), fullYear: today.getFullYear() });
     }
 
     if (weekIndexOfFIrstDayOfTheMonth !== 0) {
@@ -64,14 +73,14 @@ function ResponsiveDatePicker(props) {
         i > lastDayOfThePreviousMonth - neededDays;
         i--
       ) {
-        dayList.unshift({ day: i, monthNumber: today.getMonth() - 1 });
+        dayList.unshift({ dayNumber: i, monthNumber: today.getMonth() - 1 ,fullYear: today.getFullYear()});
       }
     }
 
     if (lastDayOfTheMonth.getDay() !== 0) {
       const neededDays = 7 - lastDayOfTheMonth.getDay();
       for (let i = 1; i <= neededDays; i++) {
-        dayList.push({ day: i, monthNumber: today.getMonth() + 1 });
+        dayList.push({ dayNumber: i, monthNumber: today.getMonth() + 1 ,fullYear: today.getFullYear()});
       }
     }
 
@@ -141,9 +150,10 @@ function ResponsiveDatePicker(props) {
           return row.map((day, c) => {
             return (
               <DayCell
-                value={day.day}
+                value={day.dayNumber}
                 key={`${r}-${c}`}
                 style={day.monthNumber !== today.getMonth() ? "pastDay" : ""}
+                onClick={()=> setSelectedDate(day)}
               />
             );
           });

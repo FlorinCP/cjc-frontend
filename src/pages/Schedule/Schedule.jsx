@@ -4,6 +4,7 @@ import { getDayData, postDayData, updateDayData } from "../../services/day_api";
 import { useDispatch, useSelector } from "react-redux";
 import { useFillTime } from "../../hooks/useFillTime";
 import { setDayData } from "../../features/sharedWeekSlice";
+import ResponsiveDatePicker from "../../components/ResponsiveDatePicker/ResponsiveDatePicker";
 
 function Schedule(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
@@ -319,9 +320,6 @@ function Schedule(props) {
           <>
             {currentSelectionDate ? (
               <div className={style.dateInfo}>
-
-                {selectionInfo()}
-
                 <h3>Nu am gasit nici un program pentru ziua selectata</h3>
 
                 {workingHours()}
@@ -349,7 +347,43 @@ function Schedule(props) {
     );
   }
 
-  return <div>{infoPanel()}</div>;
+  const handleSelectedDays = (date) => {
+    setCurrentSelectionDate(date);
+  };
+
+  return (
+    <div className={style.mainContainer}>
+      <div className={style.header}>
+        <p>Modifica programul</p>
+      </div>
+
+      <div className={style.body}>
+        <div className={style.datePickerWrapper}>
+          <ResponsiveDatePicker
+            sendSelectedDate={(date) => handleSelectedDays(date)}
+          />
+        </div>
+
+        <div className={style.dateInfo}>
+          <h3>Nu am gasit nici un program pentru ziua selectata</h3>
+
+          {workingHours()}
+
+          {startHours()}
+
+          {endHours()}
+
+          <h3>Disponibilitatea zilei :</h3>
+
+          {dayDispo()}
+          <button onClick={setScheduleForDay} className={style.selectBtn}>
+            {" "}
+            Adauga program{" "}
+          </button>
+        </div>
+      </div>
+    </div>
+  );
 }
 
 export default Schedule;

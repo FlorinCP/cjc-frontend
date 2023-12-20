@@ -17,7 +17,7 @@ function App() {
     <Router>
       <Routes>
         <Route element={<SideBarLayout />}>
-          <Route path="/edit-schedule" element={<Schedule />} />
+          <Route path="/schedule/edit" element={<Schedule />} />
           <Route path="/schedule" element={<Calendar />} />
           <Route path="/questions/status/:questionStatus" end element={
           <ProtectedRoute>
