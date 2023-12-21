@@ -7,6 +7,7 @@ function DayCell({
   value,
   onClick,
   backgroundColor,
+  isSelected,
   onMouseDown,
   onMouseUp,
   onMouseEnter,
@@ -28,7 +29,7 @@ function DayCell({
 
   const dayStyle = {
     height: "100%",
-    border: "3px solid rgb(234,234,234)",
+    border: isHovered ? "none" : "3px solid rgb(234,234,234)",
     borderColor:
       backgroundColor === "white" ? "rgb(234,234,234)" : backgroundColor,
     fontSize: "16px",
@@ -87,7 +88,7 @@ function DayCell({
 
   return (
     <button
-      style={getStyle(style)}
+      style={isSelected ? selectedDayStyle : getStyle(style)}
       disabled={isDisabled}
       aria-disabled={isDisabled}
       onMouseEnter={() => {
