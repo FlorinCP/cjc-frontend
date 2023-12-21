@@ -122,6 +122,21 @@ const useDatePicker = () => {
     }
   }
 
+  function decimalHoursToTime(decimalHours) {
+    const hours = Math.floor(decimalHours);
+    const minutes = Math.round((decimalHours - hours) * 60);
+    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+  }
+
+  function getMonthName(monthIndex,lang,size) {
+    const date = new Date(2000, monthIndex, 1);
+    return date.toLocaleString(lang, { month: size });
+  }
+
+  function getWeekdayName(weekdayIndex,lang,size) {
+    const date = new Date(2000, 0, 3 + weekdayIndex);
+    return date.toLocaleString(lang, { weekday: size });
+  }
 
   return(
     {
@@ -131,7 +146,10 @@ const useDatePicker = () => {
       monthName,
       monthNumber,
       fullYear,
-      today
+      today,
+      decimalHoursToTime,
+      getMonthName,
+      getWeekdayName
     }
   )
 

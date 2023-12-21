@@ -2,16 +2,8 @@ import React, { useContext, useEffect, useState } from "react";
 import style from "./Schedule.module.css";
 import {
   getDatesForMonth,
-  getDayData,
-  postDayData,
-  updateDayData,
 } from "../../services/day_api";
-import { useDispatch, useSelector } from "react-redux";
-import { useFillTime } from "../../hooks/useFillTime";
-import { setDayData } from "../../features/sharedWeekSlice";
 import ResponsiveDatePicker from "../../components/ResponsiveDatePicker/ResponsiveDatePicker";
-import ActionButton from "../../components/ActionButton/ActionButton";
-import ContextMenu from "../../components/ContextMenu/ContextMenu";
 import DayStatusCard from "../../components/DayStatusCard/DayStatusCard";
 import MultipleDaysStatusCard from "../../components/DayStatusCard/MultipleDaysStatusCard";
 

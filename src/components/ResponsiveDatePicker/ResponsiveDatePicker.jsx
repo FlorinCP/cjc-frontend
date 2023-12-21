@@ -9,6 +9,7 @@ function ResponsiveDatePicker({
   sendCurrentMonth,
   sendMultipleSelectionDates,
   monthData,
+    contextMenuProps = true,
 }) {
   //  Props
 
@@ -306,7 +307,7 @@ function ResponsiveDatePicker({
           })}
       </div>
 
-      {selectedDay && contextMenu && contextMenu.visible && (
+      {selectedDay && contextMenuProps && contextMenu.visible && (
         <ContextMenu
           items={menuItems}
           top={contextMenu.y}
