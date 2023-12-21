@@ -2,10 +2,11 @@ import style from "./DayStatusCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
 import { postDayData } from "../../services/day_api";
+import CustomDropdown from "../CustomDropdown/CustomDropdown";
 
 function DayStatusCard({ currentSelectionDate }) {
   const [selectedDay, setSelectedDay] = useState();
-  const [selectedStatus, setSelectedStatus] = useState("WORKING");
+  const [selectedStatus, setSelectedStatus] = useState(null);
   const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
   const [endHourSelect, setEndHourSelect] = useState(16);
   const [modificationsPending, setModificationsPending] = useState(false);
@@ -16,42 +17,33 @@ function DayStatusCard({ currentSelectionDate }) {
   }, [currentSelectionDate]);
 
   /**
-   * status change
+   * ensures concordance between working hours and so on
    *
-   * @param event
+   * @param data
    */
-  const handleStatusDropdownChange = (event) => {
-    setSelectedStatus(event.target.value);
+  const handleWorkingHoursChange = (data) => {
+    setWorkingHoursSelect(data);
+    setEndHourSelect(Number(data) + Number(startHourSelect));
   };
 
   /**
    * ensures concordance between working hours and so on
    *
-   * @param event
+   * @param data
    */
-  const handleWorkingHoursChange = (event) => {
-    setWorkingHoursSelect(event.target.value);
-    setEndHourSelect(Number(event.target.value) + Number(startHourSelect));
+  const handleStartHourChange = (data) => {
+    setStartHourSelect(data);
+    setWorkingHoursSelect(Number(endHourSelect) - Number(data));
   };
 
   /**
    * ensures concordance between working hours and so on
    *
-   * @param event
+   * @param data
    */
-  const handleStartHourChange = (event) => {
-    setStartHourSelect(event.target.value);
-    setWorkingHoursSelect(Number(endHourSelect) - Number(event.target.value));
-  };
-
-  /**
-   * ensures concordance between working hours and so on
-   *
-   * @param event
-   */
-  const handleEndHourChange = (event) => {
-    setEndHourSelect(event.target.value);
-    setWorkingHoursSelect(Number(event.target.value) - Number(startHourSelect));
+  const handleEndHourChange = (data) => {
+    setEndHourSelect(data);
+    setWorkingHoursSelect(Number(data) - Number(startHourSelect));
   };
 
   /**
@@ -84,24 +76,27 @@ function DayStatusCard({ currentSelectionDate }) {
    * @return {Element}
    */
   function StartHours() {
+    const timeOptions = [
+      { value: 7, label: "7:00" },
+      { value: 8, label: "8:00" },
+      { value: 9, label: "9:00" },
+      { value: 10, label: "10:00" },
+      { value: 11, label: "11:00" },
+      { value: 12, label: "12:00" },
+      { value: 13, label: "13:00" },
+      { value: 14, label: "14:00" },
+      { value: 15, label: "15:00" },
+      { value: 16, label: "16:00" },
+      { value: 17, label: "17:00" },
+      { value: 18, label: "18:00" },
+    ];
+
     return (
-      <select
+      <CustomDropdown
+        options={timeOptions}
         value={currentSelectionDate.startHour || startHourSelect}
-        onChange={handleStartHourChange}
-      >
-        <option value={7}>7:00</option>
-        <option value={8}>8:00</option>
-        <option value={9}>9:00</option>
-        <option value={10}>10:00</option>
-        <option value={11}>11:00</option>
-        <option value={12}>12:00</option>
-        <option value={13}>13:00</option>
-        <option value={14}>14:00</option>
-        <option value={15}>15:00</option>
-        <option value={16}>16:00</option>
-        <option value={17}>17:00</option>
-        <option value={18}>18:00</option>
-      </select>
+        sendSelectedOption={(option) => handleStartHourChange(option)}
+      />
     );
   }
 
@@ -111,77 +106,88 @@ function DayStatusCard({ currentSelectionDate }) {
    * @return {Element}
    */
   function EndHours() {
+    const timeOptions = [
+      { value: 7, label: "7:00" },
+      { value: 8, label: "8:00" },
+      { value: 9, label: "9:00" },
+      { value: 10, label: "10:00" },
+      { value: 11, label: "11:00" },
+      { value: 12, label: "12:00" },
+      { value: 13, label: "13:00" },
+      { value: 14, label: "14:00" },
+      { value: 15, label: "15:00" },
+      { value: 16, label: "16:00" },
+      { value: 17, label: "17:00" },
+      { value: 18, label: "18:00" },
+    ];
+
     return (
-      <select
+      <CustomDropdown
+        options={timeOptions}
         value={currentSelectionDate.endHour || endHourSelect}
-        onChange={handleEndHourChange}
-      >
-        <option value={7}>7:00</option>
-        <option value={8}>8:00</option>
-        <option value={9}>9:00</option>
-        <option value={10}>10:00</option>
-        <option value={11}>11:00</option>
-        <option value={12}>12:00</option>
-        <option value={13}>13:00</option>
-        <option value={14}>14:00</option>
-        <option value={15}>15:00</option>
-        <option value={16}>16:00</option>
-        <option value={17}>17:00</option>
-        <option value={18}>18:00</option>
-      </select>
+        sendSelectedOption={(option) => handleEndHourChange(option)}
+      />
     );
   }
 
   function WorkingHours() {
+    const singleDigitOptions = [
+      { value: 1, label: "1" },
+      { value: 2, label: "2" },
+      { value: 3, label: "3" },
+      { value: 4, label: "4" },
+      { value: 5, label: "5" },
+      { value: 6, label: "6" },
+      { value: 7, label: "7" },
+      { value: 8, label: "8" },
+      { value: 9, label: "9" },
+      { value: 10, label: "10" },
+      { value: 11, label: "11" },
+      { value: 12, label: "12" },
+      { value: 13, label: "13" },
+      { value: 14, label: "14" },
+      { value: 15, label: "15" },
+    ];
+
     return (
       <div className={style.flex}>
-        <h4> Ore de munca : </h4>
-        <select
+        <h3> Ore de munca : </h3>
+        <CustomDropdown
+          options={singleDigitOptions}
           value={currentSelectionDate.workingHours || workingHoursSelect}
-          onChange={handleWorkingHoursChange}
-        >
-          <option value={1}>1</option>
-          <option value={2}>2</option>
-          <option value={3}>3</option>
-          <option value={4}>4</option>
-          <option value={5}>5</option>
-          <option value={6}>6</option>
-          <option value={7}>7</option>
-          <option value={8}>8</option>
-          <option value={9}>9 </option>
-          <option value={10}>10</option>
-          <option value={11}>11</option>
-          <option value={12}>12</option>
-          <option value={13}>13</option>
-          <option value={14}>14</option>
-          <option value={15}>15</option>
-        </select>
-      </div>
-    );
-  }
-  function StartEndHours() {
-    return (
-      <div>
-        <h3>Program : </h3>
-        <StartHours /> : <EndHours />
+          sendSelectedOption={(option) => handleWorkingHoursChange(option)}
+        />
       </div>
     );
   }
 
   function StatusDropDown() {
+    const optionsDisponibilitate = [
+      { value: "WORKING", label: "Disponibil" },
+      { value: "CLOSED", label: "Inchis" },
+      { value: "VACATION", label: "Concediu" },
+    ];
+
     return (
       <div>
         <h3>Disponibilitatea :</h3>
-
-        <select
+        <CustomDropdown
+          placeholder="Neselectat"
+          options={optionsDisponibilitate}
           value={currentSelectionDate.workingStatus || selectedStatus}
-          onChange={handleStatusDropdownChange}
-        >
-          <option value="CLOSED">Inchis</option>
-          <option value="VACATION">Concediu</option>
-          <option value="HOLIDAY">Sarbatoare Legala</option>
-          <option value="WORKING">Disponibil</option>
-        </select>
+          sendSelectedOption={(option) => setSelectedStatus(option)}
+        />
+      </div>
+    );
+  }
+
+  function StartEndHours() {
+    return (
+      <div>
+        <h3>Program : </h3>
+        <div className={style.flexRow}>
+        <StartHours /> <h4>:</h4> <EndHours />
+        </div>
       </div>
     );
   }
@@ -194,6 +200,9 @@ function DayStatusCard({ currentSelectionDate }) {
       endHourSelect,
       selectedStatus,
     );
+    setWorkingHoursSelect(8);
+    setStartHourSelect(8);
+    setEndHourSelect(16);
   };
 
   return (
