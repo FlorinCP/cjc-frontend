@@ -13,6 +13,29 @@
   padding: 20px;
 }
 
+.dateInfoRow {
+  width: fit-content;
+  height: fit-content;
+  box-sizing: border-box;
+  border-radius: 5px;
+  display: flex;
+  align-items: center;
+  justify-content: flex-end;
+  border: 1px solid rgb(213, 213, 213);
+  margin: 20px;
+  gap: 20px;
+  padding: 20px;
+}
+
+.selectedDays{
+  max-height: 170px;
+  overflow-y: auto;
+}
+
+.selectedDays > .selectedDay {
+  margin: 5px;
+}
+
 .flexRow{
     display: flex;
     align-items: center;

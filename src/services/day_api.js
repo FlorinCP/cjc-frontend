@@ -94,6 +94,50 @@ export async function postDayData(
   } catch (error) {}
 }
 
+export async function postMultipleDayData(
+  multipleSelectionDates,
+  workingHours,
+  startHour,
+  endHour,
+  status,
+) {
+
+  try {
+
+    const days = multipleSelectionDates.map((date) => {
+        return {
+            monthNumber: parseInt(date.monthNumber),
+            dayNumber: parseInt(date.dayNumber),
+            year: parseInt(date.fullYear),
+            startHour: parseInt(startHour),
+            workingHours: parseInt(workingHours),
+            endHour: parseInt(endHour),
+            workingStatus: status.toString(),
+        }
+    })
+
+    console.log(days)
+
+    const response = await fetch(`${BASE_URL}/day/add-multiple-days`, {
+      method: "POST",
+      headers: {
+        "Content-Type": "application/json",
+      },
+      body: JSON.stringify(days),
+    });
+
+    console.log(response)
+
+    if (response.ok) {
+      const responseData = await response.json();
+      console.log("day posted successfully:", responseData);
+      return responseData;
+    } else {
+      return null;
+    }
+  } catch (error) {}
+}
+
 export async function updateDayData(
   id,
   workingHours,

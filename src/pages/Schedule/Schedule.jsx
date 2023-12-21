@@ -13,9 +13,9 @@ import ResponsiveDatePicker from "../../components/ResponsiveDatePicker/Responsi
 import ActionButton from "../../components/ActionButton/ActionButton";
 import ContextMenu from "../../components/ContextMenu/ContextMenu";
 import DayStatusCard from "../../components/DayStatusCard/DayStatusCard";
+import MultipleDaysStatusCard from "../../components/DayStatusCard/MultipleDaysStatusCard";
 
 function Schedule(props) {
-
   const [currentMonth, setCurrentMonth] = useState();
   const [monthAvailability, setMonthAvailability] = useState();
 
@@ -41,6 +41,12 @@ function Schedule(props) {
     setMultipleSelectionDates(dates);
   }
 
+  useEffect(() => {
+    if (multipleSelectionDates) {
+      console.log(multipleSelectionDates);
+    }
+  }, [multipleSelectionDates]);
+
   return (
     <div className={style.mainContainer}>
       <div className={style.header}>
@@ -59,6 +65,10 @@ function Schedule(props) {
 
         {currentSelectionDate && (
           <DayStatusCard currentSelectionDate={currentSelectionDate} />
+        )}
+
+        {multipleSelectionDates.length > 0 && (
+          <MultipleDaysStatusCard multipleSelectionDates={multipleSelectionDates} />
         )}
       </div>
     </div>

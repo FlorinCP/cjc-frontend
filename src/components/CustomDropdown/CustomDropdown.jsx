@@ -17,17 +17,17 @@ function CustomDropdown({ options, placeholder ,value ,sendSelectedOption}) {
   const [dropdownStyle, setDropdownStyle] = useState({});
 
 
-  useEffect(() => {
-    if (isOpen && dropdownRef.current) {
-      const { top ,bottom, height } = dropdownRef.current.getBoundingClientRect();
-      console.log(top ,bottom, height, window.innerHeight)
-      if (bottom < window.innerHeight) {
-        setDropdownStyle({ top: "100%" ,bottom: "auto"});
-      } else {
-        setDropdownStyle({});
-      }
-    }
-  }, [isOpen]);
+  // useEffect(() => {
+  //   if (isOpen && dropdownRef.current) {
+  //     const { top ,bottom, height } = dropdownRef.current.getBoundingClientRect();
+  //     console.log(top ,bottom, height, window.innerHeight)
+  //     if (bottom < window.innerHeight) {
+  //       setDropdownStyle({ top: "100%" ,bottom: "auto"});
+  //     } else {
+  //       setDropdownStyle({});
+  //     }
+  //   }
+  // }, [isOpen]);
 
 
   return (
@@ -37,7 +37,7 @@ function CustomDropdown({ options, placeholder ,value ,sendSelectedOption}) {
         <span className="material-symbols-outlined">expand_more</span>
       </div>
       {isOpen && (
-        <div className={style.options} style={dropdownStyle} ref={dropdownRef}>
+        <div className={style.options} ref={dropdownRef}>
           {options.map((option) => (
             <div
               key={option.value}

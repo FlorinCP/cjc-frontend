@@ -57,7 +57,7 @@
 .datePickerWrapper {
   width: 100%;
   height: 500px;
-  background-color: #fafcff;
+  background-color: rgba(250, 252, 255, 0.38);
   padding: 20px 50px 30px;
   box-sizing: border-box;
   border-radius: 5px;

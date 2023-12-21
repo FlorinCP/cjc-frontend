@@ -2,7 +2,7 @@
     position: relative;
     width: 100%;
     border: 1px solid rgb(213, 213, 213); /* Border color */
-    border-radius: 4px; /* Rounded corners */
+    border-radius: 5px; /* Rounded corners */
     background-color: white;
     color: #444; /* Text color */
     font-size: 16px; /* Font size */
@@ -27,7 +27,7 @@
     position: absolute;
     left: 0;
     right: 0;
-    bottom: 100%;
+    /*bottom: 100%;*/
     border: 1px solid #ccc;
     background: white;
     z-index: 10;

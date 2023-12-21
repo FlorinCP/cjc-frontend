@@ -1,10 +1,10 @@
 import style from "./DayStatusCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
-import { postDayData } from "../../services/day_api";
+import { postDayData, postMultipleDayData } from "../../services/day_api";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 
-function DayStatusCard({ currentSelectionDate }) {
+function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [selectedDay, setSelectedDay] = useState();
   const [selectedStatus, setSelectedStatus] = useState(null);
   const [workingHoursSelect, setWorkingHoursSelect] = useState(8);
@@ -13,9 +13,10 @@ function DayStatusCard({ currentSelectionDate }) {
   const [startHourSelect, setStartHourSelect] = useState(8);
 
   useEffect(() => {
-    console.log(currentSelectionDate);
-  }, [currentSelectionDate]);
-
+    if (multipleSelectionDates) {
+      console.log(multipleSelectionDates);
+    }
+  }, [multipleSelectionDates]);
 
   /**
    * ensures concordance between working hours and so on
@@ -95,7 +96,7 @@ function DayStatusCard({ currentSelectionDate }) {
     return (
       <CustomDropdown
         options={timeOptions}
-        value={currentSelectionDate.startHour || startHourSelect}
+        value={startHourSelect}
         sendSelectedOption={(option) => handleStartHourChange(option)}
       />
     );
@@ -125,7 +126,7 @@ function DayStatusCard({ currentSelectionDate }) {
     return (
       <CustomDropdown
         options={timeOptions}
-        value={currentSelectionDate.endHour || endHourSelect}
+        value={endHourSelect}
         sendSelectedOption={(option) => handleEndHourChange(option)}
       />
     );
@@ -155,7 +156,7 @@ function DayStatusCard({ currentSelectionDate }) {
         <h3> Ore de munca : </h3>
         <CustomDropdown
           options={singleDigitOptions}
-          value={currentSelectionDate.workingHours || workingHoursSelect}
+          value={workingHoursSelect}
           sendSelectedOption={(option) => handleWorkingHoursChange(option)}
         />
       </div>
@@ -175,7 +176,7 @@ function DayStatusCard({ currentSelectionDate }) {
         <CustomDropdown
           placeholder="Neselectat"
           options={optionsDisponibilitate}
-          value={currentSelectionDate.workingStatus || selectedStatus}
+          value={selectedStatus}
           sendSelectedOption={(option) => setSelectedStatus(option)}
         />
       </div>
@@ -187,56 +188,63 @@ function DayStatusCard({ currentSelectionDate }) {
       <div>
         <h3>Program : </h3>
         <div className={style.flexRow}>
-        <StartHours /> <h4>:</h4> <EndHours />
+          <StartHours /> <h4>:</h4> <EndHours />
         </div>
       </div>
     );
   }
 
   const setScheduleForDay = async () => {
-    await postDayData(
-      currentSelectionDate,
-      workingHoursSelect,
-      startHourSelect,
-      endHourSelect,
-      selectedStatus,
-    );
-    setWorkingHoursSelect(8);
-    setStartHourSelect(8);
-    setEndHourSelect(16);
+    if (selectedStatus) {
+      await postMultipleDayData(
+        multipleSelectionDates,
+        workingHoursSelect,
+        startHourSelect,
+        endHourSelect,
+        selectedStatus,
+      );
+      setWorkingHoursSelect(8);
+      setStartHourSelect(8);
+      setEndHourSelect(16);
+    }
   };
 
   return (
-    <div className={style.dateInfo}>
-      <div className={style.buttons}>
-        <p className={style.selectedDay}>
-          <span className="material-symbols-outlined">calendar_today</span>
-          {currentSelectionDate.dayNumber} -{" "}
-          {currentSelectionDate.monthNumber + 1} -{" "}
-          {currentSelectionDate.fullYear}
-        </p>
-        <div className={style.navigation}>
-          <span className="material-symbols-outlined">chevron_left</span>
-          <span className="material-symbols-outlined">chevron_right</span>
-        </div>
-        <ActionButton
-          text={"Salveaza"}
-          onClick={setScheduleForDay}
-          color={"white"}
-          backgroundColor={"#1888ff"}
-          active={true}
-        >
-          <span className="material-symbols-outlined">event_available</span>
-        </ActionButton>
+    <div className={style.dateInfoRow}>
+      <div className={style.selectedDays}>
+        {multipleSelectionDates &&
+          multipleSelectionDates.map((date, index) => (
+            <p className={style.selectedDay}>
+              <span className="material-symbols-outlined">calendar_today</span>
+              {date.dayNumber} - {date.monthNumber + 1} - {date.fullYear}
+            </p>
+          ))}
       </div>
+      <div>
+        <div className={style.buttons}>
+          <div className={style.navigation}>
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </div>
+          <ActionButton
+            text={"Salveaza"}
+            onClick={setScheduleForDay}
+            color={"white"}
+            backgroundColor={"#1888ff"}
+            active={true}
+          >
+            <span className="material-symbols-outlined">event_available</span>
+          </ActionButton>
+        </div>
 
-      <div className={style.settings}>
-        <StatusDropDown />
-        <WorkingHours />
-        <StartEndHours />
+        <div className={style.settings}>
+          <StatusDropDown />
+          <WorkingHours />
+          <StartEndHours />
+        </div>
       </div>
     </div>
   );
 }
 
-export default DayStatusCard;
+export default MultipleDaysStatusCard;

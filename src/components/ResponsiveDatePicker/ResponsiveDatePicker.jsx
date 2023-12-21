@@ -166,30 +166,16 @@ function ResponsiveDatePicker({
       return "pastDay";
     } else if (day.dayNumber === today.getDate()) {
       return "today";
+    } else if(day.workingStatus === "CLOSED") {
+      return "closed";
+    } else if(day.workingStatus === "VACATION") {
+      return "vacation";
+    } else if(day.workingStatus === "WORKING") {
+        return "working";
     } else {
       return "day";
     }
-  }
 
-  /**
-   *  This function is used to set the background color of the days in the calendar based of their working status
-   *
-   * @param workingStatus
-   * @return {string}
-   */
-  function getBackground(workingStatus) {
-    if (workingStatus) {
-      switch (workingStatus) {
-        case "WORKING":
-          return "lime";
-        case "CLOSED":
-          return "red";
-        default:
-          return "white";
-      }
-    } else {
-      return "white";
-    }
   }
 
   /**
@@ -312,7 +298,6 @@ function ResponsiveDatePicker({
                   key={`${r}-${c}`}
                   isSelected={checkSelection(day)}
                   style={getStyle(day)}
-                  backgroundColor={getBackground(day.workingStatus)}
                   onClick={() => onClickHandler(day)}
                   onMouseEnter={() => onMouseEnterHandler(day)}
                 />

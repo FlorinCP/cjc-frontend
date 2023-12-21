@@ -15,82 +15,110 @@ function DayCell({
   const [isHovered, setIsHovered] = useState(false);
   const [isDisabled, setIsDisabled] = useState(style === "pastDay");
 
-  const pastDayStyle = {
-    fontSize: "16px",
+  const divGeneralStyle = {
     height: "100%",
-    borderRadius: "5px",
-    display: "grid",
-    placeItems: "center",
-    color: "white",
-    backgroundColor: "rgb(207, 206, 206)",
-    transition: "0.25s all ease in-out",
-    border: "none",
+    width: "100%",
+    borderRadius: "14px",
+    border: "7px solid ",
+  }
+
+  const divStyle = {
+    ...divGeneralStyle,
+    borderColor: isHovered && !isDisabled ? "#1888ff" : "rgb(241,241,241)",
   };
 
-  const dayStyle = {
-    height: "100%",
-    border: isHovered ? "none" : "3px solid rgb(234,234,234)",
-    borderColor:
-      backgroundColor === "white" ? "rgb(234,234,234)" : backgroundColor,
-    fontSize: "16px",
-    color: isHovered ? "white" : "rgba(15, 63, 101, 0.8)",
-    backgroundColor: isHovered ? "#1888ff" : backgroundColor,
-    borderRadius: "7px",
-    display: "grid",
-    placeItems: "center",
-    cursor: "pointer",
-    transition: "0.25s all ease in-out",
-    fontWeight: "bold",
+  const workingStyle = {
+     ...divGeneralStyle,
+    borderColor: isHovered ? "#1888ff" : "rgb(187,255,189)",
   };
 
-  const selectedDayStyle = {
-    height: "100%",
-    border: "1px solid rgb(213, 213, 213)",
-    fontSize: "16px",
-    color: isHovered ? "white" : "white",
-    backgroundColor: isHovered ? "#1888ff" : "#1888ff",
-    borderRadius: "5px",
-    display: "grid",
-    placeItems: "center",
-    cursor: "pointer",
-    transition: "0.25s all ease in-out",
-    fontWeight: "bold",
+  const closedStyle = {
+    ...divGeneralStyle,
+    borderColor: isHovered ? "#1888ff" : "rgb(255,205,205)",
   };
 
   const todayStyle = {
+    ...divGeneralStyle,
+    borderColor: isHovered ? "#1888ff" : "#b700ff",
+  };
+
+  const selectedDayStyle = {
+    ...divGeneralStyle,
+    borderColor: "#1888ff",
+  };
+
+  const buttonGeneralStyle = {
+    borderRadius: isHovered ? "2px" : "7px",
     height: "100%",
-    fontSize: "16px",
-    border: "3px solid #1888ff",
-    borderRadius: "7px",
-    // outline: "5px solid purple",
-    // outlineOffset: "-5px",
-    color: isHovered ? "white" : "rgba(15, 63, 101, 0.8)",
-    backgroundColor: isHovered ? "#1888ff" : backgroundColor,
-    display: "grid",
-    placeItems: "center",
-    cursor: "pointer",
-    transition: "0.25s all ease in-out",
+    width: "100%",
+    border: "none",
+    fontSize: "18px",
+    cursor: !isDisabled && "pointer",
     fontWeight: "bold",
   };
 
-  function getStyle(style) {
+
+  const buttonStyle = {
+    ...buttonGeneralStyle,
+    backgroundColor:
+        style === "pastDay"
+            ? isHovered && !isDisabled
+                ? "#1888ff"
+                : "rgb(241,241,241)"
+            : isHovered
+                ? "#1888ff"
+                : "white",
+    color: isDisabled ? "#8f8f8f" : "#333",
+  };
+
+  const selectedButtonStyle = {
+    ...buttonGeneralStyle,
+    borderRadius: "2px",
+    backgroundColor: "#1888ff",
+    color:  "white",
+  };
+
+  const closedButtonStyle = {
+    ...buttonGeneralStyle,
+    backgroundColor: isHovered ? "#1888ff" : "rgb(255,205,205)",
+    color: isHovered && !isDisabled ? "white" : "#333",
+  };
+
+  const workingButtonStyle = {
+    ...buttonGeneralStyle,
+    backgroundColor: isHovered ? "#1888ff" : "rgb(187,255,189)",
+    color: isHovered && !isDisabled ? "white" : "#333",
+  };
+
+  function getDivStyle(style) {
     switch (style) {
-      case "pastDay":
-        return pastDayStyle;
       case "selectedDay":
         return selectedDayStyle;
       case "today":
         return todayStyle;
+      case "working":
+        return workingStyle;
+      case "closed":
+        return closedStyle;
       default:
-        return dayStyle;
+        return divStyle;
+    }
+  }
+
+  function getButtonStyle(style) {
+    switch (style) {
+      case "closed":
+        return closedButtonStyle;
+      case "working":
+        return workingButtonStyle;
+      default:
+        return buttonStyle;
     }
   }
 
   return (
-    <button
-      style={isSelected ? selectedDayStyle : getStyle(style)}
-      disabled={isDisabled}
-      aria-disabled={isDisabled}
+    <div
+      style={isSelected ? selectedDayStyle : getDivStyle(style)}
       onMouseEnter={() => {
         setIsHovered(true);
         onMouseEnter();
@@ -100,8 +128,10 @@ function DayCell({
       }}
       onClick={onClick}
     >
-      {value}
-    </button>
+      <button style={isSelected ? selectedButtonStyle : getButtonStyle(style)} disabled={isDisabled}>
+        {value}
+      </button>
+    </div>
   );
 }
 
