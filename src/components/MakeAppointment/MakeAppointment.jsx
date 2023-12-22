@@ -3,12 +3,25 @@ import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
 import React, { useEffect, useState } from "react";
 import { getDatesForMonth } from "../../services/day_api";
 import useDatePicker from "../../hooks/useDatePicker";
+import TimeCollumn from "./TimeCollumn";
+import Column from "./Column";
 
 function MakeAppointment(props) {
   const [currentMonth, setCurrentMonth] = useState();
-  const [monthAvailability, setMonthAvailability] = useState();
-  const { prevMonth, nextMonth, monthName, fullYear, finalDays, today,decimalHoursToTime,getMonthName ,getWeekdayName} =
-    useDatePicker();
+  const [monthAvailability, setMonthAvailability] = useState([]);
+  const {
+    prevMonth,
+    nextMonth,
+    monthName,
+    fullYear,
+    finalDays,
+    today,
+    decimalHoursToTime,
+    getMonthName,
+    getWeekdayName,
+  } = useDatePicker();
+
+  console.log(finalDays)
 
   useEffect(() => {
     if (currentMonth) {
@@ -20,7 +33,13 @@ function MakeAppointment(props) {
     }
   }, [currentMonth]);
 
-  const [currentSelectionDate, setCurrentSelectionDate] = useState();
+  useEffect(() => {
+    if (monthAvailability) {
+      console.log(monthAvailability);
+    }
+  }, [monthAvailability]);
+
+  const [currentSelectionDate, setCurrentSelectionDate] = useState({});
   const [currentWeek, setCurrentWeek] = useState({
     days: null,
     startTime: null,
@@ -32,7 +51,10 @@ function MakeAppointment(props) {
   };
 
   useEffect(() => {
-    if (currentSelectionDate && finalDays) {
+    if (currentSelectionDate && finalDays.length > 0) {
+
+      console.log(finalDays)
+
       finalDays.forEach((row) => {
         return row.forEach((day) => {
           if (
@@ -56,6 +78,8 @@ function MakeAppointment(props) {
           return day.dayNumber === currentSelectionDate.dayNumber;
         });
       });
+
+      console.log(week)
 
       const startTime = Math.min(
         ...week
@@ -87,10 +111,7 @@ function MakeAppointment(props) {
     }
   }, [currentSelectionDate]);
 
-  function capitalizeFirstLetter(string) {
-    if (!string) return string;
-    return string.charAt(0).toUpperCase() + string.slice(1);
-  }
+
 
   return (
     <div className={style.mainContainer}>
@@ -99,40 +120,17 @@ function MakeAppointment(props) {
           sendSelectedDate={(date) => handleSelectedDay(date)}
           sendCurrentMonth={(month) => setCurrentMonth(month)}
           sendMultipleSelectionDates={() => {}}
-          monthData={monthAvailability}
+          monthData={monthAvailability.length > 0 ? monthAvailability : false}
           contextMenuProps={false}
         />
       </div>
 
       {currentWeek.days && (
         <div className={style.calendarWrapper}>
-          <div className={style.column}>
-            <div className={style.headerCell}></div>
-            {currentWeek.days[0].slots.map((slot) => {
-              return (
-                <div className={style.leftcell}>
-                  <p>{decimalHoursToTime(slot)}</p>
-                </div>
-              );
-            })}
-          </div>
-          {currentWeek.days.map((day,index) => {
-            return (
-              <div className={style.column}>
-                <div className={style.headerCell}>
-                  <p>{day.dayNumber}</p>
-                  <p>{capitalizeFirstLetter(getMonthName(day.monthNumber,'ro-RO','long'))}</p>
-                  <p>{capitalizeFirstLetter(getWeekdayName(index,'ro-RO','long'))}</p>
-                </div>
-                {day.slots.map((slot) => {
-                  return (
-                    <div className={style.cell}>
-                      <p>{slot}</p>
-                    </div>
-                  );
-                })}
-              </div>
-            );
+          <TimeCollumn day={currentWeek.days[0]} index={0} />
+
+          {currentWeek.days.map((day, index) => {
+            return <Column day={day} index={index} />;
           })}
         </div>
       )}
