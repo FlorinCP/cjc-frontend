@@ -29,6 +29,12 @@ function Column({ day, index, today ,currentSelectionDate}) {
     return currentSelectionDate && currentSelectionDate.dayNumber === day.dayNumber && currentSelectionDate.monthNumber === day.monthNumber
   }
 
+  console.log(day)
+
+  function isWorkingSlot(slot) {
+    return slot > day.startHour && slot < day.endHour;
+  }
+
   return (
     <div className={style.column}>
       <HeaderCell
@@ -48,6 +54,7 @@ function Column({ day, index, today ,currentSelectionDate}) {
             isDateSelected={isDateSelected(day)}
             isWorkingDay={selectedDayWorkStatus === "WORKING"}
             sendSelectedSlot={() => handleSelectedSlot(slot)}
+            isWorkingSlot={isWorkingSlot(slot)}
           />
         );
       })}

@@ -1,11 +1,22 @@
 import style from "./MakeAppointment.module.css";
 import React from "react";
 
-function Cell({ slot, index, isToday, sendSelectedSlot, isSelected , isWorkingDay , isDateSelected }) {
+function Cell({
+  slot,
+  index,
+  isToday,
+  sendSelectedSlot,
+  isSelected,
+  isWorkingDay,
+  isDateSelected,
+  isWorkingSlot,
+}) {
   const basicStyle = {
     border: "1px solid",
     borderColor: "rgb(238, 238, 238)",
   };
+
+  console.log(isWorkingSlot)
 
   const selectedStyle = {
     // border: "1px solid",
@@ -26,14 +37,15 @@ function Cell({ slot, index, isToday, sendSelectedSlot, isSelected , isWorkingDa
 
   const closedExteriorStyle = {
     ...basicStyle,
-    background:"#ffffff" +
-        "    repeating-linear-gradient(" +
-        "      -45deg," +
-        "      #f7f7f7," +
-        "      #f7f7f7 5px," +
-        "      #ffffff 5px," +
-        "      #ffffff 10px" +
-        "    )",
+    background:
+      "#ffffff" +
+      "    repeating-linear-gradient(" +
+      "      -45deg," +
+      "      #f0f0f0," +
+      "      #f0f0f0 5px," +
+      "      #ffffff 5px," +
+      "      #ffffff 10px" +
+      "    )",
     pointerEvents: "none",
     cursor: "not-allowed",
   };
@@ -58,14 +70,18 @@ function Cell({ slot, index, isToday, sendSelectedSlot, isSelected , isWorkingDa
 
   return (
     <div
-      className={style.cell}
+      className={ isWorkingSlot ? style.cell : style.cellClosed}
       onClick={() => sendSelectedSlot(slot)}
       style={getExteriorStyle()}
     >
-      <div className={style.cellInterior}
-        style={getInteriorStyle()}
-      >
-        <p>{slot}</p>
+      <div className={style.cellInterior} style={getInteriorStyle()}>
+        {slot.appointment === undefined && isWorkingSlot && isWorkingDay && (<div className={style.bar}>
+
+        </div>)}
+
+        {  (!isWorkingSlot && isWorkingDay) || (!isWorkingSlot || !isWorkingDay)  && (<p className={style.closed}>Inchis</p>)}
+        {  (!isWorkingSlot && isWorkingDay)  && (<p className={style.closed}>Indisponibil</p>)}
+
       </div>
     </div>
   );
