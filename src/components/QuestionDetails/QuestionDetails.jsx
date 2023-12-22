@@ -316,7 +316,9 @@ function QuestionDetails() {
 
         {!wasClicked && (
           <div className={style.datePickerWrapper}>
-            <MakeAppointment />
+            <MakeAppointment
+              question={question}
+            />
           </div>
         )}
 
