@@ -130,7 +130,7 @@ function MakeAppointment(props) {
           <TimeCollumn day={currentWeek.days[0]} index={0} />
 
           {currentWeek.days.map((day, index) => {
-            return <Column day={day} index={index} />;
+            return <Column day={day} index={index} today={today} currentSelectionDate={currentSelectionDate} />;
           })}
         </div>
       )}

@@ -12,7 +12,7 @@ function TimeColumn({ day, index }) {
         <div className={style.headerCell}></div>
       {day.slots.map((slot) => {
         return (
-          <div className={style.cell}>
+          <div className={style.timecell}>
             <p>{decimalHoursToTime(slot)}</p>
           </div>
         );

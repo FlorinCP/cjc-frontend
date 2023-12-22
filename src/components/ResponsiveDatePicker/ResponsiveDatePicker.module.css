@@ -6,6 +6,7 @@
     user-select: none;
     display: grid;
     grid-template-rows: 55px 30px calc(100% - 85px);
+    margin-top: 20px;
 }
 
 .header {

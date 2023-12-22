@@ -1,61 +1,139 @@
-.mainContainer{
-    height: 100%;
+.mainContainer {
+  height: 100%;
 }
 
-.datePickerWrapper{
-    height: 500px;
-    border-bottom: 1px solid rgb(238, 238, 238);
-    padding-bottom: 30px;
+.datePickerWrapper {
+  height: 500px;
+  border-bottom: 1px solid rgb(238, 238, 238);
+  padding-bottom: 30px;
 }
 
-.calendarWrapper{
-    margin-top: 20px;
-    width: 100%;
-    display: grid;
-    grid-template-columns: 1fr repeat(7, 2fr);
-    min-height: 1000px;
+.calendarWrapper {
+  margin-top: 20px;
+  width: 100%;
+  display: grid;
+  grid-template-columns: 1fr repeat(7, 2fr);
+  min-height: 1000px;
 }
 
-.column{
-    width: 100%;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: flex-start;
+.column {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: flex-start;
 }
 
-.headerCell{
-    width: 100%;
-    height: 70px;
-    border: 1px solid rgb(238, 238, 238);
-    padding: 10px;
-    box-sizing: border-box;
-    display: flex;
+.headerCell {
+  width: 100%;
+  height: 110px;
+  border: 1px solid rgb(238, 238, 238);
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding: 5px;
+}
+.circle{
+  height: 100%;
+  width: 100%;
+  box-sizing: border-box;
+}
+.headerInteriorCell {
+  width: 100%;
+  height: 100%;
+  background-color: white;
+  box-sizing: border-box;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  padding-left: 15px;
+  border-radius: 10px;
 }
 
-.cell{
-    width: 100%;
-    height: 70px;
-    border: 1px solid rgb(238, 238, 238);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    gap: 10px;
-    cursor: pointer;
-    box-sizing: border-box;
+.dayNumber {
+  font-weight: bold;
+  font-size: 35px;
+  margin: 0;
 }
 
+.monthName {
+  font-size: 14px;
+  margin: 0;
+}
 
-.leftcell{
-    width: 100%;
-    height: 70px;
-    border: 1px solid rgb(238, 238, 238);
-    display: flex;
-    flex-direction: column;
-    align-items: flex-start;
-    justify-content: center;
-    cursor: pointer;
-    padding-left: 20px;
-    box-sizing: border-box;
+.year {
+  font-size: 14px;
+  margin: 0;
+}
+
+.dayOfTheWeek {
+  margin-top: -7px;
+  margin-bottom: -3px;
+  font-size: 14px;
+  font-weight: bold;
+}
+
+.monthYear {
+  display: flex;
+  gap: 5px;
+  height: 21px;
+}
+
+.cell {
+  width: 100%;
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+  box-sizing: border-box;
+  background-color: white;
+  padding: 5px;
+}
+
+.cellInterior {
+  width: 100%;
+  height: 100%;
+  border-top-right-radius: 10px;
+  border-bottom-right-radius: 10px;
+  transition: 0.2s all ease-in-out;
+  padding: 10px;
+  box-sizing: border-box;
+}
+
+.cellInterior:hover {
+  background-color: #1888ff;
+  color: white;
+  transition: 0.2s all ease-in-out;
+}
+
+.timecell {
+  width: 100%;
+  border: 1px solid rgb(238, 238, 238);
+  height: 70px;
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  gap: 10px;
+  cursor: pointer;
+  box-sizing: border-box;
+}
+
+.leftcell {
+  width: 100%;
+  height: 70px;
+  border: 1px solid rgb(238, 238, 238);
+  display: flex;
+  flex-direction: column;
+  align-items: flex-start;
+  justify-content: center;
+  cursor: pointer;
+  padding-left: 20px;
+  box-sizing: border-box;
 }
