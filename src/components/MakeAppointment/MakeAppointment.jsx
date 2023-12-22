@@ -5,23 +5,13 @@ import { getDatesForMonth } from "../../services/day_api";
 import useDatePicker from "../../hooks/useDatePicker";
 import TimeCollumn from "./TimeCollumn";
 import Column from "./Column";
+import ActionButton from "../ActionButton/ActionButton";
+import ContextMenu from "../ContextMenu/ContextMenu";
 
 function MakeAppointment(props) {
   const [currentMonth, setCurrentMonth] = useState();
   const [monthAvailability, setMonthAvailability] = useState([]);
-  const {
-    prevMonth,
-    nextMonth,
-    monthName,
-    fullYear,
-    finalDays,
-    today,
-    decimalHoursToTime,
-    getMonthName,
-    getWeekdayName,
-  } = useDatePicker();
-
-  console.log(finalDays)
+  const { finalDays, today } = useDatePicker();
 
   useEffect(() => {
     if (currentMonth) {
@@ -32,12 +22,6 @@ function MakeAppointment(props) {
       fetchData().then((r) => setMonthAvailability(r));
     }
   }, [currentMonth]);
-
-  useEffect(() => {
-    if (monthAvailability) {
-      console.log(monthAvailability);
-    }
-  }, [monthAvailability]);
 
   const [currentSelectionDate, setCurrentSelectionDate] = useState({});
   const [currentWeek, setCurrentWeek] = useState({
@@ -52,9 +36,6 @@ function MakeAppointment(props) {
 
   useEffect(() => {
     if (currentSelectionDate && finalDays.length > 0) {
-
-      console.log(finalDays)
-
       finalDays.forEach((row) => {
         return row.forEach((day) => {
           if (
@@ -79,8 +60,6 @@ function MakeAppointment(props) {
         });
       });
 
-      console.log(week)
-
       const startTime = Math.min(
         ...week
           .map((day) => day.startHour)
@@ -101,8 +80,6 @@ function MakeAppointment(props) {
         day.slots = slots;
       });
 
-      console.log(week);
-
       setCurrentWeek({
         days: week,
         startTime: startTime,
@@ -111,10 +88,63 @@ function MakeAppointment(props) {
     }
   }, [currentSelectionDate]);
 
+  const [globalSelectedSlot, setGlobalSelectedSlot] = useState({
+    slot: null,
+    day: null,
+  });
 
+  function handleGlobalSelectedSlot(slot) {
+    if (globalSelectedSlot.slot === slot.slot) {
+      setGlobalSelectedSlot({ slot: null, day: null });
+    } else {
+      setGlobalSelectedSlot({ slot: slot.slot, day: slot.day });
+    }
+  }
+
+  const { getMonthName, getWeekdayName  } = useDatePicker();
+
+
+  const [contextMenu, setContextMenu] = useState({
+    visible: false,
+    x: 0,
+    y: 0,
+  });
+
+  const handleRightClick = (event) => {
+    event.preventDefault();
+    setContextMenu({
+      visible: true,
+      x: event.clientX,
+      y: event.clientY,
+    });
+  };
+
+  /**
+   * contextMenu actions
+   *
+   */
+  const menuItems = [
+    {
+      label: "Programeaza-te",
+      icon: "schedule",
+      onClick: () => alert("First action clicked"),
+    },
+    {
+      label: "Selectie multipla",
+      icon: "playlist_add",
+      onClick: () => {
+        console.log("Second action clicked")
+      },
+    },
+  ];
+
+  function sendAppointment() {}
 
   return (
-    <div className={style.mainContainer}>
+    <div className={style.mainContainer}
+         onContextMenu={handleRightClick}
+         onClick={() => setContextMenu({ visible: false, x: 0, y: 0 })}
+    >
       <div className={style.datePickerWrapper}>
         <ResponsiveDatePicker
           sendSelectedDate={(date) => handleSelectedDay(date)}
@@ -125,15 +155,65 @@ function MakeAppointment(props) {
         />
       </div>
 
+      {currentSelectionDate && (
+        <div className={style.makeAppointment}>
+          <h2 className={style.titlu}>Adauga o programare</h2>
+          <div className={style.dayInfo}>
+            <p> Selecteaza un spatiu disponibil din calendar.</p>
+            {globalSelectedSlot.slot && (
+              <div>
+                <p> Ziua : {globalSelectedSlot.day.dayNumber} {getMonthName(globalSelectedSlot.day.monthNumber,'ro-RO',"long")} {globalSelectedSlot.day.fullYear} </p>
+              </div>
+            )}
+          </div>
+          <div>
+            <ActionButton
+              text={"Confirma"}
+              color={"white"}
+              active={true}
+              backgroundColor={"#1888ff"}
+              onClick={() => {
+                sendAppointment();
+              }}
+            >
+              <span className="material-symbols-outlined">task_alt</span>
+            </ActionButton>
+          </div>
+        </div>
+      )}
+
       {currentWeek.days && (
         <div className={style.calendarWrapper}>
-          <TimeCollumn day={currentWeek.days[0]} index={0} />
+          <TimeCollumn day={currentWeek.days[0]} />
 
           {currentWeek.days.map((day, index) => {
-            return <Column day={day} index={index} today={today} currentSelectionDate={currentSelectionDate} />;
+            return (
+              <Column
+                key={index}
+                day={day}
+                index={index}
+                today={today}
+                globalSelectedSlot={globalSelectedSlot}
+                currentSelectionDate={currentSelectionDate}
+                sendSelectedSlot={(slot) => {
+                  handleGlobalSelectedSlot(slot);
+                }}
+              />
+            );
           })}
         </div>
       )}
+
+
+      {globalSelectedSlot && contextMenu.visible && (
+          <ContextMenu
+              items={menuItems}
+              top={contextMenu.y}
+              left={contextMenu.x}
+          />
+      )}
+
+
     </div>
   );
 }

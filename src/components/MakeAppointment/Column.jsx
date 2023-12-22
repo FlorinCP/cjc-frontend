@@ -1,23 +1,32 @@
 import style from "./MakeAppointment.module.css";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import HeaderCell from "./HeaderCell";
 import Cell from "./Cell";
 
-function Column({ day, index, today ,currentSelectionDate}) {
-  const [selectedSlot, setSelectedSlot] = useState(null);
-  const [selectedDayWorkStatus, setSelectedDayWorkStatus] = useState(day.workingStatus);
-
-  console.log(selectedDayWorkStatus)
-
-  console.log(currentSelectionDate)
+function Column({
+  globalSelectedSlot,
+  day,
+  index,
+  today,
+  currentSelectionDate,
+  sendSelectedSlot,
+}) {
+  const [selectedSlot, setSelectedSlot] = useState({ slot: null, day: day });
+  const [selectedDayWorkStatus, setSelectedDayWorkStatus] = useState(
+    day.workingStatus,
+  );
 
   const handleSelectedSlot = (slot) => {
-    if (selectedSlot === slot) {
-      setSelectedSlot(null);
+    if (selectedSlot.slot === slot) {
+      setSelectedSlot({ slot: null, day: day });
     } else {
-      setSelectedSlot(slot);
+      setSelectedSlot({ slot: slot, day: day });
     }
   };
+
+  useEffect(() => {
+    sendSelectedSlot(selectedSlot);
+  }, [selectedSlot]);
 
   function isToday(day) {
     return (
@@ -26,10 +35,12 @@ function Column({ day, index, today ,currentSelectionDate}) {
   }
 
   function isDateSelected(day) {
-    return currentSelectionDate && currentSelectionDate.dayNumber === day.dayNumber && currentSelectionDate.monthNumber === day.monthNumber
+    return (
+      currentSelectionDate &&
+      currentSelectionDate.dayNumber === day.dayNumber &&
+      currentSelectionDate.monthNumber === day.monthNumber
+    );
   }
-
-  console.log(day)
 
   function isWorkingSlot(slot) {
     return slot > day.startHour && slot < day.endHour;
@@ -38,19 +49,19 @@ function Column({ day, index, today ,currentSelectionDate}) {
   return (
     <div className={style.column}>
       <HeaderCell
-          day={day}
-          index={index}
-          isToday={isToday(day)}
-          isDateSelected={isDateSelected(day)}
-          isWorkingDay={selectedDayWorkStatus === "WORKING"}
+        day={day}
+        index={index}
+        isToday={isToday(day)}
+        isDateSelected={isDateSelected(day)}
+        isWorkingDay={selectedDayWorkStatus === "WORKING"}
       />
-      {day.slots.map((slot) => {
+      {day.slots.map((slot, index) => {
         return (
           <Cell
             isToday={isToday(day)}
             slot={slot}
-            index={index}
-            isSelected={selectedSlot === slot}
+            key={index}
+            isSelected={globalSelectedSlot.slot === slot && globalSelectedSlot.day === day}
             isDateSelected={isDateSelected(day)}
             isWorkingDay={selectedDayWorkStatus === "WORKING"}
             sendSelectedSlot={() => handleSelectedSlot(slot)}

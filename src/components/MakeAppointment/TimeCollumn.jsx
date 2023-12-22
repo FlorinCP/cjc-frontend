@@ -10,9 +10,9 @@ function TimeColumn({ day, index }) {
   return (
     <div className={style.column}>
         <div className={style.headerCell}></div>
-      {day.slots.map((slot) => {
+      {day.slots.map((slot,index) => {
         return (
-          <div className={style.timecell}>
+          <div className={style.timecell} key={index}>
             <p>{decimalHoursToTime(slot)}</p>
           </div>
         );

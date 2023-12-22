@@ -214,6 +214,7 @@ function QuestionDetails() {
               <ActionButton
                 text={"Refuza"}
                 color={"white"}
+                active={updatedStatus !== "ACCEPTED"}
                 backgroundColor={"rgb(238, 49, 88)"}
                 onClick={() => {
                   setUpdatedStatus("REJECTED");
@@ -222,6 +223,7 @@ function QuestionDetails() {
               <ActionButton
                 text={" Accepta"}
                 color={"white"}
+                active={true}
                 backgroundColor={"#18c52f"}
                 onClick={() => {
                   setUpdatedStatus("ACCEPTED");

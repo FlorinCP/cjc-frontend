@@ -12,10 +12,6 @@ function ResponsiveDatePicker({
   contextMenuProps = true,
 }) {
 
-
-  console.log(monthData)
-
-
   //  Props
 
   /**

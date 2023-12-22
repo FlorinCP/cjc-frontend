@@ -16,12 +16,12 @@ function Cell({
     borderColor: "rgb(238, 238, 238)",
   };
 
-  console.log(isWorkingSlot)
-
   const selectedStyle = {
-    // border: "1px solid",
-    // borderColor: "#1c79b8",
-    backgroundColor: "white",
+    backgroundColor: "#a1d0ff",
+  };
+
+  const selectedBar = {
+    backgroundColor: "#1888FF",
   };
 
   const todayStyle = {
@@ -50,9 +50,17 @@ function Cell({
     cursor: "not-allowed",
   };
 
+  function getBarStyle() {
+    if (isSelected) {
+      return selectedBar;
+    }
+  }
+
   function getInteriorStyle() {
     if (!isWorkingDay) {
       return closedStyle;
+    } else if (isSelected) {
+      return selectedStyle;
     }
   }
 
@@ -61,8 +69,6 @@ function Cell({
       return closedExteriorStyle;
     } else if (isToday || isDateSelected) {
       return todayStyle;
-    } else if (isSelected) {
-      return selectedStyle;
     } else {
       return basicStyle;
     }
@@ -70,18 +76,22 @@ function Cell({
 
   return (
     <div
-      className={ isWorkingSlot ? style.cell : style.cellClosed}
+      className={isWorkingSlot ? style.cell : style.cellClosed}
       onClick={() => sendSelectedSlot(slot)}
       style={getExteriorStyle()}
     >
       <div className={style.cellInterior} style={getInteriorStyle()}>
-        {slot.appointment === undefined && isWorkingSlot && isWorkingDay && (<div className={style.bar}>
+        {slot.appointment === undefined && isWorkingSlot && isWorkingDay && (
+          <div className={style.bar} style={getBarStyle()}></div>
+        )}
 
-        </div>)}
-
-        {  (!isWorkingSlot && isWorkingDay) || (!isWorkingSlot || !isWorkingDay)  && (<p className={style.closed}>Inchis</p>)}
-        {  (!isWorkingSlot && isWorkingDay)  && (<p className={style.closed}>Indisponibil</p>)}
-
+        {(!isWorkingSlot && isWorkingDay) ||
+          ((!isWorkingSlot || !isWorkingDay) && (
+            <p className={style.closed}>Inchis</p>
+          ))}
+        {!isWorkingSlot && isWorkingDay && (
+          <p className={style.closed}>Indisponibil</p>
+        )}
       </div>
     </div>
   );

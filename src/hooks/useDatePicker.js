@@ -97,8 +97,6 @@ const useDatePicker = () => {
 
   useEffect(() => {
 
-    console.log(today)
-
     setMonthNumber(today.getMonth());
     setFullYear(today.getFullYear());
     setMonthname(today.toLocaleString(lang, { month: "long" }));
