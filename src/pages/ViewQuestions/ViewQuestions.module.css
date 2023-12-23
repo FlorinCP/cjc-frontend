@@ -10,9 +10,9 @@
   width: 100%;
   display: grid;
   grid-template-columns: 33% 33% 33%;
-  background-color: rgba(28, 121, 184, 0.015);
   font-weight: 500;
   font-family: "Roboto", sans-serif;
+  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
 }
 
 .title{
@@ -21,7 +21,6 @@
 }
 
 .header:hover {
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.3);
   background-color: white;
 }
 

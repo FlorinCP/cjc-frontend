@@ -3,10 +3,8 @@ import { useDispatch, useSelector } from "react-redux";
 import { selectQuestionById } from "../../selectors/questionSelectors";
 import { useParams } from "react-router-dom";
 import ActionButton from "../ActionButton/ActionButton";
-import PDFViewer from "../PDFViewer/PDFViewer";
 import React, { useEffect, useState } from "react";
 import { mapToObject, updateStatus } from "../../services/question_api";
-import { fetchPdfData } from "../../services/file_api";
 import {
   getRepliesByQuestionId,
   updateQuestionReplies,
@@ -16,6 +14,10 @@ import { sendReply } from "../../services/reply_api";
 import Reply from "../Reply/Reply";
 import FilesWrapper from "../FilesWrapper/FilesWrapper";
 import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
+import Header from "../../Layouts/SideBar/Header";
+import QuestionCardHeaderDetailed from "../QuestionCard/QuestionCardHeaderDetailed";
+import QuestionCardBody from "../QuestionCard/QuestionCardBody";
+import QuestionCardFooter from "../QuestionCard/QuestionCardFooter";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -36,11 +38,7 @@ function QuestionDetails() {
     dispatch(getRepliesByQuestionId(questionId));
   }, []);
 
-  const expand = () => {
-    if (question.fileNumber > 0) {
-      setIsExpanded((prevState) => !prevState);
-    }
-  };
+
 
   const handleFileChange = (e) => {
     const filesArray = Array.from(e.target.files);
@@ -98,170 +96,27 @@ function QuestionDetails() {
     setReplyFiles(null);
   };
 
-  function Header() {
-    return (
-      <div className={style.header}>
-        <p>Vizualizare Detaliata</p>
-      </div>
-    );
-  }
-
-  function getICon(status) {
-    if (status === "ACCEPTED") {
-      return <span className="material-symbols-outlined">check</span>;
-    } else if (status === "REJECTED") {
-      return <span className="material-symbols-outlined">close</span>;
-    } else {
-      return <span className="material-symbols-outlined">hourglass_top</span>;
-    }
-  }
-
-  function getColor(status) {
-    switch (status) {
-    }
-    if (status === "ACCEPTED") {
-      return "#18c52f";
-    } else if (status === "REJECTED") {
-      return "rgb(238, 49, 88)";
-    } else {
-      return "black";
-    }
-  }
-
-  function openScheduleModal() {
-    setWasClicked((prevState) => !prevState);
-  }
-
   function handleSelectedDays(date) {
     
   }
 
   return (
     <div className={style.mainContainer}>
-      <Header />
+      <Header title={"Vizualizare Detaliata"} />
       <div className={style.questionWrapper}>
-        <div className={style.author}>
-          <div className={style.name}>
-            <span className="material-symbols-outlined">person</span>
-            <h4>
-              {question.nume} {question.prenume}{" "}
-            </h4>
-          </div>
-          <div className={style.name}>
-            <span className="material-symbols-outlined">call</span>
-            <h4>{question.phone}</h4>
-          </div>
 
-          <div className={style.name}>
-            <span className="material-symbols-outlined">mail</span>
-            <h4>{question.email}</h4>
-          </div>
+        <QuestionCardHeaderDetailed question={question}  updatedStatus={updatedStatus}/>
 
-          <div className={style.name}>
-            <span className="material-symbols-outlined">schedule</span>
-            <h4>{question.elapsedTime} in urma</h4>
-          </div>
+        <QuestionCardBody question={question} />
 
-          <div
-            className={style.name}
-            style={{
-              color: getColor(updatedStatus ? updatedStatus : question.status),
-            }}
-          >
-            {getICon(updatedStatus ? updatedStatus : question.status)}
-            <h4>{updatedStatus ? updatedStatus : question.status}</h4>
-          </div>
-        </div>
-
-        <div className={style.titleAndText}>
-          <div className={style.questionTitle}>
-            <div className={style.title}>{question.questionTitle}</div>
-          </div>
-
-          <div className={style.questionText}>{question.questionText}</div>
-        </div>
-
-        <div className={style.filesInfoAndButtons}>
-          <div className={style.name} onClick={expand}>
-            <span className="material-symbols-outlined">draft</span>
-            <h4>{question.fileNumber} fisiere</h4>
-          </div>
-
-          <div className={style.expand} onClick={expand}>
-            {isExpanded ? (
-              <span className="material-symbols-outlined">expand_less</span>
-            ) : (
-              <span className="material-symbols-outlined">expand_more</span>
-            )}
-          </div>
-
-          {question.status === "ACCEPTED" && role === "REGISTERED" && (
-            <div>
-              <ActionButton
-                text={"Programeaza-te"}
-                color={"white"}
-                backgroundColor={"#1c79b8"}
-                active={wasClicked}
-                onClick={() => {
-                  openScheduleModal();
-                }}
-              >
-                <span className="material-symbols-outlined">event</span>
-              </ActionButton>
-            </div>
-          )}
-
-          {question.status === "WAITING" && role === "ADMIN" && (
-            <div>
-              <ActionButton
-                text={"Refuza"}
-                color={"white"}
-                backgroundColor={"rgb(238, 49, 88)"}
-                onClick={() => {
-                  setUpdatedStatus("REJECTED");
-                }}
-              />
-              <ActionButton
-                text={" Accepta"}
-                color={"white"}
-                backgroundColor={"#18c52f"}
-                onClick={() => {
-                  setUpdatedStatus("ACCEPTED");
-                }}
-              />
-            </div>
-          )}
-
-          {(question.status === "ACCEPTED" || question.status === "REJECTED") &&
-            role === "ADMIN" && (
-              <div>
-                <ActionButton
-                  text={"Termina"}
-                  color={"white"}
-                  active={true}
-                  backgroundColor={"#1c79b8"}
-                  onClick={() => {
-                    setUpdatedStatus("DONE");
-                  }}
-                >
-                  <span className="material-symbols-outlined">verified</span>
-                </ActionButton>
-              </div>
-            )}
-
-          {question.status === "REJECTED" && role === "ADMIN" && (
-            <div>
-              <ActionButton
-                text={" Accepta"}
-                color={"white"}
-                backgroundColor={"#18c52f"}
-                onClick={() => {
-                  setUpdatedStatus("ACCEPTED");
-                }}
-              />
-            </div>
-          )}
-        </div>
+        <QuestionCardFooter
+            question={question}
+            sendIsExpanded={(value) => setIsExpanded(value)}
+            wasClicked={wasClicked}
+            sendWasCliked={()=>setWasClicked(prevState => !prevState)}
+            sendUpdatedStatus={(value) => setUpdatedStatus(value)}
+            isDetailed={true}
+        />
 
         {isExpanded && (
           <FilesWrapper
