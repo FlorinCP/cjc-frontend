@@ -1,18 +1,10 @@
-import React, { useContext, useEffect, useState } from "react";
+import React from "react";
 import style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
-import { useLogout } from "../../hooks/useLogout";
-import {useSelector} from "react-redux";
 function SideBar(props) {
-  const logut = useLogout();
 
-  const currentUser = useSelector((state) => state.token)
-
-  const logout = () => {
-    logut();
-  };
 
   const requestItems = [
     {
@@ -82,15 +74,7 @@ function SideBar(props) {
         />
       </div>
 
-      <div className={style.bottom}>
-        <div className={style.holly}>
-          <span className="material-symbols-outlined">account_circle</span>{" "}
-          {currentUser.email}
-        </div>
-        <span className="material-symbols-outlined" onClick={logout}>
-          logout
-        </span>
-      </div>
+
     </div>
   );
 }

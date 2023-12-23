@@ -3,6 +3,8 @@ import style from "./LoginRegister.module.css";
 import { registerUser } from "../../services/user_api";
 import {useSelector} from "react-redux";
 import useRegister from "../../hooks/useRegister";
+import ActionButton from "../ActionButton/ActionButton";
+import {useNavigate} from "react-router-dom";
 
 function RegisterForm(props) {
   const islogged = useSelector((state) => state.token.token)
@@ -25,6 +27,8 @@ function RegisterForm(props) {
     e.preventDefault();
     await register(userRegisterData)
   }
+
+  const navigate = useNavigate();
 
   return (
     <div className={style.wrapper}>
@@ -82,10 +86,21 @@ function RegisterForm(props) {
           </div>
         </>
       ) : (
-        <div className={style.succesfullRegister}>
-          <h2>INREGISTRARE REUSITA !</h2>
-          <img src="/succes.svg" alt="" />
-        </div>
+          <div className={style.succesfullRegister}>
+            <img src="/succes.svg" alt="" />
+            <h2>INREGISTRARE REUSITA !</h2>
+            <ActionButton
+                active={true}
+                color={"white"}
+                backgroundColor={"rgb(238,49,88)"}
+                text={"Inainte"}
+                onClick={() => {
+                  navigate("/questions/status/accepted")
+                }}
+            >
+              <span className="material-symbols-outlined">check_circle</span>
+            </ActionButton>
+          </div>
       )}
     </div>
   );

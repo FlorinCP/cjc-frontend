@@ -12,6 +12,8 @@
     padding: 5px 10px;
     box-sizing: border-box;
     background-color: white;
+    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+
 }
 
 .pageIndex{
@@ -210,6 +212,7 @@ input:checked + .slider:before {
 
 .wrapper {
     width: 20vw;
+
 }
 
 .succesfullRegister {
@@ -218,6 +221,7 @@ input:checked + .slider:before {
     align-items: center;
     flex-direction: column;
     gap: 30px;
+    padding: 30px;
 }
 
 .succesfullRegister > img {
