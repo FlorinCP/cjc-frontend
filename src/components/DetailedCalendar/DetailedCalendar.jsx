@@ -19,10 +19,13 @@ function DetailedCalendar({
 
   const handleRightClick = (event) => {
     event.preventDefault();
+
+    console.log(event.clientX , event.clientY )
+
     setContextMenu({
       visible: true,
-      x: event.clientX,
-      y: event.clientY,
+      x: event.clientX ,
+      y: event.clientY ,
     });
   };
 
@@ -68,7 +71,7 @@ function DetailedCalendar({
         );
       })}
 
-      {globalSelectedSlot && contextMenu.visible && (
+      {globalSelectedSlot.slot && contextMenu.visible && (
         <ContextMenu
           items={menuItems}
           top={contextMenu.y}

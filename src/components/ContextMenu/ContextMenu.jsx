@@ -14,7 +14,7 @@ function ContextMenu({ items, top, left }) {
     return (
         <div
             style={{
-                position: "absolute",
+                position: "fixed",
                 top: `${top}px`,
                 left: `${left}px`,
             }}
