@@ -8,6 +8,7 @@ import sharedDisplayedWeekReducer from '../features/sharedDisplayedWeekSlice'
 import todayReducer from "../features/todaySlice";
 import sharedSelectedDayReducer from "../features/sharedSelectedDay";
 import tokenReducer from '../features/tokenSlice';
+import monthDaysReducer from '../features/monthDaysSlice';
 import quesstionReducer from "../features/questionsSlice";
 import { jwtDecode } from "jwt-decode";
 
@@ -62,6 +63,7 @@ const persistedReducers = combineReducers({
     sharedDisplayedWeek: sharedDisplayedWeekReducer,
     sharedToday: todayReducer,
     sharedSelectedDay:  sharedSelectedDayReducer,
+    monthDays: monthDaysReducer,
     today : todayReducer,
     token: persistReducer(tokenConfig, tokenReducer),
     questions: persistReducer(questionConfig,quesstionReducer) ,

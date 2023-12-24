@@ -114,6 +114,7 @@ const questionsSlice = createSlice({
     // Reducers must be pure functions without side effects. Retrieving data doesn't change the state; it's a read operation, not a write operation.
     updateQuestionStatus: (state, action) => {
       const { questionId, status } = action.payload;
+      console.log(state.questions)
       const index = state.questions.findIndex(
         (question) => question.id === questionId,
       );
@@ -140,6 +141,7 @@ const questionsSlice = createSlice({
       state.loading = true;
     },
     [fetchQuestions.fulfilled]: (state, action) => {
+      console.log(state.questions)
       state.loading = false;
       state.questions = action.payload;
     },

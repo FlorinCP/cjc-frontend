@@ -143,7 +143,7 @@ const useDatePicker = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (today instanceof Date) {
+    if (today === new Date()) {
       const day = {
         monthNumber: today.getMonth(),
         year: today.getFullYear(),

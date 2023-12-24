@@ -3,6 +3,8 @@ import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
 import { postDayData } from "../../services/day_api";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
+import { useDispatch, useSelector } from "react-redux";
+import { updateMonthDay } from "../../features/monthDaysSlice";
 
 function DayStatusCard({ currentSelectionDate }) {
   const [selectedDay, setSelectedDay] = useState();
@@ -16,6 +18,7 @@ function DayStatusCard({ currentSelectionDate }) {
     console.log(currentSelectionDate);
   }, [currentSelectionDate]);
 
+  const dispatch = useDispatch();
 
   /**
    * ensures concordance between working hours and so on
@@ -187,11 +190,13 @@ function DayStatusCard({ currentSelectionDate }) {
       <div>
         <h3>Program : </h3>
         <div className={style.flexRow}>
-        <StartHours /> <h4>:</h4> <EndHours />
+          <StartHours /> <h4>:</h4> <EndHours />
         </div>
       </div>
     );
   }
+
+  const monthDays = useSelector((state) => state.monthDays.monthDays);
 
   const setScheduleForDay = async () => {
     await postDayData(
@@ -200,10 +205,52 @@ function DayStatusCard({ currentSelectionDate }) {
       startHourSelect,
       endHourSelect,
       selectedStatus,
+    ).then(() => {
+      setWorkingHoursSelect(8);
+      setStartHourSelect(8);
+      setEndHourSelect(16);
+    });
+
+    console.log(monthDays)
+
+    const copy = JSON.parse(JSON.stringify(monthDays));
+
+    const weekIndex = monthDays.findIndex((week) =>
+      week.some(
+        (day) =>
+          day.dayNumber === currentSelectionDate.dayNumber &&
+          day.monthNumber === currentSelectionDate.monthNumber &&
+          day.fullYear === currentSelectionDate.fullYear,
+      ),
     );
-    setWorkingHoursSelect(8);
-    setStartHourSelect(8);
-    setEndHourSelect(16);
+
+    if (weekIndex === -1) {
+      // If the week wasn't found, log an error or handle as needed
+      console.error("Week not found");
+      return;
+    }
+
+    // Find the index of the day within the found week
+    const dayIndex = monthDays[weekIndex].findIndex(
+      (day) =>
+        day.dayNumber === currentSelectionDate.dayNumber &&
+        day.monthNumber === currentSelectionDate.monthNumber &&
+        day.fullYear === currentSelectionDate.fullYear,
+    );
+
+    copy[weekIndex][dayIndex] = {
+      dayNumber: currentSelectionDate.dayNumber,
+      monthNumber: currentSelectionDate.monthNumber,
+      fullYear: currentSelectionDate.fullYear,
+      workingStatus: selectedStatus,
+      workingHours: workingHoursSelect,
+      startHour: startHourSelect,
+      endHour: endHourSelect,
+    };
+
+    console.log(monthDays)
+
+    dispatch(updateMonthDay(copy));
   };
 
   return (

@@ -3,8 +3,9 @@ import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
 import useDatePicker from "../../hooks/useDatePicker";
 import ContextMenu from "../ContextMenu/ContextMenu";
-import {useSelector} from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 import {getDatesForMonth} from "../../services/day_api";
+import {setMonthDays} from "../../features/monthDaysSlice";
 
 function ResponsiveDatePicker({
   sendSelectedDate,
@@ -34,8 +35,22 @@ function ResponsiveDatePicker({
 
 
   const today = useSelector((state) => state.today.today);
+  const dispatch = useDispatch();
 
-  const [fetchedData, setFetchedData] = useState([]);
+  /**
+   * This redux state is used to display the days in the calendar
+   * It is an array of arrays of objects
+   * Each array of objects represents a row of days
+   * Each object represents a day
+   * Each object has the following properties:
+   * - dayNumber: the number of the day
+   * - monthNumber: the number of the month
+   * - year: the year
+   *
+   */
+  const monthDays = useSelector((state) => state.monthDays.monthDays);
+
+  const [fetchedData, setFetchedData] = useState(null);
 
   /**
    * This state is used to store the selected day
@@ -75,18 +90,6 @@ function ResponsiveDatePicker({
   const { prevMonth, nextMonth, monthName, fullYear, finalDays } =
     useDatePicker();
 
-  /**
-   * This state is used to display the days in the calendar
-   * It is an array of arrays of objects
-   * Each array of objects represents a row of days
-   * Each object represents a day
-   * Each object has the following properties:
-   * - dayNumber: the number of the day
-   * - monthNumber: the number of the month
-   * - year: the year
-   *
-   */
-  const [displayDays, setDisplayDays] = useState([]);
 
   // Functions
 
@@ -116,7 +119,7 @@ function ResponsiveDatePicker({
       });
     });
 
-    setDisplayDays(finalDays);
+    dispatch(setMonthDays(finalDays));
   }
 
   //  useEffects
@@ -304,8 +307,8 @@ function ResponsiveDatePicker({
       </div>
 
       <div className={style.daysGrid}>
-        {displayDays &&
-          displayDays.map((row, r) => {
+        {monthDays.length > 0 &&
+          monthDays.map((row, r) => {
             return row.map((day, c) => {
               return (
                 <DayCell
