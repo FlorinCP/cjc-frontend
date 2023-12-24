@@ -71,7 +71,7 @@ function QuestionDetails() {
           </div>
         )}
 
-        {(question.replyNumber > 0 || question.replies.length > 0) && (
+        {(question.replyNumber > 0 || (question.replies && question.replies.length > 0)) && (
           <RepliesWrapper question={question} />
         )}
 

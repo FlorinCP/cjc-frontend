@@ -199,6 +199,7 @@ function DayStatusCard({ currentSelectionDate }) {
   const monthDays = useSelector((state) => state.monthDays.monthDays);
 
   const setScheduleForDay = async () => {
+
     await postDayData(
       currentSelectionDate,
       workingHoursSelect,
@@ -211,34 +212,7 @@ function DayStatusCard({ currentSelectionDate }) {
       setEndHourSelect(16);
     });
 
-    console.log(monthDays)
-
-    const copy = JSON.parse(JSON.stringify(monthDays));
-
-    const weekIndex = monthDays.findIndex((week) =>
-      week.some(
-        (day) =>
-          day.dayNumber === currentSelectionDate.dayNumber &&
-          day.monthNumber === currentSelectionDate.monthNumber &&
-          day.fullYear === currentSelectionDate.fullYear,
-      ),
-    );
-
-    if (weekIndex === -1) {
-      // If the week wasn't found, log an error or handle as needed
-      console.error("Week not found");
-      return;
-    }
-
-    // Find the index of the day within the found week
-    const dayIndex = monthDays[weekIndex].findIndex(
-      (day) =>
-        day.dayNumber === currentSelectionDate.dayNumber &&
-        day.monthNumber === currentSelectionDate.monthNumber &&
-        day.fullYear === currentSelectionDate.fullYear,
-    );
-
-    copy[weekIndex][dayIndex] = {
+    const datToBeUpdated = {
       dayNumber: currentSelectionDate.dayNumber,
       monthNumber: currentSelectionDate.monthNumber,
       fullYear: currentSelectionDate.fullYear,
@@ -248,9 +222,7 @@ function DayStatusCard({ currentSelectionDate }) {
       endHour: endHourSelect,
     };
 
-    console.log(monthDays)
-
-    dispatch(updateMonthDay(copy));
+    dispatch(updateMonthDay(datToBeUpdated));
   };
 
   return (
