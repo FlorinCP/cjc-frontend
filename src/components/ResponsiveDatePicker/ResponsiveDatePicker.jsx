@@ -9,7 +9,9 @@ function ResponsiveDatePicker({
   sendCurrentMonth,
   sendMultipleSelectionDates,
   monthData,
+  contextMenuProps = true,
 }) {
+
   //  Props
 
   /**
@@ -99,8 +101,8 @@ function ResponsiveDatePicker({
           )
         ) {
           const receivedDay = monthData.find(
-              (receivedDay) => receivedDay.dayNumber === day.dayNumber,
-          )
+            (receivedDay) => receivedDay.dayNumber === day.dayNumber,
+          );
           day.workingStatus = receivedDay?.workingStatus;
           day.workingHours = receivedDay?.workingHours;
           day.startHour = receivedDay?.startHour;
@@ -134,7 +136,6 @@ function ResponsiveDatePicker({
     sendCurrentMonth(today.getMonth());
   }, [today]);
 
-
   /**
    *  This useEffect is used to send the selected day to the parent component at every selectedDay change
    *
@@ -143,7 +144,6 @@ function ResponsiveDatePicker({
     sendSelectedDateToParent(selectedDay);
   }, [selectedDay]);
 
-
   /**
    *  This useEffect is used to send the selected days to the parent component at every multipleSelectionDates change
    *
@@ -151,7 +151,6 @@ function ResponsiveDatePicker({
   useEffect(() => {
     sendMultipleSelectionDatesToParent(multipleSelectionDates);
   }, [multipleSelectionDates]);
-
 
   //  Style functions
 
@@ -166,16 +165,15 @@ function ResponsiveDatePicker({
       return "pastDay";
     } else if (day.dayNumber === today.getDate()) {
       return "today";
-    } else if(day.workingStatus === "CLOSED") {
+    } else if (day.workingStatus === "CLOSED") {
       return "closed";
-    } else if(day.workingStatus === "VACATION") {
+    } else if (day.workingStatus === "VACATION") {
       return "vacation";
-    } else if(day.workingStatus === "WORKING") {
-        return "working";
+    } else if (day.workingStatus === "WORKING") {
+      return "working";
     } else {
       return "day";
     }
-
   }
 
   /**
@@ -217,9 +215,11 @@ function ResponsiveDatePicker({
   function onMouseEnterHandler(day) {
     if (allowMultipleSelection) {
       if (!multipleSelectionDates.includes(day)) {
-        setMultipleSelectionDates((prevState) => [...prevState, day])
+        setMultipleSelectionDates((prevState) => [...prevState, day]);
       } else {
-        setMultipleSelectionDates((prevState) => prevState.slice(0, prevState.indexOf(day) + 1))
+        setMultipleSelectionDates((prevState) =>
+          prevState.slice(0, prevState.indexOf(day) + 1),
+        );
       }
     }
   }
@@ -254,7 +254,7 @@ function ResponsiveDatePicker({
       onClick: () => {
         setAllowMultipleSelection(true);
         setMultipleSelectionDates([selectedDay]);
-        setSelectedDay(null)
+        setSelectedDay(null);
       },
     },
   ];
@@ -306,7 +306,7 @@ function ResponsiveDatePicker({
           })}
       </div>
 
-      {selectedDay && contextMenu && contextMenu.visible && (
+      {selectedDay && contextMenuProps && contextMenu.visible && (
         <ContextMenu
           items={menuItems}
           top={contextMenu.y}

@@ -44,8 +44,8 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
             disabled={disabled}
             type={type}
         >
-            {text}
             {children}
+            {text}
         </button>
     );
 };

@@ -9,7 +9,7 @@
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
     padding: 10px 10px;
     box-sizing: border-box;
-    margin-top: 50px;
+    margin-top: 40px;
     border-radius: 5px;
     position: relative;
     margin-bottom: 50px;
@@ -32,8 +32,7 @@
 
 .datePickerWrapper{
     width: 100%;
-    height: 500px;
-    background-color: #fafcff;
+    background-color: white;
 
     padding-bottom: 20px;
     padding-left: 10px;
@@ -77,12 +76,20 @@
     font-size: 23px;
     box-shadow: 0px 0px 1px 0px rgba(0,0,0,0.2);
     width: 100%;
-    place-items: center;
-    display: grid;
-    background-color: rgba(201, 230, 255, 0.02);
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    background-color: white;
+    color: #072C48;
     font-weight: 500;
-    font-family: 'Roboto', sans-serif;
-    text-transform: uppercase;
+    font-family: "Inter" , sans-serif;
+    user-select: none;
+}
+
+.header > span{
+    font-size: 25px;
+    font-weight: 700;
 }
 
 .mainContainer{
@@ -96,6 +103,7 @@
     display:flex;
     flex-direction: column;
     align-items: center;
+    background-color: rgba(197, 221, 253, 0.16);
 }
 
 .pdfFileWrapper {

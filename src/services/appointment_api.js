@@ -24,7 +24,6 @@ export async function makeAppointment(
         appointmentStatus: appointmentStatus
     };
 
-    console.log(requestData)
 
     fetch(`${BASE_URL}/appointment/set`, {
         method: 'POST',

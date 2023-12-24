@@ -16,6 +16,7 @@ import { sendReply } from "../../services/reply_api";
 import Reply from "../Reply/Reply";
 import FilesWrapper from "../FilesWrapper/FilesWrapper";
 import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
+import MakeAppointment from "../MakeAppointment/MakeAppointment";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -101,6 +102,7 @@ function QuestionDetails() {
   function Header() {
     return (
       <div className={style.header}>
+        <span className="material-symbols-outlined">pageview</span>
         <p>Vizualizare Detaliata</p>
       </div>
     );
@@ -130,10 +132,6 @@ function QuestionDetails() {
 
   function openScheduleModal() {
     setWasClicked((prevState) => !prevState);
-  }
-
-  function handleSelectedDays(date) {
-    
   }
 
   return (
@@ -216,6 +214,7 @@ function QuestionDetails() {
               <ActionButton
                 text={"Refuza"}
                 color={"white"}
+                active={updatedStatus !== "ACCEPTED"}
                 backgroundColor={"rgb(238, 49, 88)"}
                 onClick={() => {
                   setUpdatedStatus("REJECTED");
@@ -224,6 +223,7 @@ function QuestionDetails() {
               <ActionButton
                 text={" Accepta"}
                 color={"white"}
+                active={true}
                 backgroundColor={"#18c52f"}
                 onClick={() => {
                   setUpdatedStatus("ACCEPTED");
@@ -314,67 +314,78 @@ function QuestionDetails() {
           </div>
         )}
 
-
-        {!wasClicked && <div className={style.datePickerWrapper}>
-          <ResponsiveDatePicker
-            sendSelectedDate={(date) => handleSelectedDays(date)}
-          />
-        </div>}
-
-
-        {/* Render replies */}
-        {question.replyNumber > 0 && (
-          <div className={style.repliesWrapper}>
-            {question.replies &&
-              question.replies.map((reply, index) => <Reply reply={reply} />)}
+        {!wasClicked && (
+          <div className={style.datePickerWrapper}>
+            <MakeAppointment
+              question={question}
+            />
           </div>
         )}
 
-        {/* add reply */}
-
-        {question.status !== "WAITING" && (
-          <div className={style.updateStatus}>
-            <i>* Adaugati un raspuns</i>
-            <textarea
-              name="questionText"
-              className={style.enterQuestion}
-              value={replyText}
-              onChange={(e) => {
-                setReplyText(e.target.value);
-              }}
-            ></textarea>
-
-            <div>
-              <div>
-                <label htmlFor="file-upload" className={style.customFileUpload}>
-                  <span className="material-symbols-outlined">draft</span>
-                  <span>Alegeti fisierele</span>
-                </label>
-
-                {/*{*/}
-                {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
-                {/*}*/}
-
-                <input
-                  type="file"
-                  id="file-upload"
-                  onChange={handleFileChange}
-                  className={style.myFileInput}
-                  multiple
-                />
+        {wasClicked && (
+          <>
+            {/* Render replies */}
+            {question.replyNumber > 0 && (
+              <div className={style.repliesWrapper}>
+                {question.replies &&
+                  question.replies.map((reply, index) => (
+                    <Reply reply={reply} />
+                  ))}
               </div>
+            )}
 
-              <ActionButton
-                text={"Trimite"}
-                color={"white"}
-                active={true}
-                backgroundColor={"purple"}
-                onClick={addReply}
-              >
-                <span className="material-symbols-outlined">outgoing_mail</span>
-              </ActionButton>
-            </div>
-          </div>
+            {/* add reply */}
+
+            {question.status !== "WAITING" && (
+              <div className={style.updateStatus}>
+                <i>* Adaugati un raspuns</i>
+                <textarea
+                  name="questionText"
+                  className={style.enterQuestion}
+                  value={replyText}
+                  onChange={(e) => {
+                    setReplyText(e.target.value);
+                  }}
+                ></textarea>
+
+                <div>
+                  <div>
+                    <label
+                      htmlFor="file-upload"
+                      className={style.customFileUpload}
+                    >
+                      <span className="material-symbols-outlined">draft</span>
+                      <span>Alegeti fisierele</span>
+                    </label>
+
+                    {/*{*/}
+                    {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
+                    {/*}*/}
+
+                    <input
+                      type="file"
+                      id="file-upload"
+                      onChange={handleFileChange}
+                      className={style.myFileInput}
+                      multiple
+                    />
+                  </div>
+
+                  <ActionButton
+                    text={"Trimite"}
+                    color={"white"}
+                    active={true}
+                    backgroundColor={"purple"}
+                    onClick={addReply}
+                  >
+                    <span className="material-symbols-outlined">
+                      outgoing_mail
+                    </span>
+                  </ActionButton>
+                </div>
+              </div>
+            )}
+          </>
         )}
       </div>
     </div>

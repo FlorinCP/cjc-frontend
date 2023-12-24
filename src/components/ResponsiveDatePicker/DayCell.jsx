@@ -68,7 +68,7 @@ function DayCell({
             : isHovered
                 ? "#1888ff"
                 : "white",
-    color: isDisabled ? "#8f8f8f" : "#333",
+    color: isHovered && !isDisabled ? "white" : "#333",
   };
 
   const selectedButtonStyle = {
