@@ -168,7 +168,7 @@ function MakeAppointment({ question }) {
           sendSelectedDate={(date) => handleSelectedDay(date)}
           sendCurrentMonth={(month) => setCurrentMonth(month)}
           sendMultipleSelectionDates={() => {}}
-          monthData={monthAvailability.length > 0 ? monthAvailability : false}
+          monthData={monthAvailability.length > 0 ? monthAvailability : []}
           contextMenuProps={false}
         />
       </div>

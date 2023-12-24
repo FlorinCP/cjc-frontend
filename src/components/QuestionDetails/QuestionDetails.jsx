@@ -65,8 +65,8 @@ function QuestionDetails() {
 
         {!wasClicked && (
           <div className={style.datePickerWrapper}>
-            <ResponsiveDatePicker
-              sendSelectedDate={(date) => handleSelectedDays(date)}
+            <MakeAppointment
+                question={question}
             />
           </div>
         )}
