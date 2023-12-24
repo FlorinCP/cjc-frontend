@@ -3,6 +3,8 @@ import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
 import { postDayData, postMultipleDayData } from "../../services/day_api";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
+import { updateMonthDay } from "../../features/monthDaysSlice";
+import { useDispatch } from "react-redux";
 
 function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [selectedDay, setSelectedDay] = useState();
@@ -194,6 +196,8 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
     );
   }
 
+  const dispatch = useDispatch();
+
   const setScheduleForDay = async () => {
     if (selectedStatus) {
       await postMultipleDayData(
@@ -202,10 +206,25 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
         startHourSelect,
         endHourSelect,
         selectedStatus,
-      );
-      setWorkingHoursSelect(8);
-      setStartHourSelect(8);
-      setEndHourSelect(16);
+      ).then(() => {
+        setWorkingHoursSelect(8);
+        setStartHourSelect(8);
+        setEndHourSelect(16);
+
+        multipleSelectionDates.forEach((currentSelectionDate) => {
+          const datToBeUpdated = {
+            dayNumber: currentSelectionDate.dayNumber,
+            monthNumber: currentSelectionDate.monthNumber,
+            fullYear: currentSelectionDate.fullYear,
+            workingStatus: selectedStatus,
+            workingHours: workingHoursSelect,
+            startHour: startHourSelect,
+            endHour: endHourSelect,
+          };
+
+          dispatch(updateMonthDay(datToBeUpdated));
+        });
+      });
     }
   };
 

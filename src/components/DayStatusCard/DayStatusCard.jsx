@@ -199,7 +199,6 @@ function DayStatusCard({ currentSelectionDate }) {
   const monthDays = useSelector((state) => state.monthDays.monthDays);
 
   const setScheduleForDay = async () => {
-
     await postDayData(
       currentSelectionDate,
       workingHoursSelect,
@@ -210,19 +209,18 @@ function DayStatusCard({ currentSelectionDate }) {
       setWorkingHoursSelect(8);
       setStartHourSelect(8);
       setEndHourSelect(16);
+      const datToBeUpdated = {
+        dayNumber: currentSelectionDate.dayNumber,
+        monthNumber: currentSelectionDate.monthNumber,
+        fullYear: currentSelectionDate.fullYear,
+        workingStatus: selectedStatus,
+        workingHours: workingHoursSelect,
+        startHour: startHourSelect,
+        endHour: endHourSelect,
+      };
+
+      dispatch(updateMonthDay(datToBeUpdated));
     });
-
-    const datToBeUpdated = {
-      dayNumber: currentSelectionDate.dayNumber,
-      monthNumber: currentSelectionDate.monthNumber,
-      fullYear: currentSelectionDate.fullYear,
-      workingStatus: selectedStatus,
-      workingHours: workingHoursSelect,
-      startHour: startHourSelect,
-      endHour: endHourSelect,
-    };
-
-    dispatch(updateMonthDay(datToBeUpdated));
   };
 
   return (
