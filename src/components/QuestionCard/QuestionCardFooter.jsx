@@ -65,7 +65,7 @@ function QuestionCardFooter({
         </div>
       )}
 
-      {question.status === "ACCEPTED" && role === "REGISTERED" && (
+      {question.status === "ACCEPTED" && role === "REGISTERED" && isDetailed  && (
         <div>
           <ActionButton
             text={"Programeaza-te"}
@@ -107,7 +107,7 @@ function QuestionCardFooter({
         )}
 
       {(question.status === "ACCEPTED" || question.status === "REJECTED") &&
-        role === "ADMIN" && (
+        role === "ADMIN" && isDetailed && (
           <div>
             <ActionButton
               text={"Termina"}
