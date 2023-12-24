@@ -1,4 +1,6 @@
 import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { resetToday, todaySlice } from "../features/todaySlice";
 
 const useDatePicker = () => {
   const [today, setToday] = useState(new Date());
@@ -96,7 +98,6 @@ const useDatePicker = () => {
   }
 
   useEffect(() => {
-
     setMonthNumber(today.getMonth());
     setFullYear(today.getFullYear());
     setMonthname(today.toLocaleString(lang, { month: "long" }));
@@ -126,35 +127,47 @@ const useDatePicker = () => {
   function decimalHoursToTime(decimalHours) {
     const hours = Math.floor(decimalHours);
     const minutes = Math.round((decimalHours - hours) * 60);
-    return `${hours}:${minutes < 10 ? '0' : ''}${minutes}`;
+    return `${hours}:${minutes < 10 ? "0" : ""}${minutes}`;
   }
 
-  function getMonthName(monthIndex,lang,size) {
+  function getMonthName(monthIndex, lang, size) {
     const date = new Date(2000, monthIndex, 1);
     return date.toLocaleString(lang, { month: size });
   }
 
-  function getWeekdayName(weekdayIndex,lang,size) {
+  function getWeekdayName(weekdayIndex, lang, size) {
     const date = new Date(2000, 0, 3 + weekdayIndex);
     return date.toLocaleString(lang, { weekday: size });
   }
 
-  return(
-    {
-      nextMonth,
-      prevMonth,
-      finalDays,
-      monthName,
-      monthNumber,
-      fullYear,
-      today,
-      decimalHoursToTime,
-      getMonthName,
-      getWeekdayName
+  const dispatch = useDispatch();
+
+  useEffect(() => {
+    if (today instanceof Date) {
+      const day = {
+        monthNumber: today.getMonth(),
+        year: today.getFullYear(),
+        dayNumber: today.getDate(),
+      };
+
+      console.log(day);
+
+      dispatch(todaySlice.actions.setToday(day));
     }
-  )
+  }, [today]);
 
+  return {
+    nextMonth,
+    prevMonth,
+    finalDays,
+    monthName,
+    monthNumber,
+    fullYear,
+    today,
+    decimalHoursToTime,
+    getMonthName,
+    getWeekdayName,
+  };
 };
-
 
 export default useDatePicker;

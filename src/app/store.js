@@ -5,7 +5,7 @@ import { createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
 import sharedWeekReducer from '../features/sharedWeekSlice';
 import sharedDisplayedWeekReducer from '../features/sharedDisplayedWeekSlice'
-import sharedTodayReducer from "../features/sharedTodaySlice";
+import todayReducer from "../features/todaySlice";
 import sharedSelectedDayReducer from "../features/sharedSelectedDay";
 import tokenReducer from '../features/tokenSlice';
 import quesstionReducer from "../features/questionsSlice";
@@ -60,8 +60,9 @@ const questionConfig = {
 const persistedReducers = combineReducers({
     sharedWeek:  sharedWeekReducer,
     sharedDisplayedWeek: sharedDisplayedWeekReducer,
-    sharedToday: sharedTodayReducer,
+    sharedToday: todayReducer,
     sharedSelectedDay:  sharedSelectedDayReducer,
+    today : todayReducer,
     token: persistReducer(tokenConfig, tokenReducer),
     questions: persistReducer(questionConfig,quesstionReducer) ,
 });

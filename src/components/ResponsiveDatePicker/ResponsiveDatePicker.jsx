@@ -3,12 +3,12 @@ import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
 import useDatePicker from "../../hooks/useDatePicker";
 import ContextMenu from "../ContextMenu/ContextMenu";
+import {useSelector} from "react-redux";
+import {getDatesForMonth} from "../../services/day_api";
 
 function ResponsiveDatePicker({
   sendSelectedDate,
-  sendCurrentMonth,
   sendMultipleSelectionDates,
-  monthData,
   contextMenuProps = true,
 }) {
 
@@ -31,6 +31,11 @@ function ResponsiveDatePicker({
   };
 
   //  State
+
+
+  const today = useSelector((state) => state.today.today);
+
+  const [fetchedData, setFetchedData] = useState([]);
 
   /**
    * This state is used to store the selected day
@@ -67,7 +72,7 @@ function ResponsiveDatePicker({
    * This state is used to display the name of the month and the year in the header of the calendar
    * as well for retrieving dates for the current month and navigate across months
    */
-  const { prevMonth, nextMonth, monthName, fullYear, finalDays, today } =
+  const { prevMonth, nextMonth, monthName, fullYear, finalDays } =
     useDatePicker();
 
   /**
@@ -89,18 +94,18 @@ function ResponsiveDatePicker({
    * This function is used to set the status of the days in the calendar
    * It works by comparing the days from the monthData array with the days from the finalDays array
    *
-   * @param monthData  it is an array of objects that contains the days that have a status obtened after fetching the data from the server
+   * @param fetchedData  it is an array of objects that contains the days that have a status obtened after fetching the data from the server
    * @param finalDays it is an array of objects that contains the days of the current month and the status of each day is null , obtained after the useDatePicker hook
    */
-  function transferData(monthData, finalDays) {
+  function transferData(fetchedData, finalDays) {
     finalDays.forEach((row) => {
       return row.forEach((day) => {
         if (
-          monthData.some(
+            fetchedData.some(
             (receivedDay) => receivedDay.dayNumber === day.dayNumber,
           )
         ) {
-          const receivedDay = monthData.find(
+          const receivedDay = fetchedData.find(
             (receivedDay) => receivedDay.dayNumber === day.dayNumber,
           );
           day.workingStatus = receivedDay?.workingStatus;
@@ -116,15 +121,26 @@ function ResponsiveDatePicker({
 
   //  useEffects
 
+
+  useEffect(() => {
+    if (today.monthNumber) {
+      const fetchData = async () => {
+        return await getDatesForMonth(today.monthNumber);
+      };
+
+      fetchData().then((r) => setFetchedData(r));
+    }
+  }, [today]);
+
   /**
    *  This useEffect is used to set the status of the days in the calendar
    *   It works by comparing the days from the monthData array with the days from the finalDays array
    */
   useEffect(() => {
-    if (monthData && finalDays) {
-      transferData(monthData, finalDays);
+    if (fetchedData && finalDays) {
+      transferData(fetchedData, finalDays);
     }
-  }, [monthData, finalDays]);
+  }, [fetchedData, finalDays]);
 
   /**
    * This useEffect is used to send the current month to the parent component
@@ -132,9 +148,8 @@ function ResponsiveDatePicker({
    *
    * @param {number} monthNumber
    */
-  useEffect(() => {
-    sendCurrentMonth(today.getMonth());
-  }, [today]);
+
+
 
   /**
    *  This useEffect is used to send the selected day to the parent component at every selectedDay change
@@ -161,9 +176,9 @@ function ResponsiveDatePicker({
    * @return {string}
    */
   function getStyle(day) {
-    if (day.monthNumber !== today.getMonth()) {
+    if (day.monthNumber !== today.monthNumber) {
       return "pastDay";
-    } else if (day.dayNumber === today.getDate()) {
+    } else if (day.dayNumber === today.dayNumber) {
       return "today";
     } else if (day.workingStatus === "CLOSED") {
       return "closed";

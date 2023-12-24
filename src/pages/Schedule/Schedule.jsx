@@ -8,18 +8,6 @@ import DayStatusCard from "../../components/DayStatusCard/DayStatusCard";
 import MultipleDaysStatusCard from "../../components/DayStatusCard/MultipleDaysStatusCard";
 
 function Schedule(props) {
-  const [currentMonth, setCurrentMonth] = useState();
-  const [monthAvailability, setMonthAvailability] = useState();
-
-  useEffect(() => {
-    if (currentMonth) {
-      const fetchData = async () => {
-        return await getDatesForMonth(currentMonth);
-      };
-
-      fetchData().then((r) => setMonthAvailability(r));
-    }
-  }, [currentMonth]);
 
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
 
@@ -49,9 +37,7 @@ function Schedule(props) {
         <div className={style.datePickerWrapper}>
           <ResponsiveDatePicker
             sendSelectedDate={(date) => handleSelectedDay(date)}
-            sendCurrentMonth={(month) => setCurrentMonth(month)}
             sendMultipleSelectionDates={(dates) => handelMultipleDays(dates)}
-            monthData={monthAvailability}
           />
         </div>
 
