@@ -115,6 +115,7 @@ function ResponsiveDatePicker({
           day.workingHours = receivedDay?.workingHours;
           day.startHour = receivedDay?.startHour;
           day.endHour = receivedDay?.endHour;
+          day.appointments = receivedDay?.appointments;
         }
       });
     });

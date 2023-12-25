@@ -1,13 +1,12 @@
 import style from "../MakeAppointment/MakeAppointment.module.css";
 import TimeCollumn from "../MakeAppointment/TimeCollumn";
 import Column from "../MakeAppointment/Column";
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import ContextMenu from "../ContextMenu/ContextMenu";
+import { useSelector } from "react-redux";
 
 function DetailedCalendar({
-  currentWeek,
   sendGlobalSelectedSlot,
-  today,
   currentSelectionDate,
   globalSelectedSlot,
 }) {
@@ -17,15 +16,17 @@ function DetailedCalendar({
     y: 0,
   });
 
+  const currentWeek = useSelector((state) => state.currentWeek.currentWeek);
+
   const handleRightClick = (event) => {
     event.preventDefault();
 
-    console.log(event.clientX , event.clientY )
+    console.log(event.clientX, event.clientY);
 
     setContextMenu({
       visible: true,
-      x: event.clientX ,
-      y: event.clientY ,
+      x: event.clientX,
+      y: event.clientY,
     });
   };
 
@@ -61,7 +62,6 @@ function DetailedCalendar({
             key={index}
             day={day}
             index={index}
-            today={today}
             globalSelectedSlot={globalSelectedSlot}
             currentSelectionDate={currentSelectionDate}
             sendSelectedSlot={(slot) => {

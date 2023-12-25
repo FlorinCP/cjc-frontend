@@ -3,13 +3,15 @@ import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createTransform } from 'redux-persist';
 import storage from 'redux-persist/lib/storage';
-import sharedWeekReducer from '../features/sharedWeekSlice';
-import sharedDisplayedWeekReducer from '../features/sharedDisplayedWeekSlice'
+import sharedWeekReducer from '../features/old/sharedWeekSlice';
+import sharedDisplayedWeekReducer from '../features/old/sharedDisplayedWeekSlice'
 import todayReducer from "../features/todaySlice";
-import sharedSelectedDayReducer from "../features/sharedSelectedDay";
+import sharedSelectedDayReducer from "../features/old/sharedSelectedDay";
 import tokenReducer from '../features/tokenSlice';
 import monthDaysReducer from '../features/monthDaysSlice';
 import quesstionReducer from "../features/questionsSlice";
+import selectedDayReducer from "../features/selectedDaySlice";
+import currentWeekReducer from "../features/currentWeekSlice";
 import { jwtDecode } from "jwt-decode";
 
 
@@ -64,6 +66,8 @@ const persistedReducers = combineReducers({
     sharedToday: todayReducer,
     sharedSelectedDay:  sharedSelectedDayReducer,
     monthDays: monthDaysReducer,
+    selectedDay : selectedDayReducer,
+    currentWeek: currentWeekReducer,
     today : todayReducer,
     token: persistReducer(tokenConfig, tokenReducer),
     questions: persistReducer(questionConfig,quesstionReducer) ,

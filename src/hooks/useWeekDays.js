@@ -2,8 +2,8 @@ import {useEffect, useState} from "react";
 import {getDayData} from "../services/day_api";
 import {useMonthDays} from "./useMonthDays";
 import {useDispatch} from "react-redux";
-import {setDisplayedWeekValue} from "../features/sharedDisplayedWeekSlice";
-import {setWeekData} from "../features/sharedWeekSlice";
+import {setDisplayedWeekValue} from "../features/old/sharedDisplayedWeekSlice";
+import {setWeekData} from "../features/old/sharedWeekSlice";
 
 export function useWeekDays(){
 

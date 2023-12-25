@@ -1,8 +1,8 @@
 import React, { useEffect, useMemo, useState } from "react";
 import { getClosedDays, getDayData } from "../services/day_api";
 import { useDispatch } from "react-redux";
-import { setDisplayedWeekValue } from "../features/sharedDisplayedWeekSlice";
-import { setWeekData } from "../features/sharedWeekSlice";
+import { setDisplayedWeekValue } from "../features/old/sharedDisplayedWeekSlice";
+import { setWeekData } from "../features/old/sharedWeekSlice";
 
 export function useCalendar() {
   const [today, setToday] = useState(new Date());

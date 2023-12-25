@@ -1,5 +1,5 @@
 import { createSlice } from '@reduxjs/toolkit';
-import {useMonthDays} from "../hooks/useMonthDays";
+import {useMonthDays} from "../../hooks/useMonthDays";
 
 
 // const {navigationArray,currentWeekIndex}  = useMonthDays();

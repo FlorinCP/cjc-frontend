@@ -3,11 +3,11 @@ import style from "./Calendar.module.css";
 import TimeColumn from "./TimeColumn";
 import WeekDayColumn from "./WeekDayColumn";
 import { useDispatch, useSelector } from "react-redux";
-import { setSelectedDayValue } from "../../features/sharedSelectedDay";
+import { setSelectedDayValue } from "../../features/old/sharedSelectedDay";
 import { useFillTime } from "../../hooks/useFillTime";
 import { makeAppointment } from "../../services/appointment_api";
 import { getDayData } from "../../services/day_api";
-import { setDayData } from "../../features/sharedWeekSlice";
+import { setDayData } from "../../features/old/sharedWeekSlice";
 import ContextMenu from "../ContextMenu/ContextMenu";
 
 function CalendarBody(props) {

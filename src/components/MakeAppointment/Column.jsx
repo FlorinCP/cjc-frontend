@@ -2,35 +2,28 @@ import style from "./MakeAppointment.module.css";
 import React, { useEffect, useState } from "react";
 import HeaderCell from "./HeaderCell";
 import Cell from "./Cell";
+import {useSelector} from "react-redux";
 
 function Column({
   globalSelectedSlot,
   day,
   index,
-  today,
   currentSelectionDate,
   sendSelectedSlot,
 }) {
-  const [selectedSlot, setSelectedSlot] = useState({ slot: null, day: day });
+
+  const today = useSelector((state) => state.today.today);
   const [selectedDayWorkStatus, setSelectedDayWorkStatus] = useState(
     day.workingStatus,
   );
 
   const handleSelectedSlot = (slot) => {
-    if (selectedSlot.slot === slot) {
-      setSelectedSlot({ slot: null, day: day });
-    } else {
-      setSelectedSlot({ slot: slot, day: day });
-    }
+    sendSelectedSlot({ slot: slot, day: day });
   };
-
-  useEffect(() => {
-    sendSelectedSlot(selectedSlot);
-  }, [selectedSlot]);
 
   function isToday(day) {
     return (
-      day.dayNumber === today.getDate() && day.monthNumber === today.getMonth()
+      day.dayNumber === today.dayNumber && day.monthNumber === today.monthNumber
     );
   }
 

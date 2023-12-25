@@ -7,60 +7,46 @@ import TimeCollumn from "./TimeCollumn";
 import Column from "./Column";
 import ActionButton from "../ActionButton/ActionButton";
 import ContextMenu from "../ContextMenu/ContextMenu";
-import { makeAppointment } from "../../services/appointment_api";
-import { useSelector } from "react-redux";
+import {
+  getAppointmentByDay,
+  makeAppointment,
+} from "../../services/appointment_api";
+import { useDispatch, useSelector } from "react-redux";
 import AddApointmentCard from "./AddApointmentCard";
 import DetailedCalendar from "../DetailedCalendar/DetailedCalendar";
+import { store } from "../../app/store";
+import currentWeekSlice, {
+  resetCurrentWeek,
+  setCurrentWeek,
+} from "../../features/currentWeekSlice";
 
 function MakeAppointment({ question }) {
-  const [currentMonth, setCurrentMonth] = useState();
-  const [monthAvailability, setMonthAvailability] = useState([]);
-  const { finalDays, today } = useDatePicker();
+  const { finalDays } = useDatePicker();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    if (currentMonth) {
-      const fetchData = async () => {
-        return await getDatesForMonth(currentMonth);
-      };
-
-      fetchData().then((r) => setMonthAvailability(r));
-    }
-  }, [currentMonth]);
+  const monthDays = useSelector((state) => state.monthDays.monthDays);
 
   const [currentSelectionDate, setCurrentSelectionDate] = useState({});
-  const [currentWeek, setCurrentWeek] = useState({
-    days: null,
-    startTime: null,
-    endTime: null,
-  });
 
   const handleSelectedDay = (date) => {
-    setCurrentSelectionDate(date);
+    if (date === currentSelectionDate) {
+      dispatch(resetCurrentWeek());
+      setCurrentSelectionDate(null);
+    } else {
+      setCurrentSelectionDate(date);
+    }
   };
 
   useEffect(() => {
     if (currentSelectionDate && finalDays.length > 0) {
-      finalDays.forEach((row) => {
-        return row.forEach((day) => {
-          if (
-            monthAvailability.some(
-              (receivedDay) => receivedDay.dayNumber === day.dayNumber,
-            )
-          ) {
-            const receivedDay = monthAvailability.find(
-              (receivedDay) => receivedDay.dayNumber === day.dayNumber,
-            );
-            day.workingStatus = receivedDay?.workingStatus;
-            day.workingHours = receivedDay?.workingHours;
-            day.startHour = receivedDay?.startHour;
-            day.endHour = receivedDay?.endHour;
-          }
-        });
-      });
+      const deepCopy = JSON.parse(JSON.stringify(monthDays));
 
-      const week = finalDays.find((week) => {
+      const week = deepCopy.find((week) => {
         return week.find((day) => {
-          return day.dayNumber === currentSelectionDate.dayNumber;
+          return (
+            day.dayNumber === currentSelectionDate.dayNumber &&
+            day.monthNumber === currentSelectionDate.monthNumber
+          );
         });
       });
 
@@ -84,11 +70,13 @@ function MakeAppointment({ question }) {
         day.slots = slots;
       });
 
-      setCurrentWeek({
-        days: week,
-        startTime: startTime,
-        endTime: endTime,
-      });
+      dispatch(
+        setCurrentWeek({
+          days: week,
+          startTime: startTime,
+          endTime: endTime,
+        }),
+      );
     }
   }, [currentSelectionDate]);
 
@@ -105,14 +93,14 @@ function MakeAppointment({ question }) {
     }
   }
 
+  const currentWeek = useSelector((state) => state.currentWeek.currentWeek);
+
   return (
     <div className={style.mainContainer}>
       <div className={style.datePickerWrapper}>
         <ResponsiveDatePicker
           sendSelectedDate={(date) => handleSelectedDay(date)}
-          sendCurrentMonth={(month) => setCurrentMonth(month)}
           sendMultipleSelectionDates={() => {}}
-          monthData={monthAvailability.length > 0 ? monthAvailability : []}
           contextMenuProps={false}
         />
       </div>
@@ -124,12 +112,10 @@ function MakeAppointment({ question }) {
         />
       )}
 
-      {currentWeek.days && (
+      {currentSelectionDate && currentWeek.days.length > 0 && (
         <DetailedCalendar
-          currentWeek={currentWeek}
           sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
           currentSelectionDate={currentSelectionDate}
-          today={today}
           globalSelectedSlot={globalSelectedSlot}
         />
       )}
