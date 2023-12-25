@@ -1,4 +1,3 @@
-// app/store.js
 import {combineReducers, configureStore} from '@reduxjs/toolkit';
 import { persistStore, persistReducer } from 'redux-persist';
 import { createTransform } from 'redux-persist';
@@ -13,6 +12,7 @@ import quesstionReducer from "../features/questionsSlice";
 import selectedDayReducer from "../features/selectedDaySlice";
 import currentWeekReducer from "../features/currentWeekSlice";
 import { jwtDecode } from "jwt-decode";
+import sidebarReducer from "../features/sidebarSlice";
 
 
 const myTransform = createTransform(
@@ -68,6 +68,7 @@ const persistedReducers = combineReducers({
     monthDays: monthDaysReducer,
     selectedDay : selectedDayReducer,
     currentWeek: currentWeekReducer,
+    sidebar: sidebarReducer,
     today : todayReducer,
     token: persistReducer(tokenConfig, tokenReducer),
     questions: persistReducer(questionConfig,quesstionReducer) ,

@@ -19,6 +19,7 @@ function App() {
         <Route element={<SideBarLayout />}>
           <Route path="/schedule/edit" element={<Schedule />} />
           <Route path="/schedule" element={<Calendar />} />
+          <Route path="/videocall" element={<VideoCall />} />
           <Route path="/questions/status/:questionStatus" end element={
           <ProtectedRoute>
             <ViewQuestions />
@@ -34,7 +35,6 @@ function App() {
         <Route element={<NavBarLayout />}>
           <Route  path="/login" element={<Login />} />
           <Route  path="/" element={<Login />} />
-          <Route path="/videocall" element={<VideoCall />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/register" element={<RegisterWithToken />} />
           <Route path="test" end element={ <Test />}/>

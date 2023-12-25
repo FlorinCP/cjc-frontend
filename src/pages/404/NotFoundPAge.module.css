@@ -1,0 +1,13 @@
+.wrapper{
+    width: 100%;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    height: 100vh;
+}
+
+.img{
+    height:70%;
+    aspect-ratio: inherit;
+}
