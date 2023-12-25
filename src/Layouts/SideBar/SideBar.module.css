@@ -19,14 +19,15 @@
     position: absolute;
     right: 0;
     top: 0;
-    margin-right: 10px;
+    margin-right: 5px;
     margin-top: 10px;
     cursor: pointer;
     color: white;
     padding: 10px;
     border-radius: 50%;
-    display: grid;
-    place-items: center;
+    display: flex;
+    justify-content: center;
+    align-items: center;
 }
 
 .hamburger:hover{
@@ -131,6 +132,21 @@
     overflow-y: auto;
     overflow-x: hidden;
     padding: 0.5vw;
+    transition: 0.5s;
+}
+
+.collapedSidebar{
+    box-sizing: border-box;
+    background-color: var(--sidebar-background-color);
+    width: 100%;
+    height: 100vh;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    justify-content: center;
+    color: white;
+    position: relative;
+    padding-top: 20px;
 }
 
 /* poti apasa pe el*/

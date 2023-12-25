@@ -6,12 +6,12 @@ export const sidebarSlice = createSlice({
         isExpanded: true,
     },
     reducers: {
-        setSidebarValue: (state, action) => {
+        setSidebarStatus: (state, action) => {
             state.isExpanded = action.payload
         },
     },
 });
 
-export const {setSidebarValue} = sidebarSlice.actions;
+export const {setSidebarStatus} = sidebarSlice.actions;
 
 export default sidebarSlice.reducer;

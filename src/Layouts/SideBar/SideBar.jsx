@@ -1,8 +1,10 @@
-import React from "react";
+import React, {useEffect, useState} from "react";
 import style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
+import {useDispatch} from "react-redux";
+import {setSidebarStatus, setSidebarValue} from "../../features/sidebarSlice";
 function SideBar(props) {
   const requestItems = [
     {
@@ -35,6 +37,18 @@ function SideBar(props) {
     },
   ];
 
+
+  const dispatch = useDispatch();
+  const [isExpanded, setIsExpanded] = useState(true);
+
+  function changeSidebarState(){
+    setIsExpanded(prevState => !prevState);
+  }
+
+  useEffect(() => {
+    dispatch(setSidebarStatus(isExpanded));
+  }, [isExpanded]);
+
   return (
     <div className={style.sidebar}>
       <div className={style.sidebarItems}>
@@ -48,7 +62,11 @@ function SideBar(props) {
             />
           </Link>
 
-          <div className={style.hamburger}>
+          <div className={style.hamburger}
+            onClick={() => {
+              changeSidebarState();
+            }}
+          >
             <span className="material-symbols-outlined">menu_open</span>
           </div>
         </div>
