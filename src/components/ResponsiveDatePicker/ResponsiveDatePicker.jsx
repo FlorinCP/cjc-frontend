@@ -105,11 +105,11 @@ function ResponsiveDatePicker({
       return row.forEach((day) => {
         if (
             fetchedData.some(
-            (receivedDay) => receivedDay.dayNumber === day.dayNumber,
+            (receivedDay) => receivedDay.dayNumber === day.dayNumber && receivedDay.monthNumber === day.monthNumber
           )
         ) {
           const receivedDay = fetchedData.find(
-            (receivedDay) => receivedDay.dayNumber === day.dayNumber,
+            (receivedDay) => receivedDay.dayNumber === day.dayNumber && receivedDay.monthNumber === day.monthNumber,
           );
           day.workingStatus = receivedDay?.workingStatus;
           day.workingHours = receivedDay?.workingHours;

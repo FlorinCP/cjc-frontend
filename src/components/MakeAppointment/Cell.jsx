@@ -1,5 +1,5 @@
 import style from "./MakeAppointment.module.css";
-import React from "react";
+import React, { useEffect } from "react";
 
 function Cell({
   slot,
@@ -10,6 +10,7 @@ function Cell({
   isWorkingDay,
   isDateSelected,
   isWorkingSlot,
+  appointment,
 }) {
   const basicStyle = {
     border: "1px solid",
@@ -74,25 +75,42 @@ function Cell({
     }
   }
 
+  useEffect(() => {
+    if (appointment) {
+      console.log(appointment);
+    }
+  }, [appointment]);
+
   return (
     <div
       className={isWorkingSlot ? style.cell : style.cellClosed}
       onClick={() => sendSelectedSlot(slot)}
       style={getExteriorStyle()}
     >
-      <div className={style.cellInterior} style={getInteriorStyle()}>
-        {slot.appointment === undefined && isWorkingSlot && isWorkingDay && (
-          <div className={style.bar} style={getBarStyle()}></div>
-        )}
+      {appointment ? (
+        <div className={style.appointment}>
+          {/*<div className={style.appointmentBar}>*/}
 
-        {(!isWorkingSlot && isWorkingDay) ||
-          ((!isWorkingSlot || !isWorkingDay) && (
-            <p className={style.closed}>Inchis</p>
-          ))}
-        {!isWorkingSlot && isWorkingDay && (
-          <p className={style.closed}>Indisponibil</p>
-        )}
-      </div>
+          {/*</div>*/}
+          {
+            appointment.appointmentStatus
+          }
+        </div>
+      ) : (
+        <div className={style.cellInterior} style={getInteriorStyle()}>
+          {!appointment && isWorkingSlot && isWorkingDay && (
+            <div className={style.bar} style={getBarStyle()}></div>
+          )}
+
+          {(!isWorkingSlot && isWorkingDay) ||
+            ((!isWorkingSlot || !isWorkingDay) && (
+              <p className={style.closed}>Inchis</p>
+            ))}
+          {!isWorkingSlot && isWorkingDay && (
+            <p className={style.closed}>Indisponibil</p>
+          )}
+        </div>
+      )}
     </div>
   );
 }

@@ -13,9 +13,6 @@ function Column({
 }) {
 
   const today = useSelector((state) => state.today.today);
-  const [selectedDayWorkStatus, setSelectedDayWorkStatus] = useState(
-    day.workingStatus,
-  );
 
   const handleSelectedSlot = (slot) => {
     sendSelectedSlot({ slot: slot, day: day });
@@ -36,7 +33,13 @@ function Column({
   }
 
   function isWorkingSlot(slot) {
-    return slot > day.startHour && slot < day.endHour;
+    return slot >= day.startHour && slot < day.endHour;
+  }
+
+  function getAppointment(slot) {
+      return day.appointments && day.appointments.find((appointment) => {
+      return appointment.startHour === slot;
+    });
   }
 
   return (
@@ -46,7 +49,7 @@ function Column({
         index={index}
         isToday={isToday(day)}
         isDateSelected={isDateSelected(day)}
-        isWorkingDay={selectedDayWorkStatus === "WORKING"}
+        isWorkingDay={day.workingStatus === "WORKING"}
       />
       {day.slots.map((slot, index) => {
         return (
@@ -54,9 +57,10 @@ function Column({
             isToday={isToday(day)}
             slot={slot}
             key={index}
+            appointment={getAppointment(slot)}
             isSelected={globalSelectedSlot.slot === slot && globalSelectedSlot.day === day}
             isDateSelected={isDateSelected(day)}
-            isWorkingDay={selectedDayWorkStatus === "WORKING"}
+            isWorkingDay={day.workingStatus === "WORKING"}
             sendSelectedSlot={() => handleSelectedSlot(slot)}
             isWorkingSlot={isWorkingSlot(slot)}
           />
