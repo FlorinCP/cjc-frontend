@@ -4,8 +4,6 @@ import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
 function SideBar(props) {
-
-
   const requestItems = [
     {
       url: "/questions/status/waiting",
@@ -40,14 +38,20 @@ function SideBar(props) {
   return (
     <div className={style.sidebar}>
       <div className={style.sidebarItems}>
-        <Link to="/" className={style.link}>
-          <img
-            src="/favicon.ico"
-            alt="check-email"
-            id="logo-img"
-            className={style.logo}
-          />
-        </Link>
+        <div className={style.sidebarHeader}>
+          <Link to="/" className={style.link}>
+            <img
+              src="/favicon.ico"
+              alt="check-email"
+              id="logo-img"
+              className={style.logo}
+            />
+          </Link>
+
+          <div className={style.hamburger}>
+            <span className="material-symbols-outlined">menu_open</span>
+          </div>
+        </div>
 
         <NonExpandableSidebarItem
           url={"/"}
@@ -73,8 +77,6 @@ function SideBar(props) {
           title={"VideoCall"}
         />
       </div>
-
-
     </div>
   );
 }

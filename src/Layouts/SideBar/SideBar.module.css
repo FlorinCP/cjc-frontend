@@ -5,6 +5,38 @@
     height: 100vh;
 }
 
+.sidebarHeader{
+    width: 100%;
+    height: fit-content;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    position: relative;
+    padding-top: 40px;
+}
+
+.hamburger{
+    position: absolute;
+    right: 0;
+    top: 0;
+    margin-right: 10px;
+    margin-top: 10px;
+    cursor: pointer;
+    color: white;
+    padding: 10px;
+    border-radius: 50%;
+    display: grid;
+    place-items: center;
+}
+
+.hamburger:hover{
+    background-color: #1c79b8;
+}
+
+.hamburger > span{
+    font-size: 30px;
+}
+
 :root {
     --deep-blue: #18446d;
     --font-size: 16px;

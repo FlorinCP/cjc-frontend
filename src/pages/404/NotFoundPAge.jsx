@@ -1,10 +1,11 @@
-// NotFoundPage.js
+import style from "./NotFoundPAge.module.css";
+
+
 const NotFoundPage = () => {
     return (
-        <div>
+        <div className={style.wrapper}>
             <h1>404 Not Found</h1>
-            <p>The page you're looking for doesn't exist.</p>
-            {/* You can add a link to go back to the home page or other navigation here */}
+            <img src="/404.png" alt="" className={style.img}/>
         </div>
     );
 };
