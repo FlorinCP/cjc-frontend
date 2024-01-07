@@ -35,6 +35,7 @@ function ResponsiveDatePicker({
 
 
   const today = useSelector((state) => state.today.today);
+  console.log(today)
   const dispatch = useDispatch();
 
   /**
@@ -49,6 +50,7 @@ function ResponsiveDatePicker({
    *
    */
   const monthDays = useSelector((state) => state.monthDays.monthDays);
+  console.log(monthDays)
 
   const [fetchedData, setFetchedData] = useState(null);
 
@@ -127,7 +129,7 @@ function ResponsiveDatePicker({
 
 
   useEffect(() => {
-    if (today.monthNumber) {
+    if (today) {
       const fetchData = async () => {
         return await getDatesForMonth(today.monthNumber);
       };
@@ -141,6 +143,7 @@ function ResponsiveDatePicker({
    *   It works by comparing the days from the monthData array with the days from the finalDays array
    */
   useEffect(() => {
+    console.log(fetchedData, finalDays)
     if (fetchedData && finalDays) {
       transferData(fetchedData, finalDays);
     }
