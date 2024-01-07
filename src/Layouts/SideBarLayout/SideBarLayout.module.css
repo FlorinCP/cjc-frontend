@@ -1,6 +1,24 @@
-.wrapper{
-    display: grid;
-    grid-template-columns: 15% 85%;
-    width: 100vw;
+.wrapper {
+  display: grid;
+  grid-template-columns: 15% 85%;
+  width: 100vw;
 }
 
+.multiWrapper {
+  display: grid;
+  grid-template-rows: 70px calc(100vh - 70px);
+}
+
+.content {
+  height: calc(100vh - 70px);
+  box-sizing: border-box;
+  background-color:  #f2f6fc;
+
+}
+
+.outlet {
+  padding:0 30px;
+  box-sizing: border-box;
+  overflow-y: hidden;
+  height: 100%;
+}

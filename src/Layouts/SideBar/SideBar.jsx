@@ -1,10 +1,10 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
-import {useDispatch} from "react-redux";
-import {setSidebarStatus, setSidebarValue} from "../../features/sidebarSlice";
+import { useDispatch } from "react-redux";
+import { setSidebarStatus, setSidebarValue } from "../../features/sidebarSlice";
 function SideBar(props) {
   const requestItems = [
     {
@@ -37,12 +37,11 @@ function SideBar(props) {
     },
   ];
 
-
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(true);
 
-  function changeSidebarState(){
-    setIsExpanded(prevState => !prevState);
+  function changeSidebarState() {
+    setIsExpanded((prevState) => !prevState);
   }
 
   useEffect(() => {
@@ -62,7 +61,8 @@ function SideBar(props) {
             />
           </Link>
 
-          <div className={style.hamburger}
+          <div
+            className={style.hamburger}
             onClick={() => {
               changeSidebarState();
             }}
@@ -70,6 +70,7 @@ function SideBar(props) {
             <span className="material-symbols-outlined">menu_open</span>
           </div>
         </div>
+        <div className={style.line}></div>
 
         <NonExpandableSidebarItem
           url={"/"}
@@ -77,11 +78,15 @@ function SideBar(props) {
           title={"Pagina Principala"}
         />
 
+        <div className={style.line}></div>
+
         <ExpandableSidebarItem
           mainUrl={"/questions"}
           name={"Cereri"}
           sidebarItems={requestItems}
         />
+
+        <div className={style.line}></div>
 
         <ExpandableSidebarItem
           mainUrl={"/schedule"}
@@ -89,11 +94,15 @@ function SideBar(props) {
           sidebarItems={scheduleItems}
         />
 
+        <div className={style.line}></div>
+
         <NonExpandableSidebarItem
           url={"/videocall"}
           iconStringClass={"videocam"}
           title={"VideoCall"}
         />
+
+        <div className={style.line}></div>
       </div>
     </div>
   );

@@ -1,6 +1,6 @@
 .navbarScrollVisible{
-    background-color:#393939;
-    height: 80px;
+    background-color:#08345d;
+    height: 70px;
     font-size: 1.2rem;
     width: 100%;
     transition: all 0.4s ease-in-out;
@@ -9,6 +9,25 @@
     z-index: 200;
     font-weight: 500;
     position: fixed;
+    color: rgb(238,49,88);
+    box-sizing: border-box;
+    padding:  20px 40px  20px 40px;
+    top: 0;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+}
+
+.navbarScrollVisibleFixed{
+    background-color:#08345d;
+    height: 70px;
+    font-size: 1.2rem;
+    width: 100%;
+    transition: all 0.4s ease-in-out;
+    transform: translateY(0);
+    opacity: 1;
+    z-index: 200;
+    font-weight: 500;
     color: rgb(238,49,88);
     box-sizing: border-box;
     padding:  20px 40px  20px 40px;

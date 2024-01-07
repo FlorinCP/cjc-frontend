@@ -1,12 +1,13 @@
 .datePicker {
-    border-radius: 5px;
     min-width: 320px;
-    width: 100%;
     height: 100%;
     user-select: none;
     display: grid;
     grid-template-rows: 55px 30px calc(100% - 85px);
     margin-top: 20px;
+    padding: 0px 20px 40px;
+    box-sizing: border-box;
+
 }
 
 .header {

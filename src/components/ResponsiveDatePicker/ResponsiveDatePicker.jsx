@@ -130,6 +130,7 @@ function ResponsiveDatePicker({
 
   useEffect(() => {
     if (today) {
+      console.log(today)
       const fetchData = async () => {
         return await getDatesForMonth(today.monthNumber);
       };

@@ -154,8 +154,8 @@ function DayStatusCard({ currentSelectionDate }) {
     ];
 
     return (
-      <div className={style.flex}>
-        <h3> Ore de munca : </h3>
+      <div>
+        <h3 className={style.text}> Ore de munca : </h3>
         <CustomDropdown
           options={singleDigitOptions}
           value={currentSelectionDate.workingHours || workingHoursSelect}
@@ -174,7 +174,7 @@ function DayStatusCard({ currentSelectionDate }) {
 
     return (
       <div>
-        <h3>Disponibilitatea :</h3>
+        <h3 className={style.text}>Disponibilitatea :</h3>
         <CustomDropdown
           placeholder="Neselectat"
           options={optionsDisponibilitate}
@@ -188,7 +188,7 @@ function DayStatusCard({ currentSelectionDate }) {
   function StartEndHours() {
     return (
       <div>
-        <h3>Program : </h3>
+        <h3 className={style.text}>Program : </h3>
         <div className={style.flexRow}>
           <StartHours /> <h4>:</h4> <EndHours />
         </div>
@@ -225,17 +225,25 @@ function DayStatusCard({ currentSelectionDate }) {
 
   return (
     <div className={style.dateInfo}>
+      <div className={style.settings}>
+        <StatusDropDown />
+        <WorkingHours />
+        <StartEndHours />
+      </div>
       <div className={style.buttons}>
-        <p className={style.selectedDay}>
-          <span className="material-symbols-outlined">calendar_today</span>
-          {currentSelectionDate.dayNumber} -{" "}
-          {currentSelectionDate.monthNumber + 1} -{" "}
-          {currentSelectionDate.fullYear}
-        </p>
-        <div className={style.navigation}>
-          <span className="material-symbols-outlined">chevron_left</span>
-          <span className="material-symbols-outlined">chevron_right</span>
+        <div className={style.flexRow}>
+          <p className={style.selectedDay}>
+            <span className="material-symbols-outlined">calendar_today</span>
+            {currentSelectionDate.dayNumber} -{" "}
+            {currentSelectionDate.monthNumber + 1} -{" "}
+            {currentSelectionDate.fullYear}
+          </p>
+          <div className={style.navigation}>
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </div>
         </div>
+
         <ActionButton
           text={"Salveaza"}
           onClick={setScheduleForDay}
@@ -245,12 +253,6 @@ function DayStatusCard({ currentSelectionDate }) {
         >
           <span className="material-symbols-outlined">event_available</span>
         </ActionButton>
-      </div>
-
-      <div className={style.settings}>
-        <StatusDropDown />
-        <WorkingHours />
-        <StartEndHours />
       </div>
     </div>
   );

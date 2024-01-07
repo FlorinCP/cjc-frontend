@@ -1,16 +1,35 @@
 .dateInfo {
-  width: fit-content;
   height: fit-content;
   box-sizing: border-box;
-  border-radius: 5px;
+  border-radius: 15px;
   display: flex;
   align-items: center;
   justify-content: flex-end;
   flex-direction: column;
-  border: 1px solid rgb(213, 213, 213);
-  margin: 20px;
+  border: 1px solid rgba(213, 213, 213, 0.64);
+  box-shadow: 2px 2px 5px 0px rgba(0, 0, 0, 0.2);
+
   gap: 20px;
-  padding: 20px;
+  padding: 0 20px;
+  background-color: white;
+}
+
+.text{
+margin: 20px;
+  color: #222;
+  font-weight: 500;
+  font-size: 18px;
+}
+
+.select {
+  display: flex;
+  width: 100%;
+  align-items: center;
+  justify-content: center;
+  gap: 5px;
+  /*background-color: #e8ebef;*/
+  height: min-content;
+  border-radius: 5px;
 }
 
 .dateInfoRow {
@@ -27,7 +46,7 @@
   padding: 20px;
 }
 
-.selectedDays{
+.selectedDays {
   max-height: 170px;
   overflow-y: auto;
 }
@@ -36,12 +55,12 @@
   margin: 5px;
 }
 
-.flexRow{
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    width: 100%;
-    gap: 10px;
+.flexRow {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  width: fit-content;
+  gap: 10px;
 }
 
 .buttons {
@@ -49,7 +68,6 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  border-bottom: 1px solid rgb(213, 213, 213);
   padding-bottom: 20px;
 }
 
@@ -81,6 +99,8 @@
   justify-content: space-between;
   flex-direction: row;
   gap: 40px;
+  border-bottom: 1px solid rgb(213, 213, 213);
+  padding-bottom: 20px;
 }
 
 .bodyCard {

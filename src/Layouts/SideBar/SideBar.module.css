@@ -12,7 +12,6 @@
     justify-content: center;
     align-items: center;
     position: relative;
-    padding-top: 40px;
 }
 
 .hamburger{
@@ -39,11 +38,14 @@
 }
 
 :root {
-    --deep-blue: #18446d;
+    --deep-blue: rgb(255, 255, 255);
     --font-size: 16px;
-    --sidebar-background-color: #072c48;
-    --selected-blue: rgba(173, 191, 210, 0.35);
-    --font-color: white;
+    --sidebar-background-color: #f2f6fc;
+    --selected-blue: rgba(135, 196, 234, 0.73);
+    --font-color: #222;
+    font-weight: 500;
+    font-family: 'Inter', sans-serif;
+
 }
 
 
@@ -76,6 +78,7 @@
 .sidebarItem2 {
     min-height: 50px;
     width: 14vw;
+    font-weight: 500;
     border-radius: 10px;
     box-sizing: border-box;
     height: fit-content;
@@ -116,6 +119,12 @@
     color: var(--font-color);
 }
 
+
+.line{
+    width: 90%;
+    border-top: 1px solid rgba(112, 128, 144, 0.31);
+}
+
 /* whole sidebar */
 .sidebar {
     width: 15vw;
@@ -128,10 +137,9 @@
     align-items: center;
     justify-content: space-between;
     flex-direction: column;
-    height: 100vh;
     overflow-y: auto;
+    height: 100%;
     overflow-x: hidden;
-    padding: 0.5vw;
     transition: 0.5s;
 }
 
@@ -169,9 +177,9 @@
     text-decoration: none;
 }
 
-.clickableSidebarItem:hover {
-    background-color: var(--deep-blue);
-}
+/*.clickableSidebarItem:hover {*/
+/*    background-color: var(--deep-blue);*/
+/*}*/
 
 .clickableSidebarItem > span {
     font-size: 20px;
@@ -195,7 +203,7 @@
     cursor: pointer;
     font-size: 18px;
     color: var(--font-color);
-    font-weight: 400;
+    font-weight: 500;
     display: flex;
     justify-items: flex-start;
     background-color: transparent;

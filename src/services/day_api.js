@@ -47,7 +47,7 @@ export async function getDatesForMonth(monthNumber) {
     const queryString = new URLSearchParams(queryParams).toString();
 
     const response = await fetch(
-      `${BASE_URL}/day/all-days-in-month?${queryString}`,
+      `${process.env.REACT_APP_LOCAL_URL}/day/all-days-in-month?${queryString}`,
     );
 
     if (response.ok) {

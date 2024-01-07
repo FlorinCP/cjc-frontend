@@ -17,7 +17,7 @@ function ExpandableSidebarItem({name,mainUrl,sidebarItems}) {
     <div className={expand ? style.sidebarItemSelected : style.sidebarItem}>
       <div className={style.clickableSidebarItem} onClick={displayRequests}>
         <span className="material-symbols-outlined">dynamic_form</span>
-        {name}
+        <p style={{fontWeight:"500"}}>{name}</p>
         <div className={style.absoluteRight}>
           {expand ? (
             <span className="material-symbols-outlined">expand_less</span>

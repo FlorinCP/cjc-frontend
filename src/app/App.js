@@ -11,12 +11,13 @@ import NotFoundPage from "../pages/404/NotFoundPAge";
 import QuestionDetails from "../components/QuestionDetails/QuestionDetails";
 import RegisterWithToken from "../pages/Login/RegisterWithToken";
 import Test from "../pages/Test/Test";
+import MultiLayout from "../Layouts/MultiLayout/MultiLayout";
 
 function App() {
   return (
     <Router>
       <Routes>
-        <Route element={<SideBarLayout />}>
+        <Route element={<MultiLayout />}>
           <Route path="/schedule/edit" element={<Schedule />} />
           <Route path="/schedule" element={<Calendar />} />
           <Route path="/videocall" element={<VideoCall />} />
