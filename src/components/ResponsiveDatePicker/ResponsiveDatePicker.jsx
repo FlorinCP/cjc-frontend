@@ -293,8 +293,8 @@ function ResponsiveDatePicker({
           <span className="material-symbols-outlined"> navigate_before </span>
         </div>
         <div className={style.monthYear}>
-          <span>{monthName}</span>
-          <span>{fullYear}</span>
+          <p>{monthName}</p>
+          <p>{fullYear}</p>
         </div>
         <div className={style.next} onClick={nextMonth}>
           <span className="material-symbols-outlined">navigate_next</span>

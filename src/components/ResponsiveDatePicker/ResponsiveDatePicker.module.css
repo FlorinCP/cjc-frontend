@@ -35,6 +35,7 @@
     font-size: 19px;
     padding-top: 7px;
     float: right;
+    gap: 10px;
 }
 
 .monthYear > span:last-child{
