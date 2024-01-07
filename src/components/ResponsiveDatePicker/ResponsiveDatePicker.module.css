@@ -1,5 +1,5 @@
 .datePicker {
-    min-width: 320px;
+    min-width: 200px;
     height: 100%;
     user-select: none;
     display: grid;
@@ -110,3 +110,48 @@
     font-weight: bold;
 }
 
+.cell{
+    height: 100%;
+    width: 100%;
+    border-radius: 14px;
+    border : 7px solid;
+}
+
+.button{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+}
+
+@media (max-width: 768px) {
+   .datePicker{
+       padding: 5px;
+       margin: 0;
+   }
+
+   .cell{
+       width: calc(85vw / 7);
+       height: calc(85vw / 7);
+       position: relative;
+       border : 10px solid;
+   }
+
+   .button{
+        position: absolute;
+       top: -1px;
+       left: -1px;
+       height: 110%;
+       width: 110%;
+   }
+
+    .daysGrid {
+        display: grid;
+        min-height: 220px;
+        height: fit-content;
+        gap: 5px;
+        grid-template-columns: repeat(7, auto);
+        text-align: center;
+    }
+}

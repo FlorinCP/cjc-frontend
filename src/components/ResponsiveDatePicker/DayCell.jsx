@@ -1,6 +1,7 @@
 import PropTypes from "prop-types";
 import ActionButton from "../ActionButton/ActionButton";
 import { useState } from "react";
+import styles from "./ResponsiveDatePicker.module.css";
 
 function DayCell({
   style,
@@ -15,46 +16,30 @@ function DayCell({
   const [isHovered, setIsHovered] = useState(false);
   const [isDisabled, setIsDisabled] = useState(style === "pastDay");
 
-  const divGeneralStyle = {
-    height: "100%",
-    width: "100%",
-    borderRadius: "14px",
-    border: "7px solid ",
-  }
 
   const divStyle = {
-    ...divGeneralStyle,
     borderColor: isHovered && !isDisabled ? "#1888ff" : "rgb(241,241,241)",
   };
 
   const workingStyle = {
-     ...divGeneralStyle,
     borderColor: isHovered ? "#1888ff" : "rgb(187,255,189)",
   };
 
   const closedStyle = {
-    ...divGeneralStyle,
     borderColor: isHovered ? "#1888ff" : "rgb(255,205,205)",
   };
 
   const todayStyle = {
-    ...divGeneralStyle,
     borderColor: isHovered ? "#1888ff" : "#b700ff",
   };
 
   const selectedDayStyle = {
-    ...divGeneralStyle,
     borderColor: "#1888ff",
   };
 
   const buttonGeneralStyle = {
     borderRadius: isHovered ? "2px" : "7px",
-    height: "100%",
-    width: "100%",
-    border: "none",
-    fontSize: "18px",
     cursor: !isDisabled && "pointer",
-    fontWeight: "bold",
   };
 
 
@@ -119,6 +104,7 @@ function DayCell({
   return (
     <div
       style={isSelected ? selectedDayStyle : getDivStyle(style)}
+      className={styles.cell}
       onMouseEnter={() => {
         setIsHovered(true);
         onMouseEnter();
@@ -128,7 +114,7 @@ function DayCell({
       }}
       onClick={onClick}
     >
-      <button style={isSelected ? selectedButtonStyle : getButtonStyle(style)} disabled={isDisabled}>
+      <button style={isSelected ? selectedButtonStyle : getButtonStyle(style)} disabled={isDisabled} className={styles.button}>
         {value}
       </button>
     </div>

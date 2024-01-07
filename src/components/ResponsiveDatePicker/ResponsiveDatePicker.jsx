@@ -6,6 +6,7 @@ import ContextMenu from "../ContextMenu/ContextMenu";
 import {useDispatch, useSelector} from "react-redux";
 import {getDatesForMonth} from "../../services/day_api";
 import {setMonthDays} from "../../features/monthDaysSlice";
+import useScreenSize from "../../hooks/useScreenSize";
 
 function ResponsiveDatePicker({
   sendSelectedDate,
@@ -230,13 +231,15 @@ function ResponsiveDatePicker({
     }
   }
 
+  const {width} = useScreenSize();
+
   /**
    *  IF multipleSelection is allowed this function is used to set the selected days by hovering over them
    *
    * @param day
    */
   function onMouseEnterHandler(day) {
-    if (allowMultipleSelection) {
+    if (allowMultipleSelection && width > 768) {
       if (!multipleSelectionDates.includes(day)) {
         setMultipleSelectionDates((prevState) => [...prevState, day]);
       } else {

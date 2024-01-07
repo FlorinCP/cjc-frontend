@@ -13,8 +13,8 @@
   background-color: white;
 }
 
-.text{
-margin: 20px;
+.text {
+  margin: 20px;
   color: #222;
   font-weight: 500;
   font-size: 18px;
@@ -146,4 +146,43 @@ select:hover {
 select:focus {
   outline: 2px solid #1c79b8; /* Adds a highlight color when focused */
   outline-offset: -2px;
+}
+
+@media screen and (max-width: 768px) {
+  .dateInfo {
+    width: fit-content;
+    height: fit-content;
+    box-sizing: border-box;
+    border-radius: 15px;
+    display: flex;
+    align-items: center;
+    justify-content: flex-end;
+    flex-direction: column;
+    border: 1px solid rgba(213, 213, 213, 0.64);
+    box-shadow: none;
+    gap: 20px;
+    padding: 0 20px;
+  }
+
+  .settings {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    flex-direction: column;
+    gap: 10px;
+    border-bottom: 1px solid rgb(213, 213, 213);
+    padding-bottom: 20px;
+  }
+
+  .buttons {
+    width: fit-content;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    justify-content: space-between;
+    padding-bottom: 20px;
+    gap: 10px;
+  }
+
 }
