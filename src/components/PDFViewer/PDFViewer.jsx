@@ -11,19 +11,15 @@ function PDFViewer(props) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [numPages, setNumPages] = useState();
-  const [computedWidth, setComputedWidth] = useState(1000);
   const docRef = useRef(null);
 
   const { width } = useScreenSize();
 
-  useEffect(() => {
-
-    console.log(width)
-
+  function getWidth(width) {
     let newValue;
 
     if (width < 800) {
-      setComputedWidth(300)
+      newValue = width * 0.9;
     } else if (width >= 800 && width <= 1500) {
       newValue = width * 0.8;
     } else if (width > 1500) {
@@ -32,10 +28,8 @@ function PDFViewer(props) {
       newValue = 1000;
     }
 
-    console.log(newValue)
-    setComputedWidth(newValue)
-
-  }, [width]);
+    return newValue;
+  }
 
   const handleScroll = (e) => {
     if (docRef.current) {
@@ -70,7 +64,7 @@ function PDFViewer(props) {
 
     return Array.from(new Array(numPages), (el, index) => (
       <Page
-        width={computedWidth}
+        width={getWidth(width)}
         key={`page_${index + 1}`}
         pageNumber={index + 1}
       />

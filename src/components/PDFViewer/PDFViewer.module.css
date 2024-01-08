@@ -115,5 +115,29 @@
 }
 
 @media screen and (max-width: 768px){
+  .documentInfo {
+    height: 50px;
+    width: 100%;
+    position: absolute;
+    top: 0;
+    left: 0;
+    z-index: 200;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    flex-direction: row;
+    box-sizing: border-box;
+    padding-left: 20px;
+    padding-right: 20px;
+    opacity: 1;
+    background-color: grey;
+    color: white;
+    transition: 0.5s all ease-in-out;
+    margin-bottom: 20px;
+  }
+
+  .title {
+    display: none;
+  }
 
 }
