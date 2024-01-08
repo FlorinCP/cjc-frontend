@@ -14,21 +14,11 @@ function Header({ title }) {
 
   return (
     <div className={style.header}>
-      <div></div>
       <p className={style.title}>{title}</p>
-
-      <div className={style.userInfo}>
-        <div>
-          <span className="material-symbols-outlined">account_circle</span>{" "}
-          {currentUser.email}
-          {"   "}
-        </div>
-        <div className={style.logout}>
-          <span className="material-symbols-outlined" onClick={logout}>
-            logout
-          </span>
-        </div>
-      </div>
+      <div className={style.line}></div>
+      <p className={style.info}>
+        Selectati programul dumneavoastra pentru fiecare zi dorita.
+      </p>
     </div>
   );
 }

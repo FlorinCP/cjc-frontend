@@ -66,15 +66,16 @@ function SideBar(props) {
               className={style.logo}
             />
           </Link>
-
-          <div
-            className={style.hamburger}
-            onClick={() => {
-              changeSidebarState();
-            }}
-          >
-            <span className="material-symbols-outlined">menu_open</span>
-          </div>
+          {width > 768 && (
+            <div
+              className={style.hamburger}
+              onClick={() => {
+                changeSidebarState();
+              }}
+            >
+              <span className="material-symbols-outlined">menu_open</span>
+            </div>
+          )}
         </div>
         <div className={style.line}></div>
 
