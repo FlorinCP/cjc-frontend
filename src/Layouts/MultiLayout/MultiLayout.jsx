@@ -26,7 +26,7 @@ function SideBarLayout() {
   return (
     <div className={style.multiWrapper}>
       <ResponsiveNavbarFixed />
-      {useScreenSize().width > 450 ? (
+      {useScreenSize().width > 769 ? (
         <div className={style.content} style={isExpaned ? expanedStyle : collapsedStyle}>
           {isExpaned ? <SideBar /> : <CollapsedSidebar />}
           {/*<div className={style.outlet}>*/}

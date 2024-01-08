@@ -140,10 +140,10 @@
 
    .button{
         position: absolute;
-       top: -1px;
-       left: -1px;
-       height: 110%;
-       width: 110%;
+       top: -2px;
+       left: -2px;
+       height: calc(107% + 2px);
+       width: calc(107% + 2px);
    }
 
     .daysGrid {

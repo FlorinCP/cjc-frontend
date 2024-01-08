@@ -273,3 +273,49 @@
     border-radius: 50%;
     cursor: pointer;
 }
+
+@media screen and (max-width: 768px) {
+    .sidebar {
+        width: 75vw;
+        align-items: flex-start;
+    }
+
+    .sidebarItems {
+        width: 100%;
+    }
+
+    .sidebarItem2 {
+        width: 95%;
+        padding-left: 10px;
+    }
+
+    .sidebarItemSelected {
+        width: 95%;
+    }
+
+    .sidebarItem {
+        width: 95%;
+    }
+
+    .clickableSidebarItem {
+        width: 90%;
+    }
+
+    .loadBtnSelected {
+        width: 95%;
+    }
+
+    .loadBtn {
+        width: 95%;
+    }
+
+    .logo {
+        width: 25%;
+    }
+
+    .link {
+        display: grid;
+        place-items: center;
+    }
+
+}
