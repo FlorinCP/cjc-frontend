@@ -73,7 +73,7 @@ function QuestionCardFooter({
             <ActionButton
               text={"Programeaza-te"}
               color={"white"}
-              backgroundColor={"#1c79b8"}
+              backgroundColor={"#3ca2ec"}
               active={wasClicked}
               onClick={() => {
                 openScheduleModal();
@@ -117,7 +117,7 @@ function QuestionCardFooter({
               text={"Termina"}
               color={"white"}
               active={true}
-              backgroundColor={"#1c79b8"}
+              backgroundColor={"#3ca2ec"}
               onClick={() => {
                 setUpdatedStatus("DONE");
               }}

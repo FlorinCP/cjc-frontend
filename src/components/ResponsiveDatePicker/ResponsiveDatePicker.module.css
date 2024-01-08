@@ -1,5 +1,5 @@
 .datePicker {
-    min-width: 200px;
+    min-width: 100px;
     height: 100%;
     user-select: none;
     display: grid;
@@ -127,13 +127,15 @@
 
 @media (max-width: 768px) {
    .datePicker{
-       padding: 5px;
+       padding: 10px;
        margin: 0;
+       height: fit-content;
+       box-sizing: border-box;
    }
 
    .cell{
-       width: calc(85vw / 7);
-       height: calc(85vw / 7);
+       width: calc(80vw / 7);
+       height: calc(80vw / 7);
        position: relative;
        border : 10px solid;
    }

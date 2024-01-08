@@ -27,10 +27,14 @@ export default function Status({updatedStatus,question}){
     return (
         <div
             style={{
-                color: getColor(updatedStatus ? updatedStatus : question.status),
+                backgroundColor: getColor(updatedStatus ? updatedStatus : question.status),
+                width:"fit-content",
+                padding:"5px 10px",
+                borderRadius:"15px",
                 display:"flex",
                 alignItems:"center",
-                justifyContent:"flex-start"
+                justifyContent:"flex-start",
+                color:"white",
             }}
         >
             {getICon(updatedStatus ? updatedStatus : question.status)}

@@ -69,7 +69,7 @@
   border-top: 1px solid rgb(238, 238, 238);
   border-bottom: 1px solid rgb(238, 238, 238);
   width: 100%;
-  padding: 20px;
+  padding: 5px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -134,16 +134,19 @@
 @media screen and (max-width: 768px){
   .replyWrapper {
     width: 90%;
-    min-height: 15vh;
-
-    gap: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
-    padding: 10px 10px;
-    box-sizing: border-box;
     margin-top: 10px;
     border-radius: 5px;
     margin-bottom: 10px;
-    border: 1px solid rgba(24, 68, 109, 0.25);
-    background-color: white;
   }
+  .name > h4 {
+    font-size: 14px;
+    color: #054270;
+  }
+
+  #author{
+    display: none;
+  }
+
+
+
 }

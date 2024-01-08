@@ -97,6 +97,12 @@ function MakeAppointment({ question }) {
 
   return (
     <div className={style.mainContainer}>
+
+      <AddApointmentCard
+          globalSelectedSlot={globalSelectedSlot}
+          question={question}
+      />
+
       <div className={style.datePickerWrapper}>
         <ResponsiveDatePicker
           sendSelectedDate={(date) => handleSelectedDay(date)}
@@ -105,12 +111,9 @@ function MakeAppointment({ question }) {
         />
       </div>
 
-      {currentSelectionDate && (
-        <AddApointmentCard
-          globalSelectedSlot={globalSelectedSlot}
-          question={question}
-        />
-      )}
+      {/*{currentSelectionDate && (*/}
+      {/*  */}
+      {/*)}*/}
 
       {currentSelectionDate && currentWeek.days.length > 0 && (
         <DetailedCalendar

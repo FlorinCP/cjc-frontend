@@ -18,14 +18,9 @@ function Reply({ reply }) {
     >
       <div className={style.author}>
         <div>
-          <div className={style.name}>
-            <span className="material-symbols-outlined">person</span>
-            <h4>
-              {reply.author.nume} {reply.author.prenume}{" "}
-            </h4>
-          </div>
 
-          <div className={style.name}>
+
+          <div className={style.name} id={style['author']}>
             <span className="material-symbols-outlined">mail</span>
             <h4> {reply.author.email}</h4>
           </div>
@@ -41,18 +36,27 @@ function Reply({ reply }) {
 
       <div className={style.filesInfoAndButtons}>
 
+        <div className={style.name} >
+          <span className="material-symbols-outlined">person</span>
+          <h4 >
+            {reply.author.nume} {reply.author.prenume}{" "}
+          </h4>
+        </div>
+
         <div className={style.name} onClick={()=>setIsExpanded((prevState) => !prevState)}>
           <span className="material-symbols-outlined">draft</span>
           <h4>{reply.fileInfo.length} fisiere</h4>
+
+          <div className={style.expand} onClick={()=>setIsExpanded((prevState) => !prevState)}>
+            {isExpanded ? (
+                <span className="material-symbols-outlined">expand_less</span>
+            ) : (
+                <span className="material-symbols-outlined">expand_more</span>
+            )}
+          </div>
         </div>
 
-        <div className={style.expand} onClick={()=>setIsExpanded((prevState) => !prevState)}>
-          {isExpanded ? (
-            <span className="material-symbols-outlined">expand_less</span>
-          ) : (
-            <span className="material-symbols-outlined">expand_more</span>
-          )}
-        </div>
+
 
         <></>
       </div>

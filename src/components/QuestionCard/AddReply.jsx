@@ -1,96 +1,102 @@
 import style from "../QuestionDetails/QuestionDetails.module.css";
 import ActionButton from "../ActionButton/ActionButton";
-import React, {useState} from "react";
-import {mapToObject} from "../../services/question_api";
-import {sendReply} from "../../services/reply_api";
-import {getRepliesByQuestionId} from "../../features/questionsSlice";
-import {useDispatch, useSelector} from "react-redux";
-import {useParams} from "react-router-dom";
+import React, { useState } from "react";
+import { mapToObject } from "../../services/question_api";
+import { sendReply } from "../../services/reply_api";
+import { getRepliesByQuestionId } from "../../features/questionsSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
 
-function AddReply({question}){
+function AddReply({ question }) {
+  const dispatch = useDispatch();
+  const questionId = parseInt(useParams().questionId, 10);
+  const { email } = useSelector((state) => state.token);
 
-    const dispatch = useDispatch();
-    const questionId = parseInt(useParams().questionId, 10);
-    const { email } = useSelector((state) => state.token);
+  const [replyText, setReplyText] = useState("");
+  const [selectedFilesObj, setSelectedFilesObj] = useState(null);
+  const [replyFiles, setReplyFiles] = useState(null);
 
-    const [replyText, setReplyText] = useState("");
-    const [selectedFilesObj, setSelectedFilesObj] = useState(null);
-    const [replyFiles, setReplyFiles] = useState(null);
+  const handleFileChange = (e) => {
+    const filesArray = Array.from(e.target.files);
+    const obj = mapToObject(filesArray);
+    console.log(obj);
+    setSelectedFilesObj(obj);
+    setReplyFiles(filesArray);
+  };
 
-    const handleFileChange = (e) => {
-        const filesArray = Array.from(e.target.files);
-        const obj = mapToObject(filesArray);
-        console.log(obj);
-        setSelectedFilesObj(obj);
-        setReplyFiles(filesArray);
-    };
-
-    function addReply() {
-        const formData = new FormData();
-        formData.append("text", replyText);
-        formData.append("questionId", question.id);
-        formData.append("email", email);
-        if (replyFiles) {
-            replyFiles.forEach((file) => {
-                formData.append(`replyFiles`, file);
-            });
-        } else {
-            formData.append(`replyFiles`, null);
-        }
-
-        sendReply(formData).then((r) => {
-            dispatch(getRepliesByQuestionId(questionId));
-        });
-
-        setReplyText("");
-        setReplyFiles(null);
+  function addReply() {
+    const formData = new FormData();
+    formData.append("text", replyText);
+    formData.append("questionId", question.id);
+    formData.append("email", email);
+    if (replyFiles) {
+      replyFiles.forEach((file) => {
+        formData.append(`replyFiles`, file);
+      });
+    } else {
+      formData.append(`replyFiles`, null);
     }
 
+    sendReply(formData).then((r) => {
+      dispatch(getRepliesByQuestionId(questionId));
+    });
 
-    return(
-        <div className={style.updateStatus}>
-            <i>* Adaugati un raspuns</i>
-            <textarea
-                name="questionText"
-                className={style.enterQuestion}
-                value={replyText}
-                onChange={(e) => {
-                    setReplyText(e.target.value);
-                }}
-            ></textarea>
+    setReplyText("");
+    setReplyFiles(null);
+  }
 
-            <div>
-                <div>
-                    <label htmlFor="file-upload" className={style.customFileUpload}>
-                        <span className="material-symbols-outlined">draft</span>
-                        <span>Alegeti fisierele</span>
-                    </label>
+  return (
+    <div className={style.updateStatus}>
+      <i>* Adaugati un raspuns</i>
+      <textarea
+        name="questionText"
+        className={style.enterQuestion}
+        value={replyText}
+        onChange={(e) => {
+          setReplyText(e.target.value);
+        }}
+      ></textarea>
 
-                    {/*{*/}
-                    {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
-                    {/*}*/}
+      <div className={style.replyActions}>
 
-                    <input
-                        type="file"
-                        id="file-upload"
-                        onChange={handleFileChange}
-                        className={style.myFileInput}
-                        multiple
-                    />
-                </div>
 
-                <ActionButton
-                    text={"Trimite"}
-                    color={"white"}
-                    active={true}
-                    backgroundColor={"purple"}
-                    onClick={addReply}
-                >
-                    <span className="material-symbols-outlined">outgoing_mail</span>
-                </ActionButton>
-            </div>
+        <div className={style.desktop}>
+          <label htmlFor="file-upload" className={style.customFileUpload}>
+            <span className="material-symbols-outlined">cloud_upload</span>
+            <span>Alegeti fisierele</span>
+          </label>
         </div>
-    )
+
+          <div className={style.mobile}>
+              <label htmlFor="file-upload" className={style.customFileUpload}>
+                  <span className="material-symbols-outlined">cloud_upload</span>
+              </label>
+          </div>
+
+        {/*{*/}
+        {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
+        {/*}*/}
+
+        <input
+          type="file"
+          id="file-upload"
+          onChange={handleFileChange}
+          className={style.myFileInput}
+          multiple
+        />
+
+        <ActionButton
+          text={"Trimite"}
+          color={"white"}
+          active={true}
+          backgroundColor={"purple"}
+          onClick={addReply}
+        >
+          <span className="material-symbols-outlined">outgoing_mail</span>
+        </ActionButton>
+      </div>
+    </div>
+  );
 }
 
 export default AddReply;

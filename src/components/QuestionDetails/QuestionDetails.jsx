@@ -26,6 +26,7 @@ function QuestionDetails() {
   const [updatedStatus, setUpdatedStatus] = useState(null);
   const [isExpanded, setIsExpanded] = useState(false);
   const [wasClicked, setWasClicked] = useState(true);
+  const [showReplies, setShowReplies] = useState(true);
 
   useEffect(() => {
     dispatch(getRepliesByQuestionId(questionId));
@@ -48,7 +49,10 @@ function QuestionDetails() {
             question={question}
             sendIsExpanded={(value) => setIsExpanded(value)}
             wasClicked={wasClicked}
-            sendWasCliked={() => setWasClicked((prevState) => !prevState)}
+            sendWasCliked={() => {
+              setWasClicked((prevState) => !prevState);
+              setShowReplies(false);
+            }}
             sendUpdatedStatus={(value) => setUpdatedStatus(value)}
             isDetailed={true}
           />
@@ -70,17 +74,32 @@ function QuestionDetails() {
             </div>
           )}
 
-          {(question.replyNumber > 0 ||
-            (question.replies && question.replies.length > 0)) && (
-            <>
-              {!isExpanded && (<div className={style.line}></div>)}
-              <p>Mesaje</p>
+          <div className={style.line}></div>
+          <div className={style.toggleReplies}
+          onClick={()=> setShowReplies(prevState => !prevState)}
+          >
+            <p>Mesaje</p>
+            {showReplies ? (
+              <span className="material-symbols-outlined">remove</span>
+            ) : (
+              <span className="material-symbols-outlined">add</span>
+            )}
+          </div>
 
-              <RepliesWrapper question={question} />
+          {showReplies && (
+            <>
+              {(question.replyNumber > 0 ||
+                (question.replies && question.replies.length > 0)) && (
+                <>
+                  <RepliesWrapper question={question} />
+                </>
+              )}
+
+              {question.status !== "WAITING" && (
+                <AddReply question={question} />
+              )}
             </>
           )}
-
-          {question.status !== "WAITING" && <AddReply question={question} />}
         </div>
       </div>
     </div>
