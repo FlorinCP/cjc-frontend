@@ -60,7 +60,6 @@
 .updateStatus {
   width: 100%;
   height: fit-content;
-  min-height: 20vh;
   display: flex;
   flex-direction: column;
   align-items: start;

@@ -123,6 +123,10 @@
     border: none;
     font-size: 18px;
     font-weight: bold;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
 }
 
 @media (max-width: 768px) {
@@ -141,7 +145,7 @@
    }
 
    .button{
-        position: absolute;
+       position: absolute;
        top: -2px;
        left: -2px;
        height: calc(107% + 2px);
