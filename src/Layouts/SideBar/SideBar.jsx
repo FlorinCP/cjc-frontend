@@ -3,9 +3,14 @@ import style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 import { setSidebarStatus, setSidebarValue } from "../../features/sidebarSlice";
+import useScreenSize from "../../hooks/useScreenSize";
+import { useLogout } from "../../hooks/useLogout";
 function SideBar(props) {
+  const { width, height } = useScreenSize();
+  const logout = useLogout();
+
   const requestItems = [
     {
       url: "/questions/status/waiting",
@@ -39,6 +44,7 @@ function SideBar(props) {
 
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(true);
+  const email = useSelector((state) => state.token.email);
 
   function changeSidebarState() {
     setIsExpanded((prevState) => !prevState);
@@ -103,6 +109,19 @@ function SideBar(props) {
         />
 
         <div className={style.line}></div>
+        <div className={style.userInfo}>
+          <div className={style.line}></div>
+          <div style={{ display: "flex", marginTop: "10px" }}>
+            <span className="material-symbols-outlined">account_circle</span>
+            <p className={style.userEmail}>{email}</p>
+            <span
+              className="material-symbols-outlined"
+              onClick={() => logout()}
+            >
+              logout
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );
