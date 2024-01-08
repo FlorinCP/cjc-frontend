@@ -14,6 +14,8 @@ import QuestionCardFooter from "../QuestionCard/QuestionCardFooter";
 import UpdateStatus from "../QuestionCard/UpdateStatus";
 import AddReply from "../QuestionCard/AddReply";
 import RepliesWrapper from "../QuestionCard/RepliesWrapper";
+import QuestionCardHeader from "../QuestionCard/QuestionCardHeader";
+import Status from "../Status/Status";
 
 function QuestionDetails() {
   const questionId = parseInt(useParams().questionId, 10);
@@ -31,52 +33,55 @@ function QuestionDetails() {
 
   function handleSelectedDays(date) {}
 
-
   return (
     <div className={style.mainContainer}>
-      <Header title={"Vizualizare Detaliata"} />
-      <div className={style.questionWrapper}>
-        <QuestionCardHeaderDetailed
-          question={question}
-          updatedStatus={updatedStatus}
-        />
+      <Header title={"Vizualizare Detaliata"}>
+        <Status updatedStatus={updatedStatus} question={question} />
+      </Header>
+      <div className={style.questionsWrapper}>
+        <div className={style.questionCardWrapper}>
+          <QuestionCardHeader question={question} />
 
-        <QuestionCardBody question={question} />
+          <QuestionCardBody question={question} />
 
-        <QuestionCardFooter
-          question={question}
-          sendIsExpanded={(value) => setIsExpanded(value)}
-          wasClicked={wasClicked}
-          sendWasCliked={() => setWasClicked((prevState) => !prevState)}
-          sendUpdatedStatus={(value) => setUpdatedStatus(value)}
-          isDetailed={true}
-        />
-
-        {isExpanded && (
-          <FilesWrapper
-            fileInfo={question.fileInfo}
-            fileNumber={question.fileNumber}
+          <QuestionCardFooter
+            question={question}
+            sendIsExpanded={(value) => setIsExpanded(value)}
+            wasClicked={wasClicked}
+            sendWasCliked={() => setWasClicked((prevState) => !prevState)}
+            sendUpdatedStatus={(value) => setUpdatedStatus(value)}
+            isDetailed={true}
           />
-        )}
 
-        {updatedStatus && question.status === "WAITING" && (
-          <UpdateStatus question={question} updatedStatus={updatedStatus} />
-        )}
-
-        {!wasClicked && (
-          <div className={style.datePickerWrapper}>
-            <MakeAppointment
-                question={question}
+          {isExpanded && (
+            <FilesWrapper
+              fileInfo={question.fileInfo}
+              fileNumber={question.fileNumber}
             />
-          </div>
-        )}
+          )}
 
-        {(question.replyNumber > 0 || (question.replies && question.replies.length > 0)) && (
-          <RepliesWrapper question={question} />
-        )}
+          {updatedStatus && question.status === "WAITING" && (
+            <UpdateStatus question={question} updatedStatus={updatedStatus} />
+          )}
 
-        {question.status !== "WAITING" && <AddReply question={question} />}
+          {!wasClicked && (
+            <div className={style.datePickerWrapper}>
+              <MakeAppointment question={question} />
+            </div>
+          )}
 
+          {(question.replyNumber > 0 ||
+            (question.replies && question.replies.length > 0)) && (
+            <>
+              {!isExpanded && (<div className={style.line}></div>)}
+              <p>Mesaje</p>
+
+              <RepliesWrapper question={question} />
+            </>
+          )}
+
+          {question.status !== "WAITING" && <AddReply question={question} />}
+        </div>
       </div>
     </div>
   );

@@ -1,6 +1,5 @@
 import React from "react";
 import style from "./QuestionCard.module.css";
-import QuestionCardHeader from "./QuestionCardHeader";
 
 function QuestionCardHeaderDetailed({ question, updatedStatus }) {
   function getColor(status) {

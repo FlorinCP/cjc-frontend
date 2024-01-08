@@ -3,7 +3,7 @@ import React from "react";
 import { useLogout } from "../../hooks/useLogout";
 import { useSelector } from "react-redux";
 
-function Header({ title }) {
+function Header({ title,subtitle ,children }) {
 
 
   return (
@@ -11,8 +11,9 @@ function Header({ title }) {
       <p className={style.title}>{title}</p>
       <div className={style.line}></div>
       <p className={style.info}>
-        Vizualizare sumara cereri acceptate.
+          {subtitle}
       </p>
+        {children}
     </div>
   );
 }

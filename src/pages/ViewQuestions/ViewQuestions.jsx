@@ -53,7 +53,7 @@ function ViewQuestions(props) {
 
   return (
     <div className={style.mainContainer}>
-      <Header title={title} />
+      <Header title={title} subtitle={"Vizualizare sumara cereri acceptate."}/>
       {loading && <CircularLoadingAnimation />}
       {(error || !isValidStatus || questions.length === 0) && (
         <div className={style.notFound}>
