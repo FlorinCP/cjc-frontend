@@ -1,19 +1,20 @@
 .questionWrapper {
-  width: 70vw;
+  width: 70%;
+  max-width: 1000px;
   height: fit-content;
   display: flex;
   justify-content: center;
   align-items: center;
   flex-direction: column;
   gap: 10px;
-  box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
+  box-shadow: 0px 0px 1px 1px rgba(0, 0, 0, 0.2);
+
   padding: 10px 10px;
   box-sizing: border-box;
   margin-top: 50px;
-  border-radius: 5px;
+  border-radius: 15px;
   position: relative;
   margin-bottom: 50px;
-  border: 1px solid rgba(24, 68, 109, 0.25);
   background-color: white;
 }
 
@@ -25,7 +26,7 @@
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
-  gap: 20px;
+  gap: 10px;
   min-height: 15vh;
   max-height: 20vh;
 }
@@ -34,15 +35,30 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  width: 69vw;
+  width: 100%;
 }
 
 .questionText {
-  display: flex;
-  justify-content: space-between;
-  align-items: center;
-  width: 68vw;
+  width: 100%;
+  overflow-y: auto;
+  text-overflow: ellipsis;
 }
+
+.questionText > p{
+  margin: 0 5px 0 0;
+}
+
+
+.questionText::-webkit-scrollbar{
+  background-color: transparent;
+  width: 5px;
+}
+
+.questionText::-webkit-scrollbar-thumb{
+  background-color: rgba(28, 121, 184, 0.24);
+  border-radius: 10px;
+}
+
 
 .fileTitle {
   display: grid;
@@ -84,7 +100,7 @@
 
 .author {
   width: 100%;
-  height: 5vh;
+  height: 50px;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -93,14 +109,27 @@
   box-sizing: border-box;
   border-radius: 5px;
   color: #072c48;
+  overflow-y: hidden;
+  overflow-x: auto;
 }
+
+.author::-webkit-scrollbar{
+  height: 5px;
+
+}
+
+.author::-webkit-scrollbar-thumb{
+  background-color: rgba(28, 121, 184, 0.24);
+  border-radius: 10px;
+}
+
 
 .filesInfoAndButtons {
   width: 100%;
   display: grid;
-  padding:0 10px;
+  padding: 0 10px;
   box-sizing: border-box;
-  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-columns: 1fr 1fr;
 }
 
 .filesInfoAndButtons > div:last-child {
@@ -145,6 +174,18 @@
   padding: 5px;
   border-radius: 10px;
   transition: 0.15s all ease-in-out;
+  white-space: nowrap;
+}
+
+.files {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  cursor: pointer;
+  padding: 5px;
+  border-radius: 10px;
+  transition: 0.15s all ease-in-out;
 }
 
 .name > h4:hover {
@@ -171,4 +212,139 @@ h3 {
   display: flex;
   align-items: end;
   justify-content: center;
+}
+
+.flex {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  width: fit-content;
+  gap: 5px;
+}
+
+@media screen and (max-width: 768px) {
+  .questionWrapper {
+    width: 95vw;
+    padding: 0;
+    border: none;
+    gap: 0;
+  }
+
+  #name {
+    background-color: #3ca2ec;
+    color: white;
+  }
+
+  #phone {
+    background-color: rgb(168, 68, 250);
+    color: white;
+  }
+
+  #ago {
+    background-color: #ffa941;
+  }
+
+  .author {
+    width: 100%;
+    height: 60px;
+    gap: 0px;
+    border: none;
+    padding: 0px;
+    box-sizing: border-box;
+    border-radius: 15px 15px 0 0;
+    overflow-x: auto;
+  }
+
+  h4 {
+    font-weight: 400;
+    white-space: nowrap;
+    margin: 0;
+    font-size: 16px;
+  }
+
+  .name {
+    height: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    gap: 10px;
+    cursor: pointer;
+    padding: 0 10px;
+    border: none;
+    border-radius: 0px;
+    transition: 0.15s all ease-in-out;
+  }
+
+  .name > span {
+    font-weight: 900;
+    font-size: 20px;
+  }
+
+  .titleAndText {
+    padding: 10px;
+    max-height: 300px;
+  }
+
+  .questionTitle {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 100%;
+  }
+
+  .title {
+    padding-top: 20px;
+    font-size: 20px;
+    color: #18446d;
+    font-weight: 500;
+  }
+
+  .questionText {
+  }
+
+  .filesInfoAndButtons {
+    width: 100%;
+    display: flex;
+    gap: 20px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    padding: 20px 10px;
+    box-sizing: border-box;
+    grid-template-columns: 1fr 1fr 1fr;
+    border-bottom: 1px solid rgb(238, 238, 238);
+  }
+
+  .filesInfoAndButtons > div:last-child {
+    display: flex;
+    justify-content: end;
+    align-items: center;
+    gap: 20px;
+  }
+
+  .flex {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: fit-content;
+  }
+
+  .filesInfoAndButtons > div:first-child {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    width: 250px;
+    box-sizing: border-box;
+    padding: 10px;
+    border: 1px solid rgba(112, 128, 144, 0.4);
+  }
+
+  .author::-webkit-scrollbar{
+    display: none;
+  }
+
+  .author::-webkit-scrollbar-thumb{
+    background-color: rgba(28, 121, 184, 0.24);
+    border-radius: 10px;
+  }
 }

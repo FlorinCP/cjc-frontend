@@ -8,7 +8,9 @@ function QuestionCardBody({ question }) {
         <div className={style.title}>{question.questionTitle}</div>
       </div>
 
-      <div className={style.questionText}>{question.questionText}</div>
+      <div className={style.questionText}>
+        <p>{question.questionText}</p>
+      </div>
     </div>
   );
 }

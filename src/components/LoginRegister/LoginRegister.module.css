@@ -1,305 +1,349 @@
-.formPage{
-    width: 25vw;
-    min-height: 40vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 20px;
-    border-radius: 7px;
-    border : 1px solid slategrey;
-    //box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    padding: 5px 10px;
-    box-sizing: border-box;
-    background-color: white;
-    box-shadow: 2px 2px 5px rgba(0, 0, 0, 0.2);
+.formPage {
+  width: 25vw;
+  min-height: 40vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 20px;
+  border-radius: 7px;
+  border: 1px solid rgba(24, 68, 109, 0.25);
 
+  padding: 5px 10px;
+  box-sizing: border-box;
+  background-color: white;
+  box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 1px;
 }
 
-.pageIndex{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    margin-bottom: 50px;
-    margin-top: 30px;
-    position: relative;
+.pageIndex {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin-bottom: 50px;
+  margin-top: 30px;
+  position: relative;
 }
 
-#line{
-    width: 160px;
-    background-color:  #052c46;
-    height: 4px;
-    bottom: 65px;
-    position: absolute;
+#line {
+  width: 160px;
+  background-color: #052c46;
+  height: 4px;
+  bottom: 65px;
+  position: absolute;
 }
 
 #lineDisabled {
-    width: 160px;
-    /*background-color: #8795a1;*/
-    background-image: linear-gradient(to right ,#052c46, #cdd5da);
-    height: 4px;
-    bottom: 65px;
-    position: absolute;
+  width: 160px;
+  /*background-color: #8795a1;*/
+  background-image: linear-gradient(to right, #052c46, #cdd5da);
+  height: 4px;
+  bottom: 65px;
+  position: absolute;
 }
 
-.holly{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 200px;
-    gap: 20px;
-    font-weight: bolder;
-    color: #052c46;
+.holly {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 200px;
+  gap: 20px;
+  font-weight: bolder;
+  color: #052c46;
 }
 
-.hollyDisabled{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 200px;
-    gap: 20px;
-    font-weight: bolder;
-    color: #cdd5da;
+.hollyDisabled {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 200px;
+  gap: 20px;
+  font-weight: bolder;
+  color: #cdd5da;
 }
 
 .hollyDisabled > .indexButton {
-    color: white;
-    border: 4px solid #cdd5da;
-    background-color:#cdd5da ;
+  color: white;
+  border: 4px solid #cdd5da;
+  background-color: #cdd5da;
 }
 
-.indexButton{
-    height: 60px;
-    width: 60px;
-    border-radius: 50%;
-    display: flex;
-    /*border: 4px solid  #052c46;*/
-    border: none;
-    justify-content: center;
-    background-color: #052c46;
-    color: white;
-    align-items: center;
-    transform: scale(0.7);
-    font-size: 24px;
-    font-weight: bold;
+.indexButton {
+  height: 60px;
+  width: 60px;
+  border-radius: 50%;
+  display: flex;
+  /*border: 4px solid  #052c46;*/
+  border: none;
+  justify-content: center;
+  background-color: #052c46;
+  color: white;
+  align-items: center;
+  transform: scale(0.7);
+  font-size: 24px;
+  font-weight: bold;
 }
 
-#inputs{
-    display: flex;
-    justify-content: left;
-    flex-direction: column;
-    width: 20vw;
+#inputs {
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  width: 20vw;
 }
 
-#swichDiv{
-    height: 60px;
-    margin: 20px;
-    width: 22vw;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap :20px
+.fieldTitle{
+  font-size: 18px;
+  font-weight: 600;
+  margin: 0;
 }
 
-#swichDivNone{
-    display: none;
+#swichDiv {
+  height: 30px;
+  width: 22vw;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
 }
 
-.choiceP{
-    font-size: 27px;
-    font-weight: bolder;
-    color:rgb(238,49,88);
-    transition: 0.5s all;
+#swichDivNone {
+  display: none;
 }
 
-.choiceD{
-    font-size: 27px;
-    font-weight: bolder;
-    color: rgba(135, 149, 161, 0.67);
-    transition: 0.5s all;
+.choiceP {
+  font-size: 22px;
+  font-weight: bolder;
+  color: rgb(238, 49, 88);
+  transition: 0.5s all;
+}
+
+.choiceD {
+  font-size: 22px;
+  font-weight: bolder;
+  color: rgba(135, 149, 161, 0.67);
+  transition: 0.5s all;
 }
 
 /* Classes for slider toggle */
 
 .switch {
-    position: relative;
-    display: inline-block;
-    width: 60px;
-    height: 34px;
+  position: relative;
+  display: inline-block;
+  width: 60px;
+  height: 34px;
 }
 
 /* Hide default HTML checkbox */
 .switch input {
-    opacity: 0;
-    width: 0;
-    height: 0;
+  opacity: 0;
+  width: 0;
+  height: 0;
 }
 
 /* The slider */
 .slider {
-    position: absolute;
-    cursor: pointer;
-    top: 0;
-    left: 0;
-    right: 0;
-    bottom: 0;
-    background-color: rgb(238,49,88);
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  cursor: pointer;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background-color: rgb(238, 49, 88);
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 .slider:before {
-    position: absolute;
-    content: "";
-    height: 26px;
-    width: 26px;
-    left: 4px;
-    bottom: 4px;
-    background-color: white;
-    -webkit-transition: .4s;
-    transition: .4s;
+  position: absolute;
+  content: "";
+  height: 26px;
+  width: 26px;
+  left: 4px;
+  bottom: 4px;
+  background-color: white;
+  -webkit-transition: 0.4s;
+  transition: 0.4s;
 }
 
 input:checked + .slider {
-    background-color: rgb(238,49,88);
+  background-color: rgb(238, 49, 88);
 }
 
-.error{
-    color: rgb(238,49,88);
-    font-size: 15px;
-    margin-top: 10px;
-    height: 20px;
+.error {
+  color: rgb(238, 49, 88);
+  font-size: 15px;
+  margin-top: 10px;
+  height: 20px;
 }
 
 input:checked + .slider:before {
-    -webkit-transform: translateX(26px);
-    -ms-transform: translateX(26px);
-    transform: translateX(26px);
+  -webkit-transform: translateX(26px);
+  -ms-transform: translateX(26px);
+  transform: translateX(26px);
 }
 
 .slider.round {
-    border-radius: 34px;
+  border-radius: 34px;
 }
 
 .slider.round:before {
-    border-radius: 50%;
+  border-radius: 50%;
 }
 
-.title{
-    margin-top: 30px;
-    color: #464b52;
-    text-transform: uppercase;
-    font-weight: bold;
-    font-size: 25px;
+.title {
+  margin-top: 30px;
+  color: #464b52;
+  font-weight: bold;
+  font-size: 25px;
 }
-
 
 .inputField {
+  color: #344055;
+  height: 45px;
+  font-size: 18px;
+  box-sizing: border-box;
+  padding: 10px;
+  border: 1px solid slategrey;
+  border-radius: 7px;
+  outline: none;
+  margin-bottom: 40px;
+  position: relative;
+  width: 20vw;
+}
+
+.wrapper {
+  width: 20vw;
+}
+
+.succesfullRegister {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 30px;
+  padding: 30px;
+}
+
+.succesfullRegister > img {
+  width: 15vw;
+}
+
+.buttons {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: column;
+  margin: 30px;
+}
+
+.loginRegisterBtn {
+  background-color: rgb(238, 49, 88);
+  color: white;
+  height: 60px;
+  width: 20vw;
+  border-radius: 10px;
+  font-size: 20px;
+  cursor: pointer;
+  font-family: "Montserrat", sans-serif;
+  transition: all 0.3s ease-in-out;
+  box-shadow:
+    rgba(0, 0, 0, 0.32) 0px 1px 3px,
+    rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  border: none;
+}
+
+.loginRegisterBtn:hover {
+  background-color: white;
+  color: rgb(238, 49, 88);
+  transition: all 0.3s ease-in-out;
+  border: 1px solid rgb(238, 49, 88);
+}
+
+@media screen and (max-width: 768px) {
+  .formPage {
+    width: 90vw;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    height: fit-content;
+  }
+
+  .wrapper {
+    width: 80vw;
+  }
+
+  .inputField {
     color: #344055;
     height: 45px;
     font-size: 18px;
     box-sizing: border-box;
-    padding: 10px;
     border: 1px solid slategrey;
     border-radius: 7px;
     outline: none;
     margin-bottom: 40px;
+    margin-top: 10px;
     position: relative;
-    width: 20vw;
-}
+    width: 80vw;
+  }
 
-.wrapper {
-    width: 20vw;
-
-}
-
-.succesfullRegister {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 30px;
-    padding: 30px;
-}
-
-.succesfullRegister > img {
-    width: 15vw;
-}
-
-.buttons {
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
-    flex-direction: column;
-    margin: 30px;
-}
-
-.loginRegisterBtn {
-    background-color: rgb(238,49,88);
-    color: white;
-    height: 60px;
-    width: 20vw;
-    border-radius: 10px;
+  .choiceP {
     font-size: 20px;
-    cursor: pointer;
-    font-family: 'Montserrat', sans-serif;
-    transition: all 0.3s ease-in-out;
-    box-shadow:
-            rgba(0, 0, 0, 0.32) 0px 1px 3px,
-            rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    border: none;
-}
+  }
 
-.loginRegisterBtn:hover {
+  .choiceD {
+    font-size: 20px;
+  }
+
+  #swichDiv {
+    width: 82vw;
+  }
+
+  .loginRegisterBtn {
+    width: 80vw;
+  }
+
+  .switch {
+    width: 54px;
+    height: 27px;
+  }
+
+  .slider:before {
+    position: absolute;
+    content: "";
+    height: 20px;
+    width: 20px;
+    left: 4px;
+    bottom: 4px;
     background-color: white;
-    color: rgb(238,49,88);
-    transition: all 0.3s ease-in-out;
-    border: 1px solid rgb(238,49,88);
-}
+    -webkit-transition: 0.4s;
+    transition: 0.4s;
+  }
+
+  input:checked + .slider {
+    background-color: rgb(238, 49, 88);
+  }
+
+  .error {
+    color: rgb(238, 49, 88);
+    font-size: 15px;
+    margin-top: 10px;
+    height: 20px;
+  }
+
+  input:checked + .slider:before {
+    -webkit-transform: translateX(26px);
+    -ms-transform: translateX(26px);
+    transform: translateX(26px);
+  }
+
+  .slider.round {
+    border-radius: 27px;
+  }
+
+  .slider.round:before {
+    border-radius: 50%;
+  }
 
 
-@media screen and (max-width: 768px) {
-    .formPage{
-        width: 90vw;
-        display: flex;
-        justify-content: center;
-        align-items: center;
-    }
-
-    .wrapper {
-        width: 80vw;
-    }
-
-    .inputField {
-        color: #344055;
-        height: 45px;
-        font-size: 18px;
-        box-sizing: border-box;
-        border: 1px solid slategrey;
-        border-radius: 7px;
-        outline: none;
-        margin-bottom: 40px;
-        margin-top: 10px;
-        position: relative;
-        width: 80vw;
-    }
-
-    .choiceP{
-        font-size: 20px;
-    }
-
-    .choiceD{
-        font-size: 20px;
-    }
-
-    #swichDiv{
-        width: 82vw;
-    }
-
-    .loginRegisterBtn {
-        width: 80vw;
-
-    }
 }

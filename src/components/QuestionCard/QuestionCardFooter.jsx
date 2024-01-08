@@ -40,17 +40,18 @@ function QuestionCardFooter({
 
   return (
     <div className={style.filesInfoAndButtons}>
-      <div className={style.name} onClick={expand}>
-        <span className="material-symbols-outlined">draft</span>
-        <h4>{question.fileNumber} fisiere</h4>
-      </div>
-
-      <div className={style.expand} onClick={expand}>
-        {isExpanded ? (
-          <span className="material-symbols-outlined">expand_less</span>
-        ) : (
-          <span className="material-symbols-outlined">expand_more</span>
-        )}
+      <div className={style.files} onClick={expand}>
+        <div className={style.flex}>
+          <span className="material-symbols-outlined">draft</span>
+          <h4>{question.fileNumber} fisiere</h4>
+        </div>
+        <div className={style.expand} onClick={expand}>
+          {isExpanded ? (
+            <span className="material-symbols-outlined">expand_less</span>
+          ) : (
+            <span className="material-symbols-outlined">expand_more</span>
+          )}
+        </div>
       </div>
 
       {isDetailed === false && (
@@ -65,21 +66,23 @@ function QuestionCardFooter({
         </div>
       )}
 
-      {question.status === "ACCEPTED" && role === "REGISTERED" && isDetailed  && (
-        <div>
-          <ActionButton
-            text={"Programeaza-te"}
-            color={"white"}
-            backgroundColor={"#1c79b8"}
-            active={wasClicked}
-            onClick={() => {
-              openScheduleModal();
-            }}
-          >
-            <span className="material-symbols-outlined">event</span>
-          </ActionButton>
-        </div>
-      )}
+      {question.status === "ACCEPTED" &&
+        role === "REGISTERED" &&
+        isDetailed && (
+          <div>
+            <ActionButton
+              text={"Programeaza-te"}
+              color={"white"}
+              backgroundColor={"#1c79b8"}
+              active={wasClicked}
+              onClick={() => {
+                openScheduleModal();
+              }}
+            >
+              <span className="material-symbols-outlined">event</span>
+            </ActionButton>
+          </div>
+        )}
 
       {isDetailed === true &&
         question.status === "WAITING" &&
@@ -107,7 +110,8 @@ function QuestionCardFooter({
         )}
 
       {(question.status === "ACCEPTED" || question.status === "REJECTED") &&
-        role === "ADMIN" && isDetailed && (
+        role === "ADMIN" &&
+        isDetailed && (
           <div>
             <ActionButton
               text={"Termina"}

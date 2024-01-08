@@ -3,6 +3,7 @@ import { Document, Page, pdfjs, View } from "react-pdf";
 import style from "./PDFViewer.module.css";
 import "react-pdf/dist/esm/Page/TextLayer.css";
 import "react-pdf/dist/esm/Page/AnnotationLayer.css";
+import useScreenSize from "../../hooks/useScreenSize";
 
 pdfjs.GlobalWorkerOptions.workerSrc = `//cdnjs.cloudflare.com/ajax/libs/pdf.js/${pdfjs.version}/pdf.worker.js`;
 
@@ -10,9 +11,31 @@ function PDFViewer(props) {
   const [prevScrollPos, setPrevScrollPos] = useState(0);
   const [visible, setVisible] = useState(true);
   const [numPages, setNumPages] = useState();
-  const [width, setWidth] = useState(1000);
-
+  const [computedWidth, setComputedWidth] = useState(1000);
   const docRef = useRef(null);
+
+  const { width } = useScreenSize();
+
+  useEffect(() => {
+
+    console.log(width)
+
+    let newValue;
+
+    if (width < 800) {
+      setComputedWidth(300)
+    } else if (width >= 800 && width <= 1500) {
+      newValue = width * 0.8;
+    } else if (width > 1500) {
+      newValue = width * 0.5;
+    } else {
+      newValue = 1000;
+    }
+
+    console.log(newValue)
+    setComputedWidth(newValue)
+
+  }, [width]);
 
   const handleScroll = (e) => {
     if (docRef.current) {
@@ -42,20 +65,19 @@ function PDFViewer(props) {
     };
   }, [prevScrollPos]);
 
-   function generatePages(numPages) {
+  function generatePages(numPages) {
     console.log(numPages);
 
     return Array.from(new Array(numPages), (el, index) => (
       <Page
-        width={width}
-        height={650}
+        width={computedWidth}
         key={`page_${index + 1}`}
         pageNumber={index + 1}
       />
     ));
   }
 
-   function MyDocument({ receivedByteArray }) {
+  function MyDocument({ receivedByteArray }) {
     let pages = generatePages(props.pages);
 
     function onDocumentLoadSuccess({ numPages }) {
@@ -79,41 +101,50 @@ function PDFViewer(props) {
     );
   }
 
-
   const memoizedDocument = useMemo(() => {
-      return <MyDocument receivedByteArray={props.pdfData} />;
+    return <MyDocument receivedByteArray={props.pdfData} />;
   }, [props.pdfData]);
 
   function changePageBack() {
-    props.moveBack()
+    props.moveBack();
   }
 
   function changePageNext() {
-    props.moveForward()
+    props.moveForward();
   }
 
   function closeModal() {
     props.closeModalEmit(true);
   }
 
+  const handleClick = (e) => {
+    e.stopPropagation();
+    closeModal();
+  };
+
   return (
-    <div className={style.componentWrapper}>
-      <button className={style.closeModal} onClick={closeModal}>
-        <span className="material-symbols-outlined">close</span>
-      </button>
+    <div className={style.componentWrapper} onClick={handleClick}>
       <div className={style.documentCommands}>
         <div className={style.goBack} onClick={changePageBack}>
           <span className="material-symbols-outlined">arrow_back_ios</span>
         </div>
         <div className={style.documentContainer}>
           <div
-            className={visible ? style.documentInfo : style.documentInfoHidden}
+            className={style.documentInfo}
+            style={{ opacity: visible ? "1" : "0" }}
           >
             <p>{numPages} Pages</p>
             <p className={style.title}>{props.title}</p>
             <div className={style.documentButtons}>
               <span className="material-symbols-outlined">download</span>
               <span className="material-symbols-outlined">bookmark</span>
+              <span
+                id={style["close"]}
+                className="material-symbols-outlined"
+                onClick={closeModal}
+              >
+                close
+              </span>
             </div>
           </div>
           {/*<Document*/}
@@ -134,7 +165,7 @@ function PDFViewer(props) {
           {/*  ))}*/}
           {/*</Document>*/}
 
-          {memoizedDocument}
+          <span onClick={(e) => e.stopPropagation()}>{memoizedDocument}</span>
         </div>
         <div className={style.goNext} onClick={changePageNext}>
           <span className="material-symbols-outlined">arrow_forward_ios</span>

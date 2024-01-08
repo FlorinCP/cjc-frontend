@@ -30,7 +30,7 @@
 }
 
 .hamburger:hover{
-    background-color: #1c79b8;
+    background-color: white;
 }
 
 .hamburger > span{
@@ -59,7 +59,7 @@
 
 .sidebarItem {
     min-height: 40px;
-    width: 14vw;
+    width: 250px;
     border-radius: 10px;
     box-sizing: border-box;
     height: fit-content;
@@ -77,7 +77,7 @@
 
 .sidebarItem2 {
     min-height: 50px;
-    width: 14vw;
+    width: 260px;
     font-weight: 500;
     border-radius: 10px;
     box-sizing: border-box;
@@ -98,7 +98,7 @@
 .sidebarItemSelected {
     background-color: var(--deep-blue);
     min-height: 50px;
-    width: 14vw;
+    width: 250px;
     border-radius: 10px;
     box-sizing: border-box;
     height: fit-content;
@@ -127,7 +127,7 @@
 
 /* whole sidebar */
 .sidebar {
-    width: 15vw;
+    width: 270px;
     background-color: var(--sidebar-background-color);
     box-sizing: border-box;
     position: relative;
@@ -163,7 +163,7 @@
     height: 30px;
     font-size: 18px;
     font-weight: 400;
-    width: 13vw;
+    width: 230px;
     box-sizing: border-box;
     cursor: pointer;
     display: flex;
@@ -188,7 +188,7 @@
 /* partea de sus a sidebarului  */
 .sidebarItems {
     height: fit-content;
-    width: 15vw;
+    width: 270px;
     display: flex;
     align-items: center;
     flex-direction: column;
@@ -196,7 +196,7 @@
 }
 
 .loadBtn {
-    width: 13vw;
+    width: 240px;
     padding: 10px;
     border: none;
     border-radius: 10px;
@@ -213,7 +213,7 @@
 }
 
 .loadBtnSelected {
-    width: 13vw;
+    width: 240px;
     padding: 10px;
     border: none;
     box-sizing: border-box;

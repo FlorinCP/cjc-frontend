@@ -11,7 +11,7 @@ function SideBarLayout() {
 
   const expanedStyle = {
     display: "grid",
-    gridTemplateColumns: "15% 85%",
+    gridTemplateColumns: "270px auto",
     width: "100vw",
     transition: "0.5s all",
   };
