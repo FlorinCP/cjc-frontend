@@ -293,6 +293,7 @@
 
 
 .sidebarVisible{
+ z-index: 200;
     transition: all 0.4s ease-in-out;
     top: 70px;
     left: 0;

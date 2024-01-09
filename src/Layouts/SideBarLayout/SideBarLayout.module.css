@@ -13,6 +13,7 @@
   height: calc(100vh - 70px);
   box-sizing: border-box;
   background-color:  #f2f6fc;
+  z-index: 9999;
 
 }
 

@@ -12,6 +12,7 @@ function ResponsiveDatePicker({
   sendSelectedDate,
   sendMultipleSelectionDates,
   contextMenuProps = true,
+    receivedSelectionDate
 }) {
 
   //  Props
@@ -36,7 +37,6 @@ function ResponsiveDatePicker({
 
 
   const today = useSelector((state) => state.today.today);
-  console.log(today)
   const dispatch = useDispatch();
 
   /**
@@ -51,7 +51,6 @@ function ResponsiveDatePicker({
    *
    */
   const monthDays = useSelector((state) => state.monthDays.monthDays);
-  console.log(monthDays)
 
   const [fetchedData, setFetchedData] = useState(null);
 
@@ -59,6 +58,13 @@ function ResponsiveDatePicker({
    * This state is used to store the selected day
    */
   const [selectedDay, setSelectedDay] = useState(null);
+
+
+  // useEffect(() => {
+  //   if (receivedSelectionDate){
+  //     setSelectedDay(receivedSelectionDate)
+  //   }
+  // }, [receivedSelectionDate]);
 
   /**
    * This state allows or disallows multiple selection of dates
@@ -131,7 +137,6 @@ function ResponsiveDatePicker({
 
   useEffect(() => {
     if (today) {
-      console.log(today)
       const fetchData = async () => {
         return await getDatesForMonth(today.monthNumber);
       };
@@ -145,7 +150,6 @@ function ResponsiveDatePicker({
    *   It works by comparing the days from the monthData array with the days from the finalDays array
    */
   useEffect(() => {
-    console.log(fetchedData, finalDays)
     if (fetchedData && finalDays) {
       transferData(fetchedData, finalDays);
     }
@@ -207,9 +211,14 @@ function ResponsiveDatePicker({
    * @return {boolean}
    */
   function checkSelection(day) {
-    if (multipleSelectionDates.some((date) => date === day)) {
+    if (receivedSelectionDate){
+      return receivedSelectionDate.dayNumber === day.dayNumber
+    }
+    else if (multipleSelectionDates.some((date) => date === day)) {
       return true;
-    } else return selectedDay === day;
+    } else if(receivedSelectionDate ?? true){
+      return selectedDay === day
+    }
   }
 
   // Handlers
@@ -322,7 +331,7 @@ function ResponsiveDatePicker({
                 <DayCell
                   value={day.dayNumber}
                   key={`${r}-${c}`}
-                  isSelected={checkSelection(day)}
+                  isSelected={ checkSelection(day)}
                   style={getStyle(day)}
                   onClick={() => onClickHandler(day)}
                   onMouseEnter={() => onMouseEnterHandler(day)}

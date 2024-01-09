@@ -1,4 +1,6 @@
 const BASE_URL = "http://localhost:8080/cjc/api/v1";
+const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+
 
 export async function makeAppointment(
   startHour,
@@ -21,7 +23,7 @@ export async function makeAppointment(
     appointmentStatus: appointmentStatus,
   };
 
-  fetch(`${BASE_URL}/appointment/set`, {
+  fetch(`${DIGITAL_OCEAN_URL}/appointment/set`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -55,7 +57,7 @@ export async function getAppointmentByDay(day) {
     year,
   )}`;
 
-  fetch(`${BASE_URL}/appointment/get-by-day?${queryString}`, {
+  fetch(`${DIGITAL_OCEAN_URL}/appointment/get-by-day?${queryString}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

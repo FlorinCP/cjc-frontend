@@ -1,9 +1,11 @@
 
 const BASE_URL = "http://localhost:8080/cjc/api/v1"
+const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+
 
 export async function sendQuestion(formData){
     try{
-        const response = await  fetch(`${BASE_URL}/question/`, {
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/`, {
             method: "POST",
             body: formData,
         })
@@ -29,7 +31,7 @@ export async function getQuestionsForUser(email){
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await  fetch(`${BASE_URL}/question/allByEmail?${queryString}`)
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/allByEmail?${queryString}`)
 
         if (response.ok){
             const responseData = await response.json()
@@ -46,7 +48,7 @@ export async function getQuestionsForUser(email){
 export async function getAllQuestions(){
     try{
 
-        const response = await  fetch(`${BASE_URL}/question/all`)
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/all`)
 
         if (response.ok){
             const responseData = await response.json()
@@ -69,7 +71,7 @@ export async function getQuestionsByStatus(status){
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await  fetch(`${BASE_URL}/question/all-by-status?${queryString}`)
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/all-by-status?${queryString}`)
 
         if (response.ok){
             const responseData = await response.json()
@@ -151,7 +153,7 @@ export async function updateStatus(id,status){
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await  fetch(`${BASE_URL}/question/status?${queryString}`, {
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/status?${queryString}`, {
             method: "POST",
         })
 

@@ -1,5 +1,7 @@
 
 const BASE_URL = "http://localhost:8080/cjc/api/v1"
+const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+
 
 export async function fetchPdfData(fileId) {
 
@@ -11,7 +13,7 @@ export async function fetchPdfData(fileId) {
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await fetch(`${BASE_URL}/file/download?${queryString}`);
+        const response = await fetch(`${DIGITAL_OCEAN_URL}/file/download?${queryString}`);
 
         if (response.status === 200) {
             const data = await response.arrayBuffer(); // Convert the response to an ArrayBuffer

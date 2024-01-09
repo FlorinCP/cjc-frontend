@@ -1,9 +1,11 @@
 const BASE_URL = "http://localhost:8080/cjc/api/v1"
+const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+
 
 
 export async function sendReply(formData){
     try{
-        const response = await  fetch(`${BASE_URL}/reply/`, {
+        const response = await  fetch(`${DIGITAL_OCEAN_URL}/reply/`, {
             method: "POST",
             body: formData,
         })

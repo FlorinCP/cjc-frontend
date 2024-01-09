@@ -141,6 +141,7 @@
     height: 100%;
     overflow-x: hidden;
     transition: 0.5s;
+    z-index: 9999;
 }
 
 .collapedSidebar{

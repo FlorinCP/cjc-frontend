@@ -109,6 +109,7 @@ function MakeAppointment({ question }) {
           sendSelectedDate={(date) => handleSelectedDay(date)}
           sendMultipleSelectionDates={() => {}}
           contextMenuProps={false}
+          receivedSelectionDate={currentSelectionDate}
         />
       </div>
 
@@ -123,6 +124,7 @@ function MakeAppointment({ question }) {
               sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
               currentSelectionDate={currentSelectionDate}
               globalSelectedSlot={globalSelectedSlot}
+              sendNewSelectedDate={(day)=> handleSelectedDay(day) }
             />
           ) : (
             <DetailedCalendar

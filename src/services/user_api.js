@@ -1,10 +1,11 @@
 
 const BASE_URL = "http://localhost:8080/cjc/api/v1/auth"
+const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/auth"
 
 export async function loginUser(userLoginData) {
     try {
         const response = await fetch(
-            `${BASE_URL}/user/auth`,
+            `${DIGITAL_OCEAN_URL}/user/auth`,
             {
                 method: "POST",
                 headers: {
@@ -29,7 +30,7 @@ export async function loginUser(userLoginData) {
 export async function singin(userLoginData) {
     try {
         const response = await fetch(
-            `${BASE_URL}/signin`,
+            `${DIGITAL_OCEAN_URL}/signin`,
             {
                 method: "POST",
                 headers: {
@@ -54,7 +55,7 @@ export async function singin(userLoginData) {
 export async function singup(userLoginData) {
     try {
         const response = await fetch(
-            `${BASE_URL}/signup`,
+            `${DIGITAL_OCEAN_URL}/signup`,
             {
                 method: "POST",
                 headers: {
@@ -79,7 +80,7 @@ export async function singup(userLoginData) {
 export async function registerWithToken(userLoginData) {
     try {
         const response = await fetch(
-            `${BASE_URL}/register`,
+            `${DIGITAL_OCEAN_URL}/register`,
             {
                 method: "POST",
                 headers: {
@@ -104,7 +105,7 @@ export async function registerWithToken(userLoginData) {
 export async function registerUser(userRegisterData){
     try {
         const response = await fetch(
-            `${BASE_URL}/user/register`,
+            `${DIGITAL_OCEAN_URL}/user/register`,
             {
                 method: "POST",
                 headers: {
@@ -136,7 +137,7 @@ export async function getUser(email){
         const queryString = new URLSearchParams(queryParams).toString();
 
         const response = await fetch(
-            `${BASE_URL}/user/get-user?${queryString}`,
+            `${DIGITAL_OCEAN_URL}/user/get-user?${queryString}`,
             {
                 method: "GET",
                 headers: {
