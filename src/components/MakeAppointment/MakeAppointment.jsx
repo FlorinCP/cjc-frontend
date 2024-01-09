@@ -19,13 +19,15 @@ import currentWeekSlice, {
   resetCurrentWeek,
   setCurrentWeek,
 } from "../../features/currentWeekSlice";
+import useScreenSize from "../../hooks/useScreenSize";
+import DetailedCalendarMobile from "../DetailedCalendarMobile/DetailedCalendarMobile";
 
 function MakeAppointment({ question }) {
   const { finalDays } = useDatePicker();
   const dispatch = useDispatch();
 
   const monthDays = useSelector((state) => state.monthDays.monthDays);
-
+  const { width } = useScreenSize();
   const [currentSelectionDate, setCurrentSelectionDate] = useState({});
 
   const handleSelectedDay = (date) => {
@@ -97,10 +99,9 @@ function MakeAppointment({ question }) {
 
   return (
     <div className={style.mainContainer}>
-
       <AddApointmentCard
-          globalSelectedSlot={globalSelectedSlot}
-          question={question}
+        globalSelectedSlot={globalSelectedSlot}
+        question={question}
       />
 
       <div className={style.datePickerWrapper}>
@@ -116,11 +117,21 @@ function MakeAppointment({ question }) {
       {/*)}*/}
 
       {currentSelectionDate && currentWeek.days.length > 0 && (
-        <DetailedCalendar
-          sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
-          currentSelectionDate={currentSelectionDate}
-          globalSelectedSlot={globalSelectedSlot}
-        />
+        <>
+          {width < 500 ? (
+            <DetailedCalendarMobile
+              sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
+              currentSelectionDate={currentSelectionDate}
+              globalSelectedSlot={globalSelectedSlot}
+            />
+          ) : (
+            <DetailedCalendar
+              sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
+              currentSelectionDate={currentSelectionDate}
+              globalSelectedSlot={globalSelectedSlot}
+            />
+          )}
+        </>
       )}
     </div>
   );
