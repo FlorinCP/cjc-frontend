@@ -1,25 +1,19 @@
 .loader {
-    z-index: 20;
     margin: auto;
-    border: 15px solid #ffffff;
     border-radius: 50%;
-    animation: spinner 1s linear infinite;
-    width: 6vw;
-    height: 6vw;
+    border-color: #225098 transparent;
+    animation: spin 0.7s infinite ease-out;
+    aspect-ratio: 1/1;
 }
-@keyframes spinner {
+@keyframes spin {
     0% {
         transform: rotate(0deg);
-        border-top: 15px solid #18446d;
-    }
-    50% {
-        border-top: 15px solid white;
     }
     100% {
         transform: rotate(360deg);
-        border-top: 15px solid #1c79b8;
     }
 }
+
 
 .loading {
     width: 100vw;

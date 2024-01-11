@@ -29,7 +29,7 @@
   flex-direction: column;
   width: 100vw;
   height: 100vh;
-  background-color: #f2f6fc;
+  background-color: #ffffff;
 }
 
 .center > * {
@@ -58,7 +58,5 @@
 }
 
 @media screen and (max-width: 768px) {
-  .center {
-    height: min-content;
-  }
+
 }

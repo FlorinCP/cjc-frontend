@@ -34,15 +34,15 @@
 }
 
 .hamburger > span{
-    font-size: 30px;
+    font-size: 25px;
 }
 
 :root {
     --deep-blue: rgb(255, 255, 255);
     --font-size: 16px;
-    --sidebar-background-color: #f2f6fc;
+    --sidebar-background-color: white;
     --selected-blue: rgb(225, 243, 255);
-    --font-color: #222;
+    --font-color: #333;
     font-weight: 500;
     font-family: 'Inter', sans-serif;
 
@@ -64,7 +64,7 @@
     box-sizing: border-box;
     height: fit-content;
     color: var(--font-color);
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     display: flex;
     align-items: center;
@@ -83,16 +83,27 @@
     box-sizing: border-box;
     height: fit-content;
     color: var(--font-color);
-    font-size: 18px;
+    font-size: 16px;
     text-decoration: none;
     display: flex;
     align-items: center;
     gap: 10px;
     padding-left: 10px;
+    transition: all 0.3s ease-in-out;
+
+}
+
+.sidebarItem2 > span {
+    font-size: 16px;
+}
+
+.sidebarItem >span {
+    font-size: 16px;
 }
 
 .sidebarItem2:hover {
-    background-color: var(--deep-blue);
+    color: rgb(183, 0, 255);
+    transition: all 0.3s ease-in-out;
 }
 
 .sidebarItemSelected {
@@ -122,7 +133,7 @@
 
 .line{
     width: 90%;
-    border-top: 1px solid rgba(112, 128, 144, 0.31);
+    border-top: 1px solid rgba(112, 128, 144, 0.15);
 }
 
 /* whole sidebar */
@@ -142,6 +153,9 @@
     overflow-x: hidden;
     transition: 0.5s;
     z-index: 9999;
+    box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.1);
+    -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.1);
+    -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.1);
 }
 
 .collapedSidebar{
@@ -162,7 +176,7 @@
 .clickableSidebarItem {
     position: relative;
     height: 30px;
-    font-size: 18px;
+    font-size: 16px;
     font-weight: 400;
     width: 230px;
     box-sizing: border-box;
@@ -194,15 +208,15 @@
     align-items: center;
     flex-direction: column;
     gap: 10px;
+    margin-top: 10px;
 }
 
 .loadBtn {
     width: 240px;
-    padding: 10px;
     border: none;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 18px;
+    font-size: 16px;
     color: var(--font-color);
     font-weight: 500;
     display: flex;
@@ -211,32 +225,58 @@
     gap: 10px;
     text-decoration: none;
     box-sizing: border-box;
+    height: 100%;
+    padding: 10px 10px 10px 0;
+    transition: all 0.3s ease-in-out;
+
+
 }
 
 .loadBtnSelected {
     width: 240px;
-    padding: 10px;
     border: none;
     box-sizing: border-box;
     border-radius: 10px;
     cursor: pointer;
-    font-size: 18px;
-    color: var(--font-color);
+    font-size: 16px;
+    color: rgb(183, 0, 255);
     font-weight: 500;
     display: flex;
     justify-items: flex-start;
     gap: 10px;
-    background-color: var(--selected-blue);
+    height: 100%;
+    /*background-color: var(--selected-blue);*/
     text-decoration: none;
+    padding: 10px 10px 10px 0;
+    transition: all 0.3s ease-in-out;
+
 }
 
 .loadBtn > span,
 .loadBtnSelected > span {
-    font-size: 20px;
+    font-size: 16px;
+}
+
+.selectionBar{
+    width: 3px;
+    height:20px;
+    border-radius: 10px;
+    transition: all 0.3s ease-in-out;
+}
+
+.loadBtn > .selectionBar{
+    transition: all 0.3s ease-in-out;
+    background-color: transparent;
+}
+
+.loadBtnSelected > .selectionBar{
+    transition: all 0.3s ease-in-out;
+    background-color: rgb(183, 0, 255);
 }
 
 .loadBtn:hover {
-    background-color: var(--selected-blue);
+    color: rgb(183, 0, 255);
+    transition: all 0.3s ease-in-out;
 }
 
 .absoluteRight {
@@ -288,7 +328,7 @@
 }
 
 .userInfo > span{
-    font-size: 30px;
+    font-size: 20px;
 }
 
 .userEmail{
@@ -327,11 +367,11 @@
     }
 
     .loadBtnSelected {
-        width: 100%;
+        width: 95%;
     }
 
     .loadBtn {
-        width: 95%;
+        width: 100%;
     }
 
     .logo {

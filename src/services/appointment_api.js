@@ -1,5 +1,4 @@
-const BASE_URL = "http://localhost:8080/cjc/api/v1";
-const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+const URL =process.env.REACT_APP_LOCAL_URL
 
 
 export async function makeAppointment(
@@ -23,7 +22,7 @@ export async function makeAppointment(
     appointmentStatus: appointmentStatus,
   };
 
-  fetch(`${DIGITAL_OCEAN_URL}/appointment/set`, {
+  fetch(`${URL}/appointment/set`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -57,7 +56,7 @@ export async function getAppointmentByDay(day) {
     year,
   )}`;
 
-  fetch(`${DIGITAL_OCEAN_URL}/appointment/get-by-day?${queryString}`, {
+  fetch(`${URL}/appointment/get-by-day?${queryString}`, {
     method: "GET",
     headers: {
       "Content-Type": "application/json",

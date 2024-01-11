@@ -8,7 +8,7 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
 
     const defaultStyle = {
         padding: '10px',
-        width: size === 'medium' ? '200px' : '250px',
+        width:  '100%',
         height: '45px',
         borderRadius: '10px',
         border: active ?  'none' : `1px solid ${backgroundColor}` ,
@@ -22,7 +22,8 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap : '10px'
+        gap : '10px',
+        flexGrow: 1,
     };
 
     const hoverStyle = {

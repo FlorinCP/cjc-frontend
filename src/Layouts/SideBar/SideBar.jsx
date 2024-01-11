@@ -58,14 +58,7 @@ function SideBar(props) {
     <div className={style.sidebar}>
       <div className={style.sidebarItems}>
         <div className={style.sidebarHeader}>
-          <Link to="/" className={style.link}>
-            <img
-              src="/favicon.ico"
-              alt="check-email"
-              id="logo-img"
-              className={style.logo}
-            />
-          </Link>
+
           {width > 768 && (
             <div
               className={style.hamburger}
@@ -77,7 +70,6 @@ function SideBar(props) {
             </div>
           )}
         </div>
-        <div className={style.line}></div>
 
         <NonExpandableSidebarItem
           url={"/"}
@@ -112,7 +104,7 @@ function SideBar(props) {
         <div className={style.line}></div>
         <div className={style.userInfo}>
           <div className={style.line}></div>
-          <div style={{ display: "flex", marginTop: "10px" }}>
+          <div style={{ display: "flex", marginTop: "10px" , alignItems:"center"}}>
             <span className="material-symbols-outlined">account_circle</span>
             <p className={style.userEmail}>{email}</p>
             <span

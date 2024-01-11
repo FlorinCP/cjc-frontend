@@ -1,5 +1,4 @@
-const BASE_URL = "http://localhost:8080/cjc/api/v1";
-const DIGITAL_OCEAN_URL ="https://peana.live:443/cjc/api/v1/"
+const URL =process.env.REACT_APP_LOCAL_URL
 
 export async function getDayData(selectedDate) {
   try {
@@ -11,7 +10,7 @@ export async function getDayData(selectedDate) {
 
     const queryString = new URLSearchParams(queryParams).toString();
 
-    const response = await fetch(`${DIGITAL_OCEAN_URL}/day/day?${queryString}`);
+    const response = await fetch(`${URL}/day/day?${queryString}`);
 
     if (response.ok) {
       return await response.json();
@@ -29,7 +28,7 @@ export async function getClosedDays(monthNumber) {
 
     const queryString = new URLSearchParams(queryParams).toString();
 
-    const response = await fetch(`${DIGITAL_OCEAN_URL}/day/closed-days?${queryString}`);
+    const response = await fetch(`${URL}/day/closed-days?${queryString}`);
 
     if (response.ok) {
       return await response.json();
@@ -77,7 +76,7 @@ export async function postDayData(
       workingStatus: status.toString(),
     };
 
-    const response = await fetch(`${DIGITAL_OCEAN_URL}/day/add-day`, {
+    const response = await fetch(`${URL}/day/add-day`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -119,7 +118,7 @@ export async function postMultipleDayData(
 
     console.log(days)
 
-    const response = await fetch(`${DIGITAL_OCEAN_URL}/day/add-multiple-days`, {
+    const response = await fetch(`${URL}/day/add-multiple-days`, {
       method: "POST",
       headers: {
         "Content-Type": "application/json",
@@ -157,7 +156,7 @@ export async function updateDayData(
 
     const queryString = new URLSearchParams(queryParams).toString();
 
-    const response = await fetch(`${DIGITAL_OCEAN_URL}/day/set-day?${queryString}`, {
+    const response = await fetch(`${URL}/day/set-day?${queryString}`, {
       method: "POST",
     });
 

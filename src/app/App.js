@@ -2,7 +2,6 @@ import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
 import Schedule from "../pages/Schedule/Schedule";
 import VideoCall from "../pages/VideoCall";
 import Login from "../pages/Login/Login";
-import SideBarLayout from "../Layouts/SideBarLayout/SideBarLayout";
 import NavBarLayout from "../Layouts/NavBarLayout/NavBarLayout";
 import Calendar from "../components/Calendar/Calendar";
 import {ProtectedRoute} from "../components/Miscellaneous/ProtectedRoute";
@@ -12,6 +11,8 @@ import QuestionDetails from "../components/QuestionDetails/QuestionDetails";
 import RegisterWithToken from "../pages/Login/RegisterWithToken";
 import Test from "../pages/Test/Test";
 import MultiLayout from "../Layouts/MultiLayout/MultiLayout";
+import LandingPage from "../pages/LandingPage/LandingPage";
+
 
 function App() {
   return (
@@ -35,7 +36,7 @@ function App() {
 
         <Route element={<NavBarLayout />}>
           <Route  path="/login" element={<Login />} />
-          <Route  path="/" element={<Login />} />
+          <Route  path="/" element={<LandingPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/register" element={<RegisterWithToken />} />
           <Route path="test" end element={ <Test />}/>

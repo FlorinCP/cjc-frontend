@@ -305,7 +305,7 @@ function ResponsiveDatePicker({
           <span className="material-symbols-outlined"> navigate_before </span>
         </div>
         <div className={style.monthYear}>
-          <p>{monthName}</p>
+          <p style={{textTransform:"lowercase"}}>{monthName}</p>
           <p>{fullYear}</p>
         </div>
         <div className={style.next} onClick={nextMonth}>

@@ -154,8 +154,8 @@ function DayStatusCard({ currentSelectionDate }) {
     ];
 
     return (
-      <div>
-        <h3 className={style.text}> Ore de munca : </h3>
+      <div className={style.status}>
+        <h3 className={style.text}> Ore de munca </h3>
         <CustomDropdown
           options={singleDigitOptions}
           value={currentSelectionDate.workingHours || workingHoursSelect}
@@ -173,8 +173,8 @@ function DayStatusCard({ currentSelectionDate }) {
     ];
 
     return (
-      <div>
-        <h3 className={style.text}>Disponibilitatea :</h3>
+      <div className={style.status}>
+        <h3 className={style.text}>Disponibilitatea</h3>
         <CustomDropdown
           placeholder="Neselectat"
           options={optionsDisponibilitate}
@@ -187,8 +187,8 @@ function DayStatusCard({ currentSelectionDate }) {
 
   function StartEndHours() {
     return (
-      <div>
-        <h3 className={style.text}>Program : </h3>
+      <div className={style.status}>
+        <h3 className={style.text}>Program</h3>
         <div className={style.flexRow}>
           <StartHours /> <h4>:</h4> <EndHours />
         </div>
@@ -244,15 +244,17 @@ function DayStatusCard({ currentSelectionDate }) {
           </div>
         </div>
 
-        <ActionButton
-          text={"Salveaza"}
-          onClick={setScheduleForDay}
-          color={"white"}
-          backgroundColor={"#1888ff"}
-          active={true}
-        >
-          <span className="material-symbols-outlined">event_available</span>
-        </ActionButton>
+       <div className={style.actionBtn}>
+         <ActionButton
+             text={"Salveaza"}
+             onClick={setScheduleForDay}
+             color={"white"}
+             backgroundColor={"#1888ff"}
+             active={true}
+         >
+           <span className="material-symbols-outlined">event_available</span>
+         </ActionButton>
+       </div>
       </div>
     </div>
   );

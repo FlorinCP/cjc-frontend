@@ -38,6 +38,7 @@ function ExpandableSidebarItem({name,mainUrl,sidebarItems}) {
                   isActive ? style.loadBtnSelected : style.loadBtn
                 }
               >
+                <div className={style.selectionBar}></div>
                 <span className="material-symbols-outlined">
                   {url.iconStringClass}
                 </span>{" "}
