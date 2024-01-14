@@ -95,8 +95,15 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
-  gap: 30px;
+  gap: 20px;
 }
+
+.singleButtonWrapper{
+  width: 100%;
+  display: flex;
+  justify-content: flex-end;
+}
+
 
 .author {
   width: 100%;
@@ -127,17 +134,15 @@
 .filesInfoAndButtons {
   width: 100%;
   display: grid;
-  padding: 0 10px;
+  height: fit-content;
+  align-items: center;
+  justify-content: space-between;
+  padding: 0px;
   box-sizing: border-box;
   grid-template-columns: 1fr 1fr;
 }
 
-.filesInfoAndButtons > div:last-child {
-  display: flex;
-  justify-content: end;
-  align-items: center;
-  gap: 20px;
-}
+
 
 .filesInfoAndButtons > div:first-child {
   display: flex;
@@ -195,17 +200,13 @@
 
 .name > span {
   font-weight: 900;
-  font-size: 30px;
+  font-size: 20px;
 }
 
 .enterQuestion:focus {
   border: 2px solid #1c79b8;
 }
 
-h2,
-h3 {
-  color: #0f3f65;
-}
 
 .expand {
   cursor: pointer;
@@ -223,6 +224,16 @@ h3 {
 }
 
 @media screen and (max-width: 768px) {
+
+  .buttonsWrapper {
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    height: fit-content;
+    width: 100%;
+    gap: 10px;
+  }
+
   .questionWrapper {
     width: 95vw;
     padding: 0;
@@ -311,15 +322,7 @@ h3 {
     align-items: center;
     padding: 20px 10px;
     box-sizing: border-box;
-    grid-template-columns: 1fr 1fr 1fr;
     border-bottom: 1px solid rgb(238, 238, 238);
-  }
-
-  .filesInfoAndButtons > div:last-child {
-    display: flex;
-    justify-content: end;
-    align-items: center;
-    gap: 20px;
   }
 
   .flex {
@@ -333,7 +336,7 @@ h3 {
     display: flex;
     justify-content: space-between;
     align-items: center;
-    width: 250px;
+    width: 100%;
     box-sizing: border-box;
     padding: 10px;
     border: 1px solid rgba(112, 128, 144, 0.4);

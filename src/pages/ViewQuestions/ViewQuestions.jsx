@@ -64,7 +64,7 @@ function ViewQuestions(props) {
 
   return (
     <div className={style.mainContainer}>
-      <Header title={title} subtitle={"Vizualizare sumara cereri acceptate."} />
+      <Header title={title} subtitle={"Vizualizare sumara cereri."} />
       {loading &&<div className={style.notFound}>
         <CircularLoadingAnimation
             height={"70px"}

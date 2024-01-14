@@ -70,7 +70,7 @@ function UpdateStatus({ question, updatedStatus }) {
         }}
       ></textarea>
 
-      <div>
+      <div className={style.filesInfoAndButtons2}>
         <div>
           <label htmlFor="file-upload" className={style.customFileUpload}>
             <span className="material-symbols-outlined">draft</span>
@@ -86,13 +86,16 @@ function UpdateStatus({ question, updatedStatus }) {
           />
         </div>
 
-        <ActionButton
-          text={"Trimite"}
-          color={"white"}
-          active={true}
-          backgroundColor={"#1c79b8"}
-          onClick={updateQuestion}
-        />
+        <div className={style.singleButtonWrapper}>
+          <ActionButton
+            text={"Trimite"}
+            color={"white"}
+            active={true}
+            width={"100%"}
+            backgroundColor={"#1888ff"}
+            onClick={updateQuestion}
+          />
+        </div>
       </div>
     </div>
   );

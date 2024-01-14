@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./PaymentLinkCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 export default function PaymentLinkLong({ returnedLink }) {
   function formatPrice(value) {
@@ -19,11 +19,8 @@ export default function PaymentLinkLong({ returnedLink }) {
       minute: "2-digit",
       second: "2-digit",
     };
-    return (
-      date.toLocaleTimeString("ro-RO", options)
-    );
+    return date.toLocaleTimeString("ro-RO", options);
   }
-
 
   function returnStatus() {
     if (returnedLink.paid) {
@@ -63,9 +60,11 @@ export default function PaymentLinkLong({ returnedLink }) {
 
   const navigation = useNavigate();
 
-  const handleReuse = () =>{
-      navigation("/stripe/generate-payment-link", {state: {reuseLink: returnedLink}})
-  }
+  const handleReuse = () => {
+    navigation("/stripe/generate-payment-link", {
+      state: { reuseLink: returnedLink },
+    });
+  };
 
   return (
     <div className={style.cardWrapperLong}>
@@ -113,11 +112,12 @@ export default function PaymentLinkLong({ returnedLink }) {
           <p>{returnStatus(returnedLink.paid)}</p>
         </div>
       </div>
-        
+
       <div className={style.buttons}>
         {returnedLink.paid ? (
           <div className={style.acctionBtnWrapperLong}>
             <ActionButton
+              width={"100%"}
               text={"Copiază Modelul"}
               backgroundColor={"#fff"}
               color={"#1888ff"}

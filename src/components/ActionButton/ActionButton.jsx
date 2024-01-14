@@ -1,15 +1,14 @@
 import PropTypes from "prop-types";
 import React, {useState} from "react";
+import style from "./ActionButton.module.css";
 
-
-const ActionButton = ({text, onClick, disabled,active, type, size, color, backgroundColor ,children,height}) => {
+const ActionButton = ({text, onClick, disabled,active, type, width, color, backgroundColor ,children,height}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
     const defaultStyle = {
         padding: '10px',
-        width:  '100%',
-        height:" 100%" || '45px',
+        height: height ? height : '50px',
         borderRadius: '10px',
         border: active ?  'none' : `1px solid ${backgroundColor}` ,
         color: active ? color : backgroundColor,
@@ -23,7 +22,7 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
         alignItems: 'center',
         justifyContent: 'center',
         gap : '10px',
-        flexGrow: 1,
+
     };
 
     const hoverStyle = {
@@ -45,6 +44,7 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
 
     return (
         <button
+            className={style.button}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={combinedStyle}

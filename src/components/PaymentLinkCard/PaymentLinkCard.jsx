@@ -132,6 +132,7 @@ export default function PaymentLinkCard({ returnedLink }) {
                     text={"Copiază Modelul"}
                     backgroundColor={"#fff"}
                     color={"#1888ff"}
+                    width={'100%'}
                     onClick={() => handleReuse()}
                 >
                   <span className="material-symbols-outlined">move_group</span>
@@ -144,6 +145,7 @@ export default function PaymentLinkCard({ returnedLink }) {
                       text={copyText}
                       backgroundColor={"#fff"}
                       color={"rgb(183, 0, 255)"}
+                      width={'100%'}
                       onClick={() => handleCopy(returnedLink.url)}
                   >
                     <span className="material-symbols-outlined">content_copy</span>
@@ -154,6 +156,7 @@ export default function PaymentLinkCard({ returnedLink }) {
                       text={"Distribuie"}
                       backgroundColor={"#fff"}
                       color={"#1888ff"}
+                      width={'100%'}
                       onClick={() => handleShare()}
                   >
                     <span className="material-symbols-outlined">share</span>

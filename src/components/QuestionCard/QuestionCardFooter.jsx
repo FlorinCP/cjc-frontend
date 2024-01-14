@@ -55,11 +55,11 @@ function QuestionCardFooter({
       </div>
 
       {isDetailed === false && (
-        <div>
+        <div className={style.singleButtonWrapper}>
           <ActionButton
             text={"Vizualizare"}
             color={"white"}
-            backgroundColor={"#1c79b8"}
+            backgroundColor={"#1888ff"}
             active={true}
             onClick={() => navigate(`/questions/id/${question.id}`)}
           />
@@ -69,11 +69,11 @@ function QuestionCardFooter({
       {question.status === "ACCEPTED" &&
         role === "REGISTERED" &&
         isDetailed && (
-          <div>
+          <div className={style.singleButtonWrapper}>
             <ActionButton
               text={"Programeaza-te"}
               color={"white"}
-              backgroundColor={"#3ca2ec"}
+              backgroundColor={"#1888ff"}
               active={wasClicked}
               onClick={() => {
                 openScheduleModal();
@@ -87,11 +87,12 @@ function QuestionCardFooter({
       {isDetailed === true &&
         question.status === "WAITING" &&
         role === "ADMIN" && (
-          <div>
+          <div className={style.buttonsWrapper}>
             <ActionButton
               text={"Refuza"}
               color={"white"}
               active={true}
+              width={"100%"}
               backgroundColor={"rgb(238, 49, 88)"}
               onClick={() => {
                 setUpdatedStatus("REJECTED");
@@ -101,6 +102,7 @@ function QuestionCardFooter({
               text={" Accepta"}
               color={"white"}
               active={true}
+              width={"100%"}
               backgroundColor={"#18c52f"}
               onClick={() => {
                 setUpdatedStatus("ACCEPTED");
@@ -109,14 +111,15 @@ function QuestionCardFooter({
           </div>
         )}
 
-      {(question.status === "ACCEPTED" || question.status === "REJECTED") &&
+      {(question.status === "ACCEPTED" ) &&
         role === "ADMIN" &&
         isDetailed && (
-          <div>
+          <div className={style.singleButtonWrapper}>
             <ActionButton
               text={"Termina"}
               color={"white"}
               active={true}
+              width={"100%"}
               backgroundColor={"#3ca2ec"}
               onClick={() => {
                 setUpdatedStatus("DONE");
@@ -127,8 +130,8 @@ function QuestionCardFooter({
           </div>
         )}
 
-      {question.status === "REJECTED" && role === "ADMIN" && (
-        <div>
+      {isDetailed &&  question.status === "REJECTED" && role === "ADMIN" && (
+        <div className={style.singleButtonWrapper}>
           <ActionButton
             text={" Accepta"}
             color={"white"}

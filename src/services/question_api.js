@@ -153,7 +153,7 @@ export async function updateStatus(id,status){
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await  fetch(`${DIGITAL_OCEAN_URL}/question/status?${queryString}`, {
+        const response = await  fetch(`${BASE_URL}/question/status?${queryString}`, {
             method: "POST",
         })
 

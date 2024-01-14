@@ -49,7 +49,7 @@
   border-top: 1px solid rgb(238, 238, 238);
 }
 
-.toggleReplies{
+.toggleReplies {
   display: flex;
   justify-content: center;
   align-items: center;
@@ -68,20 +68,16 @@
   position: relative;
 }
 
-.replyActions{
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
+.replyActions {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
   width: 100%;
-  gap: 10px;
 }
 
 .myFileInput[type="file"] {
   display: none;
   outline: none;
 }
-
-
 
 .header {
   font-size: 23px;
@@ -106,7 +102,7 @@
 .mainContainer {
   height: 100%;
   overflow-x: auto;
-  background-color: #f2f6fc;
+  background-color: white;
 }
 
 .pdfFileWrapper {
@@ -271,9 +267,28 @@
 }
 
 .filesInfoAndButtons {
-  width: 78vw;
+  width: 100%;
   display: grid;
   grid-template-columns: 1fr 1fr 1fr;
+}
+
+.filesInfoAndButtons2 {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.filesInfoAndButtons2 > div:first-child {
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  flex-grow: 1;
+}
+
+.singleButtonWrapper {
+  display: flex;
+  justify-content: flex-end;
+  flex-grow: 1;
 }
 
 .filesInfoAndButtons > div:last-child {
@@ -309,8 +324,8 @@
   width: 10vw;
 }
 
-h4  {
-  font-size: 20px;
+h4 {
+  font-size: 16px;
   font-weight: 400;
 }
 
@@ -320,7 +335,7 @@ h4  {
   word-wrap: break-word;
   resize: none;
   outline: none;
-  padding: 20px;
+  padding: 10px;
   box-sizing: border-box;
   border: 1px solid #344055;
   font-size: 18px;
@@ -352,13 +367,13 @@ h3 {
   color: #052c46;
   cursor: pointer;
   border: 1px solid #052c46;
-  height: 40px;
-  padding-left: 25px;
-  padding-right: 25px;
-  border-radius: 5px;
+  height: 50px;
+  border-radius: 10px;
   gap: 10px;
   font-weight: bold;
   background-color: #f7f7f7;
+  width: 50%;
+  box-sizing: border-box;
 }
 
 .uploadedFiles {
@@ -448,19 +463,34 @@ h3 {
   margin-bottom: 5px;
 }
 
-.mobile{
-  display: none;
+.desktop {
+  flex-grow: 1;
 }
 
-@media screen and (max-width: 768px){
-    .questionCardWrapper {
-        width: 95vw;
-        padding: 0;
-        border: none;
-        gap: 0;
-    }
+@media screen and (max-width: 768px) {
+  .filesInfoAndButtons2 {
+    width: 100%;
+    display: flex;
+    align-items: center;
+    flex-direction: column;
+    gap: 20px;
+  }
 
-  h4  {
+  .singleButtonWrapper {
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+  }
+
+  .questionCardWrapper {
+    width: 95vw;
+    padding: 0;
+    border: none;
+    gap: 0;
+  }
+
+  h4 {
     font-size: 16px;
     font-weight: 400;
   }
@@ -477,21 +507,19 @@ h3 {
     flex-direction: column;
     height: fit-content;
   }
+  .desktop {
+    width: 100%;
+  }
 
-  .replyActions{
+  .customFileUpload {
+    width: 100%;
+  }
+
+  .replyActions {
     display: flex;
     align-items: center;
+    flex-direction: column;
     justify-content: space-between;
     gap: 10px;
   }
-
-  .desktop{
-    display: none;
-  }
-
-  .mobile{
-    display: inherit;
-  }
-
-
 }

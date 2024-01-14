@@ -58,42 +58,31 @@ function AddReply({ question }) {
       ></textarea>
 
       <div className={style.replyActions}>
-
-
         <div className={style.desktop}>
           <label htmlFor="file-upload" className={style.customFileUpload}>
             <span className="material-symbols-outlined">cloud_upload</span>
             <span>Alegeti fisierele</span>
           </label>
+          <input
+            type="file"
+            id="file-upload"
+            onChange={handleFileChange}
+            className={style.myFileInput}
+            multiple
+          />
         </div>
 
-          <div className={style.mobile}>
-              <label htmlFor="file-upload" className={style.customFileUpload}>
-                  <span className="material-symbols-outlined">cloud_upload</span>
-              </label>
-          </div>
-
-        {/*{*/}
-        {/*  replyFiles && <FilesWrapper fileInfo={selectedFilesObj} fileNumber={selectedFilesObj.length}/>*/}
-        {/*}*/}
-
-        <input
-          type="file"
-          id="file-upload"
-          onChange={handleFileChange}
-          className={style.myFileInput}
-          multiple
-        />
-
-        <ActionButton
-          text={"Trimite"}
-          color={"white"}
-          active={true}
-          backgroundColor={"purple"}
-          onClick={addReply}
-        >
-          <span className="material-symbols-outlined">outgoing_mail</span>
-        </ActionButton>
+        <div className={style.singleButtonWrapper}>
+          <ActionButton
+            text={"Trimite"}
+            color={"white"}
+            active={true}
+            backgroundColor={"#3ca2ec"}
+            onClick={addReply}
+          >
+            <span className="material-symbols-outlined">outgoing_mail</span>
+          </ActionButton>
+        </div>
       </div>
     </div>
   );

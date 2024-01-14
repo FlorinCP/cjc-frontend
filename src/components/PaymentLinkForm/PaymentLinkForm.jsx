@@ -4,16 +4,21 @@ import ActionButton from "../ActionButton/ActionButton";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import getSessionLink from "../../services/stripe_api";
 import { useSelector } from "react-redux";
-import {useLocation} from "react-router-dom";
+import { useLocation } from "react-router-dom";
 
 export default function PaymentLinkForm({ sendPaymentLink }) {
-
   const location = useLocation();
   const { reuseLink } = location.state || {};
 
-  const [serviceName, setServiceName] = useState( reuseLink ? reuseLink.serviceName :"");
-  const [servicePrice, setServicePrice] = useState(reuseLink ? formatNumber(reuseLink.servicePrice) :"");
-  const [currency, setCurrency] = useState( reuseLink ? reuseLink.currency : "ron");
+  const [serviceName, setServiceName] = useState(
+    reuseLink ? reuseLink.serviceName : "",
+  );
+  const [servicePrice, setServicePrice] = useState(
+    reuseLink ? formatNumber(reuseLink.servicePrice) : "",
+  );
+  const [currency, setCurrency] = useState(
+    reuseLink ? reuseLink.currency : "ron",
+  );
   const [returnedLink, setReturnedLink] = useState(null);
   const email = useSelector((state) => state.token.email);
 
@@ -32,7 +37,6 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
 
     return numStr;
   }
-
 
   useEffect(() => {
     if (returnedLink) {
@@ -72,7 +76,7 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
     let intValue = parseInt(cleanValue, 10);
     let decimalValue = isNaN(intValue) ? 0 : intValue;
     let formattedValue = (decimalValue / 100).toFixed(2);
-    return  formattedValue.replace(".", ",");
+    return formattedValue.replace(".", ",");
   }
 
   const handleNameChange = (e) => {
@@ -80,7 +84,6 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
       e.target.value.charAt(0).toUpperCase() + e.target.value.slice(1),
     );
   };
-
   const suggestedPrices = [
     "200,00",
     "250,00",
@@ -144,7 +147,11 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
               return (
                 <div
                   key={index}
-                  className={servicePrice === formatPrice(price) ? styles.suggestedPriceSelected : styles.suggestedPrice}
+                  className={
+                    servicePrice === formatPrice(price)
+                      ? styles.suggestedPriceSelected
+                      : styles.suggestedPrice
+                  }
                   onClick={() => handleOptionSelection(price)}
                 >
                   {price}
@@ -156,6 +163,7 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
 
         <div className={styles.buttonWrapper}>
           <ActionButton
+            width={"100%"}
             text={"Genereaza"}
             type={"submit"}
             color={"#1888ff"}
