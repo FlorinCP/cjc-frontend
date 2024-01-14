@@ -51,16 +51,33 @@ function ViewQuestions(props) {
     }
   }
 
+  function placeholder() {
+    if (loading) return <CircularLoadingAnimation />;
+    else if (error || !isValidStatus || questions.length === 0)
+      return (
+        <div className={style.notFound}>
+          <img src="/eroare.svg" alt="" />
+          <h2>Nu s-au gasit rezultate</h2>
+        </div>
+      );
+  }
+
   return (
     <div className={style.mainContainer}>
-      <Header title={title} subtitle={"Vizualizare sumara cereri acceptate."}/>
-      {loading && <CircularLoadingAnimation />}
-      {(error || !isValidStatus || questions.length === 0) && (
+      <Header title={title} subtitle={"Vizualizare sumara cereri acceptate."} />
+      {loading &&<div className={style.notFound}>
+        <CircularLoadingAnimation
+            height={"70px"}
+            color={"rgb(183, 0, 255)"}
+            borderWidth={"7px solid"}/>
+      </div>}
+      {(error || !isValidStatus || questions.length === 0) && !loading && (
         <div className={style.notFound}>
           <img src="/eroare.svg" alt="" />
           <h2>Nu s-au gasit rezultate</h2>
         </div>
       )}
+
       <QuestionList questions={questions} />
     </div>
   );

@@ -7,7 +7,7 @@ function CircularLoadingAnimation({height,borderWidth,color}){
     const styleLoader = {
         height: height || "100px",
         border: borderWidth || "10px solid" ,
-        borderColor:`#225098 transparent`
+        borderColor: `${color} transparent` || `#225098 transparent`
     }
 
     return(

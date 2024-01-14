@@ -42,6 +42,19 @@ function SideBar(props) {
     },
   ];
 
+  const transactionItems = [
+    {
+      url: "/strype/generate-payment-link",
+      iconStringClass: "add_card",
+      title: "Link Plata",
+    },
+    {
+      url: "/strype/payment-links",
+      iconStringClass: "monitoring",
+      title: "Raport Tranzactii",
+    },
+  ];
+
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(true);
   const email = useSelector((state) => state.token.email);
@@ -58,7 +71,6 @@ function SideBar(props) {
     <div className={style.sidebar}>
       <div className={style.sidebarItems}>
         <div className={style.sidebarHeader}>
-
           {width > 768 && (
             <div
               className={style.hamburger}
@@ -73,7 +85,7 @@ function SideBar(props) {
 
         <NonExpandableSidebarItem
           url={"/"}
-          iconStringClass={"home"}
+          // iconStringClass={"home"}
           title={"Pagina Principala"}
         />
 
@@ -92,19 +104,28 @@ function SideBar(props) {
           name={"Program"}
           sidebarItems={scheduleItems}
         />
+        <div className={style.line}></div>
+
+        <ExpandableSidebarItem
+          mainUrl={"/schedule"}
+          name={"Tranzactii"}
+          sidebarItems={transactionItems}
+        />
 
         <div className={style.line}></div>
 
         <NonExpandableSidebarItem
           url={"/videocall"}
-          iconStringClass={"videocam"}
+          // iconStringClass={"videocam"}
           title={"VideoCall"}
         />
 
         <div className={style.line}></div>
         <div className={style.userInfo}>
           <div className={style.line}></div>
-          <div style={{ display: "flex", marginTop: "10px" , alignItems:"center"}}>
+          <div
+            style={{ display: "flex", marginTop: "10px", alignItems: "center" }}
+          >
             <span className="material-symbols-outlined">account_circle</span>
             <p className={style.userEmail}>{email}</p>
             <span

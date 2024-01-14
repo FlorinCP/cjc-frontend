@@ -2,14 +2,14 @@ import PropTypes from "prop-types";
 import React, {useState} from "react";
 
 
-const ActionButton = ({text, onClick, disabled,active, type, size, color, backgroundColor ,children}) => {
+const ActionButton = ({text, onClick, disabled,active, type, size, color, backgroundColor ,children,height}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
     const defaultStyle = {
         padding: '10px',
         width:  '100%',
-        height: '45px',
+        height:" 100%" || '45px',
         borderRadius: '10px',
         border: active ?  'none' : `1px solid ${backgroundColor}` ,
         color: active ? color : backgroundColor,
@@ -17,7 +17,7 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
         cursor: 'pointer',
         letterSpacing: '1.5px',
         fontSize: '17px',
-        fontWeight: '600',
+        fontWeight: '400',
         transition: '0.3s all ease-in-out',
         display: 'flex',
         alignItems: 'center',
@@ -30,8 +30,15 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
         backgroundColor: color,
         color: backgroundColor,
         border: `1px solid ${backgroundColor}`,
-        transition: '0.3s all ease-in-out'
+        transition: '0.3s all ease-in-out',
+        // boxShadow: '0px 0px 31px -13px rgba(0,0,0,0.62)',
     }
+
+
+    //     -webkit-box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+    // -moz-box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+    // box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+
 
     const combinedStyle = isHovered ? { ...defaultStyle, ...hoverStyle } : defaultStyle;
 

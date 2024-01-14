@@ -1,6 +1,7 @@
 .text {
-  margin: 20px;
-  color: #222;
+  margin-left: 0;
+  margin-bottom: 10px;
+  color: #555;
   font-weight: 500;
   font-size: 18px;
 }
@@ -46,14 +47,15 @@
   justify-content: space-between;
   width: fit-content;
   gap: 10px;
+  height: 40px;
 }
 
-.flexRow > *{
+.flexRow > * {
   flex-grow: 1;
 }
 
-.actionBtn{
-  width:250px
+.actionBtn {
+  width: 250px;
 }
 
 .buttons {
@@ -84,20 +86,6 @@
 .navigation > span {
   font-size: 30px;
   cursor: pointer;
-}
-
-.settings {
-  width: 100%;
-  display: flex;
-  align-items: center;
-  justify-content: space-between;
-  flex-direction: row;
-  gap: 40px;
-  border-bottom: 1px solid rgb(213, 213, 213);
-  padding-bottom: 20px;
-  border-radius: 15px;
-  border-bottom-right-radius: 0px;
-  border-bottom-left-radius: 0px;
 }
 
 .bodyCard {
@@ -164,7 +152,26 @@ select:focus {
   -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.19);
 }
 
+.settings {
+  width: 100%;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: row;
+  gap: 40px;
+  border-bottom: 1px solid rgb(213, 213, 213);
+  border-radius: 15px;
+  border-bottom-right-radius: 0px;
+  border-bottom-left-radius: 0px;
+  padding-bottom: 20px;
+}
+
 @media screen and (max-width: 768px) {
+  .settings {
+    flex-direction: column;
+
+    gap: 10px;
+  }
   .dateInfo {
     flex-direction: column;
     padding: 20px;
@@ -180,19 +187,6 @@ select:focus {
     color: #555;
     font-weight: 500;
     font-size: 18px;
-  }
-
-  .settings {
-    width: 100%;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    gap: 10px;
-    border-bottom: 1px solid rgb(213, 213, 213);
-    padding-bottom: 20px;
-    border-bottom-right-radius: 0px;
-    border-bottom-left-radius: 0px;
   }
 
   .flexRow {
@@ -226,7 +220,7 @@ select:focus {
     width: 70%;
   }
 
-  .actionBtn{
+  .actionBtn {
     width: 100%;
   }
 }
