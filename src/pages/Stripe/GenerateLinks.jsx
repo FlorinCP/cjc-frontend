@@ -3,7 +3,7 @@ import Header from "../../Layouts/SideBar/Header";
 import React, { useEffect, useState } from "react";
 import PaymentLinkForm from "../../components/PaymentLinkForm/PaymentLinkForm";
 import PaymentLinkCard from "../../components/PaymentLinkCard/PaymentLinkCard";
-import { getAllSessions } from "../../services/stripe_api";
+
 
 export default function GenerateLinks() {
   const [returnedLink, setReturnedLink] = useState({

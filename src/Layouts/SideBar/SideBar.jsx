@@ -44,12 +44,12 @@ function SideBar(props) {
 
   const transactionItems = [
     {
-      url: "/strype/generate-payment-link",
+      url: "/stripe/generate-payment-link",
       iconStringClass: "add_card",
       title: "Link Plata",
     },
     {
-      url: "/strype/payment-links",
+      url: "/stripe/payment-links",
       iconStringClass: "monitoring",
       title: "Raport Tranzactii",
     },

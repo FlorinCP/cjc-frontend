@@ -42,7 +42,7 @@ function App() {
             }
           />
             <Route
-                path="/strype/payment-links"
+                path="/stripe/payment-links"
                 end
                 element={
                     <ProtectedRoute>
@@ -51,7 +51,7 @@ function App() {
                 }
             />
           <Route
-            path="/strype/generate-payment-link"
+            path="/stripe/generate-payment-link"
             end
             element={
               <ProtectedRoute>

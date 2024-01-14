@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import style from "./PaymentLinkCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
+import {useNavigate} from "react-router-dom";
 
 export default function PaymentLinkCard({ returnedLink }) {
   function formatPrice(value) {
@@ -67,6 +68,12 @@ export default function PaymentLinkCard({ returnedLink }) {
     }
   };
 
+  const navigation = useNavigate();
+
+  const handleReuse = () =>{
+    navigation("/stripe/generate-payment-link", {state: {reuseLink: returnedLink}})
+  }
+
   return (
     <div className={style.cardWrapper}>
       <p className={style}>Link de plată</p>
@@ -125,7 +132,7 @@ export default function PaymentLinkCard({ returnedLink }) {
                     text={"Copiază Modelul"}
                     backgroundColor={"#fff"}
                     color={"#1888ff"}
-                    onClick={() => handleCopy(returnedLink.url)}
+                    onClick={() => handleReuse()}
                 >
                   <span className="material-symbols-outlined">move_group</span>
                 </ActionButton>

@@ -16,7 +16,7 @@ const ActionButton = ({text, onClick, disabled,active, type, size, color, backgr
         backgroundColor: active ? backgroundColor : color,
         cursor: 'pointer',
         letterSpacing: '1.5px',
-        fontSize: '17px',
+        fontSize: '16px',
         fontWeight: '400',
         transition: '0.3s all ease-in-out',
         display: 'flex',

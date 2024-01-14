@@ -82,6 +82,62 @@ p {
   justify-content: center;
   gap: 10px;
 }
+/* ----------------------  Long ----------------------------*/
+
+.long{
+
+}
+
+.cardWrapper.long{
+  width: 70%;
+}
+
+.cardHeader.long{
+
+}
+
+.cardWrapperLong{
+  width: 70%;
+  max-width: 1300px;
+  height: fit-content;
+  display: flex;
+  flex-direction: column;
+  gap: 30px;
+  box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.19);
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.19);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.19);
+  padding: 20px;
+  box-sizing: border-box;
+  margin-top: 50px;
+  border-radius: 15px;
+  position: relative;
+  margin-bottom: 30px;
+  background-color: white;
+  overflow: hidden;
+}
+
+.cardHeaderLong {
+  display: flex;
+  justify-content: space-between;
+  width: 100%;
+}
+
+.cardHeaderItemLong:last-child {
+  align-items: flex-end;
+}
+
+.cardHeaderItemLong {
+  display: flex;
+  align-items: flex-start;
+  flex-direction: column;
+  width: fit-content;
+  gap: 5px;
+}
+
+.acctionBtnWrapperLong {
+  width: 25%;
+  height: 50px;
+}
 
 @media screen and (max-width: 768px) {
   .addLinkWrapper,

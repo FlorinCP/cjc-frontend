@@ -4,13 +4,35 @@ import ActionButton from "../ActionButton/ActionButton";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import getSessionLink from "../../services/stripe_api";
 import { useSelector } from "react-redux";
+import {useLocation} from "react-router-dom";
 
 export default function PaymentLinkForm({ sendPaymentLink }) {
-  const [serviceName, setServiceName] = useState("");
-  const [servicePrice, setServicePrice] = useState("");
-  const [currency, setCurrency] = useState("ron");
+
+  const location = useLocation();
+  const { reuseLink } = location.state || {};
+
+  const [serviceName, setServiceName] = useState( reuseLink ? reuseLink.serviceName :"");
+  const [servicePrice, setServicePrice] = useState(reuseLink ? formatNumber(reuseLink.servicePrice) :"");
+  const [currency, setCurrency] = useState( reuseLink ? reuseLink.currency : "ron");
   const [returnedLink, setReturnedLink] = useState(null);
   const email = useSelector((state) => state.token.email);
+
+  function formatNumber(num) {
+    let numStr = num.toString();
+    let len = numStr.length;
+
+    // Inserting a comma two places from the end
+    if (len > 2) {
+      numStr = numStr.slice(0, len - 2) + "," + numStr.slice(len - 2);
+    } else if (len === 2) {
+      numStr = "0," + numStr;
+    } else {
+      numStr = "0,0" + numStr;
+    }
+
+    return numStr;
+  }
+
 
   useEffect(() => {
     if (returnedLink) {
