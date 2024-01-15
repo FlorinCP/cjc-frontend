@@ -1,5 +1,7 @@
-const URL = process.env.REACT_APP_LOCAL_URL + "/auth";
+const URL = process.env.REACT_APP_URL + "/auth";
 
+
+// unsecured
 export async function acceptTransfer(transferToken) {
   const queryParams = {
     transferToken: `${transferToken}`,
@@ -22,6 +24,8 @@ export async function acceptTransfer(transferToken) {
     throw error;
   }
 }
+
+
 
 export async function loginUser(userLoginData) {
   try {

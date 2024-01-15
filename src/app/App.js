@@ -20,9 +20,33 @@ function App() {
     <Router>
       <Routes>
         <Route element={<MultiLayout />}>
-          <Route path="/schedule/edit" element={<Schedule />} />
-          <Route path="/schedule" element={<Calendar />} />
-          <Route path="/videocall" element={<VideoCall />} />
+          <Route
+            path="/videocall"
+            end
+            element={
+              <ProtectedRoute>
+                <VideoCall />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/schedule"
+            end
+            element={
+              <ProtectedRoute>
+                <Calendar />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/schedule/edit"
+            end
+            element={
+              <ProtectedRoute>
+                <Schedule />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/questions/status/:questionStatus"
             end
@@ -41,15 +65,15 @@ function App() {
               </ProtectedRoute>
             }
           />
-            <Route
-                path="/stripe/payment-links"
-                end
-                element={
-                    <ProtectedRoute>
-                        <ViewLinks />
-                    </ProtectedRoute>
-                }
-            />
+          <Route
+            path="/stripe/payment-links"
+            end
+            element={
+              <ProtectedRoute>
+                <ViewLinks />
+              </ProtectedRoute>
+            }
+          />
           <Route
             path="/stripe/generate-payment-link"
             end
@@ -66,7 +90,7 @@ function App() {
           <Route path="/" element={<LandingPage />} />
           <Route path="*" element={<NotFoundPage />} />
           <Route path="/register" element={<RegisterWithToken />} />
-          <Route path="test" end element={<Test />} />
+          <Route path="/test" end element={<Test />} />
         </Route>
       </Routes>
     </Router>

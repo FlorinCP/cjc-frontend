@@ -1,10 +1,13 @@
-const URL = process.env.REACT_APP_LOCAL_URL;
+import {useSelector} from "react-redux";
+
+const URL = process.env.REACT_APP_URL;
 
 export default async function getSessionLink(
   email,
   servicePrice,
   serviceName,
   currency,
+  bearerToken
 ) {
 
     const validateInputs =()=>{
@@ -37,7 +40,12 @@ export default async function getSessionLink(
             email: email,
         }).toString();
 
-        const response = await fetch(`${apiUrl}?${queryParams}`);
+        const response = await fetch(`${apiUrl}?${queryParams}`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+            },
+        });
 
         if (!response.ok) {
             const errorMessage = `HTTP error! status: ${response.status}`;
@@ -58,10 +66,15 @@ export default async function getSessionLink(
 
 }
 
-export async function getAllSessions() {
+export async function getAllSessions(bearerToken) {
     try{
 
-        const response = await fetch(`${URL}/payment/get-all-sessions`)
+        const response = await fetch(`${URL}/payment/get-all-sessions`, {
+            method: 'GET',
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+            },
+        });
 
         if (!response.ok) {
             const errorMessage = `HTTP error! status: ${response.status}`;

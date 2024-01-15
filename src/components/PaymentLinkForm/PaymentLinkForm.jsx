@@ -21,6 +21,7 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
   );
   const [returnedLink, setReturnedLink] = useState(null);
   const email = useSelector((state) => state.token.email);
+  const token = useSelector((state) => state.token.token);
 
   function formatNumber(num) {
     let numStr = num.toString();
@@ -53,6 +54,7 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
         servicePrice,
         serviceName,
         currency,
+        token,
       );
       setReturnedLink(paymentLink);
     } catch (error) {

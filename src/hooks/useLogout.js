@@ -10,7 +10,7 @@ export const useLogout = () => {
 
   return () => {
     dispatch(clearToken());
-    persistor.purge().then(r => navigate("http://localhost:3000/login"))
+    persistor.purge().then(r => navigate("https://consultantajuridcaonline.com/login"))
 
   };
 };

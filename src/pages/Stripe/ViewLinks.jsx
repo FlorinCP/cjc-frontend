@@ -5,13 +5,15 @@ import React, { useEffect, useState } from "react";
 import { getAllSessions } from "../../services/stripe_api";
 import PaymentLinkLong from "../../components/PaymentLinkCard/PaymentLinkLong";
 import useScreenSize from "../../hooks/useScreenSize";
+import {useSelector} from "react-redux";
 
 export default function ViewLinks() {
   const [fetchedLinks, setFetchedLinks] = useState([]);
   const { width } = useScreenSize();
+  const token = useSelector((state) => state.token.token);
 
   async function fetchLinks() {
-    return getAllSessions();
+    return getAllSessions(token);
   }
 
   useEffect(() => {
