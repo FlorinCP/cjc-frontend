@@ -210,8 +210,12 @@ input:checked + .slider:before {
   border: 1px solid slategrey;
   border-radius: 7px;
   outline: none;
-  margin-bottom: 40px;
   width: 20vw;
+  margin-bottom: 20px;
+}
+
+p{
+  margin: 0;
 }
 
 .wrapper {
@@ -288,7 +292,6 @@ input:checked + .slider:before {
     border: 1px solid slategrey;
     border-radius: 7px;
     outline: none;
-    margin-bottom: 40px;
     margin-top: 10px;
     width: 80vw;
   }

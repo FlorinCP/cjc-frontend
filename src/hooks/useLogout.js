@@ -10,7 +10,7 @@ export const useLogout = () => {
 
   return () => {
     dispatch(clearToken());
-    persistor.purge()
-    navigate("/login")
+    persistor.purge().then(r => navigate("http://localhost:3000/login"))
+
   };
 };
