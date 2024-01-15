@@ -25,12 +25,13 @@ function QuestionDetails() {
   const [isExpanded, setIsExpanded] = useState(false);
   const [wasClicked, setWasClicked] = useState(true);
   const [showReplies, setShowReplies] = useState(true);
+  const token = useSelector((state) => state.token.token);
+
 
   useEffect(() => {
-    dispatch(getRepliesByQuestionId(questionId));
+    dispatch(getRepliesByQuestionId(questionId,token));
   }, []);
 
-  function handleSelectedDays(date) {}
 
   return (
     <div className={style.mainContainer}>

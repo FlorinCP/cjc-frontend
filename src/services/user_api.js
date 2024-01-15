@@ -1,6 +1,5 @@
 const URL = process.env.REACT_APP_URL + "/auth";
 
-
 // unsecured
 export async function acceptTransfer(transferToken) {
   const queryParams = {
@@ -8,7 +7,8 @@ export async function acceptTransfer(transferToken) {
   };
   const queryString = new URLSearchParams(queryParams).toString();
 
-    console.log("Query string:", queryString)
+  console.log("Query string:", queryString);
+  console.log("URL:", `${URL}/accept-transfer?${queryString}`);
 
   try {
     const response = await fetch(`${URL}/accept-transfer?${queryString}`, {
@@ -18,6 +18,7 @@ export async function acceptTransfer(transferToken) {
       },
     });
 
+    console.log(response);
     return await response.json();
   } catch (error) {
     console.error("Something went wrong:", error);
@@ -25,6 +26,44 @@ export async function acceptTransfer(transferToken) {
   }
 }
 
+
+export async function updatedTransferAccept(transferToken){
+
+  const queryParams = {
+    transferToken: `${transferToken}`,
+  };
+  const queryString = new URLSearchParams(queryParams).toString();
+
+  console.log("Query string:", queryString);
+  console.log("URL:", `${URL}/accept-transfer?${queryString}`);
+
+  const response = await fetch(`${URL}/accept-transfer?${queryString}`, {
+    headers: {
+      'Accept': 'application/json',
+    },
+  });
+
+  if (!response.ok) {
+    const errorMessage = `HTTP error! status: ${response.status}`;
+    console.error(errorMessage);
+    return { error: errorMessage };
+  }
+
+  const contentType = response.headers.get('content-type');
+  if (!contentType || !contentType.includes('application/json')) {
+    const error = "Received non-JSON response from server";
+    console.error(error);
+    return { error };
+  }
+
+  try {
+    return await response.json();
+  } catch (jsonParseError) {
+    console.error("Error parsing server response", jsonParseError);
+    return { error: "Error parsing server response" };
+  }
+
+}
 
 
 export async function loginUser(userLoginData) {

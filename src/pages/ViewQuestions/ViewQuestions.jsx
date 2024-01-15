@@ -20,19 +20,18 @@ function ViewQuestions(props) {
   );
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
-  const { email, role } = useSelector((state) => state.token);
-
-  console.log(email, role);
+  const { email, role, token } = useSelector((state) => state.token);
 
   useEffect(() => {
     getTitle(questionStatus);
     if (isValidStatus && role === "ADMIN") {
-      dispatch(getQuestionsByStatus(questionStatus.toUpperCase()));
+      dispatch(getQuestionsByStatus(questionStatus.toUpperCase()), token);
     } else {
       dispatch(
         getQuestionsByUserAndStatus({
           email: email,
           status: questionStatus.toUpperCase(),
+          bearerToken: token,
         }),
       );
     }
@@ -65,12 +64,15 @@ function ViewQuestions(props) {
   return (
     <div className={style.mainContainer}>
       <Header title={title} subtitle={"Vizualizare sumara cereri."} />
-      {loading &&<div className={style.notFound}>
-        <CircularLoadingAnimation
+      {loading && (
+        <div className={style.notFound}>
+          <CircularLoadingAnimation
             height={"70px"}
             color={"rgb(183, 0, 255)"}
-            borderWidth={"7px solid"}/>
-      </div>}
+            borderWidth={"7px solid"}
+          />
+        </div>
+      )}
       {(error || !isValidStatus || questions.length === 0) && !loading && (
         <div className={style.notFound}>
           <img src="/eroare.svg" alt="" />

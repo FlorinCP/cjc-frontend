@@ -197,7 +197,7 @@ function DayStatusCard({ currentSelectionDate }) {
   }
 
   const monthDays = useSelector((state) => state.monthDays.monthDays);
-
+  const token = useSelector((state) => state.token.token);
   const setScheduleForDay = async () => {
     await postDayData(
       currentSelectionDate,
@@ -205,6 +205,7 @@ function DayStatusCard({ currentSelectionDate }) {
       startHourSelect,
       endHourSelect,
       selectedStatus,
+      token,
     ).then(() => {
       setWorkingHoursSelect(8);
       setStartHourSelect(8);
@@ -244,17 +245,17 @@ function DayStatusCard({ currentSelectionDate }) {
           </div>
         </div>
 
-       <div className={style.actionBtn}>
-         <ActionButton
-             text={"Salveaza"}
-             onClick={setScheduleForDay}
-             color={"white"}
-             backgroundColor={"#1888ff"}
-             active={true}
-         >
-           <span className="material-symbols-outlined">event_available</span>
-         </ActionButton>
-       </div>
+        <div className={style.actionBtn}>
+          <ActionButton
+            text={"Salveaza"}
+            onClick={setScheduleForDay}
+            color={"white"}
+            backgroundColor={"#1888ff"}
+            active={true}
+          >
+            <span className="material-symbols-outlined">event_available</span>
+          </ActionButton>
+        </div>
       </div>
     </div>
   );

@@ -25,6 +25,7 @@ function UpdateStatus({ question, updatedStatus }) {
     setSelectedFilesObj(obj);
     setReplyFiles(filesArray);
   };
+  const token = useSelector((state) => state.token.token);
 
   const updateQuestion = () => {
     updateStatus(question.id, updatedStatus).then(() => {
@@ -46,8 +47,8 @@ function UpdateStatus({ question, updatedStatus }) {
     }
 
     if (replyText !== "") {
-      sendReply(formData).then((r) => {
-        dispatch(getRepliesByQuestionId(questionId));
+      sendReply(formData,token).then((r) => {
+        dispatch(getRepliesByQuestionId(questionId,token));
       });
     }
 
@@ -58,8 +59,7 @@ function UpdateStatus({ question, updatedStatus }) {
   return (
     <div className={style.updateStatus}>
       <i>
-        * Inainte de a trimite raspunsul final referitor la acceptarea sau
-        refuzarea cererii va rugam sa adaugati mentiuni
+        * Inainte de a trimite raspunsul final referitor la statusul cererii va rugam sa adaugati mentiuni
       </i>
       <textarea
         name="questionText"

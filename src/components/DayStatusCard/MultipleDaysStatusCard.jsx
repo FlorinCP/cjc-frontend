@@ -1,10 +1,10 @@
 import style from "./DayStatusCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
-import { postDayData, postMultipleDayData } from "../../services/day_api";
+import {  postMultipleDayData } from "../../services/day_api";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import { updateMonthDay } from "../../features/monthDaysSlice";
-import { useDispatch } from "react-redux";
+import {useDispatch, useSelector} from "react-redux";
 
 function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [selectedDay, setSelectedDay] = useState();
@@ -13,6 +13,8 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [endHourSelect, setEndHourSelect] = useState(16);
   const [modificationsPending, setModificationsPending] = useState(false);
   const [startHourSelect, setStartHourSelect] = useState(8);
+  const token = useSelector(state => state.token.token)
+
 
   useEffect(() => {
     if (multipleSelectionDates) {
@@ -206,6 +208,7 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
         startHourSelect,
         endHourSelect,
         selectedStatus,
+          token
       ).then(() => {
         setWorkingHoursSelect(8);
         setStartHourSelect(8);

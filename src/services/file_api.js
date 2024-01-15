@@ -1,8 +1,6 @@
+const URL = process.env.REACT_APP_URL;
 
-const URL =process.env.REACT_APP_LOCAL_URL
-
-
-export async function fetchPdfData(fileId) {
+export async function fetchPdfData(fileId,bearerToken) {
 
     try {
 
@@ -12,7 +10,11 @@ export async function fetchPdfData(fileId) {
 
         const queryString = new URLSearchParams(queryParams).toString();
 
-        const response = await fetch(`${URL}/file/download?${queryString}`);
+        const response = await fetch(`${URL}/file/download?${queryString}`,{
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+            },
+        });
 
         if (response.status === 200) {
             const data = await response.arrayBuffer(); // Convert the response to an ArrayBuffer

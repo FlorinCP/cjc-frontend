@@ -4,12 +4,14 @@ import DatePicker from "../../components/DatePicker/DatePicker";
 import { getDayData, postDayData, updateDayData } from "../../services/day_api";
 import { makeAppointment } from "../../services/appointment_api";
 import UserContext from "../../context/UserContext";
+import { useSelector } from "react-redux";
 
 function ScheduleUser(props) {
   const [currentSelectionDate, setCurrentSelectionDate] = useState();
   const [selectedDay, setSelectedDay] = useState();
   const [dayAppointments, setDayAppointments] = useState(null);
   const { currentUser, updateCurrentUser } = useContext(UserContext);
+  const token = useSelector((state) => state.token.token);
 
   const handleSelectedDate = async (data) => {
     if (data !== undefined) {
@@ -33,6 +35,7 @@ function ScheduleUser(props) {
       startHourSelect,
       endHourSelect,
       selectedStatus,
+      token,
     );
     setSelectedDay(await getDayData(currentSelectionDate));
   };
@@ -49,7 +52,7 @@ function ScheduleUser(props) {
   }, [selectedDay]);
 
   const setScheduleForDay = async () => {
-    await postDayData(currentSelectionDate);
+    await postDayData(currentSelectionDate, token);
     setSelectedDay(await getDayData(currentSelectionDate));
   };
 
@@ -253,107 +256,93 @@ function ScheduleUser(props) {
     return slots;
   }
 
-  function timeRepresentation(){
-    return(
-        <div className={style.timeRepresentation}>
-          <div className={style.timeStamps}>
-            {timeList.map((item, index) => (
-                <div className={style.timeStamp} key={index}>
-                  {item.formattedHour}
-                </div>
-            ))}
-          </div>
-          <div className={style.slots}>
-            {slotList.map((item, index) => (
-                <div
-                    className={getClassForSlot(index)}
-                    key={index}
-                    onClick={() => selectSlot(index)}
-                >
-                  {getContentForSlot(index)}
-                </div>
-            ))}
-          </div>
+  function timeRepresentation() {
+    return (
+      <div className={style.timeRepresentation}>
+        <div className={style.timeStamps}>
+          {timeList.map((item, index) => (
+            <div className={style.timeStamp} key={index}>
+              {item.formattedHour}
+            </div>
+          ))}
         </div>
-    )
+        <div className={style.slots}>
+          {slotList.map((item, index) => (
+            <div
+              className={getClassForSlot(index)}
+              key={index}
+              onClick={() => selectSlot(index)}
+            >
+              {getContentForSlot(index)}
+            </div>
+          ))}
+        </div>
+      </div>
+    );
   }
 
-  function mockTimeRepresentation(){
-    return(
-        <div className={style.timeRepresentation}>
-          <div className={style.timeStamps}>
-            {mockTime()}
-          </div>
-          <div className={style.slots}>
-            {mockSlots()}
-          </div>
-
-        </div>
-    )
+  function mockTimeRepresentation() {
+    return (
+      <div className={style.timeRepresentation}>
+        <div className={style.timeStamps}>{mockTime()}</div>
+        <div className={style.slots}>{mockSlots()}</div>
+      </div>
+    );
   }
 
-  function slotInfo(){
-    return(
-        <div className={style.slotInfo}>
-          {appointmentDetails ? (
+  function slotInfo() {
+    return (
+      <div className={style.slotInfo}>
+        {appointmentDetails ? (
+          <>
+            {currentUser.role === "ADMIN" ? (
               <>
-                {currentUser.role === "ADMIN" ? (
-                    <>
-                      <div className={style.infoHeader}>
-                        <h3>{appointmentDetails.startHour}</h3>
-                      </div>
-                      <div className={style.infoBody}>
-                        <button
-                            onClick={freeAppointment}
-                            className={style.selectBtn}
-                        >
-                          Marcheaza ca si liber
-                        </button>
-                        <button
-                            onClick={breakAppointment}
-                            className={style.selectBtn}
-                        >
-                          Marcheaza ca si ocupat
-                        </button>
-                        <button
-                            onClick={setAppointment}
-                            className={style.selectBtn}
-                        >
-                          Programeaza-te
-                        </button>
-                      </div>
-                    </>
-                ) : (
-                    <>
-                      <div className={style.infoHeader}>
-                        <h3>{appointmentDetails.startHour}</h3>
-                      </div>
-                      <div className={style.infoBody}>
-                        <button
-                            onClick={setAppointment}
-                            className={style.selectBtn}
-                        >
-                          Programeaza-te
-                        </button>
-                      </div>
-                    </>
-                )}
+                <div className={style.infoHeader}>
+                  <h3>{appointmentDetails.startHour}</h3>
+                </div>
+                <div className={style.infoBody}>
+                  <button onClick={freeAppointment} className={style.selectBtn}>
+                    Marcheaza ca si liber
+                  </button>
+                  <button
+                    onClick={breakAppointment}
+                    className={style.selectBtn}
+                  >
+                    Marcheaza ca si ocupat
+                  </button>
+                  <button onClick={setAppointment} className={style.selectBtn}>
+                    Programeaza-te
+                  </button>
+                </div>
               </>
-          ) : (
-              <div className={style.flex}>
-                <h2>Selectati un interval pentru detalii</h2>
-              </div>
-          )}
-        </div>
-    )
+            ) : (
+              <>
+                <div className={style.infoHeader}>
+                  <h3>{appointmentDetails.startHour}</h3>
+                </div>
+                <div className={style.infoBody}>
+                  <button onClick={setAppointment} className={style.selectBtn}>
+                    Programeaza-te
+                  </button>
+                </div>
+              </>
+            )}
+          </>
+        ) : (
+          <div className={style.flex}>
+            <h2>Selectati un interval pentru detalii</h2>
+          </div>
+        )}
+      </div>
+    );
   }
 
-  function mockSlotInfo(){
-    return(
-        <div className={style.slotInfo}>
-          <h2>Zi libera </h2>
-        </div>
-    )
+  function mockSlotInfo() {
+    return (
+      <div className={style.slotInfo}>
+        <h2>Zi libera </h2>
+      </div>
+    );
   }
 
   function expandedSchedule() {
@@ -361,19 +350,16 @@ function ScheduleUser(props) {
       <>
         {selectedDay && !closedDays.includes(selectedDay.dayNumber) ? (
           <div className={style.dateDetails}>
-
             {timeRepresentation()}
 
             {slotInfo()}
           </div>
         ) : (
+          <div className={style.dateDetails}>
+            {mockTimeRepresentation()}
 
-            <div className={style.dateDetails}>
-
-              {mockTimeRepresentation()}
-
-              {mockSlotInfo()}
-            </div>
+            {mockSlotInfo()}
+          </div>
         )}
       </>
     );

@@ -1,4 +1,4 @@
-const URL =process.env.REACT_APP_LOCAL_URL
+const URL =process.env.REACT_APP_URL
 
 
 export async function makeAppointment(

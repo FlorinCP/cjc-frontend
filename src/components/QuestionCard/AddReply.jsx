@@ -24,6 +24,8 @@ function AddReply({ question }) {
     setReplyFiles(filesArray);
   };
 
+  const token = useSelector((state) => state.token.token);
+
   function addReply() {
     const formData = new FormData();
     formData.append("text", replyText);
@@ -37,8 +39,8 @@ function AddReply({ question }) {
       formData.append(`replyFiles`, null);
     }
 
-    sendReply(formData).then((r) => {
-      dispatch(getRepliesByQuestionId(questionId));
+    sendReply(formData,token).then((r) => {
+      dispatch(getRepliesByQuestionId(questionId,token));
     });
 
     setReplyText("");

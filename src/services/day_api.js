@@ -1,4 +1,4 @@
-const URL =process.env.REACT_APP_LOCAL_URL
+const URL = process.env.REACT_APP_URL;
 
 export async function getDayData(selectedDate) {
   try {
@@ -64,6 +64,7 @@ export async function postDayData(
   startHour,
   endHour,
   status,
+  bearerToken,
 ) {
   try {
     const day = {
@@ -80,6 +81,7 @@ export async function postDayData(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${bearerToken}`,
       },
       body: JSON.stringify(day),
     });
@@ -100,6 +102,7 @@ export async function postMultipleDayData(
   startHour,
   endHour,
   status,
+  bearerToken
 ) {
 
   try {
@@ -122,6 +125,7 @@ export async function postMultipleDayData(
       method: "POST",
       headers: {
         "Content-Type": "application/json",
+        'Authorization': `Bearer ${bearerToken}`,
       },
       body: JSON.stringify(days),
     });
@@ -144,6 +148,7 @@ export async function updateDayData(
   startHour,
   endHour,
   status,
+  bearerToken
 ) {
   try {
     const queryParams = {
@@ -158,6 +163,9 @@ export async function updateDayData(
 
     const response = await fetch(`${URL}/day/set-day?${queryString}`, {
       method: "POST",
+      headers: {
+        'Authorization': `Bearer ${bearerToken}`,
+      },
     });
 
     if (response.ok) {

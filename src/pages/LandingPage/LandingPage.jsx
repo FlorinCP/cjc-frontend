@@ -2,8 +2,7 @@ import style from "../Login/Login.module.css";
 import React, { useEffect } from "react";
 import CircularLoadingAnimation from "../../components/LoadingAnimations/CircularLoadingAnimation";
 import { useLocation } from "react-router-dom";
-import { acceptTransfer } from "../../services/user_api";
-import async from "async";
+import { updatedTransferAccept} from "../../services/user_api";
 import useTokenParser from "../../hooks/useTokenParser";
 
 export default function LandingPage() {
@@ -16,7 +15,7 @@ export default function LandingPage() {
   const token = queryParams.get("transferToken");
 
   async function authorizeTransfer(token) {
-    const response = await acceptTransfer(token);
+    const response = await updatedTransferAccept(token);
     parser(response.token)
     window.location.href = "/questions/status/accepted";
     if (response.error){
