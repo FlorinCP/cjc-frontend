@@ -295,7 +295,7 @@ function ScheduleUser(props) {
       <div className={style.slotInfo}>
         {appointmentDetails ? (
           <>
-            {currentUser.role === "ADMIN" ? (
+            {currentUser.role === "ROLE_ADMIN" ? (
               <>
                 <div className={style.infoHeader}>
                   <h3>{appointmentDetails.startHour}</h3>

@@ -23,6 +23,10 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
   const email = useSelector((state) => state.token.email);
   const token = useSelector((state) => state.token.token);
 
+  useEffect(() => {
+    console.log(servicePrice);
+  }, [servicePrice]);
+
   function formatNumber(num) {
     let numStr = num.toString();
     let len = numStr.length;
@@ -48,10 +52,12 @@ export default function PaymentLinkForm({ sendPaymentLink }) {
   const handleSubmit = async (event) => {
     event.preventDefault();
 
+    let newPrice = servicePrice.replace(",", "");
+
     try {
       const paymentLink = await getSessionLink(
         email,
-        servicePrice,
+        newPrice,
         serviceName,
         currency,
         token,

@@ -115,7 +115,7 @@ function Question(props) {
         <p>{props.elapsedTime} in urma</p>
       </div>
 
-      {currentUser.role === "ADMIN" && (
+      {currentUser.role === "ROLE_ADMIN" && (
         <div className={style.holly}>
           <div className={style.subholly2}>
             <button className={style.actionBtn} onClick={viewQuestion}>

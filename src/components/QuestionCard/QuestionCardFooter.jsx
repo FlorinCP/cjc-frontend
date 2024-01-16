@@ -86,7 +86,7 @@ function QuestionCardFooter({
 
       {isDetailed === true &&
         question.status === "WAITING" &&
-        role === "ADMIN" && (
+        role === "ROLE_ADMIN" && (
           <div className={style.buttonsWrapper}>
             <ActionButton
               text={"Refuza"}
@@ -112,7 +112,7 @@ function QuestionCardFooter({
         )}
 
       {(question.status === "ACCEPTED" ) &&
-        role === "ADMIN" &&
+        role === "ROLE_ADMIN" &&
         isDetailed && (
           <div className={style.singleButtonWrapper}>
             <ActionButton
@@ -130,7 +130,7 @@ function QuestionCardFooter({
           </div>
         )}
 
-      {isDetailed &&  question.status === "REJECTED" && role === "ADMIN" && (
+      {isDetailed &&  question.status === "REJECTED" && role === "ROLE_ADMIN" && (
         <div className={style.singleButtonWrapper}>
           <ActionButton
             text={" Accepta"}

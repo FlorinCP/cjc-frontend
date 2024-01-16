@@ -24,7 +24,7 @@ function ViewQuestions(props) {
 
   useEffect(() => {
     getTitle(questionStatus);
-    if (isValidStatus && role === "ADMIN") {
+    if (isValidStatus && role === "ROLE_ADMIN") {
       dispatch(getQuestionsByStatus(questionStatus.toUpperCase()), token);
     } else {
       dispatch(
