@@ -104,6 +104,9 @@
   justify-content: flex-end;
 }
 
+.singleButtonWrapper > button{
+  width: 50%;
+}
 
 .author {
   width: 100%;
