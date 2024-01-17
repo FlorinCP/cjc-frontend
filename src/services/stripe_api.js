@@ -17,7 +17,7 @@ export default async function getSessionLink(
         const servicePriceAsNumber = parseInt(normalizedServicePrice, 10);
 
         if (serviceName.length <= 4 || servicePriceAsNumber < 200) {
-            return "Service name must be more than 4 characters and price must be at least 100";
+            return "Service name must be more than 4 characters and price must be at least 2,00";
         }
 
         return null; // Valid input

@@ -25,7 +25,13 @@ function ViewQuestions(props) {
   useEffect(() => {
     getTitle(questionStatus);
     if (isValidStatus && role === "ROLE_ADMIN") {
-      dispatch(getQuestionsByStatus(questionStatus.toUpperCase()), token);
+      console.log("muie");
+      dispatch(
+        getQuestionsByStatus({
+          status: questionStatus.toUpperCase(),
+          bearerToken: token,
+        }),
+      );
     } else {
       dispatch(
         getQuestionsByUserAndStatus({
@@ -61,6 +67,11 @@ function ViewQuestions(props) {
       );
   }
 
+  function showError() {
+    if (questions.length > 0) return false;
+    else if (error || !isValidStatus || questions.length === 0) return true;
+  }
+
   return (
     <div className={style.mainContainer}>
       <Header title={title} subtitle={"Vizualizare sumara cereri."} />
@@ -73,7 +84,7 @@ function ViewQuestions(props) {
           />
         </div>
       )}
-      {(error || !isValidStatus || questions.length === 0) && !loading && (
+      {showError() && !loading && (
         <div className={style.notFound}>
           <img src="/eroare.svg" alt="" />
           <h2>Nu s-au gasit rezultate</h2>
