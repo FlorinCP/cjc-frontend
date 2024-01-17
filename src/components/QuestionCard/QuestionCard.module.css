@@ -349,6 +349,10 @@
     display: none;
   }
 
+  .singleButtonWrapper > button{
+    width: 100%;
+  }
+
   .author::-webkit-scrollbar-thumb{
     background-color: rgba(28, 121, 184, 0.24);
     border-radius: 10px;

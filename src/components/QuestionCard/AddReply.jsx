@@ -39,8 +39,10 @@ function AddReply({ question }) {
       formData.append(`replyFiles`, null);
     }
 
-    sendReply(formData,token).then((r) => {
-      dispatch(getRepliesByQuestionId(questionId,token));
+    sendReply(formData, token).then((r) => {
+      dispatch(
+        getRepliesByQuestionId({ questionId: questionId, bearerToken: token }),
+      );
     });
 
     setReplyText("");

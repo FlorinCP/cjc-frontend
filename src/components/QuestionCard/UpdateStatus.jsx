@@ -28,7 +28,7 @@ function UpdateStatus({ question, updatedStatus }) {
   const token = useSelector((state) => state.token.token);
 
   const updateQuestion = () => {
-    updateStatus(question.id, updatedStatus).then(() => {
+    updateStatus(question.id, updatedStatus,token).then(() => {
       dispatch(
         updateQuestionStatus({ questionId: questionId, status: updatedStatus }),
       );

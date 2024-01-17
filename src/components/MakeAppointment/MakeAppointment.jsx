@@ -1,21 +1,11 @@
 import style from "./MakeAppointment.module.css";
 import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
 import React, { useEffect, useState } from "react";
-import { getDatesForMonth } from "../../services/day_api";
 import useDatePicker from "../../hooks/useDatePicker";
-import TimeCollumn from "./TimeCollumn";
-import Column from "./Column";
-import ActionButton from "../ActionButton/ActionButton";
-import ContextMenu from "../ContextMenu/ContextMenu";
-import {
-  getAppointmentByDay,
-  makeAppointment,
-} from "../../services/appointment_api";
 import { useDispatch, useSelector } from "react-redux";
 import AddApointmentCard from "./AddApointmentCard";
 import DetailedCalendar from "../DetailedCalendar/DetailedCalendar";
-import { store } from "../../app/store";
-import currentWeekSlice, {
+import  {
   resetCurrentWeek,
   setCurrentWeek,
 } from "../../features/currentWeekSlice";

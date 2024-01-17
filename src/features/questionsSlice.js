@@ -52,7 +52,6 @@ export const getQuestionsByStatus = createAsyncThunk(
       const queryParams = { status: `${status}` };
       const queryString = new URLSearchParams(queryParams).toString();
 
-      console.log(status,bearerToken)
 
       const response = await fetch(
         `${URL}/question/all-by-status?${queryString}`,{
@@ -79,10 +78,12 @@ export const getQuestionsByStatus = createAsyncThunk(
 
 export const getRepliesByQuestionId = createAsyncThunk(
   "questions/getRepliesByQuestionId",
-  async (questionId,bearerToken, { rejectWithValue }) => {
+  async ({questionId, bearerToken}, { rejectWithValue }) => {
     try {
       const queryParams = { questionId: `${questionId}` };
       const queryString = new URLSearchParams(queryParams).toString();
+
+      console.log(queryString)
 
       const response = await fetch(
         `${URL}/reply/get-replies-by-question-id?${queryString}`,{

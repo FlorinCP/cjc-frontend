@@ -18,12 +18,6 @@ function Schedule(props) {
     setMultipleSelectionDates(dates);
   }
 
-  useEffect(() => {
-    if (multipleSelectionDates) {
-      console.log(multipleSelectionDates);
-    }
-  }, [multipleSelectionDates]);
-
   return (
     <div className={style.mainContainer}>
       <div className={style.header}>

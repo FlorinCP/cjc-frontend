@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircularLoadingAnimation from "../../components/LoadingAnimations/CircularLoadingAnimation";
 import QuestionList from "../../components/QuestionList/QuestionList";
 import style from "./ViewQuestions.module.css";
@@ -25,7 +25,6 @@ function ViewQuestions(props) {
   useEffect(() => {
     getTitle(questionStatus);
     if (isValidStatus && role === "ROLE_ADMIN") {
-      console.log("muie");
       dispatch(
         getQuestionsByStatus({
           status: questionStatus.toUpperCase(),

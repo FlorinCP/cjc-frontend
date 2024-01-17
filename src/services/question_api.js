@@ -141,7 +141,7 @@ export function mapToObject(selectedFiles) {
   return obj;
 }
 
-export async function updateStatus(id, status) {
+export async function updateStatus(id, status,bearerToken) {
   const queryParams = {
     id: `${id}`,
     status: `${status}`,
@@ -151,5 +151,8 @@ export async function updateStatus(id, status) {
 
   const response = await fetch(`${URL}/question/status?${queryString}`, {
     method: "POST",
+    headers: {
+      Authorization: `Bearer ${bearerToken}`,
+    },
   });
 }

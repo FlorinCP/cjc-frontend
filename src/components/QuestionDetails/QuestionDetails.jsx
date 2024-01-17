@@ -29,7 +29,7 @@ function QuestionDetails() {
 
 
   useEffect(() => {
-    dispatch(getRepliesByQuestionId(questionId,token));
+    dispatch(getRepliesByQuestionId({questionId:  questionId, bearerToken: token}));
   }, []);
 
 

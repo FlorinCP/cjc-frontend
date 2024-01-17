@@ -288,7 +288,11 @@
 .singleButtonWrapper {
   display: flex;
   justify-content: flex-end;
-  flex-grow: 1;
+  width: 100%;
+}
+
+.singleButtonWrapper > button {
+  width: 50%;
 }
 
 .filesInfoAndButtons > div:last-child {
@@ -468,6 +472,10 @@ h3 {
 }
 
 @media screen and (max-width: 768px) {
+  .singleButtonWrapper > button {
+    width: 100%;
+  }
+
   .filesInfoAndButtons2 {
     width: 100%;
     display: flex;
@@ -482,6 +490,11 @@ h3 {
     justify-content: center;
     align-items: center;
   }
+
+  .singleButtonWrapper > button {
+    width: 100%;
+  }
+
 
   .questionCardWrapper {
     width: 95vw;
