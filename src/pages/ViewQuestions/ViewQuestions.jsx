@@ -14,7 +14,7 @@ function ViewQuestions(props) {
   const { questionStatus } = useParams();
   const currentUrl = useLocation().pathname;
 
-  const [title, setTitle] = useState("Intrebari in Asteptare");
+  const [title, setTitle] = useState("Întrebari în așteptare");
   const isValidStatus = ["waiting", "accepted", "rejected"].includes(
     questionStatus,
   );
@@ -45,13 +45,13 @@ function ViewQuestions(props) {
   function getTitle(questionStatus) {
     switch (questionStatus) {
       case "accepted":
-        setTitle("Intrebari Acceptate");
+        setTitle("Întrebari acceptate");
         break;
       case "rejected":
-        setTitle("Intrebari Respinse");
+        setTitle("Întrebari respinse");
         break;
       default:
-        setTitle("Intrebari in Asteptare");
+        setTitle("Întrebari în așteptare");
     }
   }
 
@@ -73,7 +73,7 @@ function ViewQuestions(props) {
 
   return (
     <div className={style.mainContainer}>
-      <Header title={title} subtitle={"Vizualizare sumara cereri."} />
+      <Header title={title} subtitle={"Vizualizare sumară cereri."} />
       {loading && (
         <div className={style.notFound}>
           <CircularLoadingAnimation

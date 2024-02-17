@@ -17,7 +17,7 @@ export default function LandingPage() {
   async function authorizeTransfer(token) {
     const response = await updatedTransferAccept(token);
     parser(response.token)
-    window.location.href = "/questions/status/accepted";
+    window.location.href = "/schedule/edit";
     if (response.error){
       setResponse(response.error);
     }

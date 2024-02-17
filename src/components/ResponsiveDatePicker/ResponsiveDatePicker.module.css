@@ -141,15 +141,16 @@
        width: calc(80vw / 7);
        height: calc(80vw / 7);
        position: relative;
-       border : 10px solid;
+       border : 9px solid;
    }
 
    .button{
        position: absolute;
        top: -2px;
        left: -2px;
-       height: calc(107% + 2px);
-       width: calc(107% + 2px);
+       height: calc(100% + 2px);
+       width: 70%;
+       font-size: 16px;
    }
 
     .daysGrid {

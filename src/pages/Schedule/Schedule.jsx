@@ -18,6 +18,7 @@ function Schedule(props) {
     setMultipleSelectionDates(dates);
   }
 
+
   return (
     <div className={style.mainContainer}>
       <div className={style.header}>

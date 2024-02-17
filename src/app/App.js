@@ -14,8 +14,30 @@ import MultiLayout from "../Layouts/MultiLayout/MultiLayout";
 import LandingPage from "../pages/LandingPage/LandingPage";
 import GenerateLinks from "../pages/Stripe/GenerateLinks";
 import ViewLinks from "../pages/Stripe/ViewLinks";
+import DetailedSChedule from "../pages/DetailedSchedule/DetailedSChedule";
+import { useDispatch } from 'react-redux';
+import { setOnline, setOffline } from '../features/networkSlice';
+import {useEffect} from "react";
+
+
 
 function App() {
+
+    const dispatch = useDispatch()
+
+    useEffect(() => {
+        const handleOnline = () => dispatch(setOnline());
+        const handleOffline = () => dispatch(setOffline());
+
+        window.addEventListener('online', handleOnline);
+        window.addEventListener('offline', handleOffline);
+
+        return () => {
+            window.removeEventListener('online', handleOnline);
+            window.removeEventListener('offline', handleOffline);
+        };
+    }, [dispatch]);
+
   return (
     <Router>
       <Routes>
@@ -44,6 +66,15 @@ function App() {
             element={
               <ProtectedRoute>
                 <Schedule />
+              </ProtectedRoute>
+            }
+          />
+          <Route
+            path="/schedule/view"
+            end
+            element={
+              <ProtectedRoute>
+                <DetailedSChedule/>
               </ProtectedRoute>
             }
           />

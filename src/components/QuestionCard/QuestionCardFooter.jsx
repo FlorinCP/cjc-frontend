@@ -67,7 +67,7 @@ function QuestionCardFooter({
       )}
 
       {question.status === "ACCEPTED" &&
-        role === "REGISTERED" &&
+        role === "ROLE_REGISTERED" &&
         isDetailed && (
           <div className={style.singleButtonWrapper}>
             <ActionButton

@@ -50,6 +50,19 @@
   box-sizing: border-box;
 }
 
+.body2{
+  width: 100%;
+  padding-top:50px;
+  height: fit-content;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+
+}
+
 .calendarAndInfo {
   display: flex;
   flex-direction: column;
@@ -83,6 +96,18 @@
   -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
 }
 
+
+.datePickerWrapper2 {
+  height: 450px;
+  width: 60%;
+  background-color: white;
+  box-sizing: border-box;
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+}
 .cardWrapper {
   width: 100%;
   box-sizing: border-box;
@@ -95,6 +120,7 @@
     grid-template-rows: 150px auto;
     height: 100%;
     overflow-y: auto;
+    width: 100%;
   }
 
   .header {
@@ -115,6 +141,18 @@
     box-sizing: border-box;
   }
 
+  .body2{
+    width: 100vw;
+    height: fit-content;
+    padding: 5px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
   .datePickerWrapper {
     height: fit-content;
     width: fit-content;
@@ -122,6 +160,18 @@
     box-sizing: border-box;
     border-radius: 15px;
     border: 1px solid rgba(213, 213, 213, 0.64);
+  }
+
+  .datePickerWrapper2 {
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 15px;
+    border: 1px solid rgba(213, 213, 213, 0.64);
+    box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+    -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+    -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
   }
 
   .cardWrapper{

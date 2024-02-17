@@ -13,6 +13,7 @@ import selectedDayReducer from "../features/selectedDaySlice";
 import currentWeekReducer from "../features/currentWeekSlice";
 import { jwtDecode } from "jwt-decode";
 import sidebarReducer from "../features/sidebarSlice";
+import networkReducer from "../features/networkSlice"
 
 
 const myTransform = createTransform(
@@ -72,6 +73,7 @@ const persistedReducers = combineReducers({
     today : todayReducer,
     token: persistReducer(tokenConfig, tokenReducer),
     questions: persistReducer(questionConfig,quesstionReducer) ,
+    network : networkReducer,
 });
 
 export const store = configureStore({

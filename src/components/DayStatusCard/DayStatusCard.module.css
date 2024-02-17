@@ -32,8 +32,19 @@
 }
 
 .selectedDays {
-  max-height: 170px;
-  overflow-y: auto;
+  display: flex;
+  width: 100%;
+  overflow-x: auto;
+}
+
+.selectedDays::-webkit-scrollbar-thumb {
+  background-color: #1888ff;
+  border-radius: 10px;
+}
+
+.selectedDays::-webkit-scrollbar-track {
+  background-color: transparent;
+  height: 5px;
 }
 
 .selectedDays > .selectedDay {
@@ -45,13 +56,9 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
-  width: fit-content;
+  width: 50%;
   gap: 10px;
   height: 40px;
-}
-
-.flexRow > * {
-  flex-grow: 1;
 }
 
 .actionBtn {
@@ -77,6 +84,8 @@
   padding: 10px;
   background-color: #f7f7f7;
   border-radius: 5px;
+  height: fit-content;
+  white-space: nowrap;
 }
 
 .navigation {
