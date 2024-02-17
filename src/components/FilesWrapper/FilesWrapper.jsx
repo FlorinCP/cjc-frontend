@@ -3,6 +3,7 @@ import React, {useEffect, useState} from "react";
 import {mapToObject} from "../../services/question_api";
 import {fetchPdfData} from "../../services/file_api";
 import PDFViewer from "../PDFViewer/PDFViewer";
+import {useSelector} from "react-redux";
 
 function FileRepresentation({ fileInfo ,fileNumber}) {
   const [selectedFiles, setSelectedFiles] = useState(fileInfo);
@@ -11,6 +12,8 @@ function FileRepresentation({ fileInfo ,fileNumber}) {
   const [currentFileName, setCurrentFileName] = useState(null);
   const [currentIndex, setCurrentIndex] = useState(null);
   const [currentFilePages, setCurrentFilePages] = useState(null);
+  const token = useSelector((state) => state.token.token);
+
 
   useEffect(() => {
     if (selectedFiles) {
@@ -24,7 +27,7 @@ function FileRepresentation({ fileInfo ,fileNumber}) {
     if (currentIndex !== index) {
       setCurrentFileName(fileInfo[index].name);
       setCurrentFilePages(fileInfo[index].pages);
-      fetchPdfData(fileInfo[index].id).then((r) => {
+      fetchPdfData(fileInfo[index].id,token).then((r) => {
         setCurrentIndex(index);
         console.log(r);
         setCurrentFile(r);

@@ -7,30 +7,60 @@
 .mainContainer {
   display: grid;
   grid-template-rows: 80px calc(100% - 80px);
-  height: 100vh;
+  height: 100%;
   overflow-y: auto;
+  background-color: white;
+}
+
+.line {
+  width: 100%;
+  border-top: 1px solid rgba(112, 128, 144, 0.31);
 }
 
 .header {
-  font-size: 23px;
-  box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2);
-  width: 100%;
-  place-items: center;
-  display: grid;
+  display: flex;
+  flex-direction: column;
   background-color: rgba(201, 230, 255, 0.02);
   font-weight: 500;
-  font-family: "Roboto", sans-serif;
-  text-transform: uppercase;
+  font-size: 24px;
+  margin-left: 30px;
 }
 
+.title {
+  margin: 0px;
+  padding-top: 40px;
+  padding-bottom: 5px;
+}
+
+.info {
+  margin: 5px 0;
+  font-size: 16px;
+  color: #777;
+}
 
 .body {
   width: 100%;
+  padding: 4% 25%;
   height: fit-content;
   display: flex;
+  gap: 20px;
   justify-content: flex-start;
   align-items: center;
   flex-direction: column;
+  box-sizing: border-box;
+}
+
+.body2{
+  width: 100%;
+  padding-top:50px;
+  height: fit-content;
+  display: flex;
+  gap: 20px;
+  justify-content: flex-start;
+  align-items: center;
+  flex-direction: column;
+  box-sizing: border-box;
+
 }
 
 .calendarAndInfo {
@@ -55,15 +85,97 @@
 }
 
 .datePickerWrapper {
+  height: 450px;
   width: 100%;
-  height: 500px;
-  background-color: rgba(250, 252, 255, 0.38);
-  padding: 20px 50px 30px;
+  background-color: white;
   box-sizing: border-box;
-  border-radius: 5px;
-  border-top: 1px solid rgb(213, 213, 213);
-  border-bottom: 1px solid rgb(213, 213, 213);
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
 }
 
 
+.datePickerWrapper2 {
+  height: 450px;
+  width: 60%;
+  background-color: white;
+  box-sizing: border-box;
+  margin-top: 20px;
+  border-radius: 15px;
+  box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+}
+.cardWrapper {
+  width: 100%;
+  box-sizing: border-box;
+  border-radius: 15px;
+}
 
+@media screen and (max-width: 768px) {
+  .mainContainer {
+    display: grid;
+    grid-template-rows: 150px auto;
+    height: 100%;
+    overflow-y: auto;
+    width: 100%;
+  }
+
+  .header {
+    margin-left: 20px;
+    /*margin-right: 20px;*/
+    height: fit-content;
+  }
+
+  .body {
+    width: 100%;
+    height: fit-content;
+    padding: 5px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .body2{
+    width: 100vw;
+    height: fit-content;
+    padding: 5px;
+    display: flex;
+    gap: 20px;
+    justify-content: center;
+    align-items: center;
+    flex-direction: column;
+    box-sizing: border-box;
+  }
+
+  .datePickerWrapper {
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 15px;
+    border: 1px solid rgba(213, 213, 213, 0.64);
+  }
+
+  .datePickerWrapper2 {
+    height: fit-content;
+    width: fit-content;
+    background-color: white;
+    box-sizing: border-box;
+    border-radius: 15px;
+    border: 1px solid rgba(213, 213, 213, 0.64);
+    box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+    -webkit-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+    -moz-box-shadow: 0px 0px 11px -1px rgba(0,0,0,0.19);
+  }
+
+  .cardWrapper{
+    width: 90%;
+    margin-bottom: 40px;
+  }
+}

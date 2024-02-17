@@ -1,53 +1,62 @@
-.wrapper{
-    width: 100vw;
-    height: 100vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    background-color: #f7f7f7;
+.wrapper {
+  width: 100vw;
+  height: 100vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  background-color: #f7f7f7;
 }
 
-.loginCard{
-    width: 50vh;
-    height: 40vh;
-    background-color: white;
-    border-radius: 5px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
+.loginCard {
+  width: 50vh;
+  height: 40vh;
+  background-color: white;
+  border-radius: 5px;
+  box-shadow:
+    rgba(0, 0, 0, 0.32) 0px 1px 3px,
+    rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
 }
 
-.center{
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    width: 100vw;
-    min-height: 100vh;
+.center {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  width: 100vw;
+  height: 100vh;
+  background-color: #ffffff;
 }
 
-.center > *{
-    margin:  100px;
+.center > * {
+  margin: 100px;
 }
 
-.logginWrapper{
-    width: 25vw;
-    min-height: 60vh;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    flex-direction: column;
-    gap: 70px;
-    border-radius: 10px;
-    box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    padding: 20px 50px;
-    box-sizing: border-box;
+.logginWrapper {
+  width: 25vw;
+  min-height: 60vh;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  flex-direction: column;
+  gap: 70px;
+  border-radius: 10px;
+  box-shadow:
+    rgba(0, 0, 0, 0.32) 0px 1px 3px,
+    rgba(0, 0, 0, 0.24) 0px 1px 2px;
+  padding: 20px 50px;
+  box-sizing: border-box;
 }
 
-.title{
-    color: #18446d;
-    text-transform: uppercase;
+.title {
+  color: #18446d;
+  text-transform: uppercase;
+}
+
+@media screen and (max-width: 768px) {
+
 }

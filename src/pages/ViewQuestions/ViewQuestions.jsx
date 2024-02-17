@@ -1,5 +1,5 @@
 import { useLocation, useParams } from "react-router-dom";
-import React, { useContext, useEffect, useState } from "react";
+import React, { useEffect, useState } from "react";
 import CircularLoadingAnimation from "../../components/LoadingAnimations/CircularLoadingAnimation";
 import QuestionList from "../../components/QuestionList/QuestionList";
 import style from "./ViewQuestions.module.css";
@@ -14,25 +14,29 @@ function ViewQuestions(props) {
   const { questionStatus } = useParams();
   const currentUrl = useLocation().pathname;
 
-  const [title, setTitle] = useState("Intrebari in Asteptare");
+  const [title, setTitle] = useState("Întrebari în așteptare");
   const isValidStatus = ["waiting", "accepted", "rejected"].includes(
     questionStatus,
   );
   const dispatch = useDispatch();
   const { questions, loading, error } = useSelector((state) => state.questions);
-  const { email, role } = useSelector((state) => state.token);
-
-  console.log(email, role);
+  const { email, role, token } = useSelector((state) => state.token);
 
   useEffect(() => {
     getTitle(questionStatus);
-    if (isValidStatus && role === "ADMIN") {
-      dispatch(getQuestionsByStatus(questionStatus.toUpperCase()));
+    if (isValidStatus && role === "ROLE_ADMIN") {
+      dispatch(
+        getQuestionsByStatus({
+          status: questionStatus.toUpperCase(),
+          bearerToken: token,
+        }),
+      );
     } else {
       dispatch(
         getQuestionsByUserAndStatus({
           email: email,
           status: questionStatus.toUpperCase(),
+          bearerToken: token,
         }),
       );
     }
@@ -41,26 +45,51 @@ function ViewQuestions(props) {
   function getTitle(questionStatus) {
     switch (questionStatus) {
       case "accepted":
-        setTitle("Intrebari Acceptate");
+        setTitle("Întrebari acceptate");
         break;
       case "rejected":
-        setTitle("Intrebari Respinse");
+        setTitle("Întrebari respinse");
         break;
       default:
-        setTitle("Intrebari in Asteptare");
+        setTitle("Întrebari în așteptare");
     }
+  }
+
+  function placeholder() {
+    if (loading) return <CircularLoadingAnimation />;
+    else if (error || !isValidStatus || questions.length === 0)
+      return (
+        <div className={style.notFound}>
+          <img src="/eroare.svg" alt="" />
+          <h2>Nu s-au gasit rezultate</h2>
+        </div>
+      );
+  }
+
+  function showError() {
+    if (questions.length > 0) return false;
+    else if (error || !isValidStatus || questions.length === 0) return true;
   }
 
   return (
     <div className={style.mainContainer}>
-      <Header title={title} />
-      {loading && <CircularLoadingAnimation />}
-      {(error || !isValidStatus || questions.length === 0) && (
+      <Header title={title} subtitle={"Vizualizare sumară cereri."} />
+      {loading && (
+        <div className={style.notFound}>
+          <CircularLoadingAnimation
+            height={"70px"}
+            color={"rgb(183, 0, 255)"}
+            borderWidth={"7px solid"}
+          />
+        </div>
+      )}
+      {showError() && !loading && (
         <div className={style.notFound}>
           <img src="/eroare.svg" alt="" />
           <h2>Nu s-au gasit rezultate</h2>
         </div>
       )}
+
       <QuestionList questions={questions} />
     </div>
   );

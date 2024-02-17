@@ -1,11 +1,13 @@
-const BASE_URL = "http://localhost:8080/cjc/api/v1"
+const URL = process.env.REACT_APP_URL;
 
-
-export async function sendReply(formData){
+export async function sendReply(formData,bearerToken){
     try{
-        const response = await  fetch(`${BASE_URL}/reply/`, {
+        const response = await  fetch(`${URL}/reply/`, {
             method: "POST",
             body: formData,
+            headers: {
+                'Authorization': `Bearer ${bearerToken}`,
+            },
         })
 
         if (response.ok){

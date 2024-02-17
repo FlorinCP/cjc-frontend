@@ -4,6 +4,7 @@
     align-items: center;
     width: 100%;
     flex-direction: column;
+    height: 100vh;
 }
 
 .actionBtn{
@@ -65,7 +66,7 @@
 }
 
 .videos {
-    height: inherit;
+    height: 100%;
     position: relative;
     user-select: none;
     margin-right: 10px;
@@ -75,7 +76,7 @@
 }
 
 .remoteVideoContainer {
-    width: inherit;
+    height: 100%;
     display: flex;
     justify-content: center;
     align-items: center;
@@ -189,15 +190,13 @@
 }
 
 .videoComponent {
-    width: 90vw;
-    height: 90vh;
+    width: 95%;
+    height: 90%;
     padding: 10px;
     transition: all 0.3s cubic-bezier(.25, .8, .25, 1);
     /*box-shadow: rgba(50, 50, 93, 0.25) 0 2px 5px -1px, rgba(0, 0, 0, 0.3) 0 1px 3px -1px;*/
     border-radius: 10px;
     box-shadow: rgba(0, 0, 0, 0.32) 0px 1px 3px, rgba(0, 0, 0, 0.24) 0px 1px 2px;
-    margin-bottom: 100px;
-    margin-top: 100px;
     display: grid;
     background-color: #054270;
     grid-template-columns: auto 20vw;

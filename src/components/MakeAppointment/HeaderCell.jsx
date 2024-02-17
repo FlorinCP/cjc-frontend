@@ -13,13 +13,13 @@ function HeaderCell({ day, index, isToday, isDateSelected, isWorkingDay }) {
   const todayInterior = {
     backgroundColor: "#b700ff",
     color: "white",
-    border: "1px solid #b700ff",
+    border: "10px solid #b700ff",
   };
 
   const selectedInterior = {
     backgroundColor: "#1888FF",
     color: "white",
-    border: "1px solid #1888FF",
+    border: "10px solid #1888FF",
   };
 
   const closedInterior = {

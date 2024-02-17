@@ -1,0 +1,136 @@
+/* PaymentLinkForm.module.css */
+.formContainer {
+  width: 100%;
+}
+
+.inputField {
+  margin-bottom: 10px;
+  width: 100%;
+  border-radius: 4px;
+  display: flex;
+  box-sizing: border-box;
+  flex-direction: column;
+  gap: 5px;
+
+}
+
+.inputField > input {
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgb(213, 213, 213);
+  font-size: 18px;
+  color: #444;
+}
+
+.inputField > label {
+  color: #444;
+}
+
+.inputs {
+  margin-top: 20px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  flex-direction: column;
+  gap: 10px;
+}
+
+.currencyWrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 10px;
+}
+
+.currencyWrapper > input {
+}
+
+.priceInput {
+  display: flex;
+  align-items: flex-end;
+  justify-content: flex-end;
+  text-align: right;
+  height: 45px;
+
+  font-size: 20px;
+  color: #444;
+  width: 100%;
+  padding: 10px;
+  border-radius: 5px;
+  box-sizing: border-box;
+  border: 1px solid rgb(213, 213, 213);
+}
+
+input:focus {
+  outline: none;
+  border: 1px solid #1888ff;
+}
+
+.form {
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+}
+
+.submitButton {
+  padding: 10px 20px;
+  background-color: blue;
+  color: white;
+  border: none;
+  border-radius: 4px;
+  cursor: pointer;
+}
+
+.suggestedPrice {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  flex-grow: 1;
+  user-select: none;
+  transition: all 0.2s ease;
+}
+
+.suggestedPrice:hover {
+  background-color: #1888ff;
+  transition: all 0.2s ease;
+  color: white;
+}
+
+.suggestedPriceSelected {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border: 1px solid rgb(213, 213, 213);
+  border-radius: 10px;
+  padding: 10px 20px;
+  cursor: pointer;
+  flex-grow: 1;
+  background-color: #1888ff;
+  color: white;
+  user-select: none;
+}
+
+.suggestionsWrapper > p{
+  color: #444;
+  margin-top: 0;
+  margin-bottom: 10px;
+}
+
+.suggestedPrices {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 10px;
+}
+
+.buttonWrapper{
+  height: 60px;
+}
+
+@media screen and (max-width: 768px) {
+
+}

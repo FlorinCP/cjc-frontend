@@ -11,14 +11,14 @@ function SideBarLayout() {
     display: "grid",
     gridTemplateColumns: "15% 85%",
     width: "100vw",
-    transition: "0.5s",
+    transition: "0.5s all",
   };
 
   const collapsedStyle = {
     display: "grid",
     gridTemplateColumns: "3% 97%",
     width: "100vw",
-    transition: "0.5s",
+    transition: "0.5s all",
   };
 
   return (

@@ -25,9 +25,10 @@ function UpdateStatus({ question, updatedStatus }) {
     setSelectedFilesObj(obj);
     setReplyFiles(filesArray);
   };
+  const token = useSelector((state) => state.token.token);
 
   const updateQuestion = () => {
-    updateStatus(question.id, updatedStatus).then(() => {
+    updateStatus(question.id, updatedStatus,token).then(() => {
       dispatch(
         updateQuestionStatus({ questionId: questionId, status: updatedStatus }),
       );
@@ -46,8 +47,8 @@ function UpdateStatus({ question, updatedStatus }) {
     }
 
     if (replyText !== "") {
-      sendReply(formData).then((r) => {
-        dispatch(getRepliesByQuestionId(questionId));
+      sendReply(formData,token).then((r) => {
+        dispatch(getRepliesByQuestionId(questionId,token));
       });
     }
 
@@ -58,8 +59,7 @@ function UpdateStatus({ question, updatedStatus }) {
   return (
     <div className={style.updateStatus}>
       <i>
-        * Inainte de a trimite raspunsul final referitor la acceptarea sau
-        refuzarea cererii va rugam sa adaugati mentiuni
+        * Inainte de a trimite raspunsul final referitor la statusul cererii va rugam sa adaugati mentiuni
       </i>
       <textarea
         name="questionText"
@@ -70,7 +70,7 @@ function UpdateStatus({ question, updatedStatus }) {
         }}
       ></textarea>
 
-      <div>
+      <div className={style.filesInfoAndButtons2}>
         <div>
           <label htmlFor="file-upload" className={style.customFileUpload}>
             <span className="material-symbols-outlined">draft</span>
@@ -86,13 +86,16 @@ function UpdateStatus({ question, updatedStatus }) {
           />
         </div>
 
-        <ActionButton
-          text={"Trimite"}
-          color={"white"}
-          active={true}
-          backgroundColor={"#1c79b8"}
-          onClick={updateQuestion}
-        />
+        <div className={style.singleButtonWrapper}>
+          <ActionButton
+            text={"Trimite"}
+            color={"white"}
+            active={true}
+            width={"100%"}
+            backgroundColor={"#1888ff"}
+            onClick={updateQuestion}
+          />
+        </div>
       </div>
     </div>
   );

@@ -3,16 +3,17 @@ import React, { useEffect, useState } from "react";
 import DayCell from "./DayCell";
 import useDatePicker from "../../hooks/useDatePicker";
 import ContextMenu from "../ContextMenu/ContextMenu";
-import {useDispatch, useSelector} from "react-redux";
-import {getDatesForMonth} from "../../services/day_api";
-import {setMonthDays} from "../../features/monthDaysSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { getDatesForMonth } from "../../services/day_api";
+import { setMonthDays } from "../../features/monthDaysSlice";
+import useScreenSize from "../../hooks/useScreenSize";
 
 function ResponsiveDatePicker({
   sendSelectedDate,
   sendMultipleSelectionDates,
   contextMenuProps = true,
+  receivedSelectionDate,
 }) {
-
   //  Props
 
   /**
@@ -32,7 +33,6 @@ function ResponsiveDatePicker({
   };
 
   //  State
-
 
   const today = useSelector((state) => state.today.today);
   const dispatch = useDispatch();
@@ -90,7 +90,6 @@ function ResponsiveDatePicker({
   const { prevMonth, nextMonth, monthName, fullYear, finalDays } =
     useDatePicker();
 
-
   // Functions
 
   /**
@@ -101,15 +100,21 @@ function ResponsiveDatePicker({
    * @param finalDays it is an array of objects that contains the days of the current month and the status of each day is null , obtained after the useDatePicker hook
    */
   function transferData(fetchedData, finalDays) {
+    console.log("test", fetchedData, finalDays);
+
     finalDays.forEach((row) => {
       return row.forEach((day) => {
         if (
-            fetchedData.some(
-            (receivedDay) => receivedDay.dayNumber === day.dayNumber && receivedDay.monthNumber === day.monthNumber
+          fetchedData.some(
+            (receivedDay) =>
+              receivedDay.dayNumber === day.dayNumber &&
+              receivedDay.monthNumber === day.monthNumber,
           )
         ) {
           const receivedDay = fetchedData.find(
-            (receivedDay) => receivedDay.dayNumber === day.dayNumber && receivedDay.monthNumber === day.monthNumber,
+            (receivedDay) =>
+              receivedDay.dayNumber === day.dayNumber &&
+              receivedDay.monthNumber === day.monthNumber,
           );
           day.workingStatus = receivedDay?.workingStatus;
           day.workingHours = receivedDay?.workingHours;
@@ -125,14 +130,16 @@ function ResponsiveDatePicker({
 
   //  useEffects
 
-
   useEffect(() => {
-    if (today.monthNumber) {
+    if (today) {
+
       const fetchData = async () => {
         return await getDatesForMonth(today.monthNumber);
       };
-
-      fetchData().then((r) => setFetchedData(r));
+      fetchData().then((r) => {
+        console.log(r)
+        setFetchedData(r);
+      });
     }
   }, [today]);
 
@@ -152,8 +159,6 @@ function ResponsiveDatePicker({
    *
    * @param {number} monthNumber
    */
-
-
 
   /**
    *  This useEffect is used to send the selected day to the parent component at every selectedDay change
@@ -202,9 +207,13 @@ function ResponsiveDatePicker({
    * @return {boolean}
    */
   function checkSelection(day) {
-    if (multipleSelectionDates.some((date) => date === day)) {
+    if (receivedSelectionDate) {
+      return receivedSelectionDate.dayNumber === day.dayNumber;
+    } else if (multipleSelectionDates.some((date) => date === day)) {
       return true;
-    } else return selectedDay === day;
+    } else if (receivedSelectionDate ?? true) {
+      return selectedDay === day;
+    }
   }
 
   // Handlers
@@ -226,13 +235,15 @@ function ResponsiveDatePicker({
     }
   }
 
+  const { width } = useScreenSize();
+
   /**
    *  IF multipleSelection is allowed this function is used to set the selected days by hovering over them
    *
    * @param day
    */
   function onMouseEnterHandler(day) {
-    if (allowMultipleSelection) {
+    if (allowMultipleSelection && width > 768) {
       if (!multipleSelectionDates.includes(day)) {
         setMultipleSelectionDates((prevState) => [...prevState, day]);
       } else {
@@ -289,8 +300,8 @@ function ResponsiveDatePicker({
           <span className="material-symbols-outlined"> navigate_before </span>
         </div>
         <div className={style.monthYear}>
-          <span>{monthName}</span>
-          <span>{fullYear}</span>
+          <p style={{ textTransform: "lowercase" }}>{monthName}</p>
+          <p>{fullYear}</p>
         </div>
         <div className={style.next} onClick={nextMonth}>
           <span className="material-symbols-outlined">navigate_next</span>

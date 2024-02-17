@@ -14,7 +14,7 @@ function CustomDropdown({ options, placeholder ,value ,sendSelectedOption}) {
   };
 
   const dropdownRef = useRef(null);
-  const [dropdownStyle, setDropdownStyle] = useState({});
+  // const [dropdownStyle, setDropdownStyle] = useState({});
 
 
   // useEffect(() => {

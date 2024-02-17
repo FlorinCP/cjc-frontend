@@ -1,31 +1,23 @@
 import style from "./MakeAppointment.module.css";
 import ResponsiveDatePicker from "../ResponsiveDatePicker/ResponsiveDatePicker";
 import React, { useEffect, useState } from "react";
-import { getDatesForMonth } from "../../services/day_api";
 import useDatePicker from "../../hooks/useDatePicker";
-import TimeCollumn from "./TimeCollumn";
-import Column from "./Column";
-import ActionButton from "../ActionButton/ActionButton";
-import ContextMenu from "../ContextMenu/ContextMenu";
-import {
-  getAppointmentByDay,
-  makeAppointment,
-} from "../../services/appointment_api";
 import { useDispatch, useSelector } from "react-redux";
 import AddApointmentCard from "./AddApointmentCard";
 import DetailedCalendar from "../DetailedCalendar/DetailedCalendar";
-import { store } from "../../app/store";
-import currentWeekSlice, {
+import  {
   resetCurrentWeek,
   setCurrentWeek,
 } from "../../features/currentWeekSlice";
+import useScreenSize from "../../hooks/useScreenSize";
+import DetailedCalendarMobile from "../DetailedCalendarMobile/DetailedCalendarMobile";
 
 function MakeAppointment({ question }) {
   const { finalDays } = useDatePicker();
   const dispatch = useDispatch();
 
   const monthDays = useSelector((state) => state.monthDays.monthDays);
-
+  const { width } = useScreenSize();
   const [currentSelectionDate, setCurrentSelectionDate] = useState({});
 
   const handleSelectedDay = (date) => {
@@ -97,27 +89,41 @@ function MakeAppointment({ question }) {
 
   return (
     <div className={style.mainContainer}>
+      <AddApointmentCard
+        globalSelectedSlot={globalSelectedSlot}
+        question={question}
+      />
+
       <div className={style.datePickerWrapper}>
         <ResponsiveDatePicker
           sendSelectedDate={(date) => handleSelectedDay(date)}
           sendMultipleSelectionDates={() => {}}
           contextMenuProps={false}
+          receivedSelectionDate={currentSelectionDate}
         />
       </div>
 
-      {currentSelectionDate && (
-        <AddApointmentCard
-          globalSelectedSlot={globalSelectedSlot}
-          question={question}
-        />
-      )}
+      {/*{currentSelectionDate && (*/}
+      {/*  */}
+      {/*)}*/}
 
       {currentSelectionDate && currentWeek.days.length > 0 && (
-        <DetailedCalendar
-          sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
-          currentSelectionDate={currentSelectionDate}
-          globalSelectedSlot={globalSelectedSlot}
-        />
+        <>
+          {width < 500 ? (
+            <DetailedCalendarMobile
+              sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
+              currentSelectionDate={currentSelectionDate}
+              globalSelectedSlot={globalSelectedSlot}
+              sendNewSelectedDate={(day)=> handleSelectedDay(day) }
+            />
+          ) : (
+            <DetailedCalendar
+              sendGlobalSelectedSlot={(slot) => handleGlobalSelectedSlot(slot)}
+              currentSelectionDate={currentSelectionDate}
+              globalSelectedSlot={globalSelectedSlot}
+            />
+          )}
+        </>
       )}
     </div>
   );

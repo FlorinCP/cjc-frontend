@@ -1,6 +1,6 @@
 .replyWrapper {
-  width: 60vw;
-  min-height: 15vh;
+  width: 60%;
+  min-height: 12vh;
   height: fit-content;
   display: flex;
   justify-content: center;
@@ -69,7 +69,7 @@
   border-top: 1px solid rgb(238, 238, 238);
   border-bottom: 1px solid rgb(238, 238, 238);
   width: 100%;
-  padding: 20px;
+  padding: 5px;
   box-sizing: border-box;
   display: flex;
   flex-direction: column;
@@ -129,4 +129,24 @@
   display: flex;
   align-items: end;
   justify-content: center;
+}
+
+@media screen and (max-width: 768px){
+  .replyWrapper {
+    width: 90%;
+    margin-top: 10px;
+    border-radius: 5px;
+    margin-bottom: 10px;
+  }
+  .name > h4 {
+    font-size: 14px;
+    color: #054270;
+  }
+
+  #author{
+    display: none;
+  }
+
+
+
 }

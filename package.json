@@ -13,6 +13,7 @@
     "@testing-library/jest-dom": "^5.17.0",
     "@testing-library/react": "^13.4.0",
     "@testing-library/user-event": "^13.5.0",
+    "dotenv": "^16.3.1",
     "jwt-decode": "^4.0.0",
     "path-to-regexp": "^6.2.1",
     "prop-types": "^15.8.1",
@@ -36,7 +37,7 @@
   },
   "scripts": {
     "start": "react-scripts start",
-    "build": "react-scripts build",
+    "build": "cross-env GENERATE_SOURCEMAP=false react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject"
   },
@@ -59,6 +60,7 @@
     ]
   },
   "devDependencies": {
-    "@types/node": "^20.6.3"
+    "@types/node": "^20.6.3",
+    "cross-env": "^7.0.3"
   }
 }

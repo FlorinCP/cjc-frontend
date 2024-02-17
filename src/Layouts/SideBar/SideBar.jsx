@@ -1,11 +1,16 @@
-import React, {useEffect, useState} from "react";
+import React, { useEffect, useState } from "react";
 import style from "./SideBar.module.css";
 import { Link } from "react-router-dom";
 import ExpandableSidebarItem from "./ExpandableSidebarItem";
 import NonExpandableSidebarItem from "./NonExpandableSidebarItem";
-import {useDispatch} from "react-redux";
-import {setSidebarStatus, setSidebarValue} from "../../features/sidebarSlice";
+import { useDispatch, useSelector } from "react-redux";
+import { setSidebarStatus, setSidebarValue } from "../../features/sidebarSlice";
+import useScreenSize from "../../hooks/useScreenSize";
+import { useLogout } from "../../hooks/useLogout";
 function SideBar(props) {
+  const { width, height } = useScreenSize();
+  const logout = useLogout();
+
   const requestItems = [
     {
       url: "/questions/status/waiting",
@@ -37,12 +42,25 @@ function SideBar(props) {
     },
   ];
 
+  const transactionItems = [
+    {
+      url: "/stripe/generate-payment-link",
+      iconStringClass: "add_card",
+      title: "Link Plata",
+    },
+    {
+      url: "/stripe/payment-links",
+      iconStringClass: "monitoring",
+      title: "Raport Tranzactii",
+    },
+  ];
 
   const dispatch = useDispatch();
   const [isExpanded, setIsExpanded] = useState(true);
+  const email = useSelector((state) => state.token.email);
 
-  function changeSidebarState(){
-    setIsExpanded(prevState => !prevState);
+  function changeSidebarState() {
+    setIsExpanded((prevState) => !prevState);
   }
 
   useEffect(() => {
@@ -53,29 +71,25 @@ function SideBar(props) {
     <div className={style.sidebar}>
       <div className={style.sidebarItems}>
         <div className={style.sidebarHeader}>
-          <Link to="/" className={style.link}>
-            <img
-              src="/favicon.ico"
-              alt="check-email"
-              id="logo-img"
-              className={style.logo}
-            />
-          </Link>
-
-          <div className={style.hamburger}
-            onClick={() => {
-              changeSidebarState();
-            }}
-          >
-            <span className="material-symbols-outlined">menu_open</span>
-          </div>
+          {width > 768 && (
+            <div
+              className={style.hamburger}
+              onClick={() => {
+                changeSidebarState();
+              }}
+            >
+              <span className="material-symbols-outlined">menu_open</span>
+            </div>
+          )}
         </div>
 
         <NonExpandableSidebarItem
           url={"/"}
-          iconStringClass={"home"}
+          // iconStringClass={"home"}
           title={"Pagina Principala"}
         />
+
+        <div className={style.line}></div>
 
         <ExpandableSidebarItem
           mainUrl={"/questions"}
@@ -83,17 +97,45 @@ function SideBar(props) {
           sidebarItems={requestItems}
         />
 
+        <div className={style.line}></div>
+
         <ExpandableSidebarItem
           mainUrl={"/schedule"}
           name={"Program"}
           sidebarItems={scheduleItems}
         />
+        <div className={style.line}></div>
+
+        <ExpandableSidebarItem
+          mainUrl={"/schedule"}
+          name={"Tranzactii"}
+          sidebarItems={transactionItems}
+        />
+
+        <div className={style.line}></div>
 
         <NonExpandableSidebarItem
           url={"/videocall"}
-          iconStringClass={"videocam"}
+          // iconStringClass={"videocam"}
           title={"VideoCall"}
         />
+
+        <div className={style.line}></div>
+        <div className={style.userInfo}>
+          <div className={style.line}></div>
+          <div
+            style={{ display: "flex", marginTop: "10px", alignItems: "center" }}
+          >
+            <span className="material-symbols-outlined">account_circle</span>
+            <p className={style.userEmail}>{email}</p>
+            <span
+              className="material-symbols-outlined"
+              onClick={() => logout()}
+            >
+              logout
+            </span>
+          </div>
+        </div>
       </div>
     </div>
   );

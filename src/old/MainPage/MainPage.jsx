@@ -169,7 +169,7 @@ function MainPage(props) {
   function header() {
     return (
       <div className={style.header}>
-        {currentUser.role === "ADMIN" && viewModeON.status === true ? (
+        {currentUser.role === "ROLE_ADMIN" && viewModeON.status === true ? (
           <>
             <div className={style.goBack} onClick={goBackToQuestions}>
               <span className="material-symbols-outlined">chevron_left</span>{" "}

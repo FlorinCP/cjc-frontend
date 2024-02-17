@@ -7,7 +7,7 @@ import { setToken } from "../../features/tokenSlice";
 import useTokenParser from "../../hooks/useTokenParser";
 import useLogin from "../../hooks/useLogin";
 import ActionButton from "../ActionButton/ActionButton";
-import {useNavigate} from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 
 function LoginForm(props) {
   const islogged = useSelector((state) => state.token.token);
@@ -33,7 +33,7 @@ function LoginForm(props) {
     <div className={style.wrapper}>
       {islogged === false ? (
         <>
-          <h3>Email</h3>
+          <h3 className={style.fieldTitle}>Email</h3>
           <input
             type="text"
             name="email"
@@ -41,7 +41,7 @@ function LoginForm(props) {
             onChange={handleLoginChange}
             className={style.inputField}
           />
-          <h3>Parola</h3>
+          <h3 className={style.fieldTitle}>Parola</h3>
           <input
             type="password"
             name="password"
@@ -51,25 +51,26 @@ function LoginForm(props) {
           />
 
           <div className={style.buttons}>
-            <button
-              className={style.loginRegisterBtn}
+            <ActionButton
+              text={"Autentificare"}
               onClick={loginUserFunction}
-            >
-              Autentificare
-            </button>
+              color={"white"}
+              backgroundColor={"rgb(238,49,88)"}
+              active={true}
+            />
           </div>
         </>
       ) : (
         <div className={style.succesfullRegister}>
           <img src="/succes.svg" alt="" />
-          <h2>AUTENTIFICARE REUSITA !</h2>
+          <h2>Autentificare Reusita !</h2>
           <ActionButton
             active={true}
             color={"white"}
             backgroundColor={"rgb(238,49,88)"}
             text={"Inainte"}
             onClick={() => {
-              navigate("/questions/status/accepted")
+              navigate("/questions/status/accepted");
             }}
           >
             <span class="material-symbols-outlined">check_circle</span>

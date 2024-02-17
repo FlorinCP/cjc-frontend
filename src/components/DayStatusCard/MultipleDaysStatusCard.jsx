@@ -1,10 +1,10 @@
 import style from "./DayStatusCard.module.css";
 import ActionButton from "../ActionButton/ActionButton";
 import React, { useState, useEffect } from "react";
-import { postDayData, postMultipleDayData } from "../../services/day_api";
+import { postMultipleDayData } from "../../services/day_api";
 import CustomDropdown from "../CustomDropdown/CustomDropdown";
 import { updateMonthDay } from "../../features/monthDaysSlice";
-import { useDispatch } from "react-redux";
+import { useDispatch, useSelector } from "react-redux";
 
 function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [selectedDay, setSelectedDay] = useState();
@@ -13,6 +13,7 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
   const [endHourSelect, setEndHourSelect] = useState(16);
   const [modificationsPending, setModificationsPending] = useState(false);
   const [startHourSelect, setStartHourSelect] = useState(8);
+  const token = useSelector((state) => state.token.token);
 
   useEffect(() => {
     if (multipleSelectionDates) {
@@ -154,16 +155,17 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
     ];
 
     return (
-      <div className={style.flex}>
-        <h3> Ore de munca : </h3>
-        <CustomDropdown
-          options={singleDigitOptions}
-          value={workingHoursSelect}
-          sendSelectedOption={(option) => handleWorkingHoursChange(option)}
-        />
-      </div>
+        <div className={style.status}>
+          <h3 className={style.text}> Ore de munca </h3>
+          <CustomDropdown
+              options={singleDigitOptions}
+              value={workingHoursSelect}
+              sendSelectedOption={(option) => handleWorkingHoursChange(option)}
+          />
+        </div>
     );
   }
+
 
   function StatusDropDown() {
     const optionsDisponibilitate = [
@@ -173,8 +175,8 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
     ];
 
     return (
-      <div>
-        <h3>Disponibilitatea :</h3>
+      <div className={style.status}>
+        <h3 className={style.text}>Disponibilitatea</h3>
         <CustomDropdown
           placeholder="Neselectat"
           options={optionsDisponibilitate}
@@ -187,12 +189,12 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
 
   function StartEndHours() {
     return (
-      <div>
-        <h3>Program : </h3>
-        <div className={style.flexRow}>
-          <StartHours /> <h4>:</h4> <EndHours />
+        <div className={style.status}>
+          <h3 className={style.text}>Program</h3>
+          <div className={style.flexRow}>
+            <StartHours /> <h4>:</h4> <EndHours />
+          </div>
         </div>
-      </div>
     );
   }
 
@@ -206,6 +208,7 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
         startHourSelect,
         endHourSelect,
         selectedStatus,
+        token,
       ).then(() => {
         setWorkingHoursSelect(8);
         setStartHourSelect(8);
@@ -229,40 +232,38 @@ function MultipleDaysStatusCard({ multipleSelectionDates }) {
   };
 
   return (
-    <div className={style.dateInfoRow}>
-      <div className={style.selectedDays}>
-        {multipleSelectionDates &&
-          multipleSelectionDates.map((date, index) => (
-            <p className={style.selectedDay}>
-              <span className="material-symbols-outlined">calendar_today</span>
-              {date.dayNumber} - {date.monthNumber + 1} - {date.fullYear}
-            </p>
-          ))}
+  <div className={style.dateInfo}>
+    <div className={style.settings}>
+      <StatusDropDown />
+      <WorkingHours />
+      <StartEndHours />
+    </div>
+    <div className={style.buttons}>
+      <div className={style.flexRow}>
+        <div className={style.selectedDays}>
+          {multipleSelectionDates &&
+              multipleSelectionDates.map((date, index) => (
+                  <p className={style.selectedDay} key={index}>
+                    <span className="material-symbols-outlined">calendar_today</span>
+                    {date.dayNumber} - {date.monthNumber + 1} - {date.fullYear}
+                  </p>
+              ))}
+        </div>
       </div>
-      <div>
-        <div className={style.buttons}>
-          <div className={style.navigation}>
-            <span className="material-symbols-outlined">chevron_left</span>
-            <span className="material-symbols-outlined">chevron_right</span>
-          </div>
-          <ActionButton
+
+      <div className={style.actionBtn}>
+        <ActionButton
             text={"Salveaza"}
             onClick={setScheduleForDay}
             color={"white"}
             backgroundColor={"#1888ff"}
             active={true}
-          >
-            <span className="material-symbols-outlined">event_available</span>
-          </ActionButton>
-        </div>
-
-        <div className={style.settings}>
-          <StatusDropDown />
-          <WorkingHours />
-          <StartEndHours />
-        </div>
+        >
+          <span className="material-symbols-outlined">event_available</span>
+        </ActionButton>
       </div>
     </div>
+  </div>
   );
 }
 

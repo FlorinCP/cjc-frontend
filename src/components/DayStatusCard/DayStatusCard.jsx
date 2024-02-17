@@ -154,8 +154,8 @@ function DayStatusCard({ currentSelectionDate }) {
     ];
 
     return (
-      <div className={style.flex}>
-        <h3> Ore de munca : </h3>
+      <div className={style.status}>
+        <h3 className={style.text}> Ore de munca </h3>
         <CustomDropdown
           options={singleDigitOptions}
           value={currentSelectionDate.workingHours || workingHoursSelect}
@@ -173,8 +173,8 @@ function DayStatusCard({ currentSelectionDate }) {
     ];
 
     return (
-      <div>
-        <h3>Disponibilitatea :</h3>
+      <div className={style.status}>
+        <h3 className={style.text}>Disponibilitatea</h3>
         <CustomDropdown
           placeholder="Neselectat"
           options={optionsDisponibilitate}
@@ -187,8 +187,8 @@ function DayStatusCard({ currentSelectionDate }) {
 
   function StartEndHours() {
     return (
-      <div>
-        <h3>Program : </h3>
+      <div className={style.status}>
+        <h3 className={style.text}>Program</h3>
         <div className={style.flexRow}>
           <StartHours /> <h4>:</h4> <EndHours />
         </div>
@@ -197,7 +197,7 @@ function DayStatusCard({ currentSelectionDate }) {
   }
 
   const monthDays = useSelector((state) => state.monthDays.monthDays);
-
+  const token = useSelector((state) => state.token.token);
   const setScheduleForDay = async () => {
     await postDayData(
       currentSelectionDate,
@@ -205,6 +205,7 @@ function DayStatusCard({ currentSelectionDate }) {
       startHourSelect,
       endHourSelect,
       selectedStatus,
+      token,
     ).then(() => {
       setWorkingHoursSelect(8);
       setStartHourSelect(8);
@@ -225,32 +226,36 @@ function DayStatusCard({ currentSelectionDate }) {
 
   return (
     <div className={style.dateInfo}>
-      <div className={style.buttons}>
-        <p className={style.selectedDay}>
-          <span className="material-symbols-outlined">calendar_today</span>
-          {currentSelectionDate.dayNumber} -{" "}
-          {currentSelectionDate.monthNumber + 1} -{" "}
-          {currentSelectionDate.fullYear}
-        </p>
-        <div className={style.navigation}>
-          <span className="material-symbols-outlined">chevron_left</span>
-          <span className="material-symbols-outlined">chevron_right</span>
-        </div>
-        <ActionButton
-          text={"Salveaza"}
-          onClick={setScheduleForDay}
-          color={"white"}
-          backgroundColor={"#1888ff"}
-          active={true}
-        >
-          <span className="material-symbols-outlined">event_available</span>
-        </ActionButton>
-      </div>
-
       <div className={style.settings}>
         <StatusDropDown />
         <WorkingHours />
         <StartEndHours />
+      </div>
+      <div className={style.buttons}>
+        <div className={style.flexRow}>
+          <p className={style.selectedDay}>
+            <span className="material-symbols-outlined">calendar_today</span>
+            {currentSelectionDate.dayNumber} -{" "}
+            {currentSelectionDate.monthNumber + 1} -{" "}
+            {currentSelectionDate.fullYear}
+          </p>
+          <div className={style.navigation}>
+            <span className="material-symbols-outlined">chevron_left</span>
+            <span className="material-symbols-outlined">chevron_right</span>
+          </div>
+        </div>
+
+        <div className={style.actionBtn}>
+          <ActionButton
+            text={"Salveaza"}
+            onClick={setScheduleForDay}
+            color={"white"}
+            backgroundColor={"#1888ff"}
+            active={true}
+          >
+            <span className="material-symbols-outlined">event_available</span>
+          </ActionButton>
+        </div>
       </div>
     </div>
   );

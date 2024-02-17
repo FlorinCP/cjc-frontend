@@ -1,12 +1,14 @@
 import React from 'react';
 import { Outlet } from 'react-router-dom';
-import ResponsiveNavbar from "../ResponsiveNavbar/ResponsiveNavbar";
+import ResponsiveNavbarFixed from "../ResponsiveNavbar/ResponsiveNavbarFixed";
+import Footer from "../Footer/Footer";
 
 function NavBarLayout() {
     return (
         <div>
-            <ResponsiveNavbar/>
+            <ResponsiveNavbarFixed/>
             <Outlet/>
+            <Footer />
         </div>
     );
 }

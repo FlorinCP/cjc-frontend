@@ -1,267 +1,385 @@
 .wrapper {
-    display: grid;
-    grid-template-columns: 20vw 80vw;
-    background-color: #f7f7f7;
-    height: 100vh;
+  display: grid;
+  grid-template-columns: 20vw 80vw;
+  background-color: #f7f7f7;
+  height: 100vh;
 }
 
-.sidebarHeader{
-    width: 100%;
-    height: fit-content;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    position: relative;
-    padding-top: 40px;
+.sidebarHeader {
+  width: 100%;
+  height: fit-content;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
 }
 
-.hamburger{
-    position: absolute;
-    right: 0;
-    top: 0;
-    margin-right: 5px;
-    margin-top: 10px;
-    cursor: pointer;
-    color: white;
-    padding: 10px;
-    border-radius: 50%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
+.hamburger {
+  position: absolute;
+  right: 0;
+  top: 0;
+  margin-right: 5px;
+  margin-top: 10px;
+  cursor: pointer;
+  color: #777;
+  padding: 10px;
+  border-radius: 50%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
 }
 
-.hamburger:hover{
-    background-color: #1c79b8;
+.hamburger:hover {
+  background-color: white;
 }
 
-.hamburger > span{
-    font-size: 30px;
+.hamburger > span {
+  font-size: 25px;
 }
 
 :root {
-    --deep-blue: #18446d;
-    --font-size: 16px;
-    --sidebar-background-color: #072c48;
-    --selected-blue: rgba(173, 191, 210, 0.35);
-    --font-color: white;
+  --deep-blue: rgb(255, 255, 255);
+  --font-size: 16px;
+  --sidebar-background-color: white;
+  --selected-blue: rgb(225, 243, 255);
+  --font-color: #333;
+  font-weight: 500;
+  font-family: "Inter", sans-serif;
 }
 
-
 .logo {
-    margin: 20px;
-    width: 5vw;
-    border-radius: 50%;
-    box-shadow: rgba(0, 0, 0, 0.32) 1px 1px 1px 1px;
-
+  margin: 20px;
+  width: 5vw;
+  border-radius: 50%;
+  box-shadow: rgba(0, 0, 0, 0.32) 1px 1px 1px 1px;
 }
 
 .sidebarItem {
-    min-height: 40px;
-    width: 14vw;
-    border-radius: 10px;
-    box-sizing: border-box;
-    height: fit-content;
-    color: var(--font-color);
-    font-size: 18px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
+  min-height: 40px;
+  width: 250px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: fit-content;
+  color: var(--font-color);
+  font-size: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
 }
 
 .sidebarItem:hover {
-    background-color: var(--deep-blue);
+  background-color: var(--deep-blue);
 }
 
 .sidebarItem2 {
-    min-height: 50px;
-    width: 14vw;
-    border-radius: 10px;
-    box-sizing: border-box;
-    height: fit-content;
-    color: var(--font-color);
-    font-size: 18px;
-    text-decoration: none;
-    display: flex;
-    align-items: center;
-    gap: 10px;
-    padding-left: 10px;
+  min-height: 50px;
+  width: 260px;
+  font-weight: 500;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: fit-content;
+  color: var(--font-color);
+  font-size: 16px;
+  text-decoration: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-left: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.sidebarItem2 > span {
+  font-size: 16px;
+}
+
+.sidebarItem > span {
+  font-size: 16px;
 }
 
 .sidebarItem2:hover {
-    background-color: var(--deep-blue);
+  color: rgb(183, 0, 255);
+  transition: all 0.3s ease-in-out;
 }
 
 .sidebarItemSelected {
-    background-color: var(--deep-blue);
-    min-height: 50px;
-    width: 14vw;
-    border-radius: 10px;
-    box-sizing: border-box;
-    height: fit-content;
-    text-decoration: none;
+  background-color: var(--deep-blue);
+  min-height: 50px;
+  width: 250px;
+  border-radius: 10px;
+  box-sizing: border-box;
+  height: fit-content;
+  text-decoration: none;
 }
 
 .insideSideBarItem {
-    display: flex;
-    flex-direction: column;
-    justify-content: center;
-    align-items: center;
-    gap: 5px;
-    padding: 10px;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  gap: 5px;
+  padding: 10px;
 }
 
 .link {
-    text-decoration: none;
-    color: var(--font-color);
+  text-decoration: none;
+  color: var(--font-color);
+}
+
+.line {
+  width: 90%;
+  border-top: 1px solid rgba(112, 128, 144, 0.15);
 }
 
 /* whole sidebar */
 .sidebar {
-    width: 15vw;
-    background-color: var(--sidebar-background-color);
-    box-sizing: border-box;
-    position: sticky;
-    top: 0;
-    gap: 10px;
-    display: flex;
-    align-items: center;
-    justify-content: space-between;
-    flex-direction: column;
-    height: 100vh;
-    overflow-y: auto;
-    overflow-x: hidden;
-    padding: 0.5vw;
-    transition: 0.5s;
+  width: 270px;
+  background-color: var(--sidebar-background-color);
+  box-sizing: border-box;
+  position: relative;
+  top: 0;
+  gap: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  flex-direction: column;
+  overflow-y: auto;
+  height: 100%;
+  overflow-x: hidden;
+  transition: 0.5s;
+  z-index: 9999;
+  box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.1);
+  -webkit-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.1);
+  -moz-box-shadow: 0px 0px 11px -1px rgba(0, 0, 0, 0.1);
 }
 
-.collapedSidebar{
-    box-sizing: border-box;
-    background-color: var(--sidebar-background-color);
-    width: 100%;
-    height: 100vh;
-    display: flex;
-    flex-direction: column;
-    align-items: center;
-    justify-content: center;
-    color: white;
-    position: relative;
-    padding-top: 20px;
+.collapedSidebar {
+  box-sizing: border-box;
+  background-color: var(--sidebar-background-color);
+  width: 100%;
+  height: 100vh;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  color: white;
+  position: relative;
+  padding-top: 20px;
 }
 
 /* poti apasa pe el*/
 .clickableSidebarItem {
-    position: relative;
-    height: 30px;
-    font-size: 18px;
-    font-weight: 400;
-    width: 13vw;
-    box-sizing: border-box;
-    cursor: pointer;
-    display: flex;
-    justify-content: flex-start;
-    align-items: center;
-    gap: 10px;
-    border-radius: 10px;
-    margin: 10px;
-    padding: 5px;
-    color: var(--font-color);
-    text-decoration: none;
+  position: relative;
+  height: 30px;
+  font-size: 16px;
+  font-weight: 400;
+  width: 230px;
+  box-sizing: border-box;
+  cursor: pointer;
+  display: flex;
+  justify-content: flex-start;
+  align-items: center;
+  gap: 10px;
+  border-radius: 10px;
+  margin: 10px;
+  padding: 5px;
+  color: var(--font-color);
+  transition: all 0.3s ease-in-out;
+
+  text-decoration: none;
 }
 
 .clickableSidebarItem:hover {
-    background-color: var(--deep-blue);
+  transition: all 0.3s ease-in-out;
+  color: rgb(183, 0, 255);
 }
 
+/*.clickableSidebarItem:hover {*/
+/*    background-color: var(--deep-blue);*/
+/*}*/
+
 .clickableSidebarItem > span {
-    font-size: 20px;
+  font-size: 20px;
 }
 
 /* partea de sus a sidebarului  */
 .sidebarItems {
-    height: fit-content;
-    width: 15vw;
-    display: flex;
-    align-items: center;
-    flex-direction: column;
-    gap: 10px;
+  height: fit-content;
+  width: 270px;
+  display: flex;
+  align-items: center;
+  flex-direction: column;
+  gap: 10px;
+  margin-top: 10px;
 }
 
 .loadBtn {
-    width: 13vw;
-    padding: 10px;
-    border: none;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--font-color);
-    font-weight: 400;
-    display: flex;
-    justify-items: flex-start;
-    background-color: transparent;
-    gap: 10px;
-    text-decoration: none;
-    box-sizing: border-box;
+  width: 240px;
+  border: none;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: var(--font-color);
+  font-weight: 500;
+  display: flex;
+  justify-items: flex-start;
+  background-color: transparent;
+  gap: 10px;
+  text-decoration: none;
+  box-sizing: border-box;
+  height: 100%;
+  padding: 10px 10px 10px 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .loadBtnSelected {
-    width: 13vw;
-    padding: 10px;
-    border: none;
-    box-sizing: border-box;
-    border-radius: 10px;
-    cursor: pointer;
-    font-size: 18px;
-    color: var(--font-color);
-    font-weight: 500;
-    display: flex;
-    justify-items: flex-start;
-    gap: 10px;
-    background-color: var(--selected-blue);
-    text-decoration: none;
+  width: 240px;
+  border: none;
+  box-sizing: border-box;
+  border-radius: 10px;
+  cursor: pointer;
+  font-size: 16px;
+  color: rgb(183, 0, 255);
+  font-weight: 500;
+  display: flex;
+  justify-items: flex-start;
+  gap: 10px;
+  height: 100%;
+  /*background-color: var(--selected-blue);*/
+  text-decoration: none;
+  padding: 10px 10px 10px 0;
+  transition: all 0.3s ease-in-out;
 }
 
 .loadBtn > span,
 .loadBtnSelected > span {
-    font-size: 20px;
+  font-size: 16px;
+}
+
+.selectionBar {
+  width: 3px;
+  height: 20px;
+  border-radius: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+.loadBtn > .selectionBar {
+  transition: all 0.3s ease-in-out;
+  background-color: transparent;
+}
+
+.loadBtnSelected > .selectionBar {
+  transition: all 0.3s ease-in-out;
+  background-color: rgb(183, 0, 255);
 }
 
 .loadBtn:hover {
-    background-color: var(--selected-blue);
+  color: rgb(183, 0, 255);
+  transition: all 0.3s ease-in-out;
 }
 
 .absoluteRight {
-    position: absolute;
-    right: 0px;
-    top: 25%;
+  position: absolute;
+  right: 0px;
+  top: 25%;
 }
 
 .absoluteRight > span {
-    font-size: 18px;
+  font-size: 18px;
 }
 
 .bottom {
-    width: 15vw;
-    height: 60px;
-    display: flex;
-    justify-content: space-between;
-    align-items: center;
+  width: 15vw;
+  height: 60px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 .holly {
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    gap: 10px;
-    padding-left: 10px;
-    cursor: pointer;
-    color: #f7f7f7;
-    font-weight: 400;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 10px;
+  padding-left: 10px;
+  cursor: pointer;
+  color: #f7f7f7;
+  font-weight: 400;
 }
 
 .bottom > span {
-    color: var(--font-color);
-    padding: 15px;
-    border-radius: 50%;
-    cursor: pointer;
+  color: var(--font-color);
+  padding: 15px;
+  border-radius: 50%;
+  cursor: pointer;
+}
+
+.userInfo {
+  position: fixed;
+  left: 0;
+  bottom: 0;
+  color: var(--font-color);
+  display: flex;
+  justify-content: space-between;
+  padding: 20px;
+  width: inherit;
+  flex-direction: column;
+}
+
+.userInfo > span {
+  font-size: 20px;
+}
+
+.userEmail {
+  margin: 0 10px;
+  white-space: nowrap;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  width: 60%;
+  font-size: 16px;
+}
+
+@media screen and (max-width: 768px) {
+  .sidebar {
+    width: 75vw;
+    align-items: flex-start;
+  }
+
+  .sidebarItems {
+    width: 100%;
+  }
+
+  .sidebarItem2 {
+    width: 95%;
+    padding-left: 10px;
+  }
+
+  .sidebarItemSelected {
+    width: 90%;
+  }
+
+  .sidebarItem {
+    width: 95%;
+  }
+
+  .clickableSidebarItem {
+    width: 90%;
+  }
+
+  .loadBtnSelected {
+    width: 95%;
+  }
+
+  .loadBtn {
+    width: 100%;
+  }
+
+  .logo {
+    width: 25%;
+  }
+
+  .link {
+    display: grid;
+    place-items: center;
+  }
 }

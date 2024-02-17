@@ -1,12 +1,13 @@
 .datePicker {
-    border-radius: 5px;
-    min-width: 320px;
-    width: 100%;
+    min-width: 100px;
     height: 100%;
     user-select: none;
     display: grid;
     grid-template-rows: 55px 30px calc(100% - 85px);
     margin-top: 20px;
+    padding: 0px 20px 40px;
+    box-sizing: border-box;
+
 }
 
 .header {
@@ -34,6 +35,7 @@
     font-size: 19px;
     padding-top: 7px;
     float: right;
+    gap: 10px;
 }
 
 .monthYear > span:last-child{
@@ -108,3 +110,55 @@
     font-weight: bold;
 }
 
+.cell{
+    height: 100%;
+    width: 100%;
+    border-radius: 14px;
+    border : 7px solid;
+}
+
+.button{
+    height: 100%;
+    width: 100%;
+    border: none;
+    font-size: 18px;
+    font-weight: bold;
+    margin: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+}
+
+@media (max-width: 768px) {
+   .datePicker{
+       padding: 10px;
+       margin: 0;
+       height: fit-content;
+       box-sizing: border-box;
+   }
+
+   .cell{
+       width: calc(80vw / 7);
+       height: calc(80vw / 7);
+       position: relative;
+       border : 9px solid;
+   }
+
+   .button{
+       position: absolute;
+       top: -2px;
+       left: -2px;
+       height: calc(100% + 2px);
+       width: 70%;
+       font-size: 16px;
+   }
+
+    .daysGrid {
+        display: grid;
+        min-height: 220px;
+        height: fit-content;
+        gap: 5px;
+        grid-template-columns: repeat(7, auto);
+        text-align: center;
+    }
+}

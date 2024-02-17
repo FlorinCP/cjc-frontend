@@ -97,10 +97,14 @@ const useDatePicker = () => {
     return mapToTwoDimensional(dayList, 7);
   }
 
+  function capitalizeFirstLetter(string) {
+    return string.charAt(0).toUpperCase() + string.slice(1);
+  }
+
   useEffect(() => {
     setMonthNumber(today.getMonth());
     setFullYear(today.getFullYear());
-    setMonthname(today.toLocaleString(lang, { month: "long" }));
+    setMonthname(capitalizeFirstLetter(getMonthName(today.getMonth(), lang, "long")));
     setFinalDays(fillCurrentMonthSchema());
   }, [today]);
 

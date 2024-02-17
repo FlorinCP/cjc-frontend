@@ -1,24 +1,33 @@
 import { createSlice, createAsyncThunk } from "@reduxjs/toolkit";
 
-const BASE_URL = "http://localhost:8080/cjc/api/v1";
+
+const URL = process.env.REACT_APP_URL;
+
 
 export const fetchQuestions = createAsyncThunk(
   "questions/fetchQuestions",
-  async () => {
-    const response = await fetch(`${BASE_URL}/question/all`);
+  async ({bearerToken}) => {
+    const response = await fetch(`${URL}/question/all`,{
+      headers: {
+        'Authorization': `Bearer ${bearerToken}`,
+      },
+    });
     const data = await response.json();
     return data;
   },
 );
 
 export const getQuestionsByUserAndStatus = createAsyncThunk(
-  "questions/getQuestionsByUser ",
-  async ({ email, status }, { rejectWithValue }) => {
+  "questions/getQuestionsByUser",
+  async ({ email, status,bearerToken }, { rejectWithValue }) => {
     try {
 
-      console.log(email, status)
       const response = await fetch(
-          `${BASE_URL}/question/allByEmailAndStatus?email=${encodeURIComponent(email)}&status=${encodeURIComponent(status)}`,
+          `${URL}/question/allByEmailAndStatus?email=${encodeURIComponent(email)}&status=${encodeURIComponent(status)}`,{
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+            },
+          }
       );
 
       if (!response.ok) {
@@ -37,14 +46,19 @@ export const getQuestionsByUserAndStatus = createAsyncThunk(
 );
 
 export const getQuestionsByStatus = createAsyncThunk(
-  "questions/getQuestionsByStatus ",
-  async (status, { rejectWithValue }) => {
+  "questions/getQuestionsByStatus",
+  async ({status, bearerToken}, { rejectWithValue }) => {
     try {
       const queryParams = { status: `${status}` };
       const queryString = new URLSearchParams(queryParams).toString();
 
+
       const response = await fetch(
-        `${BASE_URL}/question/all-by-status?${queryString}`,
+        `${URL}/question/all-by-status?${queryString}`,{
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+            },
+          }
       );
 
       if (!response.ok) {
@@ -63,14 +77,20 @@ export const getQuestionsByStatus = createAsyncThunk(
 );
 
 export const getRepliesByQuestionId = createAsyncThunk(
-  "questions/getRepliesByQuestionId ",
-  async (questionId, { rejectWithValue }) => {
+  "questions/getRepliesByQuestionId",
+  async ({questionId, bearerToken}, { rejectWithValue }) => {
     try {
       const queryParams = { questionId: `${questionId}` };
       const queryString = new URLSearchParams(queryParams).toString();
 
+      console.log(queryString)
+
       const response = await fetch(
-        `${BASE_URL}/reply/get-replies-by-question-id?${queryString}`,
+        `${URL}/reply/get-replies-by-question-id?${queryString}`,{
+            headers: {
+              'Authorization': `Bearer ${bearerToken}`,
+            },
+          }
       );
 
       if (!response.ok) {

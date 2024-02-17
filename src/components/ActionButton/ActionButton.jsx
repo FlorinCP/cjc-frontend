@@ -1,42 +1,50 @@
 import PropTypes from "prop-types";
 import React, {useState} from "react";
+import style from "./ActionButton.module.css";
 
-
-const ActionButton = ({text, onClick, disabled,active, type, size, color, backgroundColor ,children}) => {
+const ActionButton = ({text, onClick, disabled,active, type, width, color, backgroundColor ,children,height}) => {
 
     const [isHovered, setIsHovered] = useState(false);
 
     const defaultStyle = {
         padding: '10px',
-        width: size === 'medium' ? '200px' : '250px',
-        height: '45px',
-        borderRadius: '5px',
+        height: height ? height : '50px',
+        borderRadius: '10px',
         border: active ?  'none' : `1px solid ${backgroundColor}` ,
         color: active ? color : backgroundColor,
         backgroundColor: active ? backgroundColor : color,
         cursor: 'pointer',
-        letterSpacing: '1px',
-        fontSize: '17px',
-        fontWeight: 'bold',
+        letterSpacing: '1.5px',
+        fontSize: '16px',
+        fontWeight: '400',
         transition: '0.3s all ease-in-out',
         display: 'flex',
         alignItems: 'center',
         justifyContent: 'center',
-        gap : '10px'
+        gap : '10px',
+
     };
 
     const hoverStyle = {
         backgroundColor: color,
         color: backgroundColor,
         border: `1px solid ${backgroundColor}`,
-        transition: '0.3s all ease-in-out'
+        transition: '0.3s all ease-in-out',
+        // boxShadow: '0px 0px 31px -13px rgba(0,0,0,0.62)',
     }
+
+
+    //     -webkit-box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+    // -moz-box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+    // box-shadow: 0px 0px 31px -13px rgba(0, 0, 0, 0.62);
+
 
     const combinedStyle = isHovered ? { ...defaultStyle, ...hoverStyle } : defaultStyle;
 
 
     return (
         <button
+            className={style.button}
             onMouseEnter={() => setIsHovered(true)}
             onMouseLeave={() => setIsHovered(false)}
             style={combinedStyle}
