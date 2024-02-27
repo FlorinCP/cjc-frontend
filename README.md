@@ -29,13 +29,13 @@ The flow of the application goes like this :
 
 "Login/Register"  
 
-![img_13.png](src/demo/img_13.png) ![img_14.png](src/demo/img_14.png)
+![img_13.png](js/src/demo/img_13.png) ![img_14.png](js/src/demo/img_14.png)
 
 "Landing Page"
-![img.png](src/demo/img.png)
+![img.png](js/src/demo/img.png)
 
 "Add question Form"
-![img_1.png](src/demo/img_1.png)
+![img_1.png](js/src/demo/img_1.png)
 - the user can enter a title .
 - the second field represents the question itself.
 - the user has the option to add suggestive files that might help the lawyer better understand the situation.  
@@ -43,12 +43,12 @@ The flow of the application goes like this :
 
 "Mobile View"  
 
-![img_2.png](src/demo/img_2.png)
+![img_2.png](js/src/demo/img_2.png)
 
 2. After leaving a question the lawyer might choose whether to accept it or not, depending on its expertise .
 
 "Lawyer View of the questions"
-![img_5.png](src/demo/img_5.png)
+![img_5.png](js/src/demo/img_5.png)
 
 As you can see the view is composed of a sidebar in which the lawyer can choose between Waiting Questions,  
 Accepted Questions, Rejected Questions and Working Cases.  
@@ -57,32 +57,32 @@ with the lawyer.
 
 When Choosing whether the question should be accepted or not, the lawyer can see the sent files in order to gain a better  
 perspective about the case itself.
-![img_4.png](src/demo/img_4.png)
+![img_4.png](js/src/demo/img_4.png)
 
 
 By clicking on the buttons the question will be accepted or rejected.
-![img_6.png](src/demo/img_6.png)
+![img_6.png](js/src/demo/img_6.png)
 
 
 3. In case of an accepted question the user will have the option to choose when to make an appointment
 
 "This is a proof of concept about what the user should see, it looks pretty ugly"
-![img_7.png](src/demo/img_7.png)
+![img_7.png](js/src/demo/img_7.png)
 
 "In case of an appointment being made the lawyer can see a full schedule of their clients appointments"
-![img_8.png](src/demo/img_8.png)
+![img_8.png](js/src/demo/img_8.png)
 
 @TODO Create Context Menu for marking a time slot as free or not :  
-![img_9.png](src/demo/img_9.png)
+![img_9.png](js/src/demo/img_9.png)
 
 4. The consultation itself is supposed to be taking place on the designated VideoCall component:
 
 "Web view of VideoCall"
-![img_10.png](src/demo/img_10.png)
+![img_10.png](js/src/demo/img_10.png)
 
 "Mobile View"  
-![img_11.png](src/demo/img_11.png)
-![img_12.png](src/demo/img_12.png)
+![img_11.png](js/src/demo/img_11.png)
+![img_12.png](js/src/demo/img_12.png)
 
 
 

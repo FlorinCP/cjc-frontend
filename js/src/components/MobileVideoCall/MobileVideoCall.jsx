@@ -2,7 +2,7 @@ import React, { useEffect } from "react";
 import { useState, useRef } from "react";
 import SockJS from "sockjs-client";
 import { Stomp } from "@stomp/stompjs";
-import style from  "./MobileVideoCall.module.css";
+import style from "./MobileVideoCall.module.css";
 import CodeInput from "../CodeInput/CodeInput";
 
 function MobileVideoCall(props) {
