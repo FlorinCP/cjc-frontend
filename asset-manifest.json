@@ -1,0 +1,11 @@
+{
+  "files": {
+    "main.css": "/cjc-frontend/static/css/main.80bd9f2e.css",
+    "main.js": "/cjc-frontend/static/js/main.bafc5fa1.js",
+    "index.html": "/cjc-frontend/index.html"
+  },
+  "entrypoints": [
+    "static/css/main.80bd9f2e.css",
+    "static/js/main.bafc5fa1.js"
+  ]
+}
