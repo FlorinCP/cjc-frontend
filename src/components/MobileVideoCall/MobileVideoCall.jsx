@@ -220,7 +220,7 @@ function MobileVideoCall(props) {
 
   function openConnection() {
     let socket = new SockJS(
-      "https://spring-boot-server-web-rtc.lm.r.appspot.com/websocket",
+      "https://peana.live:443/websocket",
       {
         debug: false,
       },

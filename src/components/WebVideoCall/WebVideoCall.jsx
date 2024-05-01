@@ -6,7 +6,6 @@ import  style from "./WebVideoCall.module.css";
 
 
 function WebVideoCall(props) {
-
     const localVideo = useRef();
     const remoteVideo = useRef();
     const localIdInp = useRef();
@@ -154,7 +153,7 @@ function WebVideoCall(props) {
         // let socket = new SockJS("http://localhost:8080/websocket", {
         //     debug: false,
         // });
-        let socket = new SockJS("https://spring-boot-server-web-rtc.lm.r.appspot.com/websocket", {
+        let socket = new SockJS("https://peana.live:443/websocket", {
             debug: false,
         });
         let client = Stomp.over(socket);
