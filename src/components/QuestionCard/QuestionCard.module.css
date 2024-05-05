@@ -44,21 +44,19 @@
   text-overflow: ellipsis;
 }
 
-.questionText > p{
+.questionText > p {
   margin: 0 5px 0 0;
 }
 
-
-.questionText::-webkit-scrollbar{
+.questionText::-webkit-scrollbar {
   background-color: transparent;
   width: 5px;
 }
 
-.questionText::-webkit-scrollbar-thumb{
+.questionText::-webkit-scrollbar-thumb {
   background-color: rgba(28, 121, 184, 0.24);
   border-radius: 10px;
 }
-
 
 .fileTitle {
   display: grid;
@@ -98,13 +96,13 @@
   gap: 20px;
 }
 
-.singleButtonWrapper{
+.singleButtonWrapper {
   width: 100%;
   display: flex;
   justify-content: flex-end;
 }
 
-.singleButtonWrapper > button{
+.singleButtonWrapper > button {
   width: 50%;
 }
 
@@ -123,16 +121,14 @@
   overflow-x: auto;
 }
 
-.author::-webkit-scrollbar{
+.author::-webkit-scrollbar {
   height: 5px;
-
 }
 
-.author::-webkit-scrollbar-thumb{
+.author::-webkit-scrollbar-thumb {
   background-color: rgba(28, 121, 184, 0.24);
   border-radius: 10px;
 }
-
 
 .filesInfoAndButtons {
   width: 100%;
@@ -144,8 +140,6 @@
   box-sizing: border-box;
   grid-template-columns: 1fr 1fr;
 }
-
-
 
 .filesInfoAndButtons > div:first-child {
   display: flex;
@@ -210,7 +204,6 @@
   border: 2px solid #1c79b8;
 }
 
-
 .expand {
   cursor: pointer;
   display: flex;
@@ -226,8 +219,19 @@
   gap: 5px;
 }
 
-@media screen and (max-width: 768px) {
+.label {
+  background-color: rgb(168, 68, 250);
+  color: white;
+  width: fit-content;
+  padding: 5px 10px;
+  border-radius: 10px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 15px;
+}
 
+@media screen and (max-width: 768px) {
   .buttonsWrapper {
     display: flex;
     align-items: center;
@@ -345,15 +349,15 @@
     border: 1px solid rgba(112, 128, 144, 0.4);
   }
 
-  .author::-webkit-scrollbar{
+  .author::-webkit-scrollbar {
     display: none;
   }
 
-  .singleButtonWrapper > button{
+  .singleButtonWrapper > button {
     width: 100%;
   }
 
-  .author::-webkit-scrollbar-thumb{
+  .author::-webkit-scrollbar-thumb {
     background-color: rgba(28, 121, 184, 0.24);
     border-radius: 10px;
   }
